@@ -13,23 +13,26 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 // GET test
 app.get("/api/test", (req, res) => {
   res.status(200).json({
-    data: "Hello, Alien!",
+    msg: "(API TEST GET) Hello, Alien!",
   });
 });
 
-// GET test with params
-app.get("/api/test/:dummy_id", (req, res) => {
+// PUT test with params
+app.put("/api/test/:dummy_id", (req, res) => {
   res.status(200).json({
-    msg: `You sent params '${JSON.stringify(req.params)}'`,
-    data: req.params,
+    msg: `(API TEST PUT) You sent params '${JSON.stringify(
+      req.params
+    )}' and body '${JSON.stringify(req.body)}'`,
+    params: req.params,
+    body: req.body,
   });
 });
 
 // POST test
 app.post("/api/test", (req, res) => {
   res.status(200).json({
-    msg: `You sent post data '${JSON.stringify(req.body)}'`,
-    data: req.body,
+    msg: `(API TEST POST) You sent post data '${JSON.stringify(req.body)}'`,
+    body: req.body,
   });
 });
 
