@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 
+app.use(cors());
 app.use(express.json()); // middleware for parsing application/json
 app.use(express.urlencoded({ extended: false })); // middleware for parsing application/x-www-form-urlencoded
 app.use(cookieParser()); // middleware for parsing cookie
