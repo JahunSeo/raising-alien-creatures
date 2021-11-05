@@ -14,7 +14,7 @@ export default function MultiAquarium() {
         const data = await res.json();
         console.log(data);
         setTestMsg(data.msg);
-        setTestNum(Math.round(data.body * 100) / 100);
+        setTestNum(Math.round(data.body * 10000) / 10000);
       };
 
       fetchData();
@@ -31,7 +31,7 @@ export default function MultiAquarium() {
         <p>{testNum}</p>
       </section>
       <section className={styles.SecField}>
-        <MultiField />
+        <MultiField seed={testNum} />
       </section>
     </div>
   );
