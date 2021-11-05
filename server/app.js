@@ -3,13 +3,23 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 
-// using HTTP request logger middleware
-app.use(morgan("dev"));
+app.use(express.json()); // middleware for parsing application/json
+app.use(express.urlencoded({ extended: true })); // middleware for parsing application/x-www-form-urlencoded
 
-// api for test
+app.use(morgan("dev")); // middleware for logging HTTP request
+
+// GET test
 app.get("/api/test", (req, res) => {
   res.status(200).json({
     data: "Hello, Alien!",
+  });
+});
+
+// POST test
+app.post("/api/test", (req, res) => {
+  res.status(200).json({
+    msg: `You sent data '${JSON.stringify(req.body)}'`,
+    data: req.body,
   });
 });
 
