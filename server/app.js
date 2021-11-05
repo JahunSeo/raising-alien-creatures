@@ -1,10 +1,12 @@
 require("dotenv").config();
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const app = express();
 
 app.use(express.json()); // middleware for parsing application/json
-app.use(express.urlencoded({ extended: true })); // middleware for parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false })); // middleware for parsing application/x-www-form-urlencoded
+app.use(cookieParser()); // middleware for parsing cookie
 
 app.use(morgan("dev")); // middleware for logging HTTP request
 
