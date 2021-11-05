@@ -87,6 +87,9 @@ export default class Canvas extends Component {
     this.mouseObj.mouseY = mouseY;
     this.mouseObj.isMouseOverCanvas = isMouseOverCanvas;
 
+    this.mouseObj.deltaXfromCenter = mouseX - this._cvs.width / 2;
+    this.mouseObj.deltaYfromCenter = mouseY - this._cvs.height / 2;
+
     return {
       mouseX,
       mouseY,

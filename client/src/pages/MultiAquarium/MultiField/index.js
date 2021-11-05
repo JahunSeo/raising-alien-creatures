@@ -16,13 +16,12 @@ export default class Field extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.seed != this.props.seed) {
       let seed = this.props.seed;
-      console.log("hey", this.props.seed);
       this.stageWidth = window.innerWidth || document.body.clientWidth;
       this.stageHeight = window.innerHeight || document.body.clientHeight;
 
       this.fieldInfo.seed = seed;
-      this.fieldInfo.posX = (this.stageWidth / 2) * (0.5 - seed);
-      this.fieldInfo.posY = (this.stageHeight / 2) * (0.5 - seed);
+      this.fieldInfo.posX = (this.stageWidth / 2) * (seed - 0.5);
+      this.fieldInfo.posY = (this.stageHeight / 2) * (seed - 0.5);
     }
   }
 
@@ -36,6 +35,7 @@ export default class Field extends Component {
   };
 
   draw = (ctx, frameCnt, mouseObj) => {
+    // console.log(mouseObj);
     let cvsWidth = ctx.canvas.width;
     let cvsHeight = ctx.canvas.height;
     ctx.save();
@@ -49,6 +49,11 @@ export default class Field extends Component {
     ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
     // draw monster
+    if (mouseObj.clicked) {
+      this.fieldInfo.posX = mouseObj.deltaXfromCenter;
+      this.fieldInfo.posY = mouseObj.deltaYfromCenter;
+    }
+
     if (this.fieldInfo.seed) {
       let { posX, posY, monsterSize } = this.fieldInfo;
       ctx.translate(-monsterSize / 2, -monsterSize / 2);
