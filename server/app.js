@@ -16,6 +16,7 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 app.get("/api/test", (req, res) => {
   res.status(200).json({
     msg: "(API TEST GET) Hello, Alien!",
+    body: Math.random(),
   });
 });
 
