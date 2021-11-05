@@ -17,10 +17,18 @@ app.get("/api/test", (req, res) => {
   });
 });
 
+// GET test with params
+app.get("/api/test/:dummy_id", (req, res) => {
+  res.status(200).json({
+    msg: `You sent params '${JSON.stringify(req.params)}'`,
+    data: req.params,
+  });
+});
+
 // POST test
 app.post("/api/test", (req, res) => {
   res.status(200).json({
-    msg: `You sent data '${JSON.stringify(req.body)}'`,
+    msg: `You sent post data '${JSON.stringify(req.body)}'`,
     data: req.body,
   });
 });
