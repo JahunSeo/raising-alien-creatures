@@ -1,5 +1,8 @@
 // temp
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "/api" : "http://localhost:5000/api";
+
+console.log("[debug] NODE_ENV", process.env.NODE_ENV);
 
 export const get = (url) => {
   return fetch(BASE_URL + url, {
