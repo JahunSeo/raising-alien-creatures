@@ -14,7 +14,7 @@ export default class Field extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.seed != this.props.seed) {
+    if (prevProps.seed !== this.props.seed) {
       let seed = this.props.seed;
       this.stageWidth = window.innerWidth || document.body.clientWidth;
       this.stageHeight = window.innerHeight || document.body.clientHeight;

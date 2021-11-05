@@ -26,7 +26,7 @@ export default function MultiAquarium() {
   return (
     <div className={styles.body}>
       <section className={styles.SecHead}>
-        <h1>Hello Align</h1>
+        <h1>Test Aquarium</h1>
         <p>{testMsg}</p>
         <p>{testNum}</p>
       </section>
