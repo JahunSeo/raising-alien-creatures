@@ -13,6 +13,7 @@ export default function MultiAquarium() {
   // temp: selecting room
   const rooms = [1, 2, 3];
   const [roomId, setRoomId] = useState(rooms[0]);
+  const [fieldState, setFieldState] = useState(null);
 
   // fetch test data
   useEffect(() => {
@@ -34,7 +35,11 @@ export default function MultiAquarium() {
   console.log("[MultiAquarium] roomId", roomId);
   return (
     <div className={styles.body}>
-      <Socket roomId={roomId} />
+      <Socket
+        roomId={roomId}
+        fieldState={fieldState}
+        setFieldState={setFieldState}
+      />
       <section className={styles.SecHead}>
         <h1>Test Aquarium</h1>
         <p>{testMsg}</p>
@@ -50,7 +55,11 @@ export default function MultiAquarium() {
         </div>
       </section>
       <section className={styles.SecField}>
-        <MultiField seed={testNum} />
+        <MultiField
+          seed={testNum}
+          fieldState={fieldState}
+          setFieldState={setFieldState}
+        />
       </section>
     </div>
   );

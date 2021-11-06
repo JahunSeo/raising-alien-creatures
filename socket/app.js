@@ -34,7 +34,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log(`[socket server] disconnect ${socket.id}`);
     // update fieldState of the room
-    removeClientFromRoom(socket.id);
+    const roomId = removeClientFromRoom(socket.id);
+
+    // broadcasting to all
+    if (roomId) io.to(roomId).emit("fieldState", fieldStates[roomId]);
   });
 });
 
@@ -85,12 +88,14 @@ function removeClientFromRoom(socketId) {
   const monsters = fieldStates[roomId].monsters.filter(
     (mon) => mon.socketId !== socketId
   );
+  delete mapClientToRoom[socketId];
   if (monsters.length === 0) {
     delete fieldStates[roomId];
+    return false;
   } else {
     fieldStates[roomId].monsters = monsters;
+    return roomId;
   }
-  delete mapClientToRoom[socketId];
 }
 
 function getRandomColor() {
