@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 
 let socket = null;
-let SOCKET_URL = "http://localhost:5001";
+// temp
+const SOCKET_URL =
+  process.env.NODE_ENV === "production" ? "/socket" : "http://localhost:5001";
 
 export default function Socket(props) {
   //   console.log("socket", props.roomId);
