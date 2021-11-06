@@ -15,7 +15,7 @@ const options = {
 const io = new Server(httpServer, options);
 
 const mapClientToRoom = {};
-const fieldStates = {};
+const fieldStates = {}; // TODO: build 'Room' class object
 
 io.on("connection", (socket) => {
   console.log(`[socket server] connection with ${socket.id}`);
@@ -119,5 +119,13 @@ function getRandomColor() {
 }
 
 function updateMonster(socketId, roomId, monster) {
-  let prevMonster;
+  const newMonsters = fieldStates[roomId].monsters.map((_mon) => {
+    if (_mon.socketId !== socketId) return _mon;
+    let newMonster = {
+      ..._mon,
+      ...monster,
+    };
+    return newMonster;
+  });
+  fieldStates[roomId].monsters = newMonsters;
 }
