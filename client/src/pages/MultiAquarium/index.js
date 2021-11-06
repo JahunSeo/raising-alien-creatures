@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import Socket from "./Socket";
 import MultiField from "./MultiField";
-import * as API from "../../apis";
+import * as api from "../../apis";
+import * as socket from "../../apis/socket";
 
 import styles from "./index.module.css";
 
@@ -19,7 +19,7 @@ export default function MultiAquarium() {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await API.get("/test");
+        const res = await api.get("/test");
         const data = await res.json();
         console.log(data);
         setTestMsg(data.msg);
@@ -32,14 +32,24 @@ export default function MultiAquarium() {
     }
   }, []);
 
+  // init socket
+  const updateFieldState = (fieldState) => {
+    console.log("[socket] fieldState:", fieldState);
+    setFieldState(fieldState);
+  };
+
+  useEffect(() => {
+    socket.initAndJoin(roomId);
+    socket.subscribe(updateFieldState);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [roomId]);
+
   console.log("[MultiAquarium] roomId", roomId);
   return (
     <div className={styles.body}>
-      <Socket
-        roomId={roomId}
-        fieldState={fieldState}
-        setFieldState={setFieldState}
-      />
       <section className={styles.SecHead}>
         <h1>Test Aquarium</h1>
         <p>{testMsg}</p>
