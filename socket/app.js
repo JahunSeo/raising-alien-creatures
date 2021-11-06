@@ -32,16 +32,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on("changeDestination", (data) => {
-    console.log(`[socket server] changeDestination`, data);
+    console.log(`[socket server] changeDestination`, socket.id, data);
+    const { roomId } = data;
+    // update monster destination
+    updateMonster(socket.id, roomId, data.monster);
+    // broadcasting to all
+    io.to(roomId).emit("fieldState", fieldStates[roomId]);
   });
 
   socket.on("disconnect", () => {
     console.log(`[socket server] disconnect ${socket.id}`);
     // update fieldState of the room
-    const roomId = removeClientFromRoom(socket.id);
+    const roomId = mapClientToRoom[socket.id];
+    const notEmpty = removeClientFromRoom(socket.id, roomId);
 
     // broadcasting to all
-    if (roomId) io.to(roomId).emit("fieldState", fieldStates[roomId]);
+    if (notEmpty) io.to(roomId).emit("fieldState", fieldStates[roomId]);
   });
 });
 
@@ -73,10 +79,12 @@ function addClientToRoom(roomId, socketId) {
   // add client to room
   // generate random monster
   let randRange = 300;
+  let x = (Math.random() - 0.5) * randRange;
+  let y = (Math.random() - 0.5) * randRange;
   const monster = {
     socketId, // TODO: user id or email
-    posX: (Math.random() - 0.5) * randRange,
-    posY: (Math.random() - 0.5) * randRange,
+    position: { x, y },
+    destination: { x, y },
     size: 50 + Math.random() * 100,
     color: getRandomColor(),
   };
@@ -84,8 +92,7 @@ function addClientToRoom(roomId, socketId) {
   mapClientToRoom[socketId] = roomId;
 }
 
-function removeClientFromRoom(socketId) {
-  const roomId = mapClientToRoom[socketId];
+function removeClientFromRoom(socketId, roomId) {
   if (!fieldStates[roomId]) {
     return false;
   }
@@ -109,4 +116,8 @@ function getRandomColor() {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+
+function updateMonster(socketId, roomId, monster) {
+  let prevMonster;
 }

@@ -34,5 +34,5 @@ export function subscribe(handler) {
 export function changeDestination(roomId, destination) {
   if (!socket) return;
   console.log("[socket] changeDestination");
-  socket.emit("changeDestination", { roomId, destination });
+  socket.emit("changeDestination", { roomId, monster: { destination } });
 }

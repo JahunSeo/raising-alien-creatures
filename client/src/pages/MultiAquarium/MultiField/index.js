@@ -35,8 +35,8 @@ export default class Field extends Component {
     if (mouseObj.clicked) {
       const { roomId } = this.props;
       const destination = {
-        posX: mouseObj.deltaXfromCenter,
-        posY: mouseObj.deltaYfromCenter,
+        x: mouseObj.deltaXfromCenter,
+        y: mouseObj.deltaYfromCenter,
       };
       socket.changeDestination(roomId, destination);
     }
@@ -44,10 +44,10 @@ export default class Field extends Component {
     if (this.props.fieldState) {
       const { monsters } = this.props.fieldState;
       monsters.forEach((monster) => {
-        let { posX, posY, size, color } = monster;
+        let { position, size, color } = monster;
         ctx.translate(-size / 2, -size / 2);
         ctx.fillStyle = color;
-        ctx.fillRect(posX, posY, size, size);
+        ctx.fillRect(position.x, position.y, size, size);
         ctx.translate(size / 2, size / 2);
       });
     }
