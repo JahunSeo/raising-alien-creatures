@@ -5,21 +5,34 @@ let socket = null;
 let SOCKET_URL = "http://localhost:5001";
 
 export default function Socket(props) {
-  console.log("socket", props.roomId);
+  //   console.log("socket", props.roomId);
+  const { roomId } = props;
   useEffect(() => {
-    // https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error/64805972
-    // socket = io(SOCKET_URL, { transports: ["websocket"] });
-    socket = io(SOCKET_URL);
-    socket.on("connect", () => {
-      console.log("[socket] connect");
-    });
+    initAndJoin(roomId);
 
     return () => {
-      if (!socket) return;
-      console.log("[socket] disconnect");
-      socket.disconnect();
+      disconnect();
     };
   });
 
   return <div></div>;
+}
+
+function initAndJoin(roomId) {
+  // https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error/64805972
+  // socket = io(SOCKET_URL, { transports: ["websocket"] });
+  socket = io(SOCKET_URL);
+  // socket.on("connect", () => {
+  //   console.log("[socket] connect");
+  // });
+  if (socket && roomId) {
+    console.log("[socket] join: roomId", roomId);
+    socket.emit("join", roomId);
+  }
+}
+
+function disconnect() {
+  if (!socket) return;
+  console.log("[socket] disconnect");
+  socket.disconnect();
 }

@@ -31,7 +31,7 @@ export default function MultiAquarium() {
     }
   }, []);
 
-  console.log("MultiAquarium: roomId", roomId);
+  console.log("[MultiAquarium] roomId", roomId);
   return (
     <div className={styles.body}>
       <Socket roomId={roomId} />

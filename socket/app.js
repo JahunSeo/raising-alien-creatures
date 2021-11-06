@@ -15,8 +15,12 @@ const options = {
 const io = new Server(httpServer, options);
 
 io.on("connection", (socket) => {
-  console.log(`[socket] connection with ${socket.id}`);
-  const socketId = socket.id;
+  console.log(`[socket server] connection with ${socket.id}`);
+  //   const socketId = socket.id;
+
+  socket.on("join", (roomId) => {
+    console.log(`[socket server] join ${socket.id}, ${roomId}`);
+  });
 });
 
 const port = process.env.SOCKET_PORT || 5001;
