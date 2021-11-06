@@ -5,12 +5,18 @@ const { Server } = require("socket.io");
 
 const app = express();
 const httpServer = createServer(app);
-const options = {}; //if needed
+// https://socket.io/docs/v3/handling-cors/
+const options = {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+}; //if needed
 const io = new Server(httpServer, options);
 
 io.on("connection", (socket) => {
+  console.log(`[socket] connection with ${socket.id}`);
   const socketId = socket.id;
-  console.log(`[socket] connection with ${socketId}`);
 });
 
 const port = process.env.SOCKET_PORT || 5001;
