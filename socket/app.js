@@ -31,6 +31,10 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("fieldState", fieldStates[roomId]);
   });
 
+  socket.on("changeDestination", (data) => {
+    console.log(`[socket server] changeDestination`, data);
+  });
+
   socket.on("disconnect", () => {
     console.log(`[socket server] disconnect ${socket.id}`);
     // update fieldState of the room

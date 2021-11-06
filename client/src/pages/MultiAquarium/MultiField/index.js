@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Canvas from "../../../components/Canvas";
 
+import * as socket from "../../../apis/socket";
+
 export default class Field extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.resizeEventHandler);
@@ -29,11 +31,15 @@ export default class Field extends Component {
     ctx.fillStyle = `rgba(255, 255, 255, 1)`;
     ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
-    // // draw monster
-    // if (mouseObj.clicked) {
-    //   this.fieldInfo.posX = mouseObj.deltaXfromCenter;
-    //   this.fieldInfo.posY = mouseObj.deltaYfromCenter;
-    // }
+    // draw monster
+    if (mouseObj.clicked) {
+      const { roomId } = this.props;
+      const destination = {
+        posX: mouseObj.deltaXfromCenter,
+        posY: mouseObj.deltaYfromCenter,
+      };
+      socket.changeDestination(roomId, destination);
+    }
 
     if (this.props.fieldState) {
       const { monsters } = this.props.fieldState;

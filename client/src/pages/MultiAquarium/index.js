@@ -67,6 +67,7 @@ export default function MultiAquarium() {
       <section className={styles.SecField}>
         <MultiField
           seed={testNum}
+          roomId={roomId}
           fieldState={fieldState}
           setFieldState={setFieldState}
         />
