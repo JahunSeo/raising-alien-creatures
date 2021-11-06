@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+
+import Socket from "./Socket";
 import MultiField from "./MultiField";
 import * as API from "../../apis";
 
@@ -25,6 +27,7 @@ export default function MultiAquarium() {
 
   return (
     <div className={styles.body}>
+      <Socket />
       <section className={styles.SecHead}>
         <h1>Test Aquarium</h1>
         <p>{testMsg}</p>
