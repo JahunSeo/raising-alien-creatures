@@ -28,7 +28,12 @@ function initAndJoin(roomId) {
   if (socket && roomId) {
     console.log("[socket] join: roomId", roomId);
     socket.emit("join", roomId);
+    socket.on("fieldState", updateFieldState);
   }
+}
+
+function updateFieldState(fieldState) {
+  console.log("[socket] fieldState:", fieldState);
 }
 
 function disconnect() {
