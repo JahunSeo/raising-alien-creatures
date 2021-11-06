@@ -9,6 +9,12 @@ import styles from "./index.module.css";
 export default function MultiAquarium() {
   const [testMsg, setTestMsg] = useState("default text");
   const [testNum, setTestNum] = useState(-1);
+
+  // temp: selecting room
+  const rooms = [1, 2, 3];
+  const [roomId, setRoomId] = useState(rooms[0]);
+
+  // fetch test data
   useEffect(() => {
     try {
       const fetchData = async () => {
@@ -25,13 +31,23 @@ export default function MultiAquarium() {
     }
   }, []);
 
+  console.log("MultiAquarium: roomId", roomId);
   return (
     <div className={styles.body}>
-      <Socket />
+      <Socket roomId={roomId} />
       <section className={styles.SecHead}>
         <h1>Test Aquarium</h1>
         <p>{testMsg}</p>
-        <p>{testNum}</p>
+        {/* <p>{testNum}</p> */}
+        <p>Current Room: {roomId}</p>
+        <div>
+          {rooms.map((roomId) => (
+            <button
+              key={roomId}
+              onClick={() => setRoomId(roomId)}
+            >{`Room ${roomId}`}</button>
+          ))}
+        </div>
       </section>
       <section className={styles.SecField}>
         <MultiField seed={testNum} />

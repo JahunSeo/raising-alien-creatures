@@ -22,7 +22,7 @@
   left: 0;
   right: 0;
   margin: auto;
-
+  padding: 20px;
   z-index: 5;
   background-color: rgba(23, 123, 32, 0.5);
 }

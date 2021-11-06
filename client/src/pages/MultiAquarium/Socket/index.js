@@ -4,7 +4,8 @@ import io from "socket.io-client";
 let socket = null;
 let SOCKET_URL = "http://localhost:5001";
 
-export default function Socket() {
+export default function Socket(props) {
+  console.log("socket", props.roomId);
   useEffect(() => {
     // https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error/64805972
     // socket = io(SOCKET_URL, { transports: ["websocket"] });
