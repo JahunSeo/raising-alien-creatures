@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
+const mysql = require('mysql');
 
 app.use(cors());
 app.use(express.json()); // middleware for parsing application/json
@@ -12,11 +13,24 @@ app.use(cookieParser()); // middleware for parsing cookie
 
 app.use(morgan("dev")); // middleware for logging HTTP request
 
+const connection = mysql.createConnection({
+  host : process.env.DB_HOST,
+  user : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database : process.env.DB_NAME
+});
+
 // GET test
 app.get("/api/test", (req, res) => {
-  res.status(200).json({
-    msg: "(API TEST GET) Hello, Alien!",
-    body: Math.random(),
+  connection.query('SELECT * FROM topic', function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    res.status(200).json({
+      msg: "(API TEST GET) Hello, Alien!",
+      body: Math.random(),
+      data: results,
+    });
   });
 });
 
