@@ -1,0 +1,1 @@
+practice = {'name':'JongMin', nickname:'ratel'};
