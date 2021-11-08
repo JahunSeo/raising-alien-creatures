@@ -1,3 +1,5 @@
+const Vector2D = require("./Vector2D");
+
 class Monster {
   constructor(userId) {
     // TODO

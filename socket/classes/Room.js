@@ -18,6 +18,8 @@ class Room {
   }
 
   getFieldState() {
+    // TODO: instance들을 일반 object로 변경해주어야 할까?
+    // - 아니면 알아서 변환이 되려나?
     return this.fieldState;
   }
 
@@ -41,7 +43,8 @@ class Room {
   }
 
   updateMonster(userId, features) {
-    this.fieldState.monsters[userId].update(features);
+    if (this.fieldState.monsters[userId])
+      this.fieldState.monsters[userId].update(features);
   }
 }
 
