@@ -12,7 +12,7 @@ class Room {
     // init field
     // TODO: 서버에서 해당 어항에 포함된 몬스터들을 가져오기
     const state = {
-      monsters: [],
+      monsters: {}, // TODO: 효율을 위해 dict를 선택함. 이 때 monster들의 순서를 어떻게 통제할까? 순서 배열을 별도로 관리?
     };
     this.fieldState = state;
   }
@@ -24,7 +24,7 @@ class Room {
   addParticipant(user) {
     // 몬스터 추가
     const monster = new Monster(user.userId);
-    this.fieldState.monsters.push(monster);
+    this.fieldState.monsters[user.userId] = monster;
     // 참가자 추가
     this.participants[user.userId] = user;
     this.clientCnt += 1;
@@ -33,9 +33,7 @@ class Room {
 
   removeParticipant(user) {
     // 몬스터 제거
-    this.fieldState.monsters = this.fieldState.monsters.filter(
-      (mon) => mon.userId !== user.userId
-    );
+    delete this.fieldState.monsters[user.userId];
     // 참가자 제거
     delete this.participants[user.userId];
     this.clientCnt -= 1;
@@ -43,20 +41,7 @@ class Room {
   }
 
   updateMonster(userId, features) {
-    this.fieldState.monsters.forEach((mon) => {
-      if (mon.userId == userId) {
-        mon.update(features);
-      }
-    });
-  }
-
-  getRandomColor() {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    this.fieldState.monsters[userId].update(features);
   }
 }
 

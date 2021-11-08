@@ -22,7 +22,6 @@ class Monster {
     for (const key in features) {
       this[key] = features[key];
     }
-    console.log("Monster update", features);
   }
 
   getRandomColor() {

@@ -43,13 +43,14 @@ export default class Field extends Component {
 
     if (this.props.fieldState) {
       const { monsters } = this.props.fieldState;
-      monsters.forEach((monster) => {
-        let { position, size, color } = monster;
+      // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
+      for (const userId in monsters) {
+        let { position, size, color } = monsters[userId];
         ctx.translate(-size / 2, -size / 2);
         ctx.fillStyle = color;
         ctx.fillRect(position.x, position.y, size, size);
         ctx.translate(size / 2, size / 2);
-      });
+      }
     }
 
     ctx.restore();
