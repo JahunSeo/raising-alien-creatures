@@ -1,3 +1,5 @@
+const Monster = require("./Monster");
+
 class Room {
   constructor(roomId) {
     this.roomId = roomId;
@@ -21,7 +23,7 @@ class Room {
 
   addParticipant(user) {
     // 몬스터 추가
-    const monster = this.initMonster(user.userId);
+    const monster = new Monster(user.userId);
     this.fieldState.monsters.push(monster);
     // 참가자 추가
     this.participant[user.userId] = user;
@@ -40,28 +42,11 @@ class Room {
     return this.clientCnt;
   }
 
-  initMonster(userId) {
-    // generate random monster
-    let randRange = 300;
-    let x = (Math.random() - 0.5) * randRange;
-    let y = (Math.random() - 0.5) * randRange;
-    const monster = {
-      userId, // TODO: user id or email
-      position: { x, y },
-      destination: { x, y },
-      size: 50 + Math.random() * 100,
-      color: this.getRandomColor(),
-    };
-    return monster;
-  }
-
   updateMonster(userId, features) {
-    this.fieldState.monsters = this.fieldState.monsters.map((mon) => {
-      if (mon.userId !== userId) return mon;
-      return {
-        ...mon,
-        ...features,
-      };
+    this.fieldState.monsters.forEach((mon) => {
+      if (mon.userId == userId) {
+        mon.update(features);
+      }
     });
   }
 
