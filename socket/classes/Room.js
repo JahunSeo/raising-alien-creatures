@@ -4,7 +4,7 @@ class Room {
   constructor(roomId) {
     this.roomId = roomId;
     this.clientCnt = 0; // TODO: 접속해 있는 사람 수 개념으로 분리
-    this.participant = {};
+    this.participants = {};
     this.initFieldState();
   }
 
@@ -26,7 +26,7 @@ class Room {
     const monster = new Monster(user.userId);
     this.fieldState.monsters.push(monster);
     // 참가자 추가
-    this.participant[user.userId] = user;
+    this.participants[user.userId] = user;
     this.clientCnt += 1;
     return true;
   }
@@ -37,7 +37,7 @@ class Room {
       (mon) => mon.userId !== user.userId
     );
     // 참가자 제거
-    delete this.participant[user.userId];
+    delete this.participants[user.userId];
     this.clientCnt -= 1;
     return this.clientCnt;
   }
