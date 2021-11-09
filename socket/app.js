@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
     // 해당 room에 user 추가
     if (!rooms[roomId]) {
       rooms[roomId] = new Room(roomId);
+      rooms[roomId].start(io);
     }
     let result = rooms[roomId].addParticipant(user);
     if (!result) return false; // ERROR
@@ -44,7 +45,6 @@ io.on("connection", (socket) => {
 
     // broadcasting to all
     // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
-    rooms[roomId].start(io);
   };
 
   handleChangeDestination = (data) => {
