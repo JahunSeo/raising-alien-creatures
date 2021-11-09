@@ -43,7 +43,8 @@ io.on("connection", (socket) => {
     socket.join(roomId);
 
     // broadcasting to all
-    io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+    // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+    rooms[roomId].start(io);
   };
 
   handleChangeDestination = (data) => {
@@ -60,7 +61,7 @@ io.on("connection", (socket) => {
     rooms[roomId].updateMonster(clientId, monster);
 
     // broadcasting to all
-    io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+    // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
   };
 
   handleDisconnect = () => {
@@ -77,11 +78,13 @@ io.on("connection", (socket) => {
 
     // 방에 참가자가 아무도 없는 경우, 방 제거
     if (remaining_num <= 0) {
+      // close room
+      rooms[roomId].close();
       delete rooms[roomId];
     }
     // 방에 참가자가 남아 있는 경우, 남은 참가자들에게 전송
     else {
-      io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+      // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
     }
     console.log(
       `[socket server] disconnect result ${Object.keys(rooms).length}`

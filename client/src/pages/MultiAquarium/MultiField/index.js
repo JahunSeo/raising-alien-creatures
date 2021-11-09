@@ -24,7 +24,7 @@ export default class Field extends Component {
     ctx.save();
     ctx.clearRect(0, 0, cvsWidth, cvsHeight);
 
-    // translate position
+    // translate location
     ctx.translate(cvsWidth / 2, cvsHeight / 2);
 
     // draw background
@@ -45,10 +45,10 @@ export default class Field extends Component {
       const { monsters } = this.props.fieldState;
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
       for (const userId in monsters) {
-        let { position, size, color } = monsters[userId];
+        let { location, size, color } = monsters[userId];
         ctx.translate(-size / 2, -size / 2);
         ctx.fillStyle = color;
-        ctx.fillRect(position.x, position.y, size, size);
+        ctx.fillRect(location.x, location.y, size, size);
         ctx.translate(size / 2, size / 2);
       }
     }

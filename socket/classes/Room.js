@@ -1,11 +1,16 @@
 const Monster = require("./Monster");
 
+const FRAME_PER_SEC = 60;
+const FRAME_PER_EMIT = 1;
+
 class Room {
   constructor(roomId) {
     this.roomId = roomId;
     this.clientCnt = 0; // TODO: 접속해 있는 사람 수 개념으로 분리
     this.participants = {};
     this.initFieldState();
+    this.interval = null;
+    this.intervalCnt = 0;
   }
 
   initFieldState() {
@@ -17,10 +22,35 @@ class Room {
     this.fieldState = state;
   }
 
+  start(io) {
+    this.io = io;
+    this.interval = setInterval(
+      () => this.updateGameState(),
+      1000 / FRAME_PER_SEC
+    );
+  }
+
+  updateGameState() {
+    for (let userId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[userId];
+      mon.run();
+    }
+
+    this.intervalCnt++;
+    if (this.intervalCnt % FRAME_PER_EMIT === 0) {
+      this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+      this.intervalCnt = 0;
+    }
+  }
+
   getFieldState() {
     // TODO: instance들을 일반 object로 변경해주어야 할까?
     // - 아니면 알아서 변환이 되려나?
     return this.fieldState;
+  }
+
+  close() {
+    clearInterval(this.interval);
   }
 
   addParticipant(user) {
@@ -44,7 +74,7 @@ class Room {
 
   updateMonster(userId, features) {
     if (this.fieldState.monsters[userId])
-      this.fieldState.monsters[userId].update(features);
+      this.fieldState.monsters[userId].directUpdate(features);
   }
 }
 

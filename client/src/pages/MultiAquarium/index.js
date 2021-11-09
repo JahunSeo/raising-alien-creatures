@@ -34,7 +34,12 @@ export default function MultiAquarium() {
 
   // init socket
   const updateFieldState = (fieldState) => {
-    console.log("[socket] fieldState:", fieldState);
+    const monsterLength = Object.keys(fieldState.monsters).length;
+    // console.log("[socket] fieldState:", monsterLength);
+    if (monsterLength <= 0) {
+      console.error("ERROR!! zero monster issue should be fixed!!");
+      return;
+    }
     setFieldState(fieldState);
   };
 
@@ -47,7 +52,7 @@ export default function MultiAquarium() {
     };
   }, [roomId]);
 
-  console.log("[MultiAquarium] roomId", roomId);
+  // console.log("[MultiAquarium] roomId", roomId);
   return (
     <div className={styles.body}>
       <section className={styles.SecHead}>
