@@ -17,11 +17,19 @@ class Room {
       monsters: {}, // TODO: 효율을 위해 dict를 선택함. 이 때 monster들의 순서를 어떻게 통제할까? 순서 배열을 별도로 관리?
     };
     this.fieldState = state;
-    this.interval = setInterval(this.updateGameState, 1000 / FRAME_PER_SEC);
+  }
+
+  start(io) {
+    this.io = io;
+    this.interval = setInterval(
+      () => this.updateGameState(),
+      1000 / FRAME_PER_SEC
+    );
   }
 
   updateGameState() {
     // TODO
+    this.io.to(this.roomId).emit("fieldState", this.getFieldState());
   }
 
   getFieldState() {
