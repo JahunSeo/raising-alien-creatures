@@ -14,41 +14,83 @@ const options = {
 }; //if needed
 const io = new Server(httpServer, options);
 
-const mapClientToRoom = {};
-const fieldStates = {}; // TODO: build 'Room' class object
+const Room = require("./classes/Room");
+const User = require("./classes/User");
+
+const rooms = {};
+const users = {};
 
 io.on("connection", (socket) => {
   console.log(`[socket server] connection with ${socket.id}`);
+  const clientId = socket.id;
 
-  socket.on("join", (roomId) => {
-    console.log(`[socket server] join ${socket.id}, ${roomId}`);
+  handleJoin = (roomId) => {
+    console.log(`[socket server] join ${clientId}, ${roomId}`);
+    // 새로운 user 생성
+    if (users[clientId]) return false; // ERROR
+    const user = new User(clientId); // TODO: user email
+    users[clientId] = user;
+
+    // 해당 room에 user 추가
+    if (!rooms[roomId]) {
+      rooms[roomId] = new Room(roomId);
+    }
+    let result = rooms[roomId].addParticipant(user);
+    if (!result) return false; // ERROR
+
+    // user에 room 추가 및 join
+    user.enterRoom(roomId);
     socket.join(roomId);
 
-    // update fieldState of the room
-    addClientToRoom(roomId, socket.id);
-
     // broadcasting to all
-    io.to(roomId).emit("fieldState", fieldStates[roomId]);
-  });
+    io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+  };
 
-  socket.on("changeDestination", (data) => {
-    console.log(`[socket server] changeDestination`, socket.id, data);
-    const { roomId } = data;
+  handleChangeDestination = (data) => {
+    console.log(`[socket server] changeDestination`, clientId, data);
+    const { roomId, monster } = data;
+    if (!rooms[roomId]) {
+      console.log(`[socket server] changeDestination ERROR!!`);
+      console.log(` ==> there is no room of id ${roomId}`);
+      // TODO: client에 에러 전달?
+      return false;
+    }
+
     // update monster destination
-    updateMonster(socket.id, roomId, data.monster);
-    // broadcasting to all
-    io.to(roomId).emit("fieldState", fieldStates[roomId]);
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`[socket server] disconnect ${socket.id}`);
-    // update fieldState of the room
-    const roomId = mapClientToRoom[socket.id];
-    const notEmpty = removeClientFromRoom(socket.id, roomId);
+    rooms[roomId].updateMonster(clientId, monster);
 
     // broadcasting to all
-    if (notEmpty) io.to(roomId).emit("fieldState", fieldStates[roomId]);
-  });
+    io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+  };
+
+  handleDisconnect = () => {
+    // 방에서 참가자 제거
+    console.log(`[socket server] disconnect user ${clientId}`);
+    const user = users[clientId];
+    if (!user) return false; // ERROR
+
+    const roomId = user.getParticipatingRooms();
+    let remaining_num = rooms[roomId].removeParticipant(user);
+
+    // 유저 제거
+    delete users[clientId];
+
+    // 방에 참가자가 아무도 없는 경우, 방 제거
+    if (remaining_num <= 0) {
+      delete rooms[roomId];
+    }
+    // 방에 참가자가 남아 있는 경우, 남은 참가자들에게 전송
+    else {
+      io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+    }
+    console.log(
+      `[socket server] disconnect result ${Object.keys(rooms).length}`
+    );
+  };
+
+  socket.on("join", handleJoin);
+  socket.on("changeDestination", handleChangeDestination);
+  socket.on("disconnect", handleDisconnect);
 });
 
 const port = process.env.SOCKET_PORT || 5001;
@@ -57,75 +99,3 @@ httpServer.listen(port, () => {
   console.log(`** Raising Alien Creatures Socket Server **`);
   console.log(`App listening on port ${port}`);
 });
-
-//////////////////////////////////////////////
-
-function initFieldState(roomId) {
-  console.log("initFieldState", roomId);
-  // validation check
-  if (!fieldStates || !!fieldStates[roomId]) return false;
-  // init field
-  // TODO: 서버에서 해당 어항에 포함된 몬스터들을 가져오기
-  const state = {
-    monsters: [],
-  };
-  fieldStates[roomId] = state;
-}
-
-function addClientToRoom(roomId, socketId) {
-  if (!fieldStates[roomId]) {
-    initFieldState(roomId);
-  }
-  // add client to room
-  // generate random monster
-  let randRange = 300;
-  let x = (Math.random() - 0.5) * randRange;
-  let y = (Math.random() - 0.5) * randRange;
-  const monster = {
-    socketId, // TODO: user id or email
-    position: { x, y },
-    destination: { x, y },
-    size: 50 + Math.random() * 100,
-    color: getRandomColor(),
-  };
-  fieldStates[roomId].monsters.push(monster);
-  mapClientToRoom[socketId] = roomId;
-}
-
-function removeClientFromRoom(socketId, roomId) {
-  if (!fieldStates[roomId]) {
-    return false;
-  }
-  const monsters = fieldStates[roomId].monsters.filter(
-    (mon) => mon.socketId !== socketId
-  );
-  delete mapClientToRoom[socketId];
-  if (monsters.length === 0) {
-    delete fieldStates[roomId];
-    return false;
-  } else {
-    fieldStates[roomId].monsters = monsters;
-    return roomId;
-  }
-}
-
-function getRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-function updateMonster(socketId, roomId, monster) {
-  const newMonsters = fieldStates[roomId].monsters.map((_mon) => {
-    if (_mon.socketId !== socketId) return _mon;
-    let newMonster = {
-      ..._mon,
-      ...monster,
-    };
-    return newMonster;
-  });
-  fieldStates[roomId].monsters = newMonsters;
-}
