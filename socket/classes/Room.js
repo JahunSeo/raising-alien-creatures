@@ -1,4 +1,5 @@
 const Monster = require("./Monster");
+const ExtraMonster = require("./ExtraMonster");
 
 const FRAME_PER_SEC = 60;
 const FRAME_PER_EMIT = 1;
@@ -8,9 +9,11 @@ class Room {
     this.roomId = roomId;
     this.clientCnt = 0; // TODO: 접속해 있는 사람 수 개념으로 분리
     this.participants = {};
-    this.initFieldState();
     this.interval = null;
     this.intervalCnt = 0;
+    //
+    this.extraCnt = 50;
+    this.initFieldState();
   }
 
   initFieldState() {
@@ -19,6 +22,13 @@ class Room {
     const state = {
       monsters: {}, // TODO: 효율을 위해 dict를 선택함. 이 때 monster들의 순서를 어떻게 통제할까? 순서 배열을 별도로 관리?
     };
+
+    for (let i = 0; i < this.extraCnt; i++) {
+      const extraId = `extra-${i}`;
+      const monster = new ExtraMonster(extraId);
+      state.monsters[extraId] = monster;
+    }
+
     this.fieldState = state;
   }
 
