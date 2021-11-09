@@ -13,13 +13,17 @@ class Monster {
     let x = (Math.random() - 0.5) * randRange;
     let y = (Math.random() - 0.5) * randRange;
 
-    this.position = { x, y };
+    this.location = { x, y };
     this.destination = { x, y };
     this.size = 50 + Math.random() * 100;
     this.color = this.getRandomColor();
   }
 
-  update(features) {
+  update() {
+    // todo
+  }
+
+  directUpdate(features) {
     // TODO: refactoring logic
     for (const key in features) {
       this[key] = features[key];

@@ -37,7 +37,7 @@ export function changeDestination(roomId, destination) {
   let monster = {
     destination,
     // temp
-    position: destination,
+    location: destination,
   };
   socket.emit("changeDestination", { roomId, monster });
 }

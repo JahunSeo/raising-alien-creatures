@@ -29,6 +29,12 @@ class Room {
 
   updateGameState() {
     // TODO
+    for (let userId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[userId];
+      // console.log(mon);
+      mon.update();
+    }
+
     this.io.to(this.roomId).emit("fieldState", this.getFieldState());
   }
 
@@ -63,7 +69,7 @@ class Room {
 
   updateMonster(userId, features) {
     if (this.fieldState.monsters[userId])
-      this.fieldState.monsters[userId].update(features);
+      this.fieldState.monsters[userId].directUpdate(features);
   }
 }
 

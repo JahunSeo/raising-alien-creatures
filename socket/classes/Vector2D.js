@@ -1,6 +1,6 @@
 // TODO: 모두 static method만 사용하도록 설계할지 고민
 // - 클라이언트로부터 정보를 받아 저장하는 등의 상황에서
-// - position, velocity 등이 모두 Vector2D instance로 되어 있다면
+// - location, velocity 등이 모두 Vector2D instance로 되어 있다면
 // - 매번 오브젝트에서 벡터로 변환해주는 작업이 필요해질 것
 // - 그러므로 모든 벡터 계산은 static하게 처리하도록 하자
 
