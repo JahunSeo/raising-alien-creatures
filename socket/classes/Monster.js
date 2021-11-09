@@ -9,24 +9,27 @@ class Monster {
 
   init() {
     // generate random monster
-    let randRange = 300;
-    let x = (Math.random() - 0.5) * randRange;
-    let y = (Math.random() - 0.5) * randRange;
-
-    this.location = { x, y };
+    this.location = this.getRandLocation();
     this.velocity = { x: 0, y: 0 };
     this.acceleration = { x: 0, y: 0 };
 
-    this.maxSpeed = 5;
-    this.maxForce = 0.5;
+    this.maxSpeed = 2;
+    this.maxForce = 0.2;
     this.seekLimit = 50;
 
     this.defaultAngle = -Math.PI / 2;
     this.angle = this.defaultAngle;
 
-    this.destination = { x, y };
+    this.destination = { ...this.location };
     this.size = 50 + Math.random() * 100;
     this.color = this.getRandomColor();
+  }
+
+  getRandLocation() {
+    let randRange = 300;
+    let x = (Math.random() - 0.5) * randRange;
+    let y = (Math.random() - 0.5) * randRange;
+    return { x, y };
   }
 
   run() {
