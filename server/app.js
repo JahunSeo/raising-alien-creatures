@@ -1,10 +1,13 @@
-require("dotenv").config();
+const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config({ path: path.join(__dirname, "/.env") });
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 app.use(cors());
 app.use(express.json()); // middleware for parsing application/json
@@ -14,17 +17,17 @@ app.use(cookieParser()); // middleware for parsing cookie
 app.use(morgan("dev")); // middleware for logging HTTP request
 
 const connection = mysql.createConnection({
-  host : process.env.DB_HOST,
-  user : process.env.DB_USER,
-  password : process.env.DB_PASSWORD,
-  database : process.env.DB_NAME
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 // GET test
 app.get("/api/test", (req, res) => {
-  connection.query('SELECT * FROM topic', function (error, results, fields) {
+  connection.query("SELECT * FROM topic", function (error, results, fields) {
     if (error) {
-        console.log(error);
+      console.log(error);
     }
     res.status(200).json({
       msg: "(API TEST GET) Hello, Alien!",
@@ -58,4 +61,5 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`** Raising Alien Creatures Web Server **`);
   console.log(`App listening on port ${port}`);
+  console.log(`DB_NAME: ${process.env.DB_NAME}`);
 });
