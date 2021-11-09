@@ -1,5 +1,7 @@
 const Monster = require("./Monster");
 
+const FRAME_PER_SEC = 10;
+
 class Room {
   constructor(roomId) {
     this.roomId = roomId;
@@ -15,12 +17,21 @@ class Room {
       monsters: {}, // TODO: 효율을 위해 dict를 선택함. 이 때 monster들의 순서를 어떻게 통제할까? 순서 배열을 별도로 관리?
     };
     this.fieldState = state;
+    this.interval = setInterval(this.updateGameState, 1000 / FRAME_PER_SEC);
+  }
+
+  updateGameState() {
+    // TODO
   }
 
   getFieldState() {
     // TODO: instance들을 일반 object로 변경해주어야 할까?
     // - 아니면 알아서 변환이 되려나?
     return this.fieldState;
+  }
+
+  close() {
+    clearInterval(this.interval);
   }
 
   addParticipant(user) {

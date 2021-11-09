@@ -77,6 +77,8 @@ io.on("connection", (socket) => {
 
     // 방에 참가자가 아무도 없는 경우, 방 제거
     if (remaining_num <= 0) {
+      // close room
+      rooms[roomId].close();
       delete rooms[roomId];
     }
     // 방에 참가자가 남아 있는 경우, 남은 참가자들에게 전송
