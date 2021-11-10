@@ -23,7 +23,7 @@ class Camera {
       this.levelMax,
       Math.round(this.level + this.levelStep)
     );
-    console.log("Camera ZoomIn", this.level);
+    // console.log("Camera ZoomIn", this.level);
   }
 
   zoomOut() {
@@ -31,7 +31,7 @@ class Camera {
       this.levelMin,
       Math.round(this.level - this.levelStep)
     );
-    console.log("Camera ZoomOut", this.level);
+    // console.log("Camera ZoomOut", this.level);
   }
 
   getCanvasSize = (size) => {
