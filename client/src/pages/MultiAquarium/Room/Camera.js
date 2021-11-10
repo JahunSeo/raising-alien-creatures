@@ -42,6 +42,12 @@ class Camera {
         this.ratioRange * ((this.level - this.levelMin) / this.levelRange))
     );
   };
+
+  getLocalFromMouse = (coord) => {
+    // TODO: camera center와 level을 고려해 field 상의 좌표 계산
+    console.log("TODO getLocalFromMouse", coord);
+    return coord;
+  };
 }
 
 export default Camera;

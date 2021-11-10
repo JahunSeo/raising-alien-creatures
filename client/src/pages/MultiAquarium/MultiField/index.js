@@ -48,10 +48,11 @@ export default class Field extends Component {
       }
 
       if (mouseObj.clicked) {
-        const destination = {
+        let destination = {
           x: mouseObj.deltaXfromCenter,
           y: mouseObj.deltaYfromCenter,
         };
+        destination = room.camera.getLocalFromMouse(destination);
         socket.changeDestination(room.roomId, destination);
       }
     }
