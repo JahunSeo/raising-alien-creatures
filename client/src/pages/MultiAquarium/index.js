@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "./Header";
+import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
 import * as api from "../../apis";
 import * as socket from "../../apis/socket";
@@ -24,7 +25,6 @@ export default function MultiAquarium() {
         console.log(data);
         setTestNum(Math.round(data.body * 10000) / 10000);
       };
-
       fetchData();
     } catch (err) {
       console.error(err);
@@ -56,6 +56,9 @@ export default function MultiAquarium() {
     <div className={styles.body}>
       <section className={styles.SecHead}>
         <Header rooms={rooms} roomId={roomId} setRoomId={setRoomId} />
+      </section>
+      <section className={styles.SecFieldCtrl}>
+        <FieldCtrl />
       </section>
       <section className={styles.SecField}>
         <MultiField
