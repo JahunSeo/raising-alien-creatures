@@ -83,6 +83,8 @@ class Room {
   }
 
   updateMonster(userId, features) {
+    // TODO: validation check
+
     if (this.fieldState.monsters[userId])
       this.fieldState.monsters[userId].directUpdate(features);
   }
