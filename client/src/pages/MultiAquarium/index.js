@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import Header from "./Header";
 import MultiField from "./MultiField";
 import * as api from "../../apis";
 import * as socket from "../../apis/socket";
@@ -7,7 +8,6 @@ import * as socket from "../../apis/socket";
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
-  const [testMsg, setTestMsg] = useState("default text");
   const [testNum, setTestNum] = useState(-1);
 
   // temp: selecting room
@@ -22,7 +22,6 @@ export default function MultiAquarium() {
         const res = await api.get("/test");
         const data = await res.json();
         console.log(data);
-        setTestMsg(data.msg);
         setTestNum(Math.round(data.body * 10000) / 10000);
       };
 
@@ -56,18 +55,7 @@ export default function MultiAquarium() {
   return (
     <div className={styles.body}>
       <section className={styles.SecHead}>
-        <h1>Test Aquarium</h1>
-        <p>{testMsg}</p>
-        {/* <p>{testNum}</p> */}
-        <p>Current Room: {roomId}</p>
-        <div>
-          {rooms.map((roomId) => (
-            <button
-              key={roomId}
-              onClick={() => setRoomId(roomId)}
-            >{`Room ${roomId}`}</button>
-          ))}
-        </div>
+        <Header rooms={rooms} roomId={roomId} setRoomId={setRoomId} />
       </section>
       <section className={styles.SecField}>
         <MultiField
