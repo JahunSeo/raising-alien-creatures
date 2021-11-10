@@ -41,8 +41,9 @@ export default class Field extends Component {
       socket.changeDestination(roomId, destination);
     }
 
-    if (this.props.fieldState) {
-      const { monsters } = this.props.fieldState;
+    if (this.props.room && this.props.room.fieldState) {
+      const room = this.props.room;
+      const { monsters } = room.fieldState;
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
       for (const userId in monsters) {
         let { location, size, color } = monsters[userId];

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
+import Room from "./Room";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
@@ -11,12 +12,11 @@ import styles from "./index.module.css";
 export default function MultiAquarium() {
   const [testNum, setTestNum] = useState(-1);
 
-  // temp: selecting room
-  const rooms = [1, 2, 3];
-  const [roomId, setRoomId] = useState(rooms[0]);
-  const [fieldState, setFieldState] = useState(null);
+  const [roomIds, setRoomIds] = useState([]);
+  const [currRoomId, setCurrRoomId] = useState(null);
+  const rooms = useRef();
 
-  // fetch test data
+  // 챌린지 정보 가져오기
   useEffect(() => {
     try {
       const fetchData = async () => {
@@ -24,6 +24,20 @@ export default function MultiAquarium() {
         const data = await res.json();
         console.log(data);
         setTestNum(Math.round(data.body * 10000) / 10000);
+
+        // 서버에서 데이터를 받아온 상황을 전제로 구성
+        let roomIds = [1, 2, 3];
+
+        // rooms 상태 정보
+        rooms.current = {};
+        roomIds.forEach((roomId) => {
+          rooms.current[roomId] = new Room(roomId);
+        });
+
+        // roomIds: react에서 state로 관리할 정보
+        setRoomIds(roomIds);
+        setCurrRoomId(roomIds[0]);
+        console.log("fetchData", rooms.current);
       };
       fetchData();
     } catch (err) {
@@ -31,31 +45,24 @@ export default function MultiAquarium() {
     }
   }, []);
 
-  // init socket
-  const updateFieldState = (fieldState) => {
-    const monsterLength = Object.keys(fieldState.monsters).length;
-    // console.log("[socket] fieldState:", monsterLength);
-    if (monsterLength <= 0) {
-      console.error("ERROR!! zero monster issue should be fixed!!");
-      return;
-    }
-    setFieldState(fieldState);
-  };
-
   useEffect(() => {
-    socket.initAndJoin(roomId);
-    socket.subscribe(updateFieldState);
+    // rooms가 생성되었는지 확인
+    if (!rooms.current) return;
+
+    console.log("set currRoomId", currRoomId);
+    socket.initAndJoin(currRoomId);
+    socket.subscribe(rooms.current[currRoomId].updateFieldState);
 
     return () => {
       socket.disconnect();
     };
-  }, [roomId]);
+  }, [currRoomId]);
 
-  // console.log("[MultiAquarium] roomId", roomId);
+  console.log("[MultiAquarium] currRoomId", currRoomId, rooms);
   return (
     <div className={styles.body}>
       <section className={styles.SecHead}>
-        <Header rooms={rooms} roomId={roomId} setRoomId={setRoomId} />
+        <Header rooms={roomIds} roomId={currRoomId} setRoomId={setCurrRoomId} />
       </section>
       <section className={styles.SecFieldCtrl}>
         <FieldCtrl />
@@ -63,9 +70,8 @@ export default function MultiAquarium() {
       <section className={styles.SecField}>
         <MultiField
           seed={testNum}
-          roomId={roomId}
-          fieldState={fieldState}
-          setFieldState={setFieldState}
+          roomId={currRoomId}
+          room={rooms.current && rooms.current[currRoomId]}
         />
       </section>
     </div>
