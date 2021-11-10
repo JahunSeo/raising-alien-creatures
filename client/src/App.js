@@ -4,6 +4,7 @@ import MultiAquarium from "./pages/MultiAquarium";
 import "./App.css";
 
 function App() {
+  console.log('hihihihihi Dean');
   return (
     <div className="App">
       <MultiAquarium />
