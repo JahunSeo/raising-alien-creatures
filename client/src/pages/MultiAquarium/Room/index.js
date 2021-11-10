@@ -1,8 +1,10 @@
+import Camera from "./Camera";
+
 class Room {
   constructor(roomId) {
     console.log("Room init", roomId);
     this.roomId = roomId;
-    this.level = 7;
+    this.camera = new Camera();
     this.fieldState = undefined;
   }
 
