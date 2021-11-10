@@ -65,14 +65,10 @@ export default function MultiAquarium() {
         <Header rooms={roomIds} roomId={currRoomId} setRoomId={setCurrRoomId} />
       </section>
       <section className={styles.SecFieldCtrl}>
-        <FieldCtrl />
+        <FieldCtrl room={rooms.current && rooms.current[currRoomId]} />
       </section>
       <section className={styles.SecField}>
-        <MultiField
-          seed={testNum}
-          roomId={currRoomId}
-          room={rooms.current && rooms.current[currRoomId]}
-        />
+        <MultiField room={rooms.current && rooms.current[currRoomId]} />
       </section>
     </div>
   );
