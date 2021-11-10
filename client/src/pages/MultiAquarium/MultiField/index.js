@@ -4,19 +4,6 @@ import Canvas from "../../../components/Canvas";
 import * as socket from "../../../apis/socket";
 
 export default class Field extends Component {
-  componentDidMount() {
-    window.addEventListener("resize", this.resizeEventHandler);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeEventHandler);
-  }
-
-  resizeEventHandler = (e) => {
-    this.stageWidth = window.innerWidth || document.body.clientWidth;
-    this.stageHeight = window.innerHeight || document.body.clientHeight;
-  };
-
   draw = (ctx, frameCnt, mouseObj) => {
     // console.log(mouseObj);
     let cvsWidth = ctx.canvas.width;
@@ -64,6 +51,23 @@ export default class Field extends Component {
   };
 
   render() {
-    return <Canvas draw={this.draw} />;
+    if (this.props.room) {
+      const camera = this.props.room.camera;
+      return (
+        <Canvas
+          draw={this.draw}
+          onMouseDown={camera.onMouseDown}
+          onMouseMove={camera.onMouseMove}
+          onMouseUp={camera.onMouseUp}
+          onTouchStart={camera.onTouchStart}
+          onTouchMove={camera.onTouchMove}
+          onTouchEnd={camera.onTouchEnd}
+          onWheel={camera.onWheel}
+          onResize={camera.onResize}
+        />
+      );
+    } else {
+      return <div>로딩중...</div>;
+    }
   }
 }

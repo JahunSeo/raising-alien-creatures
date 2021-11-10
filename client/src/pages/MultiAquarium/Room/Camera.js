@@ -3,6 +3,9 @@ class Camera {
     this.origin = { x: 0, y: 0 };
     this.center = { x: 0, y: 0 };
 
+    this.cvsWidth = undefined;
+    this.cvsHeight = undefined;
+
     this.levelDefault = 10;
     this.levelStep = 1;
     this.levelMax = 20;
@@ -47,6 +50,40 @@ class Camera {
     // TODO: camera center와 level을 고려해 field 상의 좌표 계산
     console.log("TODO getLocalFromMouse", coord);
     return coord;
+  };
+
+  onMouseDown = (e) => {
+    console.log("camera onMouseDown");
+  };
+
+  onMouseMove = (e) => {
+    console.log("camera onMouseMove");
+  };
+
+  onMouseUp = (e) => {
+    console.log("camera onMouseUp");
+  };
+
+  onTouchStart = (e) => {
+    console.log("camera onTouchStart");
+  };
+
+  onTouchMove = (e) => {
+    console.log("camera onTouchMove");
+  };
+
+  onTouchEnd = (e) => {
+    console.log("camera onTouchEnd");
+  };
+
+  onWheel = (e) => {
+    console.log("camera onWheel");
+  };
+
+  onResize = (cvsWidth, cvsHeight) => {
+    this.cvsWidth = cvsWidth;
+    this.cvsHeight = cvsHeight;
+    // console.log("camera onResize", this.cvsWidth, this.cvsHeight);
   };
 }
 
