@@ -32,15 +32,6 @@ export default class Field extends Component {
     ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
     // draw monster
-    if (mouseObj.clicked) {
-      const { roomId } = this.props;
-      const destination = {
-        x: mouseObj.deltaXfromCenter,
-        y: mouseObj.deltaYfromCenter,
-      };
-      socket.changeDestination(roomId, destination);
-    }
-
     if (this.props.room && this.props.room.fieldState) {
       const room = this.props.room;
       const { monsters } = room.fieldState;
@@ -51,6 +42,14 @@ export default class Field extends Component {
         ctx.fillStyle = color;
         ctx.fillRect(location.x, location.y, size, size);
         ctx.translate(size / 2, size / 2);
+      }
+
+      if (mouseObj.clicked) {
+        const destination = {
+          x: mouseObj.deltaXfromCenter,
+          y: mouseObj.deltaYfromCenter,
+        };
+        socket.changeDestination(room.roomId, destination);
       }
     }
 
