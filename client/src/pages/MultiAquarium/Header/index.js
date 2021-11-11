@@ -38,6 +38,9 @@ export default function Header(props) {
             >{`Room ${roomId}`}</button>
           ))}
         </div>
+        <div className={cx("item","itemHistory")}>
+          <button onClick={openModal}>나의 기록</button>
+        </div>
         {loginStatus ? 
           <div className={cx("item", "itemUser")}>
             <Button
