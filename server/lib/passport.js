@@ -4,8 +4,8 @@ module.exports = function (app, connection) {
     var authData = {
         email: 'kjy@kjy.net',
         
-        password: '111111',
-        nickname: 'kjy'
+        password: '훔쳐봐',
+        nickname: '훔쳐봐'
     };
     /* */
     
@@ -23,11 +23,11 @@ module.exports = function (app, connection) {
     // })
 
     passport.serializeUser(function (user, done) {
-        done(null, user.email); 
+        done(null, user); 
     });
     
-    passport.deserializeUser(function (id, done) { 
-        done(null, authData);  // user에게 authdata 가 전달된다 -> 식별자 기반으로 app에 사용할 데이터
+    passport.deserializeUser(function (identifier, done) { 
+        done(null, identifier);  // user에게 authdata 가 전달된다 -> 식별자 기반으로 app에 사용할 데이터
     });
     
     passport.use(new LocalStrategy(
@@ -36,21 +36,18 @@ module.exports = function (app, connection) {
             passwordField: 'pwd'
         },
         function (username, password, done){
-            connection.query('select * from usrlist where email=?', [username], function(error,results,fields){
-            console.log(results[0].email);
-            console.log(username);
-            console.log(results[0].pwd);
-            console.log(password);
-    
+            connection.query('select * from user_info where email=?', [username], function(error,results,fields){
+            // console.log(results[0]);
             if (username === results[0].email) {
-                console.log(1);
-                if (password == results[0].pwd) {
-                console.log(2);
+                console.log('username confirmed.');
+                if (password == results[0].password) {
+                    delete results[0].password;
+                    console.log('Log in success');
                     return done(null, results[0], {   
                         message: 'Welcome.'
                     });
                 } else {
-                console.log(3);
+                console.log('Incorrect password.');
                     return done(null, false, {
                         message: 'Incorrect password.'
                     });

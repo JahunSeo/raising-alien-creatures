@@ -7,22 +7,15 @@ const passport = require('passport');
 module.exports = function (passport) { 
 
     router.get('/', function(req, res){
+
         console.log('/', req.user);
         res.sendFile(__dirname+'/login.html');
     });
-            
-
 
     router.get('/login', function(req,res){
         res.redirect('/');
       })
       
-      // app.post('/login_process', 
-      // passport.authenticate('local', {
-      //     successRedirect: '/',         
-      //     failureRedirect: '/',
-      //     failureFlash: true 
-      // }));
 
     router.post('/login_process', 
     passport.authenticate('local', {
@@ -30,7 +23,7 @@ module.exports = function (passport) {
         failureRedirect: '/api/user', failureFlash: true }),
         function(req,res){
         req.session.save(function(){
-            res.redirect('/api/user');
+            res.redirect('/api/aquarium/personal');
         })
     });
 
@@ -38,7 +31,7 @@ module.exports = function (passport) {
     router.get('/logout', function (req, res) {
         req.logout();
         req.session.save(function () {
-        res.redirect('/');
+        res.redirect('/api/user/');
             });
         });
 

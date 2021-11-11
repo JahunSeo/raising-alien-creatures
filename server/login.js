@@ -34,7 +34,7 @@ var connection = mysql.createConnection({
   host     : 'database-1.cx5rraglozur.ap-northeast-2.rds.amazonaws.com',
   user     : 'admin',
   password : 'wpdk1111',
-  database : 'testlogin'
+  database : 'aliens'
 });
 connection.connect();
 
@@ -54,6 +54,18 @@ app.use(flash()); // 반드시 session 다음에
 var passport = require('./lib/passport')(app, connection);
 var userRouter =require('./routes/user.js')(passport);
 app.use('/api/user', userRouter);
+
+
+
+
+
+app.get('/api/aquarium/personal', function(res,req){
+  // connection.query('select * from Alien where user_info=?', [username], function(error,results,fields){
+  console.log(res.user);
+  req.send(res.user);
+})
+
+
 
 
 app.listen(port, () => {
