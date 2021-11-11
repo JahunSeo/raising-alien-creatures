@@ -10,10 +10,13 @@ export default function Header(props) {
 
   // 모달창
   const [showModal, setShowModal] = useState(false);
-  const openModal = () => {
+
+  const openModal = e => {
+    e.stopPropagation();
     setShowModal(true);
   }
-  const closeModal = () => {
+  const closeModal = e => {
+    e.stopPropagation();
     setShowModal(false);
   }
 
@@ -43,6 +46,7 @@ export default function Header(props) {
         </div>
       </div>
       <SideBarModal showModal={showModal} closeModal={closeModal} ></SideBarModal>
+      
     </>
   );
 }
