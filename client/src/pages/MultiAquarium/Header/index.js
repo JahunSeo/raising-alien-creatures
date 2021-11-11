@@ -3,7 +3,7 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import styles from './index.module.css';
 import SignUpModal from '../../../modals/SignUpModal';
 import SignInModal from '../../../modals/SignInModal';
-import Buttons from '../../../components/Buttons'
+import SideBarModal from "./Modal/SideBarModal.js";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
@@ -13,6 +13,15 @@ export default function Header(props) {
   const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
+
+  // 모달창
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () => {
+    setShowModal(true);
+  }
+  const closeModal = () => {
+    setShowModal(false);
+  }
 
   return (
       <div className={styles.body}>
@@ -29,35 +38,37 @@ export default function Header(props) {
             >{`Room ${roomId}`}</button>
           ))}
         </div>
-        {loginStatus ? <div className={cx("item", "itemUser")}>
-          <Button
-            variant="primary"
-          // onClick={() => setSignUpModalOn(true)}
-          >
-            나의 기록
-          </Button>
-          <h1>&nbsp;</h1>
-          <Button
-            variant="info"
-          onClick={() => setLoginStatus(false)}
-          >
-            로그아웃
-          </Button>
-        </div> : <div className={cx("item", "itemUser")}>
-          <Button
-            variant="primary"
-            onClick={() => setSignUpModalOn(true)}
-          >
-            회원가입
-          </Button>
-          <h1>&nbsp;</h1>
-          <Button
-            variant="info"
-            onClick={() => setSignInModalOn(true)}
-          >
-            로그인
-          </Button>
-        </div>}
+        {loginStatus ? 
+          <div className={cx("item", "itemUser")}>
+            <Button
+              variant="primary"
+            // onClick={() => setSignUpModalOn(true)}
+            >
+              나의 기록
+            </Button>
+            <h1>&nbsp;</h1>
+            <Button
+              variant="info"
+            onClick={() => setLoginStatus(false)}
+            >
+              로그아웃
+            </Button>
+          </div> : <div className={cx("item", "itemUser")}>
+            <Button
+              variant="primary"
+              onClick={() => setSignUpModalOn(true)}
+            >
+              회원가입
+            </Button>
+            <h1>&nbsp;</h1>
+            <Button
+              variant="info"
+              onClick={() => setSignInModalOn(true)}
+            >
+              로그인
+            </Button>
+          </div>
+        }
         <SignUpModal
         show={signUpModalOn}
         onHide={() => setSignUpModalOn(false)}
@@ -68,6 +79,7 @@ export default function Header(props) {
           setLoginStatus={setLoginStatus}
           setSignInModalOn={setSignInModalOn}
         />
+        <SideBarModal showModal={showModal} closeModal={closeModal} ></SideBarModal>
       </div>
   );
 }

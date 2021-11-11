@@ -9701,6 +9701,13 @@
     "indent-string" "^4.0.0"
     "strip-indent" "^3.0.0"
 
+"redux@^4.1.2":
+  "integrity" "sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw=="
+  "resolved" "https://registry.npmjs.org/redux/-/redux-4.1.2.tgz"
+  "version" "4.1.2"
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+
 "regenerate-unicode-properties@^8.2.0":
   "integrity" "sha512-F9DjY1vKLo/tPePDycuH3dn9H1OTPIkVD9Kz4LODu+F2C75mgjAJ7x/gwy6ZcSNRAAkhNlJSOHRe8k3p+K9WhA=="
   "resolved" "https://registry.npmjs.org/regenerate-unicode-properties/-/regenerate-unicode-properties-8.2.0.tgz"
