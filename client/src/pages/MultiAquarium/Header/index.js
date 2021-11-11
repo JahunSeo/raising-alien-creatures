@@ -3,12 +3,14 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import styles from './index.module.css';
 import SignUpModal from '../../../modals/SignUpModal';
 import SignInModal from '../../../modals/SignInModal';
+import Buttons from '../../../components/Buttons'
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
   const { rooms, roomId, setRoomId } = props;
+  const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
@@ -17,10 +19,12 @@ export default function Header(props) {
       <SignUpModal
         show={signUpModalOn}
         onHide={() => setSignUpModalOn(false)}
-      />
+        />
       <SignInModal
         show={signInModalOn}
-        onHide={() => setSignInModalOn(false)}
+        onHide={() =>  setSignInModalOn(false)}
+        setLoginStatus={setLoginStatus}
+        setSignInModalOn={setSignInModalOn}
       />
       <div className={styles.body}>
         <div className={cx("item", "itemTitle")}>
@@ -36,7 +40,21 @@ export default function Header(props) {
             >{`Room ${roomId}`}</button>
           ))}
         </div>
-        <div className={cx("item", "itemUser")}>
+        {loginStatus ? <div className={cx("item", "itemUser")}>
+          <Button
+            variant="primary"
+          // onClick={() => setSignUpModalOn(true)}
+          >
+            나의 기록
+          </Button>
+          <h1>&nbsp;</h1>
+          <Button
+            variant="info"
+          onClick={() => setLoginStatus(false)}
+          >
+            로그아웃
+          </Button>
+        </div> : <div className={cx("item", "itemUser")}>
           <Button
             variant="primary"
             onClick={() => setSignUpModalOn(true)}
@@ -50,7 +68,7 @@ export default function Header(props) {
           >
             로그인
           </Button>
-        </div>
+        </div>}
       </div>
     </>
   );

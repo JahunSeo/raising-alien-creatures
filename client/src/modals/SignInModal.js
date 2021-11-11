@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
 // import { GoogleLogin } from 'react-google-login';
-import HorizonLine from '../components/HorizonLine.js'
+import HorizonLine from '../components/HorizonLine'
 
-const SignInModal = ({ show, onHide }) => {
+const SignInModal = ({ show, onHide, setLoginStatus, setSignInModalOn }) => {
+    // console.log("SignInModal", setLoginStatus)
+
     return (
         <Modal
             show={show}
@@ -36,28 +38,13 @@ const SignInModal = ({ show, onHide }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onClick={() => {
+                                setSignInModalOn(false);
+                                setLoginStatus(true);
+                            }}
                         >
                             로그인
                         </Button>
-                        <HorizonLine text={"OR"} />
-                        {/* <GoogleLogin
-                            render={(renderProps) => {
-                                return (
-                                    <Button
-                                        onClick={renderProps.onClick}
-                                        disabled={renderProps.disabled}
-                                        style={{
-                                            backgroundColor: "#176BEF",
-                                            borderColor: "#176BEF",
-                                            width: "100%"
-                                        }}
-                                        block
-                                    >
-                                        <i className="fab fa-google"></i>&nbsp; 구글 계정으로 로그인
-                                    </Button>
-                                );
-                            }}
-                        /> */}
                     </Form>
                 </Modal.Body>
             </Container>

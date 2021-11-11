@@ -4,7 +4,9 @@ import { Button, Container, Form, Modal } from 'react-bootstrap';
 // import Axios from 'axios';
 import HorizonLine from '../components/HorizonLine.js'
 
-const SignUpModal = ({ show, onHide }) => {
+const SignUpModal = ({ show, onHide, test }) => {
+    // const [showSignUp, setShowSignUp] = useState(true);
+
     // const [userName, setUserName] = userState("");
     // const [userEmail, setUserEmail] = userState("");
     // const [userPassword, setUserPassword] = userState("");
@@ -39,9 +41,9 @@ const SignUpModal = ({ show, onHide }) => {
                             <Form.Control
                                 type="text"
                                 placeholder="이재열"
-                                // onChange={(e) => {
-                                //     setUserName(e.target.value);
-                                // }}
+                            // onChange={(e) => {
+                            //     setUserName(e.target.value);
+                            // }}
                             />
                         </Form.Group>
 
@@ -50,9 +52,9 @@ const SignUpModal = ({ show, onHide }) => {
                             <Form.Control
                                 type="email"
                                 placeholder="helloalien@jungle.com"
-                                // onChange={(e) => {
-                                //     setUserEmail(e.target.value);
-                                // }}
+                            // onChange={(e) => {
+                            //     setUserEmail(e.target.value);
+                            // }}
                             />
                         </Form.Group>
 
@@ -61,9 +63,9 @@ const SignUpModal = ({ show, onHide }) => {
                             <Form.Control
                                 type="password"
                                 placeholder="********"
-                                // onChange={(e) => {
-                                //     setUserPassword(e.target.value);
-                                // }}
+                            // onChange={(e) => {
+                            //     setUserPassword(e.target.value);
+                            // }}
                             />
                         </Form.Group>
 
@@ -72,9 +74,9 @@ const SignUpModal = ({ show, onHide }) => {
                             <Form.Control
                                 type="password"
                                 placeholder="********"
-                                // onChange={(e) => {
-                                //     setUserConfirm(e.target.value);
-                                // }}
+                            // onChange={(e) => {
+                            //     setUserConfirm(e.target.value);
+                            // }}
                             />
                         </Form.Group>
                         <Button
@@ -87,25 +89,6 @@ const SignUpModal = ({ show, onHide }) => {
                         >
                             회원가입
                         </Button>
-                        <HorizonLine text={"OR"} />
-                        {/* <GoogleLogin
-                            render={(renderProps) => {
-                                return (
-                                    <Button
-                                        onClick={renderProps.onClick}
-                                        disabled={renderProps.disabled}
-                                        style={{
-                                            backgroundColor: "#176BEF",
-                                            borderColor: "#176BEF",
-                                            width: "100%"
-                                        }}
-                                        block
-                                    >
-                                        <i className="fab fa-google"></i>&nbsp; 구글 계정으로 회원가입
-                                    </Button>
-                                );
-                            }}
-                        /> */}
                     </Form>
                 </Modal.Body>
             </Container>
