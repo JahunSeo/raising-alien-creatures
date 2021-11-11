@@ -15,17 +15,6 @@ export default function Header(props) {
   const [signInModalOn, setSignInModalOn] = useState(false);
 
   return (
-    <>
-      <SignUpModal
-        show={signUpModalOn}
-        onHide={() => setSignUpModalOn(false)}
-        />
-      <SignInModal
-        show={signInModalOn}
-        onHide={() =>  setSignInModalOn(false)}
-        setLoginStatus={setLoginStatus}
-        setSignInModalOn={setSignInModalOn}
-      />
       <div className={styles.body}>
         <div className={cx("item", "itemTitle")}>
           <h1 className={styles.title}>
@@ -69,7 +58,16 @@ export default function Header(props) {
             로그인
           </Button>
         </div>}
+        <SignUpModal
+        show={signUpModalOn}
+        onHide={() => setSignUpModalOn(false)}
+        />
+        <SignInModal
+          show={signInModalOn}
+          onHide={() =>  setSignInModalOn(false)}
+          setLoginStatus={setLoginStatus}
+          setSignInModalOn={setSignInModalOn}
+        />
       </div>
-    </>
   );
 }
