@@ -28,8 +28,8 @@ export default class Field extends Component {
     ctx.translate(cvsWidth / 2, cvsHeight / 2);
 
     // draw background
-    ctx.fillStyle = `rgba(255, 255, 255, 1)`;
-    ctx.fillRect(0, 0, cvsWidth, cvsHeight);
+    // ctx.fillStyle = `rgba(255, 255, 255, 1)`;
+    // ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
     // draw monster
     if (mouseObj.clicked) {

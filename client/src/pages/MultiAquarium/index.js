@@ -4,14 +4,14 @@ import Header from "./Header";
 import MultiField from "./MultiField";
 import * as api from "../../apis";
 import * as socket from "../../apis/socket";
-
+import background from "./image/univ.jpg"
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
   const [testNum, setTestNum] = useState(-1);
 
   // temp: selecting room
-  const rooms = [1, 2, 3];
+  const rooms = [1, 2];
   const [roomId, setRoomId] = useState(rooms[0]);
   const [fieldState, setFieldState] = useState(null);
 
@@ -54,6 +54,7 @@ export default function MultiAquarium() {
   // console.log("[MultiAquarium] roomId", roomId);
   return (
     <div className={styles.body}>
+      {/* <img src={background} alt="배경화면"></img> */}
       <section className={styles.SecHead}>
         <Header rooms={rooms} roomId={roomId} setRoomId={setRoomId} />
       </section>
