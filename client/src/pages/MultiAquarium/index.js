@@ -6,11 +6,12 @@ import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
 import * as api from "../../apis";
 import * as socket from "../../apis/socket";
-
+import background from "./image/univ.jpg"
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
   const [testNum, setTestNum] = useState(-1);
+
 
   const [roomIds, setRoomIds] = useState([]);
   const [currRoomId, setCurrRoomId] = useState(null);
@@ -61,6 +62,7 @@ export default function MultiAquarium() {
   console.log("[MultiAquarium] currRoomId", currRoomId, rooms);
   return (
     <div className={styles.body}>
+      {/* <img src={background} alt="배경화면"></img> */}
       <section className={styles.SecHead}>
         <Header rooms={roomIds} roomId={currRoomId} setRoomId={setCurrRoomId} />
       </section>

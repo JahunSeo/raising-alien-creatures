@@ -11,6 +11,7 @@ export default class Field extends Component {
     ctx.save();
     ctx.clearRect(0, 0, cvsWidth, cvsHeight);
 
+
     if (this.props.room && this.props.room.fieldState) {
       const room = this.props.room;
       const { monsters } = room.fieldState;
