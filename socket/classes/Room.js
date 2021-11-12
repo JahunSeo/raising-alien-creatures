@@ -56,7 +56,21 @@ class Room {
   getFieldState() {
     // TODO: instance들을 일반 object로 변경해주어야 할까?
     // - 아니면 알아서 변환이 되려나?
-    return this.fieldState;
+    const state = {
+      monsters: {},
+    };
+    for (let userId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[userId];
+      state.monsters[userId] = {
+        userId: mon.userId,
+        location: mon.location,
+        angle: mon.angle,
+        size: mon.size,
+        color: mon.color,
+      };
+    }
+
+    return state;
   }
 
   close() {
