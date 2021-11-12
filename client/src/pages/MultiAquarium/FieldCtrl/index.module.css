@@ -5,6 +5,7 @@
   background-color: #ffffff;
 
   border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .btn {
@@ -16,6 +17,7 @@
   justify-content: center;
 
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .btn--zoomin {
