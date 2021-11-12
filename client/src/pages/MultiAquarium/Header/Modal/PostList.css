@@ -1,0 +1,174 @@
+.PostListBlock {
+  margin: 0.7rem;
+  width: 20rem;
+  height: 100%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
+  padding: 0.1rem;
+  border-radius: 12px;
+  overflow: auto;
+  background: linear-gradient(to top, #008aff, #ccf5f1);
+  font-family: "gulim";
+  font-weight: bold;
+}
+
+.PostListBlock::-webkit-scrollbar {
+  width: 10px;
+}
+.PostListBlock::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: whitesmoke;
+}
+.PostListBlock::-webkit-scrollbar-thumb {
+  background-color: #a19e9e;
+  border-radius: 10px;
+}
+.PostListBlock::-webkit-scrollbar-thumb:hover {
+  background: #727171;
+}
+
+.dropdown {
+  position: relative;
+  left: -125px;
+  top: 10px;
+  background: transparent;
+  border: none;
+}
+.dropContent {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  margin-top: 8px;
+}
+.dropContent span {
+  font-size: 15px;
+  font-weight: lighter;
+  padding: 5px;
+  color: black;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+.dropContent span:hover {
+  background-color: #ddd;
+}
+
+ul {
+  position: inherit;
+  padding: 0px 5px;
+  display: flex;
+  justify-content: space-around;
+}
+
+ul span {
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: grey;
+  border: 0.1rem solid #fff;
+  border-radius: 1rem;
+  padding: 0.4em;
+}
+
+.selected {
+  color: white;
+  animation: pulsate 0.1s ease-in-out infinite alternate;
+  padding: 0.4em;
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #5271ff,
+    0 0 0.8rem #5271ff, 0 0 2.8rem #5271ff, inset 0 0 1.3rem #5271ff;
+}
+
+@keyframes pulsate {
+  100% {
+    text-shadow: 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #5271ff,
+      0 0 80px #5271ff, 0 0 90px #5271ff, 0 0 100px #5271ff, 0 0 150px #5271ff;
+  }
+  0% {
+    text-shadow: 0 0 15px #fff, 0 0 23px #fff, 0 0 42px #5271ff,
+      0 0 73px #5271ff, 0 0 80px #5271ff, 0 0 94px #5271ff, 0 0 140px #5271ff;
+  }
+}
+
+.PostItemBlock {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.PostItemBlock h2 {
+  font-size: 1em;
+}
+
+.Content {
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+}
+.Content img {
+  object-fit: cover;
+  width: 5em;
+  height: 5em;
+  margin-right: 2rem;
+}
+.Content > img:hover {
+  transition: all 0.3s;
+  transform: scale(1.4);
+}
+.Content:first-child {
+  padding-top: 0;
+}
+.SubInfo {
+  justify-content: left;
+  padding-top: 0.5rem;
+  color: #212529;
+}
+.SubInfo p {
+  line-height: 30px;
+  font-weight: 550;
+}
+
+.buttons {
+  display: flex;
+}
+
+.StyledButton {
+  border: none;
+  margin: 1rem;
+  border-radius: 400px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.38rem;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(to right, #008aff, grey);
+}
+
+/* .StyledButton:active {
+  position: relative;
+  display: inline-block;
+  background: ghostwhite;
+  background: linear-gradient(to right, #008aff, grey);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-radius: 50%;
+  /* animation: animate 1s linear infinite; */
+  /* overflow: hidden; 
+} */
+
+/* @keyframes animate {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0.5;
+  }
+  100% {
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+  }
+} */

@@ -11,15 +11,15 @@
 
 .ModalContainer {
     position: fixed;
-    left: 176px;
+    left: 150px;
     top: 50%;
     transform: translate(-50%, -50%);
     max-height: 80%;
     width: 20rem;
     height: 80%;
     padding: 16px;
-    /* background: rgb(25, 31, 44); */
-    background: lightblue;
+    /* background: rgb(25, 31, 44);  */
+    /* background: lightblue; */
     border-radius: 10px;
     text-align: center;
     transition: all 1s;
@@ -31,7 +31,7 @@
 
 .hidden {
     position: fixed;
-    left: -177px;
+    left: -450px;
     top: 50%;
     transform: translate(-50%, -50%);
     max-height: 80%;
@@ -39,7 +39,7 @@
     height: 80%;
     padding: 16px;
     /* background: rgb(25, 31, 44); */
-    background: lightblue;
+    /* background: lightblue; */
     border-radius: 10px;
     text-align: center;
     transition: all 1s;
