@@ -4,8 +4,8 @@
     left: 0%;
     bottom: 0;
     right: 0;
-    background-color: rgba(231, 24, 24, 0.5);
-    z-index: 1;
+    /* background-color: rgba(231, 24, 24, 0.5); */
+    /* z-index: 1; */
     
 }
 
@@ -18,8 +18,8 @@
     width: 20rem;
     height: 80%;
     padding: 16px;
-    background: rgb(25, 31, 44); 
-    background: lightblue;
+    /* background: rgb(25, 31, 44);  */
+    /* background: lightblue; */
     border-radius: 10px;
     text-align: center;
     transition: all 1s;
@@ -38,8 +38,8 @@
     width: 20rem;
     height: 80%;
     padding: 16px;
-    background: rgb(25, 31, 44);
-    background: lightblue;
+    /* background: rgb(25, 31, 44); */
+    /* background: lightblue; */
     border-radius: 10px;
     text-align: center;
     transition: all 1s;

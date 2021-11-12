@@ -148,7 +148,7 @@ ul span {
   background: linear-gradient(to right, #008aff, grey);
 }
 
-.StyledButton:active {
+/* .StyledButton:active {
   position: relative;
   display: inline-block;
   background: ghostwhite;
@@ -156,11 +156,11 @@ ul span {
   transform: translate(-50%, -50%);
   pointer-events: none;
   border-radius: 50%;
-  animation: animate 1s linear infinite;
-  overflow: hidden;
-}
+  /* animation: animate 1s linear infinite; */
+  /* overflow: hidden; 
+} */
 
-@keyframes animate {
+/* @keyframes animate {
   0% {
     width: 0px;
     height: 0px;
@@ -171,4 +171,4 @@ ul span {
     height: 500px;
     opacity: 0;
   }
-}
+} */
