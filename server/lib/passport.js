@@ -27,6 +27,7 @@ module.exports = function (app, connection) {
     });
     
     passport.deserializeUser(function (identifier, done) { 
+        // console.log(1212,identifier);
         done(null, identifier);  // user에게 authdata 가 전달된다 -> 식별자 기반으로 app에 사용할 데이터
     });
     

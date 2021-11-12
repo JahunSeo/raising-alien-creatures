@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon login.js"
+    "start": "nodemon app.js"
   },
   "author": "JahunSeo",
   "license": "ISC",

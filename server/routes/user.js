@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 const passport = require('passport');
 
-module.exports = function (passport) { 
+module.exports = function (passport, connection) { 
 
     router.get('/', function(req, res){
 
@@ -19,7 +19,7 @@ module.exports = function (passport) {
 
     router.post('/login_process', 
     passport.authenticate('local', {
-        // successRedirect: '/',         
+        // successRedirect: '/',         cc
         failureRedirect: '/api/user', failureFlash: true }),
         function(req,res){
         req.session.save(function(){
@@ -35,6 +35,14 @@ module.exports = function (passport) {
             });
         });
 
+    // router.post('/info_change', function (req, res){
+    //     var data = req.body;
+    //     var id = data.;
+    //     var password = data.;
+    //     var nickname = data.;
+    //     connection.query()
+        
+    // });
 
     router.use(function (req, res, next) {
         res.status(404).send('Sorry cant find that!');
