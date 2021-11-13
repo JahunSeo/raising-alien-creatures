@@ -6,6 +6,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var compression = require('compression');
+const cors = require("cors");
 var helmet = require('helmet');
 app.use(helmet());
 var session = require('express-session');
@@ -44,6 +45,7 @@ app.use(bodyParser.urlencoded({
     extended: false
   }));
 
+app.use(cors());
 app.use(compression());
 app.use(session({
     secret: 'asadlfkj!@#!@#dfgasdg',
@@ -52,6 +54,7 @@ app.use(session({
     store: new FileStore()
   }));
   
+
 app.use(flash()); // 반드시 session 다음에
 var passport = require('./lib/passport')(app, connection);
 var userRouter =require('./routes/user.js')(passport, connection);

@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 var fs = require('fs');
 const passport = require('passport');
+// router.get('/', cors());
 
 module.exports = function (passport, connection) { 
 
@@ -12,15 +13,16 @@ module.exports = function (passport, connection) {
         res.sendFile(__dirname+'/login.html');
     });
 
-    router.get('/login', function(req,res){
-        res.redirect('/');
+    router.post('/login', function(req,res){
+        console.log(req.body);
+        res.send(req.body);
       })
       
 
     router.post('/login_process', 
     passport.authenticate('local', {
         // successRedirect: '/',         cc
-        failureRedirect: '/api/user', failureFlash: true }),
+        failureRedirect: '/api/user/qwwee', failureFlash: true }),
         function(req,res){
         req.session.save(function(){
             res.redirect('/api/aquarium/personal');

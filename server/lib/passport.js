@@ -23,6 +23,7 @@ module.exports = function (app, connection) {
     // })
 
     passport.serializeUser(function (user, done) {
+        console.log('로그인');
         done(null, user); 
     });
     
@@ -38,8 +39,11 @@ module.exports = function (app, connection) {
         },
         function (username, password, done){
             connection.query('select * from user_info where email=?', [username], function(error,results,fields){
-            // console.log(results[0]);
-            if (username === results[0].email) {
+            if (error){
+                console.error(error);
+            };
+
+            if (username == results[0].email) {
                 console.log('username confirmed.');
                 if (password == results[0].password) {
                     delete results[0].password;
