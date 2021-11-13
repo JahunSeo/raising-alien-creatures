@@ -1,17 +1,22 @@
 .body {
   width: 100%;
-  padding: 10px 0px;
+  padding: 10px 10px;
 
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+
+.title {
+  font-size: 25px;
+}
+
 .item {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-/* .itemTitle {
+/* 
+.itemTitle {
   composes: item;
   grid-row: 1;
   grid-column: 1/3;

@@ -20,43 +20,80 @@ export default class Canvas extends Component {
       this._cvs = this.canvasRef.current;
       this._ctx = this._cvs.getContext("2d");
       this._frameCnt = 0;
-      this._cvs.addEventListener("click", this.clickEventHandler);
+      // to pan and zoom map
+      // https://codepen.io/chengarda/pen/wRxoyB?editors=0110
+      this._cvs.addEventListener("mousedown", this.onMouseDown);
+      window.addEventListener("mousemove", this.onMouseMove);
+      window.addEventListener("mouseup", this.onMouseUp);
+
+      this._cvs.addEventListener("touchstart", this.onTouchStart);
+      window.addEventListener("touchmove", this.onTouchMove);
+      window.addEventListener("touchend", this.onTouchEnd);
+      this._cvs.addEventListener("wheel", this.onWheel);
+
       // start loop
       // console.log("start loop");
       this.loop();
     }
-    window.addEventListener("resize", this.resizeEventHandler);
-    this.resizeEventHandler();
-    document.addEventListener("mousemove", this.mousemoveEventHandler);
+    window.addEventListener("resize", this.onResize);
+    this.onResize();
   }
 
   componentWillUnmount() {
     // console.log("cancel loop");
     window.cancelAnimationFrame(this._frameId);
-    window.removeEventListener("resize", this.resizeEventHandler);
-    document.removeEventListener("mousemove", this.mousemoveEventHandler);
+    window.removeEventListener("resize", this.onResize);
     if (this._cvs) {
-      this._cvs.removeEventListener("click", this.clickEventHandler);
+      this._cvs.removeEventListener("mousedown", this.onMouseDown);
+      window.removeEventListener("mousemove", this.onMouseMove);
+      window.removeEventListener("mouseup", this.onMouseUp);
+
+      this._cvs.removeEventListener("touchstart", this.onTouchStart);
+      window.removeEventListener("touchmove", this.onTouchMove);
+      window.removeEventListener("touchend", this.onTouchEnd);
+
+      this._cvs.removeEventListener("wheel", this.onWheel);
     }
   }
 
-  resizeEventHandler = (event) => {
-    // console.log("canvas, resizeEventHandler");
+  onResize = (event) => {
+    // console.log("canvas, onResize");
     this._cvs.width = window.innerWidth || document.body.clientWidth;
     this._cvs.height = window.innerHeight || document.body.clientHeight;
+    if (this.props.onResize)
+      this.props.onResize(this._cvs.width, this._cvs.height);
   };
 
-  mousemoveEventHandler = (event) => {
-    // console.log("canvas, mousemove");
-    this.setMouseLocal(event);
-    this.mouseObj.isMouseMoving = true;
-  };
-
-  clickEventHandler = (event) => {
-    // console.log("canvas, mouse click");
-    this.setMouseLocal(event);
+  onMouseDown = (e) => {
     this.mouseObj.clicked = true;
     this.mouseObj.clickedFrame = this._frameCnt;
+    if (this.props.onMouseDown) this.props.onMouseDown(e);
+  };
+
+  onMouseUp = (e) => {
+    if (this.props.onMouseUp) this.props.onMouseUp(e);
+  };
+
+  onMouseMove = (e) => {
+    this.setMouseLocal(e);
+    this.mouseObj.isMouseMoving = true;
+    if (this.props.onMouseMove) this.props.onMouseMove(e);
+  };
+
+  onTouchStart = (e) => {
+    if (this.props.onTouchStart) this.props.onTouchStart(e);
+  };
+
+  onTouchEnd = (e) => {
+    if (this.props.onTouchEnd) this.props.onTouchEnd(e);
+  };
+
+  onTouchMove = (e) => {
+    if (this.props.onTouchMove) this.props.onTouchMove(e);
+  };
+
+  onWheel = (e) => {
+    if (this.props.onWheel) this.props.onWheel(e);
   };
 
   resetMouseObj = () => {
