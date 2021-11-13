@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+    
+<div>
+    <form action="/challenge_process" method="POST">
+        <div>
+            <p>챌린지생성</p>
+            <p><input type="text" name="challenge_name" placeholder="챌린지이름"></p>
+            <p><textarea type="text" name="challenge_content" placeholder = "챌린지소개"></textarea></p>
+            <p>
+                <label for="max_user">최대 몇 명?:</label>
+                <select name="max_user">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                </select>
+            </p>
+            <p>
+                <label for="cnt_of_week">주 몇회?:</label>
+                <select name="cnt_of_week">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                </select>
+            </p>
+            <p>
+                <label for="life">최대목숨</label>
+                <select name="life">
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                </select>
+            </p>
+            <button class="button is-primary" >챌린지생성</button> 
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
