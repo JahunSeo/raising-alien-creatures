@@ -38,7 +38,9 @@ module.exports = function (app, connection) {
             passwordField: 'pwd'
         },
         function (username, password, done){
+            console.log('가자아자아');
             connection.query('select * from user_info where email=?', [username], function(error,results,fields){
+                console.log(results);
             if (error){
                 console.error(error);
             };
