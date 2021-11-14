@@ -21,7 +21,7 @@ module.exports = function (passport, connection) {
 
     router.post('/login_process', 
     passport.authenticate('local', {
-        // successRedirect: '/',         cc
+        // successRedirect: '/',         
         failureRedirect: '/api/user/qwwee', failureFlash: true }),
         function(req,res){
         req.session.save(function(){

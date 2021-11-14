@@ -35,7 +35,7 @@ module.exports = function (app, connection) {
     passport.use(new LocalStrategy(
         {
             usernameField: 'email',
-            passwordField: 'pwd'
+            passwordField: 'pwd',
         },
         function (username, password, done){
             console.log('가자아자아');
