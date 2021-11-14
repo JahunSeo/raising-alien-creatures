@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var fs = require('fs');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const fs = require('fs');
 const passport = require('passport');
 // router.get('/', cors());
 

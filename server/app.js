@@ -9,13 +9,14 @@ const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
 /* log in middleware */
-var bodyParser = require('body-parser');
-var compression = require('compression');
-var helmet = require('helmet');
-var session = require('express-session');
-var FileStore = require('session-file-store')(session);
-var fs = require('fs');
-var flash = require('connect-flash');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+const helmet = require('helmet');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+const fs = require('fs');
+const flash = require('connect-flash');
+const schedule = require('node-schedule');
 
 app.use(function(req,res,next){
   res.header("Access-Control-Allow-Origin", "localhost:3000");
@@ -48,9 +49,13 @@ app.use(session({
 
 app.use(cors());
 app.use(flash()); // 반드시 session 다음에
-var passport = require('./lib/passport')(app, connection);
-var userRouter =require('./routes/user.js')(passport, connection);
+const passport = require('./lib/passport')(app, connection);
+const userRouter = require('./routes/user.js')(passport, connection);
+const challengeRouter = require('./routes/challenge.js')(connection);
+const alienRouter = require('./routes/alien.js')(connection);
 app.use('/api/user', userRouter);
+app.use('/api/challenge', challengeRouter);
+app.use('/api/alien', alienRouter);
 /*************/
 
 app.use(express.json()); // middleware for parsing application/json
@@ -142,10 +147,71 @@ app.post('/api/aquarium/approved', function(req, res){
 
 /***********/
 
+// 생명체 사망 api and 졸업 api
+const j = schedule.scheduleJob({hour: 00, minute: 00}, function() {
+  let today = new Date();
+  let day = today.getDay();
+  console.log(day);
+  connection.query('INSERT INTO Alien_dead SELECT * FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results){
+      if (err) {
+          console.error(err);
+      }
+      console.log('success insert dead_alien!!!!!!!!!', results);
+  });
+  connection.query('INSERT INTO dead_authentification SELECT Authentification.id, Authentification.user_info_id, Alien_id, Authentification.Challenge_id, requestDate, responseDate, requestUserNickname, responseUserNickname, isAuth, imgURL FROM Authentification LEFT JOIN Alien ON Alien.id = Authentification.Alien_id where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results){
+      if (err) {
+          console.error(err);
+      }
+      console.log('success insert dead_authentification!!!!!!!!!', results);
+  });
+  connection.query('DELETE FROM Authentification USING Alien LEFT JOIN Authentification ON Alien.id = Authentification.Alien_id where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results){
+      if (err) {
+          console.error(err);
+      }
+      console.log('success delete authentification!!!!!!!!!', results);
+  });
+  connection.query('DELETE FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results){
+      if (err) {
+          console.error(err);
+      }
+      console.log('success delete Alien!!!!!!!!!', results);
+  });
+  connection.query('UPDATE Alien SET week_auth_cnt = 0 where auth_day = 7 OR auth_day = ?', [day], function(err, results){
+      if (err) {
+          console.error(err);
+      }
+      console.log('success update Alien!!!!!!!!!', results);
+  });
+  
+  // 졸업 API
+  connection.query('INSERT INTO Alien_graduated SELECT * FROM Alien where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results) {
+      if (err) {
+          console.error(err);
+      }
+      console.log('success insert graduated_alien!!!!!!!!!', results);
+  });
+  connection.query('INSERT INTO graduated_authentification SELECT Authentification.id, Authentification.user_info_id, Alien_id, Authentification.Challenge_id, requestDate, responseDate, requestUserNickname, responseUserNickname, isAuth, imgURL FROM Authentification LEFT JOIN Alien ON Alien.id = Authentification.Alien_id where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results)  {
+      if (err) {
+          console.error(err);
+      }
+      console.log('success insert graduated_authentification!!!!!!!!!', results);
+  });
+  connection.query('DELETE FROM Authentification USING Alien LEFT JOIN Authentification ON Alien.id = Authentification.Alien_id where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results){
+      if (err) {
+          console.error(err);
+      }
+      console.log('success delete authentification!!!!!!!!!', results);
+  });
+  connection.query('DELETE FROM Alien where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)', [day], function(err, results) {
+      if (err) {
+          console.error(err);
+      }
+      console.log('success delete Alien!!!!!!!!!', results);
+  });
+});
 
 
-
-
+/***********/
 
 
 

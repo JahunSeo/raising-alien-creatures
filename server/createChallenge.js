@@ -129,10 +129,6 @@ app.get('/main', function(req, res) {
     });
 });
 
-// 챌린지 생성 폼으로 가기
-app.get('/challenge_create', function(req, res){
-    res.sendFile(__dirname+'/routes/createChallenge.html');
-});
 
 // 챌린지 생성 api
 app.post('/challenge_process', function(req, res){
@@ -147,12 +143,6 @@ app.post('/challenge_process', function(req, res){
         connection.query('INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id) VALUES (?, ?)', [req.user.id, results.insertId])
         res.redirect(`/challenge/?id=${results.insertId}`)
     })
-});
-
-// 챌린지 어항(가정, 생명체 생성 버튼만 존재)
-app.get('/challenge', function(req, res){
-    console.log(req);
-    res.sendFile(__dirname+'/routes/challenge.html');
 });
 
 // 생명체 생성 api
