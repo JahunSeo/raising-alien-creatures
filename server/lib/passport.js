@@ -19,10 +19,10 @@ module.exports = function (app, connection) {
           "select * from user_info where email=?",
           [username],
           function (error, results, fields) {
-            console.log("123", results);
-            if (results === []) {
-              console.log("넘어오나");
-              return;
+            if (results[0] === undefined) {
+              return done(null, false, {
+                message: "Incorrect username.",
+              });
             }
 
             if (error) {
