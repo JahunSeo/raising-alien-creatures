@@ -4,7 +4,7 @@ import Room from "./Room";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
-import * as api from "../../apis";
+import api from "../../apis";
 import * as socket from "../../apis/socket";
 // import background from "./image/univ.jpg";
 import styles from "./index.module.css";
@@ -19,8 +19,7 @@ export default function MultiAquarium() {
     try {
       const fetchData = async () => {
         const res = await api.get("/test");
-        const data = await res.json();
-        console.log("fetched data", data);
+        console.log("fetched data", res);
 
         // 서버에서 데이터를 받아온 상황을 전제로 구성
         let roomIds = [1, 2, 3];
@@ -38,7 +37,7 @@ export default function MultiAquarium() {
       };
       fetchData();
     } catch (err) {
-      console.error(err);
+      console.error("fetchData fail", err);
     }
   }, []);
 
