@@ -8,21 +8,21 @@ const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
+
 /* log in middleware */
-const bodyParser = require("body-parser");
 const compression = require("compression");
 const helmet = require("helmet");
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
-const fs = require("fs");
-const flash = require("connect-flash");
+// const fs = require("fs");
+// const flash = require("connect-flash");
 const schedule = require("node-schedule");
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "localhost:3000");
-  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "localhost:3000");
+//   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+//   next();
+// });
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -32,13 +32,6 @@ const connection = mysql.createConnection({
   multipleStatements: true,
 });
 connection.connect();
-
-/**/
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
 
 app.use(compression());
 app.use(helmet());
@@ -52,7 +45,13 @@ app.use(
 );
 
 app.use(cors());
-app.use(flash()); // 반드시 session 다음에
+
+app.use(express.json()); // middleware for parsing application/json
+app.use(express.urlencoded({ extended: false })); // middleware for parsing application/x-www-form-urlencoded
+app.use(cookieParser()); // middleware for parsing cookie
+app.use(morgan("dev")); // middleware for logging HTTP request
+// app.use(flash()); // 반드시 session 다음에
+
 const passport = require("./lib/passport")(app, connection);
 const userRouter = require("./routes/user.js")(passport, connection);
 const challengeRouter = require("./routes/challenge.js")(connection);
@@ -62,14 +61,9 @@ app.use("/api/user", userRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/test", testRouter);
+
 /*************/
 
-app.use(express.json()); // middleware for parsing application/json
-app.use(express.urlencoded({ extended: false })); // middleware for parsing application/x-www-form-urlencoded
-app.use(cookieParser()); // middleware for parsing cookie
-app.use(morgan("dev")); // middleware for logging HTTP request
-
-/************************************/
 var isOwner = (req, res) => {
   if (req.user) {
     return true;
@@ -78,7 +72,7 @@ var isOwner = (req, res) => {
   }
 };
 
-/***********/
+/*************/
 
 // 생명체 사망 api and 졸업 api
 const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {

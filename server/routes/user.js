@@ -24,10 +24,10 @@ module.exports = function (passport, connection) {
       failureFlash: true,
     }),
     function (req, res) {
-      console.log(1212121212, req.body);
+      console.log("/login_process", req.body);
       req.session.save(function () {
-        // res.json({ msg: "success" });
-        res.redirect("/api/user/aquarium");
+        res.json({ msg: "success", data: req.body });
+        // res.redirect("/api/user/aquarium");
       });
     }
   );
