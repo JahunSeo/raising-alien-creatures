@@ -17,15 +17,6 @@ export default function Header(props) {
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
-  // 모달창
-  const [showModal, setShowModal] = useState(false);
-  const openModal = () => {
-    setShowModal(true);
-  };
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
@@ -84,10 +75,7 @@ export default function Header(props) {
         setLoginStatus={setLoginStatus}
         setSignInModalOn={setSignInModalOn}
       />
-      <SideBarModal
-        showModal={showModal}
-        closeModal={closeModal}
-      ></SideBarModal>
+      <SideBarModal />
     </div>
   );
 }
