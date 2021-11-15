@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
 import SideBarModal from "./Modal/SideBarModal.js";
+
+import api from "../../../apis";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
@@ -23,6 +25,23 @@ export default function Header(props) {
     setShowModal(false);
   };
 
+  const [testUser, setTestUser] = useState(false);
+  useEffect(() => {
+    if (!testUser) return;
+    try {
+      const fetchUser = async () => {
+        const user = { email: "test@test.com", pwd: 12345 };
+        console.log("fetch test user", user);
+        const res = await api.post("/user/login_process", user);
+        console.log("fetch test user result", res);
+      };
+      fetchUser();
+    } catch (err) {
+      console.error("fetch test user fail", err);
+      setTestUser(false);
+    }
+  }, [testUser]);
+
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
@@ -38,6 +57,7 @@ export default function Header(props) {
       </div>
       <div className={cx("item", "itemHistory")}>
         <button onClick={openModal}>나의 기록</button>
+        <button onClick={() => setTestUser(true)}>테스트 로그인</button>
       </div>
       {loginStatus ? (
         <div className={cx("item", "itemUser")}>

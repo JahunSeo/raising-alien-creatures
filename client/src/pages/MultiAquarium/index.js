@@ -19,7 +19,7 @@ export default function MultiAquarium() {
     try {
       const fetchData = async () => {
         const res = await api.get("/test");
-        console.log("fetched data", res);
+        console.log("fetch test data", res.data);
 
         // 서버에서 데이터를 받아온 상황을 전제로 구성
         let roomIds = [1, 2, 3];
