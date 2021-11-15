@@ -4,6 +4,8 @@ import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
 import SideBarModal from "./Modal/SideBarModal.js";
+import { useDispatch } from "react-redux";
+import * as actions from "../../../Redux/actions/index.js";
 
 import api from "../../../apis";
 
@@ -12,6 +14,7 @@ const cx = classNames.bind(styles);
 
 export default function Header(props) {
   const { rooms, roomId, setRoomId } = props;
+  const dispatch = useDispatch();
   const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
