@@ -1,8 +1,9 @@
 import React from "react";
 import "./SideBarModal.css";
 import { useSelector, useDispatch } from "react-redux";
-import SideBarModal2 from "./SideBarModal2";
+// import SideBarModal2 from "./SideBarModal2";
 import * as actions from "../../../../Redux/actions/index.js";
+import PostList from "./PostList";
 
 export default function SideBarModal() {
   const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
@@ -18,14 +19,15 @@ export default function SideBarModal() {
       />
       <div className={showModal1 ? "ModalContainer" : "hidden"}>
         <div>모달달1</div>
-        <button
+        <PostList />
+        {/* <button
           onClick={() => {
             dispatch(actions.showModal2(true));
           }}
         >
           모달달2ㄱㄱ
         </button>
-        <SideBarModal2 />
+        <SideBarModal2 /> */}
       </div>
     </>
   );
