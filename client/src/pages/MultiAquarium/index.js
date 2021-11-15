@@ -20,7 +20,7 @@ export default function MultiAquarium() {
       const fetchData = async () => {
         const res = await api.get("/test");
         const data = await res.json();
-        console.log(data);
+        console.log("fetched data", data);
 
         // 서버에서 데이터를 받아온 상황을 전제로 구성
         let roomIds = [1, 2, 3];
@@ -34,7 +34,7 @@ export default function MultiAquarium() {
         // roomIds: react에서 state로 관리할 정보
         setRoomIds(roomIds);
         setCurrRoomId(roomIds[0]);
-        console.log("fetchData", rooms.current);
+        console.log("rooms", rooms.current);
       };
       fetchData();
     } catch (err) {
@@ -44,7 +44,7 @@ export default function MultiAquarium() {
 
   useEffect(() => {
     // rooms가 생성되었는지 확인
-    if (!rooms.current) return;
+    if (!rooms.current || !currRoomId) return;
 
     console.log("set currRoomId", currRoomId);
     socket.initAndJoin(currRoomId);
