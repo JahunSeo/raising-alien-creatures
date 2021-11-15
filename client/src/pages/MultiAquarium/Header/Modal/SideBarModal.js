@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import "./SideBarModal.css";
+import { useSelector, useDispatch } from "react-redux";
 import SideBarModal2 from "./SideBarModal2";
+import * as actions from "../../../../Redux/actions/index.js";
 
-export default function SideBarModal ({showModal, closeModal}) {
-    const [showModal2, setShowModal2] = useState(false);
-    const openModal2 = e => {
-        e.stopPropagation();
-        setShowModal2(true);
-    }
-    const closeModal2 = e => {
-        e.stopPropagation();
-        setShowModal2(false);
-    }
-    return (
-        <>
-            <div className={showModal ? "Background" : null} onClick={closeModal} />
-            <div className={showModal ? "ModalContainer" : "hidden"}>
-                <div>모달달1</div>
-                <button onClick={openModal2}>모달달2ㄱㄱ</button>
-                <SideBarModal2 showModal2={showModal2} closeModal2={closeModal2}></SideBarModal2>
-                
-            </div>
-        </>
-    );
+export default function SideBarModal() {
+  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
+  const dispatch = useDispatch();
+
+  return (
+    <>
+      <div
+        className={showModal1 ? "Background" : null}
+        onClick={() => {
+          dispatch(actions.showModal(false));
+        }}
+      />
+      <div className={showModal1 ? "ModalContainer" : "hidden"}>
+        <div>모달달1</div>
+        <button
+          onClick={() => {
+            dispatch(actions.showModal2(true));
+          }}
+        >
+          모달달2ㄱㄱ
+        </button>
+        <SideBarModal2 />
+      </div>
+    </>
+  );
 }

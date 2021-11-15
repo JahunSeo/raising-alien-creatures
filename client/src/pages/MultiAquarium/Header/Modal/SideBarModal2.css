@@ -13,7 +13,7 @@
 
 .ModalContainer2 {
     position: fixed;
-    left: 530px;
+    left: 528px;
     top: 50%;
     transform: translate(-50%, -50%);
     max-height: 100%;
@@ -21,7 +21,7 @@
     height: 95%;
     padding: 16px;
     /* background: rgb(25, 31, 44); */
-    background: blue;
+    background: skyblue;
     border-radius: 10px;
     text-align: center;
     transition: all 1s;
