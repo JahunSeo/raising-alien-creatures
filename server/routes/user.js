@@ -143,7 +143,7 @@ module.exports = function (passport, connection) {
   router.get("/logout", function (req, res) {
     req.logout();
     req.session.save(function () {
-      res.json("logout success");
+      res.json({ result: "fail", msg: "logout success" });
     });
   });
 
