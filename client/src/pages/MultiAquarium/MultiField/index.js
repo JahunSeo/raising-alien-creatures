@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Canvas from "../../../components/Canvas";
 
-import * as socket from "../../../apis/socket";
+// import * as socket from "../../../apis/socket";
 
 export default class Field extends Component {
   draw = (ctx, frameCnt, mouseObj) => {

@@ -10,8 +10,6 @@ import * as socket from "../../apis/socket";
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
-  const [testNum, setTestNum] = useState(-1);
-
   const [roomIds, setRoomIds] = useState([]);
   const [currRoomId, setCurrRoomId] = useState(null);
   const rooms = useRef();
@@ -23,7 +21,6 @@ export default function MultiAquarium() {
         const res = await api.get("/test");
         const data = await res.json();
         console.log(data);
-        setTestNum(Math.round(data.body * 10000) / 10000);
 
         // 서버에서 데이터를 받아온 상황을 전제로 구성
         let roomIds = [1, 2, 3];
