@@ -5,6 +5,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+
+.title {
+  font-size: 25px;
+}
+
 .item {
   display: flex;
   align-items: center;
