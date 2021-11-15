@@ -12,6 +12,7 @@ module.exports = function (connection) {
         msg: "(API TEST GET) Hello, Alien!",
         body: Math.random(),
         data: results,
+        user: req.user,
       });
     });
   });

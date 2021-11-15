@@ -1,36 +1,37 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
-const fs = require("fs");
-const passport = require("passport");
-// router.get('/', cors());
 
 module.exports = function (passport, connection) {
-  router.get("/", function (req, res) {
-    console.log("/", req.user);
-    res.sendFile(__dirname + "/login.html");
-  });
+  // router.post(
+  //   "/login_process",
+  //   passport.authenticate("local", {
+  //     // successRedirect: '/',
+  //     failureRedirect: "/api/user/qwwee",
+  //     failureFlash: true,
+  //   }),
+  //   function (req, res) {
+  //     console.log("/login_process", req.body);
+  //     req.session.save(function () {
+  //       res.json({ msg: "success", data: req.body });
+  //       // res.redirect("/api/user/aquarium");
+  //     });
+  //   }
+  // );
 
-  router.post("/login", function (req, res) {
-    console.log(req.body);
-    res.send(req.body);
+  // TODO: refactor response
+  router.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) res.json({ msg: "fail" });
+      if (!user) res.json({ msg: "no user" });
+      else {
+        req.login(user, (err) => {
+          if (err) throw err;
+          console.log(req.user);
+          res.json({ msg: "success" });
+        });
+      }
+    })(req, res, next);
   });
-
-  router.post(
-    "/login_process",
-    passport.authenticate("local", {
-      // successRedirect: '/',
-      failureRedirect: "/api/user/qwwee",
-      failureFlash: true,
-    }),
-    function (req, res) {
-      console.log("/login_process", req.body);
-      req.session.save(function () {
-        res.json({ msg: "success", data: req.body });
-        // res.redirect("/api/user/aquarium");
-      });
-    }
-  );
 
   //로그인 성공화면
   router.get("/aquarium", function (req, res) {
