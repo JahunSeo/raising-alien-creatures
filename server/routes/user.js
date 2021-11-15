@@ -1,63 +1,85 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
-const fs = require("fs");
-const passport = require("passport");
-// router.get('/', cors());
 
 module.exports = function (passport, connection) {
-  router.get("/", function (req, res) {
-    console.log("/", req.user);
-    res.sendFile(__dirname + "/login.html");
-  });
+  // router.post(
+  //   "/login_process",
+  //   passport.authenticate("local", {
+  //     // successRedirect: '/',
+  //     failureRedirect: "/api/user/qwwee",
+  //     failureFlash: true,
+  //   }),
+  //   function (req, res) {
+  //     console.log("/login_process", req.body);
+  //     req.session.save(function () {
+  //       // res.json({ msg: "success", data: req.body });
+  //       res.redirect("/api/user/aquarium");
+  //     });
+  //   }
+  // );
 
-  router.post("/login", function (req, res) {
-    console.log(req.body);
-    res.send(req.body);
-  });
-
-  router.post(
-    "/login_process",
-    passport.authenticate("local", {
-      // successRedirect: '/',
-      failureRedirect: "/api/user/qwwee",
-      failureFlash: true,
-    }),
-    function (req, res) {
-      console.log(1212121212, req.body);
-      req.session.save(function () {
-        // res.json({ msg: "success" });
-        res.redirect("/api/user/aquarium");
-      });
-    }
-  );
-
-  //로그인 성공화면
-  router.get("/aquarium", function (req, res) {
-    var user_info_id = req.user.id;
-    var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
-    var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
-    var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
-    var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge  inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
-    var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
-    connection.query(
-      sql1 + sql2 + sql3 + sql4 + sql5,
-      function (error, results, fields) {
-        if (error) {
-          console.error(error);
-        }
-        var result = {
-          Alien: results[0],
-          Alien_dead: results[1],
-          Alien_graduated: results[2],
-          Challenge: results[3],
-          notice: results[4],
-        };
-
-        res.send(result);
+  // TODO: refactor response
+  router.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) res.json({ result: "fail", msg: "no user" });
+      if (!user) res.json({ result: "fail", msg: "no user" });
+      else {
+        req.login(user, (err) => {
+          if (err) throw err;
+          var user_info_id = req.user.id;
+          var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
+          var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
+          var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
+          var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge  inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
+          var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
+          connection.query(
+            sql1 + sql2 + sql3 + sql4 + sql5,
+            function (error, results, fields) {
+              if (error) {
+                console.error(error);
+              }
+              var result = {
+                result: "success",
+                Alien: results[0],
+                Alien_dead: results[1],
+                Alien_graduated: results[2],
+                Challenge: results[3],
+                notice: results[4],
+              };
+              res.send(result);
+            }
+          );
+        });
       }
-    );
+    })(req, res, next);
   });
+
+  // //로그인 성공화면
+  // router.get("/aquarium", function (req, res) {
+  //   var user_info_id = req.user.id;
+  //   var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
+  //   var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
+  //   var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
+  //   var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge  inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
+  //   var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
+  //   connection.query(
+  //     sql1 + sql2 + sql3 + sql4 + sql5,
+  //     function (error, results, fields) {
+  //       if (error) {
+  //         console.error(error);
+  //       }
+  //       var result = {
+  //         Alien: results[0],
+  //         Alien_dead: results[1],
+  //         Alien_graduated: results[2],
+  //         Challenge: results[3],
+  //         notice: results[4],
+  //       };
+
+  //       res.send(result);
+  //     }
+  //   );
+  // });
 
   //챌린지 어장가기
   router.post("/aquarium/challenge", function (req, res) {
@@ -121,7 +143,7 @@ module.exports = function (passport, connection) {
   router.get("/logout", function (req, res) {
     req.logout();
     req.session.save(function () {
-      res.redirect("/api/user/");
+      res.json("logout success");
     });
   });
 

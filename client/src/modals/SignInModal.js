@@ -1,37 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
-import HorizonLine from "../components/HorizonLine";
-import * as api from "../apis/index.js";
+// import { GoogleLogin } from 'react-google-login';
+// import HorizonLine from '../components/HorizonLine'
 
-const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-
-  console.log("userEmail", userEmail);
-  console.log("userPassword", userPassword);
-
-  const postUserInfo = async () => {
-    let userData = { email: userEmail, pwd: userPassword };
-    const response = await api.login("/user/login_process", userData);
-    console.log("response", response);
-    const data = await response.json();
-    console.log("data", data);
-  };
-
-  //   data가 userData와 일치하면 loginSuccess() 그렇지 않으면 loginFailure 실행
-
-  function loginSuccess() {
-    return () => {
-      setLoginStatus(true);
-      setSignInModalOn(false);
-    };
-  }
-
-  function loginFailure() {
-    return () => {
-      // 로그인 실패 alert 창 또는 에러 메세지 띄우기
-    };
-  }
+const SignInModal = ({ show, onHide, setLoginStatus, setSignInModalOn }) => {
+  // console.log("SignInModal", setLoginStatus)
 
   return (
     <Modal
@@ -48,24 +21,12 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
           <Form>
             <Form.Group>
               <Form.Label>이메일</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="helloalien@jungle.com"
-                onChange={(e) => {
-                  setUserEmail(e.target.value);
-                }}
-              />
+              <Form.Control type="email" placeholder="helloalien@jungle.com" />
             </Form.Group>
 
             <Form.Group>
               <Form.Label>패스워드</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="********"
-                onChange={(e) => {
-                  setUserPassword(e.target.value);
-                }}
-              />
+              <Form.Control type="password" placeholder="********" />
             </Form.Group>
 
             <Button
@@ -76,9 +37,8 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
                 width: "100%",
               }}
               onClick={() => {
-                // setLoginStatus(true);
-                // setSignInModalOn(false);
-                postUserInfo();
+                setSignInModalOn(false);
+                setLoginStatus(true);
               }}
             >
               로그인

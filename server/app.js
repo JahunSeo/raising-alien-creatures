@@ -8,21 +8,15 @@ const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
+
 /* log in middleware */
-const bodyParser = require("body-parser");
 const compression = require("compression");
 const helmet = require("helmet");
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const fs = require("fs");
-const flash = require("connect-flash");
+// const flash = require("connect-flash");
 const schedule = require("node-schedule");
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "localhost:3000");
-  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-  next();
-});
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -33,42 +27,40 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
-/**/
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
-
 app.use(compression());
 app.use(helmet());
+app.use(express.json()); // middleware for parsing application/json
+app.use(express.urlencoded({ extended: false })); // middleware for parsing application/x-www-form-urlencoded
 app.use(
-  session({
-    secret: "asadlfkj!@#!@#dfgasdg",
-    resave: false,
-    saveUninitialized: true,
-    store: new FileStore(),
-    cookie: { maxAge: 30000, secure: false, httpOnly: false },
+  cors({
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    credentials: true,
   })
 );
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, // https://fierycoding.tistory.com/36
+    saveUninitialized: false,
+    store: new FileStore(),
+  })
+);
+app.use(cookieParser(process.env.SESSION_SECRET)); // middleware for parsing cookie
+app.use(morgan("dev")); // middleware for logging HTTP request
+// app.use(flash()); // 반드시 session 다음에
 
-app.use(cors());
-app.use(flash()); // 반드시 session 다음에
 const passport = require("./lib/passport")(app, connection);
 const userRouter = require("./routes/user.js")(passport, connection);
 const challengeRouter = require("./routes/challenge.js")(connection);
 const alienRouter = require("./routes/alien.js")(connection);
+const testRouter = require("./routes/test")(connection);
 app.use("/api/user", userRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
+app.use("/api/test", testRouter);
+
 /*************/
 
-app.use(express.json()); // middleware for parsing application/json
-app.use(express.urlencoded({ extended: false })); // middleware for parsing application/x-www-form-urlencoded
-app.use(cookieParser()); // middleware for parsing cookie
-app.use(morgan("dev")); // middleware for logging HTTP request
-
-/************************************/
 var isOwner = (req, res) => {
   if (req.user) {
     return true;
@@ -77,7 +69,7 @@ var isOwner = (req, res) => {
   }
 };
 
-/***********/
+/*************/
 
 // 생명체 사망 api and 졸업 api
 const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
@@ -179,41 +171,6 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
       console.log("success delete Alien!!!!!!!!!", results);
     }
   );
-});
-
-/***********/
-
-// GET test
-app.get("/api/test", (req, res) => {
-  connection.query("SELECT * FROM topic", function (error, results, fields) {
-    if (error) {
-      console.log(error);
-    }
-    res.status(200).json({
-      msg: "(API TEST GET) Hello, Alien!",
-      body: Math.random(),
-      data: results,
-    });
-  });
-});
-
-// PUT test with params
-app.put("/api/test/:dummy_id", (req, res) => {
-  res.status(200).json({
-    msg: `(API TEST PUT) You sent params '${JSON.stringify(
-      req.params
-    )}' and body '${JSON.stringify(req.body)}'`,
-    params: req.params,
-    body: req.body,
-  });
-});
-
-// POST test
-app.post("/api/test", (req, res) => {
-  res.status(200).json({
-    msg: `(API TEST POST) You sent post data '${JSON.stringify(req.body)}'`,
-    body: req.body,
-  });
 });
 
 const port = process.env.PORT || 5000;

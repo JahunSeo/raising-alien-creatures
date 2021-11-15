@@ -4,13 +4,12 @@ import Room from "./Room";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
-import * as api from "../../apis";
+import api from "../../apis";
 import * as socket from "../../apis/socket";
 // import background from "./image/univ.jpg";
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
-  const [testNum, setTestNum] = useState(-1);
   const [roomIds, setRoomIds] = useState([]);
   const [currRoomId, setCurrRoomId] = useState(null);
   const rooms = useRef();
@@ -19,10 +18,8 @@ export default function MultiAquarium() {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get("/test"); // 3000 -> 5000
-        const data = await res.json();
-        console.log(data);
-        setTestNum(Math.round(data.body * 10000) / 10000);
+        const res = await api.get("/test");
+        console.log("fetch test data", res.data);
 
         // 서버에서 데이터를 받아온 상황을 전제로 구성
         let roomIds = [1, 2, 3];
@@ -36,17 +33,17 @@ export default function MultiAquarium() {
         // roomIds: react에서 state로 관리할 정보
         setRoomIds(roomIds);
         setCurrRoomId(roomIds[0]);
-        console.log("fetchData", rooms.current);
+        console.log("rooms", rooms.current);
       };
       fetchData();
     } catch (err) {
-      console.error(err);
+      console.error("fetchData fail", err);
     }
   }, []);
 
   useEffect(() => {
     // rooms가 생성되었는지 확인
-    if (!rooms.current) return;
+    if (!rooms.current || !currRoomId) return;
 
     console.log("set currRoomId", currRoomId);
     socket.initAndJoin(currRoomId);
