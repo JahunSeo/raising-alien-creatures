@@ -31,9 +31,9 @@ export default function Header(props) {
     try {
       const fetchUser = async () => {
         const user = { email: "kjy@kjy.net", pwd: 12345 };
-        console.log("fetch test user", user);
-        const res = await api.post("/user/login_process", user);
-        console.log("fetch test user result", res);
+        // console.log("fetch test user", user);
+        const res = await api.post("/user/login", user);
+        console.log("fetch test user result", res.data);
       };
       fetchUser();
     } catch (err) {
