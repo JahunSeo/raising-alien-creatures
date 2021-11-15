@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+    
+<div>
+    <form action="/register" method="POST">
+        <div>
+            <p>회원가입</p>
+            <p><input type="name" name="name_" placeholder="Alex"></p>
+            <p><input type="text" name="email" placeholder = "e.g. alex@example.com"></p>
+            <p><input type="password" name="pwd" placeholder = "********"></p>
+            <label class="label">Confirm password</label>
+            <p><input type="password" name="pw_2" placeholder="********"></p>
+            <button class="button is-primary" >Register</button> 
+        </div>
+    </form>
+</div>
+
+<div>
+    <form action ="/api/user/login_process" method="post">
+        <div>
+            <p>로그인 부분</p>
+            <p><input type="text" name="email" placeholder = "e.g. alex@example.com"></p>
+            <p><input type="password" name="pwd" placeholder = "********"></p>
+            <p><input type="submit" value="login"></p>
+        </div>
+    </form>
+
+    <form method="GET" action="/register" >
+        <button class="button is-primary">Sign Up</button>    
+    </form>
+
+    <a href="/api/user/logout">logout</a>
+</div>
+
+
+</body>
+</html>
+
+
+
+
+

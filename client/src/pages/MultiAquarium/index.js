@@ -11,7 +11,6 @@ import styles from "./index.module.css";
 
 export default function MultiAquarium() {
   const [testNum, setTestNum] = useState(-1);
-
   const [roomIds, setRoomIds] = useState([]);
   const [currRoomId, setCurrRoomId] = useState(null);
   const rooms = useRef();
@@ -20,7 +19,7 @@ export default function MultiAquarium() {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get("/test");
+        const res = await api.get("/test"); // 3000 -> 5000
         const data = await res.json();
         console.log(data);
         setTestNum(Math.round(data.body * 10000) / 10000);
