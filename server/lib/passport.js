@@ -1,5 +1,5 @@
 const { message } = require("statuses");
-
+const bcrypt = require("bcrypt");
 module.exports = function (app, connection) {
   /******* Passport init *****/
   const passport = require("passport");
@@ -15,6 +15,7 @@ module.exports = function (app, connection) {
         passwordField: "pwd",
       },
       function (username, password, done) {
+        console.log(username, password);
         connection.query(
           "select * from user_info where email=?",
           [username],
@@ -24,15 +25,13 @@ module.exports = function (app, connection) {
                 message: "Incorrect username.",
               });
             }
-
             if (error) {
               console.error(error);
               return;
             }
-
             if (username == results[0].email) {
               console.log("username confirmed.");
-              if (password == results[0].password) {
+              if (bcrypt.compareSync(password, results[0].password)) {
                 delete results[0].password;
                 console.log("Log in success", results[0]);
                 return done(null, results[0], {
