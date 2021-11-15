@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
 import SideBarModal from "./Modal/SideBarModal.js";
 import { useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions/index.js";
+
+import api from "../../../apis";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
@@ -16,6 +18,54 @@ export default function Header(props) {
   const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
+
+  // 모달창
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () => {
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const [testUser, setTestUser] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    console.log(testUser);
+    if (!!userInfo && !testUser) {
+      // logout
+      try {
+        const fetchLogout = async () => {
+          console.log(111);
+          const res = await api.get("/user/logout");
+          console.log("fetch test logout result", res.data);
+        };
+        fetchLogout();
+      } catch (err) {
+        console.error("fetch test user fail", err);
+        // setTestUser(false);
+      }
+    }
+
+    if (testUser) {
+      // login
+      console.log(222);
+      try {
+        const fetchUser = async () => {
+          const user = { email: "kjy@kjy.net", pwd: 12345 };
+          // console.log("fetch test user", user);
+          const res = await api.post("/user/login", user);
+          console.log("fetch test user result", res.data);
+          setUserInfo(user.email);
+        };
+        fetchUser();
+      } catch (err) {
+        console.error("fetch test user fail", err);
+        // setTestUser(false);
+      }
+    }
+  }, [testUser]);
 
   return (
     <div className={styles.body}>
@@ -31,15 +81,9 @@ export default function Header(props) {
         ))}
       </div>
       <div className={cx("item", "itemHistory")}>
-        {/* <button onClick={openModal}>나의 기록</button> */}
-        <button
-          onClick={() => {
-            // dispatch({ type: "SHOW_MODAL1" });
-            dispatch(actions.showModal(true));
-          }}
-        >
-          나의 기록
-        </button>
+        <button onClick={openModal}>나의 기록</button>
+        <button onClick={() => setTestUser(true)}>테스트 로그인</button>
+        <button onClick={() => setTestUser(false)}>테스트 로그아웃</button>
       </div>
       {loginStatus ? (
         <div className={cx("item", "itemUser")}>
@@ -75,7 +119,10 @@ export default function Header(props) {
         setLoginStatus={setLoginStatus}
         setSignInModalOn={setSignInModalOn}
       />
-      <SideBarModal />
+      <SideBarModal
+        showModal={showModal}
+        closeModal={closeModal}
+      ></SideBarModal>
     </div>
   );
 }
