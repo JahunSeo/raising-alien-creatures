@@ -4,7 +4,7 @@ import SignUpModal from "../modals/SignUpModal";
 import SignInModal from "../modals/SignInModal";
 
 const Header = () => {
-  const [logInStatus, setLoginStatus] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
@@ -40,7 +40,10 @@ const Header = () => {
                   <Nav.Link>
                     <Button
                       variant="primary"
-                      onClick={() => setSignInModalOn(true)}
+                      onClick={() => {
+                        setLoginStatus(false);
+                        // 로그인 페이지 초기화 함수 추가
+                      }}
                     >
                       로그아웃
                     </Button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import styles from "./SignUpModal.module.css";
 import api from "../apis/index.js";
@@ -10,7 +10,6 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
   const [userConfirm, setUserConfirm] = useState("");
 
   const [signUpClicked, setSignUpClicked] = useState(false);
-  const [signUpError, setSignUpError] = useState(null);
   const [signUpMessage, setSignUpMessage] = useState(null);
 
   function validateSignUp(userNickname, userEmail, userPassword, userConfirm) {
@@ -41,47 +40,27 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
     return true;
   }
 
-  const postSignUp = async () => {
-    let signUpData = { userNickname, userEmail, userPassword, userConfirm };
-    const response = await api.post("/login_process", signUpData);
-    console.log("response", response);
-    // const data = await response.json();
-    // console.log("data", data);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSignUpMessage(null);
+    if (!validateSignUp(userNickname, userEmail, userPassword, userConfirm))
+      return;
+    setSignUpMessage(null);
+    setSignUpClicked(true);
+    postSignUp();
   };
 
-  console.log("signUpClicked", signUpClicked);
-
-  useEffect(() => {
-    try {
-      setSignUpError(null);
-      postSignUp();
-    } catch (err) {
-      setSignUpError(err);
-      console.log("SIGN-UP ERROR", signUpError);
-    }
-  }, [signUpClicked]);
-
-  function signUpSuccess() {
-    return () => {
+  const postSignUp = async () => {
+    let signUpData = { userNickname, userEmail, userPassword, userConfirm };
+    const res = await api.post("/user/register", signUpData);
+    console.log("res", res);
+    if (res.data.result === "success") {
+      // TODO: Redux 처리
+      alert("회원가입에 성공하였습니다.");
       setSignUpClicked(false);
       setSignUpModalOn(false);
-    };
-  }
-
-  function signUpFailure() {
-    return () => {
+    } else {
       setSignUpClicked(false);
-    };
-  }
-
-  const onClick = (event) => {
-    event.preventDefault();
-    setSignUpMessage(null);
-    if (
-      validateSignUp(userNickname, userEmail, userPassword, userConfirm) ===
-      true
-    ) {
-      setSignUpClicked(true);
     }
   };
 
@@ -167,7 +146,7 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
               style={{
                 width: "100%",
               }}
-              onClick={onClick}
+              onClick={handleSubmit}
             >
               회원가입
             </Button>
