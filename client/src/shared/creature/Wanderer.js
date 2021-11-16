@@ -1,5 +1,5 @@
-const Monster = require("./Monster");
-const Vector2D = require("../lib/Vector2D");
+const Monster = require("./Monster").default;
+const Vector2D = require("../lib/Vector2D").default;
 
 class Wanderer extends Monster {
   constructor(props) {
@@ -34,4 +34,4 @@ class Wanderer extends Monster {
   }
 }
 
-module.exports = Wanderer;
+module.exports = { Wanderer, default: Wanderer };

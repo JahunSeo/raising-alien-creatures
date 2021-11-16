@@ -1,5 +1,5 @@
 // const Monster = require("../creature/Monster");
-const Wanderer = require("../creature/Wanderer");
+const Wanderer = require("../creature/Wanderer").default;
 
 const { FRAME_PER_SEC, FRAME_PER_EMIT } = require("../lib/Constants");
 

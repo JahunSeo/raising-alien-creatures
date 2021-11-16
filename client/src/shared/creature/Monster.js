@@ -1,4 +1,4 @@
-const Vector2D = require("../lib/Vector2D");
+const Vector2D = require("../lib/Vector2D").default;
 
 class Monster {
   constructor(props) {
@@ -106,4 +106,4 @@ class Monster {
   }
 }
 
-module.exports = Monster;
+module.exports = { Monster, default: Monster };

@@ -1,5 +1,5 @@
 import Camera from "./Camera";
-import Wanderer from "../creature/Wanderer";
+import { Wanderer } from "../creature/Wanderer";
 
 import { FRAME_PER_SEC } from "../lib/Constants";
 
