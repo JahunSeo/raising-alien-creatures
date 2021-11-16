@@ -1,10 +1,7 @@
-const Monster = require("./Monster");
-const ExtraMonster = require("./ExtraMonster");
+import Wanderer from "../creature/Wanderer.js";
+import { FRAME_PER_SEC, FRAME_PER_EMIT } from "../lib/Constants.js";
 
-const FRAME_PER_SEC = 60;
-const FRAME_PER_EMIT = 1;
-
-class Room {
+class RoomSocket {
   constructor(roomId) {
     this.roomId = roomId;
     this.clientCnt = 0; // TODO: 접속해 있는 사람 수 개념으로 분리
@@ -12,8 +9,10 @@ class Room {
     this.interval = null;
     this.intervalCnt = 0;
     //
-    this.extraCnt = 50;
+    this.extraCnt = 20;
     this.initFieldState();
+    //
+    this.broadcastQueue = [];
   }
 
   initFieldState() {
@@ -25,7 +24,7 @@ class Room {
 
     for (let i = 0; i < this.extraCnt; i++) {
       const extraId = `extra-${i}`;
-      const monster = new ExtraMonster(extraId);
+      const monster = new Wanderer({ userId: extraId, monId: extraId });
       state.monsters[extraId] = monster;
     }
 
@@ -41,36 +40,40 @@ class Room {
   }
 
   updateGameState() {
-    for (let userId in this.fieldState.monsters) {
-      let mon = this.fieldState.monsters[userId];
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
       mon.run();
     }
 
-    this.intervalCnt++;
     if (this.intervalCnt % FRAME_PER_EMIT === 0) {
-      this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+      // temporary stop
+      // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
       this.intervalCnt = 0;
     }
+    this.intervalCnt++;
   }
 
   getFieldState() {
     // TODO: instance들을 일반 object로 변경해주어야 할까?
     // - 아니면 알아서 변환이 되려나?
-    const state = {
-      monsters: {},
-    };
-    for (let userId in this.fieldState.monsters) {
-      let mon = this.fieldState.monsters[userId];
-      state.monsters[userId] = {
-        userId: mon.userId,
-        location: mon.location,
-        angle: mon.angle,
-        size: mon.size,
-        color: mon.color,
-      };
-    }
 
-    return state;
+    return this.fieldState;
+
+    // const state = {
+    //   monsters: {},
+    // };
+    // for (let userId in this.fieldState.monsters) {
+    //   let mon = this.fieldState.monsters[userId];
+    //   state.monsters[userId] = {
+    //     userId: mon.userId,
+    //     location: mon.location,
+    //     angle: mon.angle,
+    //     size: mon.size,
+    //     color: mon.color,
+    //   };
+    // }
+
+    // return state;
   }
 
   close() {
@@ -78,10 +81,14 @@ class Room {
   }
 
   addParticipant(user) {
-    // 몬스터 추가
-    const monster = new Monster(user.userId);
-    this.fieldState.monsters[user.userId] = monster;
+    // // 몬스터 추가
+    // const userId = user.userId;
+    // const monId = user.userId; //temp
+    // const monster = new Wanderer({ userId, monId });
+    // this.fieldState.monsters[monId] = monster;
+
     // 참가자 추가
+    this.io.to(this.roomId).emit("fieldState", this.getFieldState());
     this.participants[user.userId] = user;
     this.clientCnt += 1;
     return true;
@@ -93,6 +100,8 @@ class Room {
     // 참가자 제거
     delete this.participants[user.userId];
     this.clientCnt -= 1;
+    this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+
     return this.clientCnt;
   }
 
@@ -104,4 +113,4 @@ class Room {
   }
 }
 
-module.exports = Room;
+export default RoomSocket;

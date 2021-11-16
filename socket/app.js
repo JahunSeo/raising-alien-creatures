@@ -1,7 +1,10 @@
 // https://socket.io/docs/v4/server-initialization/
-const express = require("express");
-const { createServer } = require("http"); // how to initialize with https?
-const { Server } = require("socket.io");
+import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+import Room from "../client/src/shared/room/RoomSocket.js";
+import User from "../client/src/shared/room/User.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -14,9 +17,6 @@ const options = {
 }; //if needed
 const io = new Server(httpServer, options);
 
-const Room = require("./classes/Room");
-const User = require("./classes/User");
-
 const rooms = {};
 const users = {};
 
@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
   console.log(`[socket server] connection with ${socket.id}`);
   const clientId = socket.id;
 
-  handleJoin = (roomId) => {
+  const handleJoin = (roomId) => {
     console.log(`[socket server] join ${clientId}, ${roomId}`);
     // 새로운 user 생성
     if (users[clientId]) return false; // ERROR
@@ -36,18 +36,18 @@ io.on("connection", (socket) => {
       rooms[roomId] = new Room(roomId);
       rooms[roomId].start(io);
     }
-    let result = rooms[roomId].addParticipant(user);
-    if (!result) return false; // ERROR
-
     // user에 room 추가 및 join
     user.enterRoom(roomId);
     socket.join(roomId);
+
+    let result = rooms[roomId].addParticipant(user);
+    if (!result) return false; // ERROR
 
     // broadcasting to all
     // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
   };
 
-  handleChangeDestination = (data) => {
+  const handleChangeDestination = (data) => {
     console.log(`[socket server] changeDestination`, clientId, data);
     const { roomId, monster } = data;
     if (!rooms[roomId]) {
@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
     // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
   };
 
-  handleDisconnect = () => {
+  const handleDisconnect = () => {
     // 방에서 참가자 제거
     console.log(`[socket server] disconnect user ${clientId}`);
     const user = users[clientId];

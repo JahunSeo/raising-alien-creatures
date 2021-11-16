@@ -1,10 +1,11 @@
-const Monster = require("./Monster");
-const Vector2D = require("./Vector2D");
+// const Monster = require("./Monster").default;
+import Monster from "./Monster.js";
+import Vector2D from "../lib/Vector2D.js";
 
-class ExtraMonster extends Monster {
-  constructor(userId) {
+class Wanderer extends Monster {
+  constructor(props) {
     // TODO
-    super(userId);
+    super(props);
     this.size = 10 + Math.random() * 50;
     this.updateLimit = 0.005;
     this.maxSpeed = 1 + Math.random();
@@ -34,4 +35,4 @@ class ExtraMonster extends Monster {
   }
 }
 
-module.exports = ExtraMonster;
+export default Wanderer;
