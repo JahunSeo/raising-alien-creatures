@@ -1,19 +1,21 @@
 import Camera from "./Camera";
 import Wanderer from "../creature/Wanderer";
 
+import { FRAME_PER_SEC } from "../lib/Constants";
+
 class RoomClient {
   constructor(roomId) {
     // console.log("Room init", roomId);
     this.roomId = roomId;
     this.camera = new Camera();
     this.initFieldState();
+    this.interval = undefined;
   }
 
   initFieldState() {
-    // init field
     // TODO: 서버에서 해당 어항에 포함된 몬스터들을 가져오기
     const state = {
-      monsters: {}, // TODO: 효율을 위해 dict를 선택함. 이 때 monster들의 순서를 어떻게 통제할까? 순서 배열을 별도로 관리?
+      monsters: {},
     };
     this.fieldState = state;
   }
@@ -40,9 +42,28 @@ class RoomClient {
       // monster 상태값 업데이트
       this.fieldState.monsters[monId].sync(monPlain);
     }
-
     // this.fieldState = socketState;
   };
+
+  updateGameState() {
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
+      mon.run();
+    }
+  }
+
+  start() {
+    console.log("[room] start", this.roomId);
+    this.interval = setInterval(
+      () => this.updateGameState(),
+      1000 / FRAME_PER_SEC
+    );
+  }
+
+  close() {
+    console.log("[room] close", this.roomId);
+    clearInterval(this.interval);
+  }
 }
 
 export default RoomClient;

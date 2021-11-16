@@ -1,8 +1,7 @@
 // const Monster = require("../creature/Monster");
 const Wanderer = require("../creature/Wanderer");
 
-const FRAME_PER_SEC = 60;
-const FRAME_PER_EMIT = 300;
+const { FRAME_PER_SEC, FRAME_PER_EMIT } = require("../lib/Constants");
 
 class Room {
   constructor(roomId) {
