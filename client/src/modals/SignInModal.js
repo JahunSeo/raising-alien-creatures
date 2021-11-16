@@ -15,14 +15,9 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
       (userEmail !== "") &
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail)
     ) {
-      setSignInMessage("입력하신 이메일 주소가 유효하지 않습니다.");
+      setSignInMessage("이메일 주소가 유효하지 않습니다.");
       return false;
     }
-
-    // if (userPassword !== "") {
-    //   setSignInMessage("입력하신 이메일과 패스워드가 일치하지 않습니다.");
-    //   return false;
-    // }
 
     if (userEmail === "" || userPassword === "") {
       setSignInMessage("입력하지 않은 회원정보가 있습니다.");
@@ -51,6 +46,7 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
       setLoginStatus(true);
       setSignInModalOn(false);
     } else {
+      setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
       setSignInClicked(false);
     }
   };

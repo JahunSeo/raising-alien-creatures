@@ -17,12 +17,12 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
       (userEmail !== "") &
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail)
     ) {
-      setSignUpMessage("입력하신 이메일 주소가 유효하지 않습니다.");
+      setSignUpMessage("이메일 주소가 유효하지 않습니다.");
       return false;
     }
 
     if (userPassword !== userConfirm) {
-      setSignUpMessage("입력하신 패스워드가 일치하지 않습니다.");
+      setSignUpMessage("패스워드가 일치하지 않습니다.");
       return false;
     }
 
