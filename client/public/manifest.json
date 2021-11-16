@@ -1,25 +1,16 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "외계 생명",
+  "name": "외계 생명체 키우기",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
+      "src": "babyshark.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "225x225"
     }
   ],
   "start_url": ".",
   "display": "standalone",
+  "orientation": "landscape",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
