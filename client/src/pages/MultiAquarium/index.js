@@ -47,7 +47,7 @@ export default function MultiAquarium() {
 
     console.log("set currRoomId", currRoomId);
     socket.initAndJoin(currRoomId);
-    socket.subscribe(rooms.current[currRoomId].updateFieldState);
+    socket.subscribe(rooms.current[currRoomId].syncFieldState);
 
     return () => {
       socket.disconnect();

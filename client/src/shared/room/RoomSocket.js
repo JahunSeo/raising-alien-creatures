@@ -1,5 +1,5 @@
-const Monster = require("../creature/Monster");
-const ExtraMonster = require("../creature/ExtraMonster");
+// const Monster = require("../creature/Monster");
+const Wanderer = require("../creature/Wanderer");
 
 const FRAME_PER_SEC = 60;
 const FRAME_PER_EMIT = 300;
@@ -12,7 +12,7 @@ class Room {
     this.interval = null;
     this.intervalCnt = 0;
     //
-    this.extraCnt = 50;
+    this.extraCnt = 5;
     this.initFieldState();
   }
 
@@ -25,7 +25,7 @@ class Room {
 
     for (let i = 0; i < this.extraCnt; i++) {
       const extraId = `extra-${i}`;
-      const monster = new ExtraMonster(extraId);
+      const monster = new Wanderer({ userId: extraId, monId: extraId });
       state.monsters[extraId] = monster;
     }
 
@@ -41,8 +41,8 @@ class Room {
   }
 
   updateGameState() {
-    for (let userId in this.fieldState.monsters) {
-      let mon = this.fieldState.monsters[userId];
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
       mon.run();
     }
 
@@ -56,21 +56,24 @@ class Room {
   getFieldState() {
     // TODO: instance들을 일반 object로 변경해주어야 할까?
     // - 아니면 알아서 변환이 되려나?
-    const state = {
-      monsters: {},
-    };
-    for (let userId in this.fieldState.monsters) {
-      let mon = this.fieldState.monsters[userId];
-      state.monsters[userId] = {
-        userId: mon.userId,
-        location: mon.location,
-        angle: mon.angle,
-        size: mon.size,
-        color: mon.color,
-      };
-    }
 
-    return state;
+    return this.fieldState;
+
+    // const state = {
+    //   monsters: {},
+    // };
+    // for (let userId in this.fieldState.monsters) {
+    //   let mon = this.fieldState.monsters[userId];
+    //   state.monsters[userId] = {
+    //     userId: mon.userId,
+    //     location: mon.location,
+    //     angle: mon.angle,
+    //     size: mon.size,
+    //     color: mon.color,
+    //   };
+    // }
+
+    // return state;
   }
 
   close() {
@@ -79,10 +82,12 @@ class Room {
 
   addParticipant(user) {
     // 몬스터 추가
-    const monster = new Monster(user.userId);
-    this.fieldState.monsters[user.userId] = monster;
+    const userId = user.userId;
+    const monId = user.userId; //temp
+    const monster = new Wanderer({ userId, monId });
+    this.fieldState.monsters[monId] = monster;
     // 참가자 추가
-    this.participants[user.userId] = user;
+    this.participants[userId] = user;
     this.clientCnt += 1;
     return true;
   }

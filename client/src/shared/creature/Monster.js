@@ -1,9 +1,10 @@
 const Vector2D = require("../lib/Vector2D");
 
 class Monster {
-  constructor(userId) {
+  constructor(props) {
     // TODO
-    this.userId = userId; // TODO: user id or email
+    this.userId = props.userId; // TODO: user id or email
+    this.monId = props.monId; // TODO
     this.init();
   }
 
