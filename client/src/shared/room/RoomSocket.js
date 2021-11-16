@@ -9,7 +9,7 @@ class RoomSocket {
     this.interval = null;
     this.intervalCnt = 0;
     //
-    this.extraCnt = 5;
+    this.extraCnt = 20;
     this.initFieldState();
     //
     this.broadcastQueue = [];
