@@ -33,7 +33,7 @@ export default function Header(props) {
   useEffect(() => {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
-      console.log("res", res);
+      // console.log("res", res);
       if (res.data.login) setLoginStatus(true);
     };
 
@@ -46,12 +46,12 @@ export default function Header(props) {
         <h1 className={styles.title}>{`Aquarium: ROOM ${roomId}`}</h1>
       </div>
       <div className={cx("item", "itemRoom")}>
-        {rooms.map((roomId) => (
+        {/* {rooms.map((roomId) => (
           <button
             key={roomId}
             onClick={() => setRoomId(roomId)}
           >{`Room ${roomId}`}</button>
-        ))}
+        ))} */}
       </div>
       <div className={cx("item", "itemHistory")}>
         <button onClick={() => dispatch(actions.showModal(true))}>

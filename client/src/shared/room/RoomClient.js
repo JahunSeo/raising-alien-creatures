@@ -19,6 +19,10 @@ class RoomClient {
     this.fieldState = state;
   }
 
+  initMonsters(monsters) {
+    console.log(1212, monsters);
+  }
+
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
     console.log("[socket] syncFieldState:", socketState);

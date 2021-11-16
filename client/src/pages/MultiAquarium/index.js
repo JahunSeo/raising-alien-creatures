@@ -10,30 +10,33 @@ import * as socket from "../../apis/socket";
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
-  const [roomIds, setRoomIds] = useState([]);
   const [currRoomId, setCurrRoomId] = useState(null);
   const rooms = useRef();
+
+  const [aliens, setAliens] = useState([]);
 
   // 챌린지 정보 가져오기
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get("/test");
-        console.log("fetch test data", res.data);
+        const res = await api.get("/main");
+        console.log("fetch main data", res.data);
+        if (res.data.result === "success") {
+          // 서버에서 데이터를 받아온 상황을 전제로 구성
+          let roomId = "plaza";
 
-        // 서버에서 데이터를 받아온 상황을 전제로 구성
-        let roomIds = [1, 2, 3];
-
-        // rooms 상태 정보
-        rooms.current = {};
-        roomIds.forEach((roomId) => {
+          // rooms 상태 정보
+          rooms.current = {};
           rooms.current[roomId] = new Room(roomId);
-        });
+          rooms.current[roomId].initMonsters(res.data.data);
 
-        // roomIds: react에서 state로 관리할 정보
-        setRoomIds(roomIds);
-        setCurrRoomId(roomIds[0]);
-        console.log("rooms", rooms.current);
+          // roomIds: react에서 state로 관리할 정보
+          setCurrRoomId(roomId);
+          //
+          setAliens(res.data.data);
+          console.log("rooms", rooms.current);
+        } else {
+        }
       };
       fetchData();
     } catch (err) {
@@ -63,7 +66,7 @@ export default function MultiAquarium() {
     <div className={styles.body}>
       {/* <img src={background} alt="배경화면"></img> */}
       <section className={styles.SecHead}>
-        <Header rooms={roomIds} roomId={currRoomId} setRoomId={setCurrRoomId} />
+        <Header roomId={currRoomId} setRoomId={setCurrRoomId} />
       </section>
       <section className={styles.SecFieldCtrl}>
         <FieldCtrl room={rooms.current && rooms.current[currRoomId]} />
