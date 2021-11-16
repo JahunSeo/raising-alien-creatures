@@ -1,8 +1,4 @@
 // https://socket.io/docs/v4/server-initialization/
-// const express = require("express");
-// const { createServer } = require("http"); // how to initialize with https?
-// const { Server } = require("socket.io");
-
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -20,12 +16,6 @@ const options = {
   },
 }; //if needed
 const io = new Server(httpServer, options);
-
-// const Room = require("./classes/Room");
-// const User = require("./classes/User");
-
-// const Room = require("../client/src/shared/room/RoomSocket").default;
-// const User = require("../client/src/shared/room/User").default;
 
 const rooms = {};
 const users = {};
