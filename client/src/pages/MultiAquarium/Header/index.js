@@ -21,12 +21,11 @@ export default function Header(props) {
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
     console.log("res", res);
-    // res.data.
     setLoginStatus(false);
   };
 
   const handleLogout = (e) => {
-    // setSignInClicked();
+    // TODO: Redux 처리 - setSignInClicked();
     postSignOut();
   };
 
