@@ -22,7 +22,7 @@ class RoomClient {
 
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
-    console.log("[socket] syncFieldState:", socketState);
+    // console.log("[socket] syncFieldState:", socketState);
     if (monsterLength <= 0) {
       console.error("ERROR!! zero monster issue should be fixed!!");
       return;
@@ -37,10 +37,13 @@ class RoomClient {
           userId: monPlain.userId,
           monId: monPlain.monId,
         });
+        monster.overwrite(monPlain);
         this.fieldState.monsters[monId] = monster;
       }
-      // monster 상태값 업데이트
-      this.fieldState.monsters[monId].sync(monPlain);
+      // 기존에 있던 경우 일부만 변경
+      else {
+        this.fieldState.monsters[monId].sync(monPlain);
+      }
     }
     // this.fieldState = socketState;
   };

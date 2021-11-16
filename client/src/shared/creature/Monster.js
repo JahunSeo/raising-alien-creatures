@@ -26,10 +26,16 @@ class Monster {
     this.color = this.getRandomColor();
   }
 
-  sync(monPlain) {
+  overwrite(monPlain) {
     for (const property in monPlain) {
       this[property] = monPlain[property];
     }
+  }
+
+  sync(monPlain) {
+    // temp
+    this.destination = monPlain.destination;
+    this.size = monPlain.size;
   }
 
   getRandLocation() {

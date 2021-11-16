@@ -45,11 +45,11 @@ class Room {
       mon.run();
     }
 
-    this.intervalCnt++;
     if (this.intervalCnt % FRAME_PER_EMIT === 0) {
       this.io.to(this.roomId).emit("fieldState", this.getFieldState());
       this.intervalCnt = 0;
     }
+    this.intervalCnt++;
   }
 
   getFieldState() {
