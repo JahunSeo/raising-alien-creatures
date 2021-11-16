@@ -50,13 +50,13 @@ export default function MultiAquarium() {
 
     // 해당 room에 조인
     console.log("set currRoomId", currRoomId);
-    socket.initAndJoin(currRoomId);
-    socket.subscribe(rooms.current[currRoomId].syncFieldState);
+    // socket.initAndJoin(currRoomId);
+    // socket.subscribe(rooms.current[currRoomId].syncFieldState);
     // room의 update logic start
     rooms.current[currRoomId].start();
 
     return () => {
-      socket.disconnect();
+      // socket.disconnect();
       rooms.current[currRoomId].close();
     };
   }, [currRoomId]);
