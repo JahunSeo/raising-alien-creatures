@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import Room from "./Room";
+import Room from "../../shared/room/RoomClient";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
@@ -45,12 +45,16 @@ export default function MultiAquarium() {
     // rooms가 생성되었는지 확인
     if (!rooms.current || !currRoomId) return;
 
+    // 해당 room에 조인
     console.log("set currRoomId", currRoomId);
     socket.initAndJoin(currRoomId);
-    socket.subscribe(rooms.current[currRoomId].updateFieldState);
+    socket.subscribe(rooms.current[currRoomId].syncFieldState);
+    // room의 update logic start
+    rooms.current[currRoomId].start();
 
     return () => {
       socket.disconnect();
+      rooms.current[currRoomId].close();
     };
   }, [currRoomId]);
 
