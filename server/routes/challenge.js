@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = function (connection) {
     // 챌린지 생성 api
-    router.post('/create_process', function(req, res) {
+    router.post('/create', function(req, res) {
     console.log(req.body);
     const max_user = parseInt(req.body.max_user);
     const cnt_of_week = parseInt(req.body.cnt_of_week);

@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = function (connection) { 
 
-    router.post('/create_process', function(req, res){
+    router.post('/create', function(req, res){
          // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
          // auth day도 매일하는 challenge이면 어떠한 값이 오는지, 주 n회이면 생명체 생성 시 넘어오는 값 넣기(매일이면 7, n이면 0~6)
         if (req.user) {
