@@ -1,85 +1,101 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+
+var isOwner = (req, res) => {
+  if (req.user) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 module.exports = function (passport, connection) {
-  // router.post(
-  //   "/login_process",
-  //   passport.authenticate("local", {
-  //     // successRedirect: '/',
-  //     failureRedirect: "/api/user/qwwee",
-  //     failureFlash: true,
-  //   }),
-  //   function (req, res) {
-  //     console.log("/login_process", req.body);
-  //     req.session.save(function () {
-  //       // res.json({ msg: "success", data: req.body });
-  //       res.redirect("/api/user/aquarium");
-  //     });
-  //   }
-  // );
+  router.post("/register", (req, res, next) => {
+    const data = req.body;
+    const email = data.userEmail;
+    const password = data.userPassword;
+    const encryptedPassword = bcrypt.hashSync(password, 10);
+    const nickname = data.userNickname;
+    connection.query(
+      "INSERT INTO user_info (email, password, nickname) values (?, ?, ?)",
+      [email, encryptedPassword, nickname],
+      function (err, results) {
+        if (err) {
+          console.error(err);
+          res.json({ result: "fail", msg: "DB Insert Fail." });
+          return;
+        }
+        console.log(
+          "server has registered new user`s information successfully.",
+          results
+        );
+        res.json({ result: "success", msg: "user registered" });
+      }
+    );
+  });
+
+  router.get("/login/confirm", (req, res) => {
+    if (req.user) {
+      req.user.login = true;
+      console.log(req.user);
+      res.json(req.user);
+    } else {
+      const msg = { login: false };
+      console.log(msg);
+      res.json(msg);
+    }
+  });
 
   // TODO: refactor response
   router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) res.json({ result: "fail", msg: "no user" });
-      if (!user) res.json({ result: "fail", msg: "no user" });
+      if (!user) res.json({ result: "fail", msg: "login fail" });
       else {
         req.login(user, (err) => {
           if (err) throw err;
-          var user_info_id = req.user.id;
-          var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
-          var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
-          var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
-          var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge  inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
-          var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
-          connection.query(
-            sql1 + sql2 + sql3 + sql4 + sql5,
-            function (error, results, fields) {
-              if (error) {
-                console.error(error);
-              }
-              var result = {
-                result: "success",
-                Alien: results[0],
-                Alien_dead: results[1],
-                Alien_graduated: results[2],
-                Challenge: results[3],
-                notice: results[4],
-              };
-              res.send(result);
-            }
-          );
+          var result = {
+            result: "success",
+          };
+          res.json(result);
         });
       }
     })(req, res, next);
   });
 
-  // //로그인 성공화면
-  // router.get("/aquarium", function (req, res) {
-  //   var user_info_id = req.user.id;
-  //   var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
-  //   var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
-  //   var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
-  //   var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge  inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
-  //   var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
-  //   connection.query(
-  //     sql1 + sql2 + sql3 + sql4 + sql5,
-  //     function (error, results, fields) {
-  //       if (error) {
-  //         console.error(error);
-  //       }
-  //       var result = {
-  //         Alien: results[0],
-  //         Alien_dead: results[1],
-  //         Alien_graduated: results[2],
-  //         Challenge: results[3],
-  //         notice: results[4],
-  //       };
+  // 해당 유저 소유의 Alien / 참가중인 Challenge / 해당유저와 유관한 인증목록 중 인증되지 않은 것들 가져오기
+  router.get("/personalinfo", function (req, res) {
+    var user_info_id = req.user.id;
+    var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
+    var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
+    var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
+    var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge  inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
+    var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
+    connection.query(
+      sql1 + sql2 + sql3 + sql4 + sql5,
+      function (error, results, fields) {
+        if (error) {
+          console.error(error);
+          res.json({
+            result: "fail",
+            msg: "Fail to load Information from Database.",
+          });
 
-  //       res.send(result);
-  //     }
-  //   );
-  // });
+          return;
+        }
+        var result = {
+          result: "success",
+          Alien: results[0],
+          Alien_dead: results[1],
+          Alien_graduated: results[2],
+          Challenge: results[3],
+          notice: results[4],
+        };
+        res.json(result);
+      }
+    );
+  });
 
   //챌린지 어장가기
   router.post("/aquarium/challenge", function (req, res) {
@@ -92,7 +108,17 @@ module.exports = function (passport, connection) {
     var sql2 = `select * from Alien_dead where Alien_dead.Challenge_id = ${challenge_id};`;
     var sql3 = `select * from Alien_graduated where Alien_graduated.Challenge_id=${challenge_id};`;
     connection.query(sql1 + sql2 + sql3, function (error, results, fields) {
+      if (error) {
+        console.error(error);
+        res.json({
+          result: "fail",
+          msg: "Fail to load Information from Database.",
+        });
+        return;
+      }
+
       var result = {
+        result: "success",
         user: user_id,
         nickname: user_nickname,
         Alien: results[0],
@@ -100,7 +126,7 @@ module.exports = function (passport, connection) {
         Alien_graduated: results[2],
       };
 
-      res.send(result);
+      res.json(result);
     });
   });
 
@@ -116,11 +142,17 @@ module.exports = function (passport, connection) {
     connection.query(sql1, data, function (error, results, fields) {
       if (error) {
         console.error(error);
+        res.json({
+          result: "fail",
+          msg: "Fail to load Information from Database.",
+        });
+        return;
       }
-      res.send(완료);
+
       // ++추가구현 필요++ 동일한 챌린지의 멤버들이 접속중일 때, 실시간으로 연락이 갈 것. ( 해당 소켓의 room member에게 'msg' )
       // -> connected clients socket list 의 identifier 가 user identifier로 변경되어야 함
-      // console.log(results);
+      console.log(results);
+      res.json({ result: "success" });
       // res.redirect('/');ß
     });
   });
@@ -135,15 +167,24 @@ module.exports = function (passport, connection) {
     sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id};`;
     sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, week_auth_cnt = week_auth_cnt+1 where id = ${Alien_id}`;
     connection.query(sql1 + sql2, function (error, results, fields) {
+      if (error) {
+        console.error(error);
+        res.json({
+          result: "fail",
+          msg: "Fail to update Database.",
+        });
+        return;
+      }
+
       console.log(results);
-      res.send("완료");
+      res.json({ result: "success" });
     });
   });
 
   router.get("/logout", function (req, res) {
     req.logout();
     req.session.save(function () {
-      res.json({ result: "fail", msg: "logout success" });
+      res.json({ result: "success", msg: "logout success" });
     });
   });
 
