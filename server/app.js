@@ -51,10 +51,12 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 
 const passport = require("./lib/passport")(app, connection);
 const userRouter = require("./routes/user.js")(passport, connection);
+const mainRouter = require("./routes/main.js")(connection);
 const challengeRouter = require("./routes/challenge.js")(connection);
 const alienRouter = require("./routes/alien.js")(connection);
 const testRouter = require("./routes/test")(connection);
 app.use("/api/user", userRouter);
+app.use("/api/main", mainRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/test", testRouter);
