@@ -1,25 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
-// import { GoogleLogin } from 'react-google-login';
-// import Axios from 'axios';
-// import HorizonLine from '../components/HorizonLine.js'
+import styles from "./SignUpModal.module.css";
+import api from "../apis/index.js";
 
-const SignUpModal = ({ show, onHide, test }) => {
-  // const [showSignUp, setShowSignUp] = useState(true);
+const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
+  const [userNickname, setUserNickname] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userConfirm, setUserConfirm] = useState("");
 
-  // const [userName, setUserName] = userState("");
-  // const [userEmail, setUserEmail] = userState("");
-  // const [userPassword, setUserPassword] = userState("");
-  // const [userConfirm, setUserConfirm] = userState("");
+  const [signUpClicked, setSignUpClicked] = useState(false);
+  const [signUpMessage, setSignUpMessage] = useState(null);
 
-  // const signup = () => {
-  //     Axios.post("http://localhost:3000/signup", {
-  //         username: userName,
-  //         password: password,
-  //     }).then(response) => {
-  //         console.log(response);
-  //     });
-  // };
+  function validateSignUp(userNickname, userEmail, userPassword, userConfirm) {
+    if (
+      (userEmail !== "") &
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail)
+    ) {
+      setSignUpMessage("이메일 주소가 유효하지 않습니다.");
+      return false;
+    }
+
+    if (userPassword !== userConfirm) {
+      setSignUpMessage("패스워드가 일치하지 않습니다.");
+      return false;
+    }
+
+    if (
+      userNickname === "" ||
+      userEmail === "" ||
+      userPassword === "" ||
+      userConfirm === ""
+    ) {
+      setSignUpMessage("입력하지 않은 회원정보가 있습니다.");
+      return false;
+    }
+
+    setSignUpMessage(null);
+    return true;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSignUpMessage(null);
+    if (!validateSignUp(userNickname, userEmail, userPassword, userConfirm))
+      return;
+    setSignUpMessage(null);
+    setSignUpClicked(true);
+    postSignUp();
+  };
+
+  const postSignUp = async () => {
+    let signUpData = { userNickname, userEmail, userPassword, userConfirm };
+    const res = await api.post("/user/register", signUpData);
+    console.log("res", res);
+    if (res.data.result === "success") {
+      // TODO: Redux 처리
+      alert("회원가입에 성공하였습니다.");
+      setSignUpClicked(false);
+      // setSignUpModalOn(false);
+    } else {
+      setSignUpClicked(false);
+    }
+  };
 
   return (
     <Modal
@@ -29,20 +72,30 @@ const SignUpModal = ({ show, onHide, test }) => {
       centered
     >
       <Container>
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          onClick={() => {
+            setUserNickname("");
+            setUserEmail("");
+            setUserPassword("");
+            setUserConfirm("");
+            setSignUpMessage(null);
+          }}
+        >
           <Modal.Title id="contained-modal-title-vcenter">회원가입</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group>
-              <Form.Label>이름</Form.Label>
+              <Form.Label>닉네임</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="이재열"
-                // onChange={(e) => {
-                //     setUserName(e.target.value);
-                // }}
+                onChange={(e) => {
+                  setUserNickname(e.target.value);
+                }}
               />
+              <br />
             </Form.Group>
 
             <Form.Group>
@@ -50,10 +103,11 @@ const SignUpModal = ({ show, onHide, test }) => {
               <Form.Control
                 type="email"
                 placeholder="helloalien@jungle.com"
-                // onChange={(e) => {
-                //     setUserEmail(e.target.value);
-                // }}
+                onChange={(e) => {
+                  setUserEmail(e.target.value);
+                }}
               />
+              <br />
             </Form.Group>
 
             <Form.Group>
@@ -61,10 +115,11 @@ const SignUpModal = ({ show, onHide, test }) => {
               <Form.Control
                 type="password"
                 placeholder="********"
-                // onChange={(e) => {
-                //     setUserPassword(e.target.value);
-                // }}
+                onChange={(e) => {
+                  setUserPassword(e.target.value);
+                }}
               />
+              <br />
             </Form.Group>
 
             <Form.Group>
@@ -72,11 +127,18 @@ const SignUpModal = ({ show, onHide, test }) => {
               <Form.Control
                 type="password"
                 placeholder="********"
-                // onChange={(e) => {
-                //     setUserConfirm(e.target.value);
-                // }}
+                onChange={(e) => {
+                  setUserConfirm(e.target.value);
+                }}
               />
+              <br />
             </Form.Group>
+
+            <Form.Group className={styles.form__signup__message}>
+              {signUpMessage}
+              <br />
+            </Form.Group>
+
             <Button
               className="my-3"
               type="button"
@@ -84,6 +146,7 @@ const SignUpModal = ({ show, onHide, test }) => {
               style={{
                 width: "100%",
               }}
+              onClick={handleSubmit}
             >
               회원가입
             </Button>
