@@ -21,6 +21,11 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
       return false;
     }
 
+    if (userNickname.length > 20) {
+      setSignUpMessage("닉네임은 최대 20글자 이하여야 합니다.");
+      return false;
+    }
+
     if (userPassword !== userConfirm) {
       setSignUpMessage("패스워드가 일치하지 않습니다.");
       return false;
@@ -60,7 +65,13 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
       setSignUpClicked(false);
       // setSignUpModalOn(false);
     } else {
-      setSignUpClicked(false);
+      if (res.data.msg === "DB Insert Fail.") {
+        setSignUpMessage("이미 존재하는 이메일입니다.");
+        setSignUpClicked(false);
+      } else {
+        setSignUpMessage("이미 존재하는 닉네임입니다.");
+        setSignUpClicked(false);
+      }
     }
   };
 

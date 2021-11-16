@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
-import SideBarModal from "./Modal/SideBarModal.js";
+import ChallengeModal from "./Modal/ChallengeModal";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis/index";
 import classNames from "classnames/bind";
@@ -15,6 +15,7 @@ export default function Header(props) {
   const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
+  const [challengeModalOn, setChallengeModalOn] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -22,6 +23,7 @@ export default function Header(props) {
     const res = await api.get("/user/logout");
     console.log("res", res);
     setLoginStatus(false);
+    alert("성공적으로 로그아웃하였습니다.");
   };
 
   const handleLogout = (e) => {
@@ -33,7 +35,9 @@ export default function Header(props) {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
       console.log("res", res);
-      if (res.data.login) setLoginStatus(true);
+      if (res.data.login) {
+        setLoginStatus(true);
+      }
     };
 
     getLoginStatus();
@@ -59,7 +63,9 @@ export default function Header(props) {
       </div>
       {loginStatus ? (
         <div className={cx("item", "itemUser")}>
-          <Button variant="primary">dummy</Button>
+          <Button variant="danger" onClick={() => setChallengeModalOn(true)}>
+            새로운 챌린지 생성
+          </Button>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃
@@ -86,7 +92,10 @@ export default function Header(props) {
         setLoginStatus={setLoginStatus}
         setSignInModalOn={setSignInModalOn}
       />
-      <SideBarModal />
+      <ChallengeModal
+        show={challengeModalOn}
+        onHide={() => setChallengeModalOn(false)}
+      />
     </div>
   );
 }
