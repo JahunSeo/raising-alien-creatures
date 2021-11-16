@@ -22,12 +22,12 @@ export default function Header(props) {
     const res = await api.get("/user/logout");
     console.log("res", res);
     // res.data.
+    setLoginStatus(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleLogout = (e) => {
     // setSignInClicked();
     postSignOut();
-    setLoginStatus(false);
   };
 
   useEffect(() => {
@@ -60,11 +60,9 @@ export default function Header(props) {
       </div>
       {loginStatus ? (
         <div className={cx("item", "itemUser")}>
-          <Button variant="primary" onClick={() => setSignUpModalOn(true)}>
-            나의 기록
-          </Button>
+          <Button variant="primary">dummy</Button>
           <h1>&nbsp;</h1>
-          <Button variant="info" onClick={handleSubmit}>
+          <Button variant="info" onClick={handleLogout}>
             로그아웃
           </Button>
         </div>
