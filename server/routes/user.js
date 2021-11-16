@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
+var isOwner = (req, res) => {
+  if (req.user) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 module.exports = function (passport, connection) {
   // router.post(
   //   "/login_process",
@@ -41,6 +49,18 @@ module.exports = function (passport, connection) {
         res.json({ msg: "successfully registered " });
       }
     );
+  });
+
+  router.get("/login/confirm", (req, res) => {
+    if (req.user) {
+      req.user.login = true;
+      console.log(req.user);
+      res.json(req.user);
+    } else {
+      const msg = { login: false };
+      console.log(msg);
+      res.json(msg);
+    }
   });
 
   // TODO: refactor response

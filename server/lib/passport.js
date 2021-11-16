@@ -56,12 +56,12 @@ module.exports = function (app, connection) {
   );
 
   passport.serializeUser(function (user, done) {
-    console.log("serializeUser", user);
+    // console.log("serializeUser", user);
     done(null, user);
   });
 
   passport.deserializeUser(function (email, done) {
-    console.log("deserializeUser", email);
+    // console.log("deserializeUser", email);
     // TODO: get user info from DB if needed
     done(null, email); // user에게 authdata 가 전달된다 -> 식별자 기반으로 app에 사용할 데이터
   });
