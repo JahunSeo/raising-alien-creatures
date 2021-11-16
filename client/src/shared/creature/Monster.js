@@ -26,6 +26,12 @@ class Monster {
     this.color = this.getRandomColor();
   }
 
+  sync(monPlain) {
+    for (const property in monPlain) {
+      this[property] = monPlain[property];
+    }
+  }
+
   getRandLocation() {
     let randRange = 300;
     let x = (Math.random() - 0.5) * randRange;
