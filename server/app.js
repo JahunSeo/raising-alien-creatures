@@ -61,18 +61,6 @@ app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/test", testRouter);
 
-/*************/
-
-var isOwner = (req, res) => {
-  if (req.user) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-/*************/
-
 // 생명체 사망 api and 졸업 api
 const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
   let today = new Date();
