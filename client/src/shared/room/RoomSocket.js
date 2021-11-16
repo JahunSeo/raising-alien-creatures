@@ -13,6 +13,8 @@ class Room {
     //
     this.extraCnt = 5;
     this.initFieldState();
+    //
+    this.broadcastQueue = [];
   }
 
   initFieldState() {
@@ -46,7 +48,8 @@ class Room {
     }
 
     if (this.intervalCnt % FRAME_PER_EMIT === 0) {
-      this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+      // temporary stop
+      // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
       this.intervalCnt = 0;
     }
     this.intervalCnt++;
@@ -80,13 +83,15 @@ class Room {
   }
 
   addParticipant(user) {
-    // 몬스터 추가
-    const userId = user.userId;
-    const monId = user.userId; //temp
-    const monster = new Wanderer({ userId, monId });
-    this.fieldState.monsters[monId] = monster;
+    // // 몬스터 추가
+    // const userId = user.userId;
+    // const monId = user.userId; //temp
+    // const monster = new Wanderer({ userId, monId });
+    // this.fieldState.monsters[monId] = monster;
+
     // 참가자 추가
-    this.participants[userId] = user;
+    this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+    this.participants[user.userId] = user;
     this.clientCnt += 1;
     return true;
   }
@@ -97,6 +102,8 @@ class Room {
     // 참가자 제거
     delete this.participants[user.userId];
     this.clientCnt -= 1;
+    this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+
     return this.clientCnt;
   }
 

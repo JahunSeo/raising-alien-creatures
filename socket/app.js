@@ -39,12 +39,12 @@ io.on("connection", (socket) => {
       rooms[roomId] = new Room(roomId);
       rooms[roomId].start(io);
     }
-    let result = rooms[roomId].addParticipant(user);
-    if (!result) return false; // ERROR
-
     // user에 room 추가 및 join
     user.enterRoom(roomId);
     socket.join(roomId);
+
+    let result = rooms[roomId].addParticipant(user);
+    if (!result) return false; // ERROR
 
     // broadcasting to all
     // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());

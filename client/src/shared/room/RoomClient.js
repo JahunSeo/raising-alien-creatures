@@ -22,7 +22,7 @@ class RoomClient {
 
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
-    // console.log("[socket] syncFieldState:", socketState);
+    console.log("[socket] syncFieldState:", socketState);
     if (monsterLength <= 0) {
       console.error("ERROR!! zero monster issue should be fixed!!");
       return;
