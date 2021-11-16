@@ -1,6 +1,4 @@
 // const Monster = require("./Monster").default;
-// const Vector2D = require("../lib/Vector2D").default;
-
 import Monster from "./Monster.js";
 import Vector2D from "../lib/Vector2D.js";
 
@@ -37,5 +35,4 @@ class Wanderer extends Monster {
   }
 }
 
-// exports.default = Wanderer;
 export default Wanderer;

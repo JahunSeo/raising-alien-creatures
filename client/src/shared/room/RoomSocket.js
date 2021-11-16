@@ -1,11 +1,7 @@
-// const Monster = require("../creature/Monster");
-// const Wanderer = require("../creature/Wanderer").default;
-// const { FRAME_PER_SEC, FRAME_PER_EMIT } = require("../lib/Constants");
-
 import Wanderer from "../creature/Wanderer.js";
 import { FRAME_PER_SEC, FRAME_PER_EMIT } from "../lib/Constants.js";
 
-class Room {
+class RoomSocket {
   constructor(roomId) {
     this.roomId = roomId;
     this.clientCnt = 0; // TODO: 접속해 있는 사람 수 개념으로 분리
@@ -117,6 +113,4 @@ class Room {
   }
 }
 
-// module.exports = Room;
-// exports.default = Room;
-export default Room;
+export default RoomSocket;

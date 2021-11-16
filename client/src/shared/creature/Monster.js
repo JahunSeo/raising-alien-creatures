@@ -1,4 +1,3 @@
-// const Vector2D = require("../lib/Vector2D").default;
 import Vector2D from "../lib/Vector2D.js";
 
 class Monster {
@@ -108,4 +107,3 @@ class Monster {
 }
 
 export default Monster;
-// exports.default = Monster;
