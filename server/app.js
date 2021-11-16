@@ -51,25 +51,15 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 
 const passport = require("./lib/passport")(app, connection);
 const userRouter = require("./routes/user.js")(passport, connection);
+const mainRouter = require("./routes/main.js")(connection);
 const challengeRouter = require("./routes/challenge.js")(connection);
 const alienRouter = require("./routes/alien.js")(connection);
 const testRouter = require("./routes/test")(connection);
 app.use("/api/user", userRouter);
+app.use("/api/main", mainRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/test", testRouter);
-
-/*************/
-
-var isOwner = (req, res) => {
-  if (req.user) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-/*************/
 
 // 생명체 사망 api and 졸업 api
 const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
@@ -126,6 +116,16 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
       console.log("success update Alien!!!!!!!!!", results);
     }
   );
+  connection.query(
+    'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
+    [req.challenge_id],
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update challenge pariticipant_number!!!!!!");
+    }
+  );
 
   // 졸업 API
   connection.query(
@@ -169,6 +169,16 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
         console.error(err);
       }
       console.log("success delete Alien!!!!!!!!!", results);
+    }
+  );
+  connection.query(
+    'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
+    [req.challenge_id],
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update challenge pariticipant_number!!!!!!");
     }
   );
 });
