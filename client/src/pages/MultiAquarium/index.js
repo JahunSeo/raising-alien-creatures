@@ -1,52 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import PlazaRoom from "./Room/PlazaRoom";
 import UserRoom from "./Room/UserRoom";
 
-import Room from "../../shared/room/RoomClient";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
-import api from "../../apis";
-import * as socket from "../../apis/socket";
-// import background from "./image/univ.jpg";
+// import * as socket from "../../apis/socket";
 import styles from "./index.module.css";
 
 export default function MultiAquarium() {
-  const [currRoomId, setCurrRoomId] = useState(null);
   const rooms = useRef();
-  const [aliens, setAliens] = useState([]);
+  const [roomInfo, setRoomInfo] = useState({ roomId: null, aliens: [] });
 
-  // // 챌린지 정보 가져오기
-  // useEffect(() => {
-  //   try {
-  //     const fetchData = async () => {
-  //       const res = await api.get("/main");
-  //       console.log("fetch main data", res.data);
-  //       if (res.data.result === "success") {
-  //         // 서버에서 데이터를 받아온 상황을 전제로 구성
-  //         let roomId = "plaza";
-
-  //         // rooms 상태 정보
-  //         rooms.current = {};
-  //         rooms.current[roomId] = new Room(roomId);
-  //         rooms.current[roomId].initMonsters(res.data.data);
-
-  //         // roomIds: react에서 state로 관리할 정보
-  //         setCurrRoomId(roomId);
-  //         //
-  //         setAliens(res.data.data);
-  //         console.log("rooms", rooms.current);
-  //       } else {
-  //       }
-  //     };
-  //     fetchData();
-  //   } catch (err) {
-  //     console.error("fetchData fail", err);
-  //   }
-  // }, []);
-
+  // 주의! 아직 지우지 말기! 챌린지 리스트 그릴 때 소켓 방식 활용해야 함
   // useEffect(() => {
   //   // rooms가 생성되었는지 확인
   //   if (!rooms.current || !currRoomId) return;
@@ -64,31 +32,30 @@ export default function MultiAquarium() {
   //   };
   // }, [currRoomId]);
 
-  console.log("[MultiAquarium] currRoomId", currRoomId, rooms);
+  console.log(
+    "[MultiAquarium] roomId",
+    roomInfo.roomId
+    // rooms.current && rooms.current[roomInfo.roomId]
+  );
   return (
     <div className={styles.body}>
       <Routes>
         <Route
           path="/"
-          element={
-            <PlazaRoom
-              rooms={rooms}
-              setCurrRoomId={setCurrRoomId}
-              setAliens={setAliens}
-            />
-          }
+          element={<PlazaRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
         ></Route>
         <Route path="/user/:userId" element={<UserRoom />}></Route>
+        <Route path="/challenge/:challengeId" element={<UserRoom />}></Route>
       </Routes>
 
       <section className={styles.SecHead}>
-        <Header roomId={currRoomId} setRoomId={setCurrRoomId} />
+        <Header roomId={roomInfo.roomId} />
       </section>
       <section className={styles.SecFieldCtrl}>
-        <FieldCtrl room={rooms.current && rooms.current[currRoomId]} />
+        <FieldCtrl room={rooms.current && rooms.current[roomInfo.roomId]} />
       </section>
       <section className={styles.SecField}>
-        <MultiField room={rooms.current && rooms.current[currRoomId]} />
+        <MultiField room={rooms.current && rooms.current[roomInfo.roomId]} />
       </section>
     </div>
   );

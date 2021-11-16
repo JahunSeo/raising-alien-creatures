@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
@@ -11,7 +11,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-  const { rooms, roomId, setRoomId } = props;
+  const { roomId } = props;
   const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
@@ -43,19 +43,12 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <h1 className={styles.title}>{`Aquarium: ROOM ${roomId}`}</h1>
+        <h1 className={styles.title}>{`Aquarium: ${roomId}`}</h1>
       </div>
-      <div className={cx("item", "itemRoom")}>
-        {/* {rooms.map((roomId) => (
-          <button
-            key={roomId}
-            onClick={() => setRoomId(roomId)}
-          >{`Room ${roomId}`}</button>
-        ))} */}
-      </div>
+      <div className={cx("item", "itemRoom")}></div>
       <div className={cx("item", "itemHistory")}>
         <button onClick={() => dispatch(actions.showModal(true))}>
-          나의 기록
+          생명체 리스트
         </button>
       </div>
       {loginStatus ? (
