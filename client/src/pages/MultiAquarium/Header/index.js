@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import styles from "./index.module.css";
@@ -6,7 +6,7 @@ import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
 import SideBarModal from "./Modal/SideBarModal.js";
 import * as actions from "../../../Redux/actions";
-
+import api from "../../../apis/index";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -17,6 +17,28 @@ export default function Header(props) {
   const [signInModalOn, setSignInModalOn] = useState(false);
 
   const dispatch = useDispatch();
+
+  const postSignOut = async () => {
+    const res = await api.get("/user/logout");
+    console.log("res", res);
+    // res.data.
+  };
+
+  const handleSubmit = (e) => {
+    // setSignInClicked();
+    postSignOut();
+    setLoginStatus(false);
+  };
+
+  useEffect(() => {
+    const getLoginStatus = async () => {
+      const res = await api.get("/user/login/confirm");
+      console.log("res", res);
+      if (res.data.login) setLoginStatus(true);
+    };
+
+    getLoginStatus();
+  }, []);
 
   return (
     <div className={styles.body}>
@@ -42,7 +64,7 @@ export default function Header(props) {
             나의 기록
           </Button>
           <h1>&nbsp;</h1>
-          <Button variant="info" onClick={() => setLoginStatus(false)}>
+          <Button variant="info" onClick={handleSubmit}>
             로그아웃
           </Button>
         </div>

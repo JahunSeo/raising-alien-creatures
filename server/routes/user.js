@@ -46,7 +46,7 @@ module.exports = function (passport, connection) {
           "server has registered new user`s information successfully.",
           results
         );
-        res.json({ msg: "successfully registered " });
+        res.json({ result: "success", msg: "user registered" });
       }
     );
   });

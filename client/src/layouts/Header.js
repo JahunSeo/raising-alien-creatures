@@ -4,7 +4,7 @@ import SignUpModal from "../modals/SignUpModal";
 import SignInModal from "../modals/SignInModal";
 
 const Header = () => {
-  const [logInStatus, setLoginStatus] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
@@ -26,6 +26,7 @@ const Header = () => {
           <Navbar bg="light" expand="lg">
             <Container>
               <Navbar.Brand>목표달성! 외계생물 기르기</Navbar.Brand>
+              {/* "{userNickname}님, 환영합니다!" 메세지 추가 */}
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
@@ -40,7 +41,10 @@ const Header = () => {
                   <Nav.Link>
                     <Button
                       variant="primary"
-                      onClick={() => setSignInModalOn(true)}
+                      onClick={() => {
+                        setLoginStatus(false);
+                        // 로그인 페이지 초기화 함수 추가 (setSignInClicked)
+                      }}
                     >
                       로그아웃
                     </Button>
