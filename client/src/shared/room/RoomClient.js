@@ -1,7 +1,10 @@
-import Camera from "./Camera";
-import { Wanderer } from "../creature/Wanderer";
+// import Camera from "./Camera";
+// import Wanderer from "../creature/Wanderer";
+// import { FRAME_PER_SEC } from "../lib/Constants";
 
-import { FRAME_PER_SEC } from "../lib/Constants";
+const Camera = require("./Camera").default;
+const Wanderer = require("../creature/Wanderer").default;
+const { FRAME_PER_SEC } = require("../lib/Constants");
 
 class RoomClient {
   constructor(roomId) {
