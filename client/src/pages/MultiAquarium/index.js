@@ -44,8 +44,14 @@ export default function MultiAquarium() {
           path="/"
           element={<PlazaRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
         ></Route>
-        <Route path="/user/:userId" element={<UserRoom />}></Route>
-        <Route path="/challenge/:challengeId" element={<UserRoom />}></Route>
+        <Route
+          path="/user/:userId"
+          element={<UserRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
+        ></Route>
+        <Route
+          path="/challenge/:challengeId"
+          element={<PlazaRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
+        ></Route>
       </Routes>
 
       <section className={styles.SecHead}>

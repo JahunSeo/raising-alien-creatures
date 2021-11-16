@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
@@ -45,7 +46,17 @@ export default function Header(props) {
       <div className={cx("item", "itemTitle")}>
         <h1 className={styles.title}>{`Aquarium: ${roomId}`}</h1>
       </div>
-      <div className={cx("item", "itemRoom")}></div>
+      <div className={cx("item", "itemRoom")}>
+        {[
+          { name: "main", url: "/" },
+          { name: "user", url: "/user/1" },
+          { name: "challenge", url: "/challenge/1" },
+        ].map((room) => (
+          <Link to={room.url} key={room.name}>
+            <button>{room.name}</button>
+          </Link>
+        ))}
+      </div>
       <div className={cx("item", "itemHistory")}>
         <button onClick={() => dispatch(actions.showModal(true))}>
           생명체 리스트

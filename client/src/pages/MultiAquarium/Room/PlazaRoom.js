@@ -11,7 +11,7 @@ export default function PlazaRoom(props) {
     try {
       const fetchData = async () => {
         const res = await api.get("/main");
-        console.log("fetch main data", res.data);
+        // console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           if (!rooms.current) rooms.current = {};
@@ -30,8 +30,8 @@ export default function PlazaRoom(props) {
     return () => {
       rooms.current[roomId].close();
     };
-  }, []);
-  //   }, [rooms, setRoomInfo]);
+    //   }, []);
+  }, [rooms, setRoomInfo]);
 
   return <div></div>;
 }
