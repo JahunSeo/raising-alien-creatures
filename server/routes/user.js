@@ -23,7 +23,12 @@ module.exports = function (passport, connection) {
       function (err, results) {
         if (err) {
           console.error(err);
-          res.json({ result: "fail", msg: "DB Insert Fail." });
+          err_handling = err.sqlMessage.split(" ");
+          const duplicated_email = err_handling[2];
+          res.json({
+            result: "fail",
+            msg: `${duplicated_email}은(는) 이미 존재하는 이메일 주소입니다.`,
+          });
           return;
         }
         console.log(
