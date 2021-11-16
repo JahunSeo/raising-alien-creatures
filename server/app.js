@@ -116,16 +116,28 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
       console.log("success update Alien!!!!!!!!!", results);
     }
   );
+  // alien_dead에 column 추가(is_subtract)해서 중복으로 빼주는 것 방지하기
   connection.query(
-    'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
-    [req.challenge_id],
-    function (err, results) {
+    'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id AND alien.is_subtract = 1'
+    , function (err, results) {
       if (err) {
         console.error(err);
       }
       console.log("success update challenge pariticipant_number!!!!!!");
     }
   );
+  // alien_dead에 column(is_subtract) 0으로 변경
+  connection.query(
+    'UPDATE Alien_dead SET is_subtract = 0 where is_subtract = 1'
+    , function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update alien_dead colum 0!!!!!!");
+    }
+  );
+  // user_info_has_challenge table row 삭제
+  
 
   // 졸업 API
   connection.query(
@@ -181,6 +193,27 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
       console.log("success update challenge pariticipant_number!!!!!!");
     }
   );
+  // alien_graduated에 column 추가(is_subtract)해서 중복으로 빼주는 것 방지하기
+  connection.query(
+    'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id AND alien.is_subtract = 1'
+    , function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update challenge pariticipant_number!!!!!!");
+    }
+  );
+  // alien_dead에 column(is_subtract) 0으로 변경
+  connection.query(
+    'UPDATE Alien_graduated SET is_subtract = 0 where is_subtract = 1'
+    , function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update alien_dead colum 0!!!!!!");
+    }
+  );
+  // user_info_has_challenge table row 삭제
 });
 
 const port = process.env.PORT || 5000;
