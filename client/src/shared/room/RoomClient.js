@@ -1,6 +1,6 @@
 import Camera from "./Camera";
 
-class Room {
+class RoomClient {
   constructor(roomId) {
     // console.log("Room init", roomId);
     this.roomId = roomId;
@@ -19,4 +19,4 @@ class Room {
   };
 }
 
-export default Room;
+export default RoomClient;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import Room from "./Room";
+import Room from "../../shared/room/RoomClient";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
