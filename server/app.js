@@ -117,7 +117,7 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
     }
   );
   connection.query(
-    'UPDATE Challenge set participantNumber = participantNumber - 1 where id = ?',
+    'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
     [req.challenge_id],
     function (err, results) {
       if (err) {
@@ -172,7 +172,7 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
     }
   );
   connection.query(
-    'UPDATE Challenge set participantNumber = participantNumber - 1 where id = ?',
+    'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
     [req.challenge_id],
     function (err, results) {
       if (err) {
