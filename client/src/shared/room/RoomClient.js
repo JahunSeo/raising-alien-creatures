@@ -20,6 +20,7 @@ class RoomClient {
   }
 
   initMonsters = (monsters) => {
+    console.log(monsters);
     this.fieldState.monsters = {};
     monsters.forEach((mon) => {
       const monster = new Wanderer({

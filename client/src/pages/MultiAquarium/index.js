@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import PlazaRoom from "./Room/PlazaRoom";
+import UserRoom from "./Room/UserRoom";
 
 import Room from "../../shared/room/RoomClient";
 import Header from "./Header";
@@ -64,7 +68,11 @@ export default function MultiAquarium() {
   console.log("[MultiAquarium] currRoomId", currRoomId, rooms);
   return (
     <div className={styles.body}>
-      {/* <img src={background} alt="배경화면"></img> */}
+      <Routes>
+        <Route path="/" element={<PlazaRoom />}></Route>
+        <Route path="/user/:userId" element={<UserRoom />}></Route>
+      </Routes>
+
       <section className={styles.SecHead}>
         <Header roomId={currRoomId} setRoomId={setCurrRoomId} />
       </section>
