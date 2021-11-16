@@ -126,6 +126,16 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
       console.log("success update Alien!!!!!!!!!", results);
     }
   );
+  connection.query(
+    'UPDATE Challenge set participantNumber = participantNumber - 1 where id = ?',
+    [req.challenge_id],
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update challenge pariticipant_number!!!!!!");
+    }
+  );
 
   // 졸업 API
   connection.query(
@@ -169,6 +179,16 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
         console.error(err);
       }
       console.log("success delete Alien!!!!!!!!!", results);
+    }
+  );
+  connection.query(
+    'UPDATE Challenge set participantNumber = participantNumber - 1 where id = ?',
+    [req.challenge_id],
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      }
+      console.log("success update challenge pariticipant_number!!!!!!");
     }
   );
 });
