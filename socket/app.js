@@ -14,8 +14,11 @@ const options = {
 }; //if needed
 const io = new Server(httpServer, options);
 
-const Room = require("./classes/Room");
-const User = require("./classes/User");
+// const Room = require("./classes/Room");
+// const User = require("./classes/User");
+
+const Room = require("../client/src/shared/room/RoomSocket");
+const User = require("../client/src/shared/room/User");
 
 const rooms = {};
 const users = {};
