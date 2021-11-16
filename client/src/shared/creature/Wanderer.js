@@ -34,4 +34,4 @@ class Wanderer extends Monster {
   }
 }
 
-module.exports = { Wanderer, default: Wanderer };
+exports.default = Wanderer;

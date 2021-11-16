@@ -73,3 +73,4 @@ class RoomClient {
 }
 
 export default RoomClient;
+// exports.default = RoomClient;

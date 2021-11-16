@@ -148,5 +148,4 @@ class Camera {
   };
 }
 
-// export default Camera;
-module.exports = { Camera, default: Camera };
+exports.default = Camera;

@@ -106,4 +106,4 @@ class Monster {
   }
 }
 
-module.exports = { Monster, default: Monster };
+exports.default = Monster;

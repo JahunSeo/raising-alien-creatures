@@ -22,4 +22,5 @@ class User {
   }
 }
 
-module.exports = { User, default: User };
+// module.exports = { User, default: User };
+exports.default = User;
