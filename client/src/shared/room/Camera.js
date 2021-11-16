@@ -148,4 +148,4 @@ class Camera {
   };
 }
 
-exports.default = Camera;
+export default Camera;

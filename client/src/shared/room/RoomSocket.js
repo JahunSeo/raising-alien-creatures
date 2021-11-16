@@ -1,7 +1,9 @@
 // const Monster = require("../creature/Monster");
-const Wanderer = require("../creature/Wanderer").default;
+// const Wanderer = require("../creature/Wanderer").default;
+// const { FRAME_PER_SEC, FRAME_PER_EMIT } = require("../lib/Constants");
 
-const { FRAME_PER_SEC, FRAME_PER_EMIT } = require("../lib/Constants");
+import Wanderer from "../creature/Wanderer.js";
+import { FRAME_PER_SEC, FRAME_PER_EMIT } from "../lib/Constants.js";
 
 class Room {
   constructor(roomId) {
@@ -116,4 +118,5 @@ class Room {
 }
 
 // module.exports = Room;
-exports.default = Room;
+// exports.default = Room;
+export default Room;
