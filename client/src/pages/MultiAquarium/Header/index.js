@@ -12,11 +12,11 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-
   // redux에서 user정보 받아오기
-  const {user} = useSelector(({user}) => ({user: user.user}));
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
+  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
   const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
@@ -57,7 +57,7 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <button onClick={() => dispatch(actions.showModal(true))}>
+        <button onClick={() => dispatch(actions.showModal(!showModal1))}>
           Aliens
         </button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>

@@ -8,14 +8,14 @@ export default function SideBarModal2() {
   const dispatch = useDispatch();
   return (
     <>
-      <div
+      {/* <div
         className={showModal2 ? "Background2" : null}
         onClick={() => {
           dispatch(actions.showModal2(false));
         }}
-      />
+      /> */}
       <div>
-        <div className={showModal2 ? "ModalContainer2" : "hidden2"}></div>
+        <div className={showModal2 ? "ModalContainer2" : null}></div>
       </div>
     </>
   );

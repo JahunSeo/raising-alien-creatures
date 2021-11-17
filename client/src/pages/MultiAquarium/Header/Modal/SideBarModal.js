@@ -1,7 +1,7 @@
 import React from "react";
 import "./SideBarModal.css";
 import { useSelector, useDispatch } from "react-redux";
-// import SideBarModal2 from "./SideBarModal2";
+import SideBarModal2 from "./SideBarModal2";
 import * as actions from "../../../../Redux/actions/index.js";
 import PostList from "./PostList";
 
@@ -11,14 +11,13 @@ export default function SideBarModal() {
 
   return (
     <>
-      <div
+      {/* <div
         className={showModal1 ? "Background" : null}
         onClick={() => {
           dispatch(actions.showModal(false));
         }}
-      />
+      /> */}
       <div className={showModal1 ? "ModalContainer" : "hidden"}>
-        <div>모달달1</div>
         <PostList />
         {/* <button
           onClick={() => {
@@ -26,8 +25,8 @@ export default function SideBarModal() {
           }}
         >
           모달달2ㄱㄱ
-        </button>
-        <SideBarModal2 /> */}
+        </button> */}
+        <SideBarModal2 />
       </div>
     </>
   );
