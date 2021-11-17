@@ -9,6 +9,7 @@ class RoomClient {
     this.camera = new Camera();
     this.initFieldState();
     this.interval = undefined;
+    this.usersOnRoom = [];
   }
 
   initFieldState() {
@@ -66,6 +67,11 @@ class RoomClient {
       mon.run();
     }
   }
+
+  usersOnRoomHandler = (users) => {
+    this.usersOnRoom = users;
+    console.log("123123123123121312", this.usersOnRoom);
+  };
 
   start() {
     console.log("[room] start", this.roomId);

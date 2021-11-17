@@ -25,10 +25,15 @@ export function disconnect(roomId) {
   socket.disconnect();
 }
 
-export function subscribe(handler) {
+// export function subscribe(handler) {
+//   if (!socket) return;
+//   console.log("[socket] fieldState");
+//   socket.on("fieldState", handler);
+// }
+export function usersOnRoom(handler) {
   if (!socket) return;
-  console.log("[socket] fieldState");
-  socket.on("fieldState", handler);
+  console.log("[socket] usersOnRoom");
+  socket.on("usersOnRoom", handler);
 }
 
 export function changeDestination(roomId, destination) {

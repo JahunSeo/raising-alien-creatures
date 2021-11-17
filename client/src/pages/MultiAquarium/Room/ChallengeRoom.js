@@ -53,10 +53,11 @@ export default function ChallengeRoom(props) {
   }, [rooms, roomId, challengeId, dispatch]);
 
   useEffect(() => {
-    // console.log("handle socket here!", participating);
     // user가 참여중인 방인지 확인
-    if (participating) {
+    console.log("handle socket here!", participating, rooms.current[roomId]);
+    if (participating && rooms.current[roomId]) {
       socket.initAndJoin({ roomId, userId: user.id });
+      socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       // socket.subscribe(rooms.current[roomId].syncFieldState);
     } else {
       socket.disconnect(roomId);
@@ -64,7 +65,7 @@ export default function ChallengeRoom(props) {
     return () => {
       socket.disconnect(roomId);
     };
-  }, [roomId, challengeId, participating]);
+  }, [rooms, roomId, challengeId, participating]);
 
   return <div></div>;
 }

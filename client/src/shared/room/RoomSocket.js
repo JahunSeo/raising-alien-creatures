@@ -19,7 +19,6 @@ class RoomSocket {
 
   addParticipant(client) {
     // 참가자 추가
-    // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
     this.clients[client.clientId] = client;
     this.clientCnt += 1;
     if (!(client.userId in this.users)) {
@@ -27,6 +26,7 @@ class RoomSocket {
     }
     this.users[client.userId]++;
     // console.log("addParticipant", this.clients, this.users);
+    this.io.to(this.roomId).emit("usersOnRoom", Object.keys(this.users));
 
     return true;
   }
@@ -40,7 +40,7 @@ class RoomSocket {
       delete this.users[client.userId];
     }
     // console.log("removeParticipant", this.clients, this.users);
-    // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
+    this.io.to(this.roomId).emit("usersOnRoom", Object.keys(this.users));
 
     return this.clientCnt;
   }
