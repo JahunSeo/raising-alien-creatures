@@ -5,7 +5,7 @@ let socket = null;
 const SOCKET_URL =
   process.env.NODE_ENV === "production" ? "/" : "http://localhost:5001";
 
-export function initAndJoin(roomId) {
+export function initAndJoin(info) {
   // https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error/64805972
   // socket = io(SOCKET_URL, { transports: ["websocket"] });
   socket = io(SOCKET_URL);
@@ -13,9 +13,9 @@ export function initAndJoin(roomId) {
   socket.on("connect", () => {
     console.log("[socket] connect");
   });
-  if (socket && roomId) {
-    console.log("[socket] join", roomId);
-    socket.emit("join", roomId);
+  if (socket && info.roomId) {
+    console.log("[socket] join", info);
+    socket.emit("join", info);
   }
 }
 

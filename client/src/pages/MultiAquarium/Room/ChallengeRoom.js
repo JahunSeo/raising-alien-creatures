@@ -56,7 +56,7 @@ export default function ChallengeRoom(props) {
     // console.log("handle socket here!", participating);
     // user가 참여중인 방인지 확인
     if (participating) {
-      socket.initAndJoin(roomId);
+      socket.initAndJoin({ roomId, userId: user.id });
       // socket.subscribe(rooms.current[roomId].syncFieldState);
     } else {
       socket.disconnect(roomId);

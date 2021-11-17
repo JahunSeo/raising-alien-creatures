@@ -24,8 +24,11 @@ io.on("connection", (socket) => {
   console.log(`[socket server] connection with ${socket.id}`);
   const clientId = socket.id;
 
-  const handleJoin = (roomId) => {
-    console.log(`[socket server] join ${clientId}, ${roomId}`);
+  const handleJoin = (info) => {
+    const { roomId, userId } = info;
+    console.log(
+      `[socket server] join ${clientId}, roomId ${roomId}, userId ${userId}`
+    );
     // 새로운 user 생성
     if (users[clientId]) return false; // ERROR
     const user = new User(clientId); // TODO: user email
