@@ -12,18 +12,19 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-  const {user} = useSelector(({user}) => ({user: user.user}));
 
-  const { rooms, roomId, setRoomId } = props;
+  // redux에서 user정보 받아오기
+  const {user} = useSelector(({user}) => ({user: user.user}));
+  const dispatch = useDispatch();
+
+  const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
-  const dispatch = useDispatch();
-
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
-    console.log("res", res);
+    console.log("user res", res);
     dispatch(actions.logout());
     // setLoginStatus(false);
   };
@@ -36,7 +37,7 @@ export default function Header(props) {
   useEffect(() => {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
-      console.log("res", res);
+      console.log("user res", res);
       if (res.data.login){
         // setLoginStatus(true);
         dispatch(actions.checkUser(res))

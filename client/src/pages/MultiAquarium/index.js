@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import PlazaRoom from "./Room/PlazaRoom";
@@ -9,12 +9,13 @@ import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
 // import * as socket from "../../apis/socket";
 import styles from "./index.module.css";
-import { useDispatch } from "react-redux";
-import * as actions from "../../Redux/actions";
+import { useSelector } from "react-redux";
 
 export default function MultiAquarium() {
   const rooms = useRef();
-  const [roomInfo, setRoomInfo] = useState({ roomId: null, aliens: [] });
+  // redux에서 현재 roomId 받아오기
+  const roomId = useSelector(({room}) =>({ roomId : room.roomId }))
+  // const [roomInfo, setRoomInfo] = useState({ roomId: null, aliens: [] });
 
   // 주의! 아직 지우지 말기! 챌린지 리스트 그릴 때 소켓 방식 활용해야 함
   // useEffect(() => {
@@ -34,36 +35,36 @@ export default function MultiAquarium() {
   //   };
   // }, [currRoomId]);
 
-  console.log(
-    "[MultiAquarium] roomId",
-    roomInfo.roomId
+  // console.log(
+  //   "[MultiAquarium] roomId",
+  //   roomInfo.roomId
     // rooms.current && rooms.current[roomInfo.roomId]
-  );
+  // );
   return (
     <div className={styles.body}>
       <Routes>
         <Route
           path="/"
-          element={<PlazaRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
+          element={<PlazaRoom rooms={rooms} />}
         ></Route>
         <Route
           path="/user/:userId"
-          element={<UserRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
+          element={<UserRoom rooms={rooms} />}
         ></Route>
         <Route
           path="/challenge/:challengeId"
-          element={<PlazaRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
+          element={<PlazaRoom rooms={rooms} />}
         ></Route>
       </Routes>
 
       <section className={styles.SecHead}>
-        <Header roomId={roomInfo.roomId} />
+        <Header roomId={roomId} />
       </section>
       <section className={styles.SecFieldCtrl}>
-        <FieldCtrl room={rooms.current && rooms.current[roomInfo.roomId]} />
+        <FieldCtrl room={rooms.current && rooms.current[roomId]} />
       </section>
       <section className={styles.SecField}>
-        <MultiField room={rooms.current && rooms.current[roomInfo.roomId]} />
+        <MultiField room={rooms.current && rooms.current[roomId]} />
       </section>
     </div>
   );
