@@ -3,7 +3,7 @@ import { Button, Container, Form, Modal } from "react-bootstrap";
 import styles from "./SignUpModal.module.css";
 import api from "../apis/index.js";
 
-const SignUpModal = ({ show, onHide, setSignUpModalOn, setLoginStatus }) => {
+const SignUpModal = ({ show, onHide, setSignUpModalOn }) => {
   const [userNickname, setUserNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");

@@ -5,7 +5,8 @@ import api from "../apis/index.js";
 import { useDispatch } from "react-redux";
 import * as actions from "../Redux/actions";
 
-const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
+// const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
+const SignInModal = ({ show, onHide, setSignInModalOn }) => {
 
   const dispatch = useDispatch();
 
@@ -49,7 +50,6 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
     if (res.data.result === "success") {
       // TODO: Redux 처리
       dispatch(actions.checkUser(res))
-      setLoginStatus(true);
       setSignInModalOn(false);
     } else {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");

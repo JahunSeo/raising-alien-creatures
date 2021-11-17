@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import Room from "./Room";
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
@@ -8,17 +7,21 @@ import api from "../../apis";
 import * as socket from "../../apis/socket";
 // import background from "./image/univ.jpg";
 import styles from "./index.module.css";
+import { useDispatch } from "react-redux";
+import * as actions from "../../Redux/actions";
 
 export default function MultiAquarium() {
   const [roomIds, setRoomIds] = useState([]);
   const [currRoomId, setCurrRoomId] = useState(null);
   const rooms = useRef();
+  const dispatch = useDispatch();
 
   // 챌린지 정보 가져오기
   useEffect(() => {
     try {
       const fetchData = async () => {
         const res = await api.get("/test");
+        dispatch(actions.display())
         console.log("fetch test data", res.data);
 
         // 서버에서 데이터를 받아온 상황을 전제로 구성

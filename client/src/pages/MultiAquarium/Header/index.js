@@ -12,10 +12,9 @@ const cx = classNames.bind(styles);
 
 export default function Header(props) {
   const {user} = useSelector(({user}) => ({user: user.user}));
-  console.log('user:', user);
 
   const { rooms, roomId, setRoomId } = props;
-  const [loginStatus, setLoginStatus] = useState(false);
+  // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
@@ -25,7 +24,7 @@ export default function Header(props) {
     const res = await api.get("/user/logout");
     console.log("res", res);
     dispatch(actions.logout());
-    setLoginStatus(false);
+    // setLoginStatus(false);
   };
 
   const handleLogout = (e) => {
@@ -38,7 +37,7 @@ export default function Header(props) {
       const res = await api.get("/user/login/confirm");
       console.log("res", res);
       if (res.data.login){
-        setLoginStatus(true);
+        // setLoginStatus(true);
         dispatch(actions.checkUser(res))
       }
     };
@@ -64,7 +63,8 @@ export default function Header(props) {
           나의 기록
         </button>
       </div>
-      {loginStatus ? (
+      {/* {loginStatus ? ( */}
+      {user ? (
         <div className={cx("item", "itemUser")}>
           <Button variant="primary">{user && user.data.nickname}</Button>
           <h1>&nbsp;</h1>
@@ -90,7 +90,6 @@ export default function Header(props) {
       <SignInModal
         show={signInModalOn}
         onHide={() => setSignInModalOn(false)}
-        setLoginStatus={setLoginStatus}
         setSignInModalOn={setSignInModalOn}
       />
       <SideBarModal />
