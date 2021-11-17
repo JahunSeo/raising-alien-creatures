@@ -19,14 +19,14 @@ class RoomSocket {
   addParticipant(user) {
     // 참가자 추가
     // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
-    this.participants[user.userId] = user;
+    this.participants[user.clientId] = user;
     this.clientCnt += 1;
     return true;
   }
 
   removeParticipant(user) {
     // 참가자 제거
-    delete this.participants[user.userId];
+    delete this.participants[user.clientId];
     this.clientCnt -= 1;
     // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
 

@@ -1,6 +1,7 @@
 class User {
-  constructor(userId) {
-    this.userId = userId;
+  constructor(props) {
+    this.clientId = props.clientId;
+    this.userId = props.userId;
     // TODO: handle multiple rooms
     this.roomId = null;
   }

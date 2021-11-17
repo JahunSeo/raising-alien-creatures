@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
     );
     // 새로운 user 생성
     if (users[clientId]) return false; // ERROR
-    const user = new User(clientId); // TODO: user email
+    const user = new User({ clientId, userId, roomId });
     users[clientId] = user;
 
     // 해당 room에 user 추가
