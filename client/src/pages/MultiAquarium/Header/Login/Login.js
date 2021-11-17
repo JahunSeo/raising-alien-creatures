@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import styles from './index.module.css';
-import SignUpModal from '../../../modals/SignUpModal';
-import SignInModal from '../../../modals/SignInModal';
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
