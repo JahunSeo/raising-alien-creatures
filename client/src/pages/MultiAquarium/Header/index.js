@@ -36,6 +36,32 @@ export default function Header(props) {
     postSignOut();
   };
 
+  function switchModal1() {
+    if (showModal3) {
+      dispatch(actions.showModal3(false));
+      dispatch(actions.showModal1(true));
+    } else {
+      dispatch(actions.showModal1(true));
+    }
+
+    if (showModal1) {
+      dispatch(actions.showModal1(false));
+    }
+  }
+
+  function switchModal3() {
+    if (showModal1) {
+      dispatch(actions.showModal1(false));
+      dispatch(actions.showModal3(true));
+    } else {
+      dispatch(actions.showModal3(true));
+    }
+
+    if (showModal3) {
+      dispatch(actions.showModal3(false));
+    }
+  }
+
   useEffect(() => {
     const getLoginStatus = async () => {
       // 1단계: 로그인 상태 확인
@@ -59,9 +85,7 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <button onClick={() => dispatch(actions.showModal1(!showModal1))}>
-          생명체 리스트
-        </button>
+        <button onClick={() => switchModal1()}>생명체 리스트</button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
       </div>
       <div className={cx("item", "itemRoom")}>
@@ -86,10 +110,7 @@ export default function Header(props) {
         <div className={cx("item", "itemUser")}>
           <div className={styles.username}>{user && user.nickname}</div>
           <h1>&nbsp;</h1>
-          <Button
-            variant="danger"
-            onClick={() => dispatch(actions.showModal3(!showModal3))}
-          >
+          <Button variant="danger" onClick={() => switchModal3()}>
             새로운 챌린지 생성
           </Button>
           <h1>&nbsp;</h1>

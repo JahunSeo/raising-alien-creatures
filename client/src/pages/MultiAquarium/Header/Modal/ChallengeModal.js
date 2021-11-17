@@ -81,11 +81,11 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
   return (
     <div>
       {/* <div
-        className={showModal1 ? "Background" : null}
+        className={showModal3 ? "Background" : null}
         onClick={() => {
-          dispatch(actions.showModal((current) => !current));
+          dispatch(actions.showModal3(false));
         }}
-      ></div> */}
+      /> */}
       <div className={showModal3 ? "ChallengeContainer" : "hidden"}>
         <br />
         <h1>새로운 챌린지 생성하기</h1>
