@@ -19,6 +19,19 @@ class RoomClient {
     this.fieldState = state;
   }
 
+  initMonsters = (monsters) => {
+    this.fieldState.monsters = {};
+    monsters.forEach((mon) => {
+      const monster = new Wanderer({
+        userId: mon.user_info_id,
+        monId: mon.id,
+        color: mon.color,
+        authCnt: mon.accuredAuthCnt,
+      });
+      this.fieldState.monsters[mon.id] = monster;
+    });
+  };
+
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
     console.log("[socket] syncFieldState:", socketState);

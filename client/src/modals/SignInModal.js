@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import styles from "./SignInModal.module.css";
 import api from "../apis/index.js";
+import { useDispatch } from "react-redux";
+import * as actions from "../Redux/actions";
 
-const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
+// const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
+const SignInModal = ({ show, onHide, setSignInModalOn }) => {
+  const dispatch = useDispatch();
+
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const [signInClicked, setSignInClicked] = useState(false);
+  // const [signInClicked, setSignInClicked] = useState(false);
   const [signInMessage, setSignInMessage] = useState(null);
 
   function validateSignIn(userEmail, userPassword) {
@@ -30,25 +35,35 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (signInClicked) return;
+    // if (signInClicked) return;
     if (!validateSignIn(userEmail, userPassword)) return;
     setSignInMessage(null);
-    setSignInClicked(true);
+    // setSignInClicked(true);
     postSignIn();
   };
 
   const postSignIn = async () => {
     let signInData = { email: userEmail, pwd: userPassword };
-    const res = await api.post("/user/login", signInData);
+    // 1단계: 로그인 요청
+    let res = await api.post("/user/login", signInData);
     console.log("res", res);
-    if (res.data.result === "success") {
-      // TODO: Redux 처리
-      setLoginStatus(true);
-      setSignInModalOn(false);
-    } else {
+    if (res.data.result !== "success") {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
-      setSignInClicked(false);
+      return;
+      // setSignInClicked(false);
     }
+    let user = res.data;
+    delete user.result;
+    user.login = true;
+    user.challenges = [];
+    // 2단계: 유저 관련 정보 확인 (참여중 챌린지 등)
+    res = await api.get("/user/personalinfo");
+    if (res.data.result === "success") {
+      user.challenges = res.data.Challenge;
+    }
+    // 리덕스에 저장
+    dispatch(actions.checkUser(user));
+    setSignInModalOn(false);
   };
 
   return (

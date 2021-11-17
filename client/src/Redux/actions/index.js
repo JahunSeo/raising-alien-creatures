@@ -11,7 +11,16 @@ export const showModal2 = (onoff) => ({
   showModal2: onoff,
 });
 
-export const showModalChal = (onoff) => ({
-  type: types.SHOW_MODALCHAL,
-  showModalChal: onoff,
+export const checkUser = (res) => ({
+  type: types.CHECK_USER,
+  payload: res,
+});
+
+export const logout = () => ({
+  type: types.LOGOUT,
+});
+
+export const setRoom = ({ roomId, aliens }) => ({
+  type: types.CURRENT_ROOM,
+  payload: { roomId, aliens },
 });

@@ -6,7 +6,6 @@ class Wanderer extends Monster {
   constructor(props) {
     // TODO
     super(props);
-    this.size = 10 + Math.random() * 50;
     this.updateLimit = 0.005;
     this.maxSpeed = 1 + Math.random();
     this.maxForce = 0.2;

@@ -6,6 +6,8 @@ class Monster {
     this.userId = props.userId; // TODO: user id or email
     this.monId = props.monId; // TODO
     this.init();
+    if (!!props.color) this.color = props.color;
+    if (!!props.authCnt) this.size = 20 + props.authCnt * 2;
   }
 
   init() {
