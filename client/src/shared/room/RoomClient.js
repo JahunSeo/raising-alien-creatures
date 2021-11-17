@@ -70,7 +70,6 @@ class RoomClient {
 
   usersOnRoomHandler = (users) => {
     this.usersOnRoom = users;
-    console.log("123123123123121312", this.usersOnRoom);
   };
 
   start() {

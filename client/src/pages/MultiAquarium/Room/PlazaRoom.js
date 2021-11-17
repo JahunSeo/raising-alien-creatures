@@ -11,7 +11,7 @@ export default function PlazaRoom(props) {
   const roomId = "plaza";
   const { rooms } = props;
   if (!rooms.current) rooms.current = {};
-  rooms.current[roomId] = new Room(roomId);
+  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
 
   useEffect(() => {
     try {
