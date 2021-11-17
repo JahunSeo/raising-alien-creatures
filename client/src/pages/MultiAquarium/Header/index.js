@@ -13,7 +13,6 @@ const cx = classNames.bind(styles);
 
 export default function Header(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-
   const { rooms, roomId, setRoomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
@@ -49,28 +48,34 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
+        <button onClick={() => dispatch(actions.showModal(true))}>
+          Aliens
+        </button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
       </div>
+
       <div className={cx("item", "itemRoom")}>
-        {[
-          { name: "main", url: "/" },
-          { name: "user", url: "/user/1" },
-          { name: "challenge", url: "/challenge/1" },
-        ].map((room) => (
-          <Link to={room.url} key={room.name}>
-            <button>{room.name}</button>
+        <Link to={"/"}>
+          <button>{"메인화면"}</button>
+        </Link>
+        {user && user.data.nickname && (
+          <Link to={`/user/${user.data.id}`}>
+            <button>{"나의 어항"}</button>
           </Link>
-        ))}
+        )}
+        {user &&
+          user.data.nickname &&
+          [{ name: "challenge", url: "/challenge/1" }].map((room) => (
+            <Link to={room.url} key={room.name}>
+              <button>{room.name}</button>
+            </Link>
+          ))}
       </div>
-      <div className={cx("item", "itemHistory")}>
-        <button onClick={() => dispatch(actions.showModal(true))}>
-          생명체 리스트
-        </button>
-      </div>
+
       {/* {loginStatus ? ( */}
       {user ? (
         <div className={cx("item", "itemUser")}>
-          <Button variant="primary">{user && user.data.nickname}</Button>
+          <div className={styles.username}>{user && user.data.nickname}</div>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃
