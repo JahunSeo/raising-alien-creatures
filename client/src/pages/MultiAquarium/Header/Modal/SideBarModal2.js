@@ -32,11 +32,7 @@ export default function SideBarModal2() {
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
 
-
-
-
-
-    resp = {   , comment : authMessage , imgURL : imageUrl;}
+    // resp = {   , comment : authMessage , imgURL : imageUrl;}
 
     // post requst to my server to store any extra data
   };
