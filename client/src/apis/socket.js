@@ -19,9 +19,9 @@ export function initAndJoin(roomId) {
   }
 }
 
-export function disconnect() {
+export function disconnect(roomId) {
   if (!socket) return;
-  console.log("[socket] disconnect");
+  console.log("[socket] disconnect", roomId);
   socket.disconnect();
 }
 
