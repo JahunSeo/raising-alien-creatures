@@ -51,7 +51,7 @@ export default function Header(props) {
     getLoginStatus();
   }, [dispatch]);
 
-  console.log("[Header] user", user);
+  // console.log("[Header] user", user);
 
   return (
     <div className={styles.body}>
