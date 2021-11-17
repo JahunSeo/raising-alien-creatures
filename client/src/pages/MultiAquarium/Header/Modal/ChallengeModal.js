@@ -27,44 +27,52 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
     console.log("challengeFrequency", challengeFrequency);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     postChallenge();
-    console.log("challengeFrequency", challengeFrequency);
-  }
+  };
 
   const postChallenge = async () => {
     let challengeData = {
-      challengeTitle,
-      challengeDescription,
-      challengeCapacity,
-      challengeFrequency,
+      challenge_name: challengeTitle,
+      challenge_content: challengeDescription,
+      max_user: challengeCapacity,
+      cnt_of_week: challengeFrequency,
     };
     const res = await api.post("/challenge/create", challengeData);
     console.log("res", res);
     if (res.data.result === "success") {
       alert("챌린지 생성에 성공하였습니다.");
-      setChallengeModalOn(false);
+      setChallengeTitle("");
+      setChallengeDescription("");
+      setChallengeCapacity(null);
+      setChallengeFrequency(null);
+      // dispatch(actions.showModal((current) => !current));
+      return;
     } else {
       setChallengeMessage("챌린지 생성에 실패하였습니다.");
+      return;
     }
   };
 
   return (
     <div>
-      <div
+      {/* <div
         className={showModal1 ? "Background" : null}
         onClick={() => {
-          dispatch(actions.showModal(false));
+          dispatch(actions.showModal((current) => !current));
         }}
-      ></div>
+      ></div> */}
 
-      <div className={"ModalContainer"}>
-        {/* <div className={"ModalContainer"> */}
-        {/* <div className={showModal1 ? "ModalContainer" : "hidden"}> */}
+      <div className={showModal1 ? "ModalContainer" : "hidden"}>
+        <br />
         <h1>새로운 챌린지 생성하기</h1>
         <br />
-        <label>챌린지 제목</label>
+        <label>
+          <h4>챌린지 제목</h4>
+        </label>
+        <br />
+        <br />
         <textarea
           placeholder="영어 단어 외우기"
           rows="2"
@@ -74,7 +82,11 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
         ></textarea>
         <br />
         <br />
-        <label>챌린지 설명</label>
+        <label>
+          <h4>챌린지 설명</h4>
+        </label>
+        <br />
+        <br />
         <textarea
           placeholder="매일 영어 단어를 30개씩 외우겠습니다."
           rows="3"
@@ -84,41 +96,47 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
         ></textarea>
         <br />
         <br />
+        <br />
+
         <form>
           <label>
-            챌린지 참여 최대 인원:
-            <select onChange={handleCapacity}>
-              <option value="null">선택</option>
-              <option value="2">2</option>
-              <option value="4">4</option>
-              <option value="6">6</option>
-              <option value="8">8</option>
-            </select>
+            <h4>
+              챌린지 참여 최대 인원:
+              <select onChange={handleCapacity}>
+                <option value="null">선택</option>
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+              </select>
+            </h4>
           </label>
         </form>
         <br />
+        <br />
         <form>
           <label>
-            챌린지 참여 빈도:
-            <select onChange={handleFrequency}>
-              <option value="null">선택</option>
-              <option value="7">매일 참여</option>
-              <option value="6">주 6회 참여</option>
-              <option value="5">주 5회 참여</option>
-              <option value="4">주 4회 참여</option>
-              <option value="3">주 3회 참여</option>
-              <option value="2">주 2회 참여</option>
-              <option value="1">주 1회 참여</option>
-            </select>
-            <br />
-            <div>
-              {challengeMessage}
+            <h4>
+              챌린지 참여 빈도:
+              <select onChange={handleFrequency}>
+                <option value="null">선택</option>
+                <option value="7">매일 참여</option>
+                <option value="6">주 6회 참여</option>
+                <option value="5">주 5회 참여</option>
+                <option value="4">주 4회 참여</option>
+                <option value="3">주 3회 참여</option>
+                <option value="2">주 2회 참여</option>
+                <option value="1">주 1회 참여</option>
+              </select>
               <br />
-            </div>
-            <br />
-            <button type="submit" onClick={handleSubmit}>
-              챌린지 생성
-            </button>
+              <br />
+              <div>{challengeMessage}</div>
+              <br />
+              <br />
+              <button type="button" onClick={handleSubmit}>
+                챌린지 생성
+              </button>
+            </h4>
           </label>
         </form>
         <br />

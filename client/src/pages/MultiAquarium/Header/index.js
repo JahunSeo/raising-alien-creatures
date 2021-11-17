@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
@@ -18,6 +18,7 @@ export default function Header(props) {
   const [challengeModalOn, setChallengeModalOn] = useState(false);
 
   const dispatch = useDispatch();
+  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
 
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
@@ -29,6 +30,10 @@ export default function Header(props) {
   const handleLogout = (e) => {
     // TODO: Redux 처리 - setSignInClicked();
     postSignOut();
+  };
+
+  const handleClick = (current) => {
+    // dispatch(actions.showModal((current) => !current));
   };
 
   useEffect(() => {
@@ -57,13 +62,20 @@ export default function Header(props) {
         ))}
       </div>
       <div className={cx("item", "itemHistory")}>
-        <button onClick={() => dispatch(actions.showModal(true))}>
+        <button
+        // onClick={(current) =>
+        //   dispatch(actions.showModal((current) => !current))
+        // }
+        >
           나의 기록
         </button>
       </div>
       {loginStatus ? (
         <div className={cx("item", "itemUser")}>
-          <Button variant="danger" onClick={() => setChallengeModalOn(true)}>
+          <Button
+            variant="danger"
+            onClick={() => dispatch(actions.showModal(!showModal1))}
+          >
             새로운 챌린지 생성
           </Button>
           <h1>&nbsp;</h1>

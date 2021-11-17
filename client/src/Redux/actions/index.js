@@ -10,3 +10,8 @@ export const showModal2 = (onoff) => ({
   type: types.SHOW_MODAL2,
   showModal2: onoff,
 });
+
+export const showModalChal = (onoff) => ({
+  type: types.SHOW_MODALCHAL,
+  showModalChal: onoff,
+});
