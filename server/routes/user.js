@@ -56,7 +56,7 @@ module.exports = function (passport, connection) {
         req.login(user, (err) => {
           if (err) throw err;
           var result = {
-            result: "success",
+            result: "success", email : req.user.email, nickname : req.user.nickname
           };
           res.json(result);
         });
