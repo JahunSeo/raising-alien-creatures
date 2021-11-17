@@ -75,6 +75,7 @@ class RoomClient {
 
   start() {
     console.log("[room] start", this.roomId);
+    clearInterval(this.interval);
     this.interval = setInterval(
       () => this.updateGameState(),
       1000 / FRAME_PER_SEC

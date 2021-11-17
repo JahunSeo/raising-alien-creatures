@@ -14,6 +14,8 @@ export default function ChallengeRoom(props) {
   const challengeId = params.challengeId;
   const roomId = `challenge-${challengeId}`;
   const { rooms } = props;
+  if (!rooms.current) rooms.current = {};
+  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
 
   // user 정보 확인
   const { user } = useSelector(({ user }) => ({ user: user.user }));
@@ -26,7 +28,6 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        if (!rooms.current) rooms.current = {};
         const res = await api.post("/user/aquarium/challenge", {
           challenge_id: challengeId,
         });
@@ -34,7 +35,6 @@ export default function ChallengeRoom(props) {
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.Alien;
-          rooms.current[roomId] = new Room(roomId);
           rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // update redux room info
@@ -54,13 +54,11 @@ export default function ChallengeRoom(props) {
 
   useEffect(() => {
     // user가 참여중인 방인지 확인
-    console.log("handle socket here!", participating, rooms.current[roomId]);
+    // console.log("handle socket here!", participating, rooms.current[roomId]);
     if (participating && rooms.current[roomId]) {
       socket.initAndJoin({ roomId, userId: user.id });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       // socket.subscribe(rooms.current[roomId].syncFieldState);
-    } else {
-      socket.disconnect(roomId);
     }
     return () => {
       socket.disconnect(roomId);
