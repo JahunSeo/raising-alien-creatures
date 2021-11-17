@@ -9,6 +9,7 @@ class RoomClient {
     this.camera = new Camera();
     this.initFieldState();
     this.interval = undefined;
+    this.usersOnRoom = [];
   }
 
   initFieldState() {
@@ -20,6 +21,7 @@ class RoomClient {
   }
 
   initMonsters = (monsters) => {
+    // console.log("initMonsters");
     this.fieldState.monsters = {};
     monsters.forEach((mon) => {
       const monster = new Wanderer({
@@ -28,6 +30,8 @@ class RoomClient {
         color: mon.color,
         authCnt: mon.accuredAuthCnt,
       });
+      monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
+      // console.log(monster.monId, monster.isUserOnRoom);
       this.fieldState.monsters[mon.id] = monster;
     });
   };
@@ -67,8 +71,26 @@ class RoomClient {
     }
   }
 
+  usersOnRoomHandler = (users) => {
+    console.log("usersOnRoomHandler", users);
+    this.usersOnRoom = users;
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
+      mon.isUserOnRoom = this.usersOnRoom.includes(mon.userId);
+      // console.log(mon.monId, mon.isUserOnRoom);
+    }
+  };
+
+  eraseUsersOnRoom = () => {
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
+      mon.isUserOnRoom = false;
+    }
+  };
+
   start() {
     console.log("[room] start", this.roomId);
+    clearInterval(this.interval);
     this.interval = setInterval(
       () => this.updateGameState(),
       1000 / FRAME_PER_SEC
