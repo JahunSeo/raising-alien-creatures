@@ -12,7 +12,7 @@ export default function UserRoom(props) {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get("/main");
+        const res = await api.get(`/user/${params.userId}`);
         // console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
