@@ -12,7 +12,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-  const {user} = useSelector(({user}) => ({user: user.user}));
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
 
   const { rooms, roomId, setRoomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
@@ -37,9 +37,9 @@ export default function Header(props) {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
       console.log("res", res);
-      if (res.data.login){
+      if (res.data.login) {
         // setLoginStatus(true);
-        dispatch(actions.checkUser(res))
+        dispatch(actions.checkUser(res));
       }
     };
 
@@ -49,7 +49,7 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <h1 className={styles.title}>{`Aquarium: ${roomId}`}</h1>
+        <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
       </div>
       <div className={cx("item", "itemRoom")}>
         {[
