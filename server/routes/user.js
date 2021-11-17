@@ -206,6 +206,9 @@ module.exports = function (passport, connection) {
     const user_id = req.params.userId;
     try {
     connection.query('(SELECT * FROM Alien JOIN Challenge ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT * FROM Alien_graduated JOIN Challenge ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)', [user_id, user_id], function(err, result) {
+      if (err) {
+        return;
+      }
       res.status(200).json({
         result: "success",
         data: result,
