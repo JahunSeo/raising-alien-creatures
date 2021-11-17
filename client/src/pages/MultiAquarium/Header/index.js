@@ -12,17 +12,18 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
+
+  // redux에서 user정보 받아오기
+  const {user} = useSelector(({user}) => ({user: user.user}));
+  // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
+  const dispatch = useDispatch();
   const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
-  const dispatch = useDispatch();
-
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
-    // console.log("res", res);
     dispatch(actions.logout());
     // setLoginStatus(false);
   };
