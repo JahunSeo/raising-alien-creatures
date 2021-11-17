@@ -9,24 +9,12 @@ module.exports = function (connection) {
     const cnt_of_week = parseInt(req.body.cnt_of_week);
     const life = parseInt(req.body.life);
     if (req.user) {
+        try {
         connection.query('INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)', [req.body.challenge_name, req.body.challenge_content, req.user.nickname, max_user, cnt_of_week, life], function(err1, results1) {
-            if (err1) {
-                console.error(err1);
-                res.status(501).json({
-                    result: "fail",
-                    msg: "cant insert challenge infomations"
-                });
-            }
-            console.log('success insert new challenge information', results);
+            console.log('success insert new challenge information', results1);
+
             connection.query('INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id) VALUES (?, ?)', [req.user.id, results1.insertId], function(err2, results2) {
-                if (err2) {
-                    console.error(err2);
-                    res.status(501).json({
-                        result: "fail",
-                        msg: "cant insert challenge_id"
-                    });
-                }
-                console.log('success insert user_id and challenge_id', results);
+                console.log('success insert user_id and challenge_id', results2);
             });
             res.status(200).json({
                 result: "success",
@@ -34,7 +22,13 @@ module.exports = function (connection) {
                 data: results1.insertId,
             });
         });
-        
+    } catch(err) {
+        console.error(err1);
+        res.status(501).json({
+            result: "fail",
+            msg: "cant insert challenge infomations"
+        });
+    }
     } else {
         res.status(401).json({
             result: "fail",
