@@ -2,18 +2,19 @@ import { handleActions } from "redux-actions";
 import * as types from "../actions/ActionTypes";
 
 const initialState = {
-  aliens_list: [],
+  roomId: null,
+  aliens: [],
 };
 
-const display = handleActions(
+const room = handleActions(
   {
     // 화면에 나타나는 alien들을 페이지별로 다르게 받아옴
-    [types.DISPLAY]: (state, { payload: aliens }) => ({
+    [types.CURRENT_ROOM]: (state, {payload : {roomId, aliens}}) => ({
       ...state,
-      aliens_list: aliens
+      roomId: roomId,
+      aliens: aliens
     }),
   },
   initialState
 );
-export default display;
-
+export default room;
