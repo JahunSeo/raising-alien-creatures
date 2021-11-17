@@ -5,7 +5,8 @@ import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
-import SideBarModal from "./Modal/SideBarModal.js";
+import ChallengeModal from "./Modal/ChallengeModal";
+import SideBarModal from "./Modal/SideBarModal";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis/index";
 import classNames from "classnames/bind";
@@ -16,10 +17,13 @@ export default function Header(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
+  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
+  const showModal3 = useSelector((state) => state.modalOnOff.showModal3);
   const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
+  const [challengeModalOn, setChallengeModalOn] = useState(false);
 
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
@@ -28,9 +32,35 @@ export default function Header(props) {
   };
 
   const handleLogout = (e) => {
-    // setSignInClicked();
+    // TODO: Redux 처리 - setSignInClicked();
     postSignOut();
   };
+
+  function switchModal1() {
+    if (showModal3) {
+      dispatch(actions.showModal3(false));
+      dispatch(actions.showModal1(true));
+    } else {
+      dispatch(actions.showModal1(true));
+    }
+
+    if (showModal1) {
+      dispatch(actions.showModal1(false));
+    }
+  }
+
+  function switchModal3() {
+    if (showModal1) {
+      dispatch(actions.showModal1(false));
+      dispatch(actions.showModal3(true));
+    } else {
+      dispatch(actions.showModal3(true));
+    }
+
+    if (showModal3) {
+      dispatch(actions.showModal3(false));
+    }
+  }
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -47,7 +77,6 @@ export default function Header(props) {
       // 리덕스에 저장
       dispatch(actions.checkUser(user));
     };
-
     getLoginStatus();
   }, [dispatch]);
 
@@ -56,9 +85,7 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <button onClick={() => dispatch(actions.showModal(true))}>
-          Aliens
-        </button>
+        <button onClick={() => switchModal1()}>생명체 리스트</button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
       </div>
       <div className={cx("item", "itemRoom")}>
@@ -82,6 +109,10 @@ export default function Header(props) {
       {user ? (
         <div className={cx("item", "itemUser")}>
           <div className={styles.username}>{user && user.nickname}</div>
+          <h1>&nbsp;</h1>
+          <Button variant="danger" onClick={() => switchModal3()}>
+            새로운 챌린지 생성
+          </Button>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃
@@ -107,7 +138,11 @@ export default function Header(props) {
         onHide={() => setSignInModalOn(false)}
         setSignInModalOn={setSignInModalOn}
       />
-      <SideBarModal/>
+      <ChallengeModal
+        show={challengeModalOn}
+        onHide={() => setChallengeModalOn(false)}
+      />
+      <SideBarModal />
     </div>
   );
 }
