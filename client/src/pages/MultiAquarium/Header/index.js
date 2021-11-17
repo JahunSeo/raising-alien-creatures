@@ -12,9 +12,8 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-
   // redux에서 user정보 받아오기
-  const {user} = useSelector(({user}) => ({user: user.user}));
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
   const { roomId } = props;
@@ -65,6 +64,9 @@ export default function Header(props) {
       <div className={cx("item", "itemRoom")}>
         <Link to={"/"}>
           <button>{"메인화면"}</button>
+        </Link>
+        <Link to={"/challenge/1"}>
+          <button>{"챌린지1"}</button>
         </Link>
         {user && user.nickname && (
           <Link to={`/user/${user.id}`}>

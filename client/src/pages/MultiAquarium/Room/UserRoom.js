@@ -9,13 +9,14 @@ export default function UserRoom(props) {
   const dispatch = useDispatch();
   // 유저 정보 가져오기
   let params = useParams();
-  const roomId = `user-${params.userId}`;
+  const userId = params.userId;
+  const roomId = `user-${userId}`;
   const { rooms } = props;
   useEffect(() => {
     try {
       const fetchData = async () => {
         if (!rooms.current) rooms.current = {};
-        const res = await api.get(`/user/${params.userId}`);
+        const res = await api.get(`/user/${userId}`);
         // console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
@@ -36,7 +37,7 @@ export default function UserRoom(props) {
       rooms.current[roomId].close();
     };
     // }, []);
-  }, [roomId, rooms, dispatch]);
+  }, [rooms, roomId, userId, dispatch]);
 
   return <div></div>;
 }
