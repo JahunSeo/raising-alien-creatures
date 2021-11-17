@@ -26,11 +26,11 @@ body {
 
 .ModalContainer {
   position: fixed;
-  left: 150px;
+  left: 250px;
   top: 50%;
   transform: translate(-50%, -50%);
   max-height: 80%;
-  width: 20rem;
+  width: 30rem;
   height: 70%;
   padding: 16px;
   background: skyblue;

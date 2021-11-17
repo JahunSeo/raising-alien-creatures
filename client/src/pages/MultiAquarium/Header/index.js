@@ -16,10 +16,13 @@ export default function Header(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
+  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
+  const showModal3 = useSelector((state) => state.modalOnOff.showModal3);
   const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
+  const [challengeModalOn, setChallengeModalOn] = useState(false);
 
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
@@ -31,10 +34,6 @@ export default function Header(props) {
     // TODO: Redux 처리 - setSignInClicked();
     postSignOut();
   };
-
-  // const handleClick = (current) => {
-  //   dispatch(actions.showModal((current) => !current));
-  // };
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -51,7 +50,6 @@ export default function Header(props) {
       // 리덕스에 저장
       dispatch(actions.checkUser(user));
     };
-
     getLoginStatus();
   }, [dispatch]);
 
@@ -60,8 +58,8 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <button onClick={() => dispatch(actions.showModal(true))}>
-          Aliens
+        <button onClick={() => dispatch(actions.showModal(!showModal1))}>
+          생명체 리스트
         </button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
       </div>
@@ -86,6 +84,13 @@ export default function Header(props) {
       {user ? (
         <div className={cx("item", "itemUser")}>
           <div className={styles.username}>{user && user.nickname}</div>
+          <h1>&nbsp;</h1>
+          <Button
+            variant="danger"
+            onClick={() => dispatch(actions.showModal3(!showModal3))}
+          >
+            새로운 챌린지 생성
+          </Button>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃

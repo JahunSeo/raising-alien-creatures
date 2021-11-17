@@ -7,52 +7,75 @@ import api from "../../../../apis/index.js";
 const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
   const [challengeTitle, setChallengeTitle] = useState("");
   const [challengeDescription, setChallengeDescription] = useState("");
-  const [challengeCapacity, setChallengeCapacity] = useState();
-  const [challengeFrequency, setChallengeFrequency] = useState();
+  const [challengeCapacity, setChallengeCapacity] = useState(null);
+  const [challengeFrequency, setChallengeFrequency] = useState(null);
 
   const [challengeMessage, setChallengeMessage] = useState(null);
 
-  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
+  const showModal3 = useSelector((state) => state.modalOnOff.showModal3);
   const dispatch = useDispatch();
+
+  function validateChallenge(challengeTitle, challengeDescription) {
+    if (
+      challengeTitle === "" ||
+      challengeDescription === "" ||
+      challengeCapacity === null ||
+      challengeFrequency === null
+    ) {
+      setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
+      return false;
+    }
+
+    setChallengeMessage(null);
+    return true;
+  }
 
   function handleCapacity(e) {
     e.preventDefault();
     setChallengeCapacity(e.target.value);
-    console.log("challengeCapacity", challengeCapacity);
   }
 
   function handleFrequency(e) {
     e.preventDefault();
     setChallengeFrequency(e.target.value);
-    console.log("challengeFrequency", challengeFrequency);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !validateChallenge(
+        challengeTitle,
+        challengeDescription,
+        challengeCapacity,
+        challengeFrequency
+      )
+    )
+      return;
+    setChallengeMessage(null);
     postChallenge();
   };
 
   const postChallenge = async () => {
-    console.log(111);
     let challengeData = {
       challenge_name: challengeTitle,
       challenge_content: challengeDescription,
       max_user: challengeCapacity,
       cnt_of_week: challengeFrequency,
+      life: 1,
     };
-    console.log(222);
     const res = await api.post("/challenge/create", challengeData);
     console.log("res", res);
     if (res.data.result === "success") {
-      alert("챌린지 생성에 성공하였습니다.");
+      console.log("challengeData", challengeData);
       setChallengeTitle("");
       setChallengeDescription("");
-      setChallengeCapacity(null);
-      setChallengeFrequency(null);
-      dispatch(actions.showModal(!showModal1));
-      return;
+      setChallengeCapacity("선택");
+      setChallengeFrequency("선택");
+      alert("챌린지 생성에 성공하였습니다.");
+      dispatch(actions.showModal3(!showModal3));
+      // return;
     } else {
-      setChallengeMessage("챌린지 생성에 실패하였습니다.");
+      setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
       return;
     }
   };
@@ -65,7 +88,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
           dispatch(actions.showModal((current) => !current));
         }}
       ></div> */}
-      <div className={showModal1 ? "ModalContainer" : "hidden"}>
+      <div className={showModal3 ? "ModalContainer" : "hidden"}>
         <br />
         <h1>새로운 챌린지 생성하기</h1>
         <br />
@@ -74,13 +97,16 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
         </label>
         <br />
         <br />
-        <textarea
+        <input
+          type="text"
           placeholder="영어 단어 외우기"
-          rows="2"
+          rows="3"
+          size="30"
+          value={challengeTitle}
           onChange={(e) => {
             setChallengeTitle(e.target.value);
           }}
-        ></textarea>
+        ></input>
         <br />
         <br />
         <label>
@@ -90,7 +116,9 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
         <br />
         <textarea
           placeholder="매일 영어 단어를 30개씩 외우겠습니다."
-          rows="3"
+          rows="5"
+          cols="28"
+          value={challengeDescription}
           onChange={(e) => {
             setChallengeDescription(e.target.value);
           }}
@@ -102,8 +130,8 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
         <div>
           <label>
             <h4>
-              챌린지 참여 최대 인원:
-              <select onChange={handleCapacity}>
+              챌린지 최대 인원:
+              <select value={challengeCapacity} onChange={handleCapacity}>
                 <option value="null">선택</option>
                 <option value="2">2</option>
                 <option value="4">4</option>
@@ -119,7 +147,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
           <label>
             <h4>
               챌린지 참여 빈도:
-              <select onChange={handleFrequency}>
+              <select value={challengeFrequency} onChange={handleFrequency}>
                 <option value="null">선택</option>
                 <option value="7">매일 참여</option>
                 <option value="6">주 6회 참여</option>
@@ -131,7 +159,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
               </select>
               <br />
               <br />
-              <div>{challengeMessage}</div>
+              <div style={{ color: "#cc3333" }}>{challengeMessage}</div>
               <br />
               <br />
               <div>

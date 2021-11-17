@@ -11,6 +11,11 @@ export const showModal2 = (onoff) => ({
   showModal2: onoff,
 });
 
+export const showModal3 = (onoff) => ({
+  type: types.SHOW_MODAL3,
+  showModal3: onoff,
+});
+
 export const checkUser = (res) => ({
   type: types.CHECK_USER,
   payload: res,
