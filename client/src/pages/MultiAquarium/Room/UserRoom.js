@@ -12,16 +12,17 @@ export default function UserRoom(props) {
   const userId = params.userId;
   const roomId = `user-${userId}`;
   const { rooms } = props;
+  if (!rooms.current) rooms.current = {};
+  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
+
   useEffect(() => {
     try {
       const fetchData = async () => {
-        if (!rooms.current) rooms.current = {};
         const res = await api.get(`/user/${userId}`);
         // console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.data;
-          rooms.current[roomId] = new Room(roomId);
           rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // update redux room info
