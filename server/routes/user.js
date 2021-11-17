@@ -61,7 +61,9 @@ module.exports = function (passport, connection) {
         req.login(user, (err) => {
           if (err) throw err;
           var result = {
-            result: "success", email : req.user.email, nickname : req.user.nickname
+            result: "success",
+            email: req.user.email,
+            nickname: req.user.nickname,
           };
           res.json(result);
         });
@@ -107,8 +109,11 @@ module.exports = function (passport, connection) {
     var get = req.body;
     var challenge_id = get.challenge_id;
     console.log("1212", get);
-    var user_id = req.user.id;
-    var user_nickname = req.user_nickname;
+    let user_id, user_nickname;
+    if (req.user) {
+      user_id = req.user.id;
+      user_nickname = req.user_nickname;
+    }
     var sql1 = `select * from Alien where Alien.Challenge_id = ${challenge_id};`;
     var sql2 = `select * from Alien_dead where Alien_dead.Challenge_id = ${challenge_id};`;
     var sql3 = `select * from Alien_graduated where Alien_graduated.Challenge_id=${challenge_id};`;
