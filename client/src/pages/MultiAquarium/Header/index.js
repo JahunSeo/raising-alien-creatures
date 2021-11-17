@@ -15,8 +15,9 @@ export default function Header(props) {
 
   // redux에서 user정보 받아오기
   const {user} = useSelector(({user}) => ({user: user.user}));
+  // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
-
+  
   const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);

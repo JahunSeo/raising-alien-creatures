@@ -17,15 +17,15 @@ export default function UserRoom(props) {
       const fetchData = async () => {
         if (!rooms.current) rooms.current = {};
         const res = await api.get("/main");
-        // console.log("fetch main data", res.data);
+        console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           rooms.current[roomId] = new Room(roomId);
+          console.log("userroom", roomId);
           rooms.current[roomId].initMonsters(res.data.data);
           rooms.current[roomId].start();
           // TODO: redux
-          dispatch(actions.setRoom({roomId: roomId, aliens: res.data.data}))
-          // setRoomInfo({ roomId, aliens: res.data.data });
+          dispatch(actions.setRoom({ roomId: roomId, aliens: res.data.data }));
         } else {
         }
       };

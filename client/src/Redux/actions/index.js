@@ -20,7 +20,7 @@ export const logout = () => ({
   type: types.LOGOUT,
 });
 
-export const setRoom = ({ roomId, aliens }) => ({
+export const setRoom = ({roomId, aliens}) => ({
   type: types.CURRENT_ROOM,
-  payload : {roomId, aliens}
+  payload : {roomId, aliens},
 });

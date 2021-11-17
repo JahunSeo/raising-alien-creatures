@@ -14,8 +14,7 @@ import { useSelector } from "react-redux";
 export default function MultiAquarium() {
   const rooms = useRef();
   // redux에서 현재 roomId 받아오기
-  const roomId = useSelector(({room}) =>({ roomId : room.roomId }))
-  // const [roomInfo, setRoomInfo] = useState({ roomId: null, aliens: [] });
+  const {roomId} = useSelector(({room}) =>({ roomId : room.roomId }))
 
   // 주의! 아직 지우지 말기! 챌린지 리스트 그릴 때 소켓 방식 활용해야 함
   // useEffect(() => {
