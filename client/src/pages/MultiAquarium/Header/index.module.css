@@ -4,10 +4,14 @@
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  background-color: rgba(5, 55, 123, 0.5);
+  border-radius: 10px;
 }
 
 .title {
   font-size: 25px;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .item {
