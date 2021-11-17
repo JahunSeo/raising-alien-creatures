@@ -32,9 +32,9 @@ export default function Header(props) {
     postSignOut();
   };
 
-  const handleClick = (current) => {
-    // dispatch(actions.showModal((current) => !current));
-  };
+  // const handleClick = (current) => {
+  //   dispatch(actions.showModal((current) => !current));
+  // };
 
   useEffect(() => {
     const getLoginStatus = async () => {

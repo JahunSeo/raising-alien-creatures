@@ -33,12 +33,14 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
   };
 
   const postChallenge = async () => {
+    console.log(111);
     let challengeData = {
       challenge_name: challengeTitle,
       challenge_content: challengeDescription,
       max_user: challengeCapacity,
       cnt_of_week: challengeFrequency,
     };
+    console.log(222);
     const res = await api.post("/challenge/create", challengeData);
     console.log("res", res);
     if (res.data.result === "success") {
@@ -47,7 +49,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
       setChallengeDescription("");
       setChallengeCapacity(null);
       setChallengeFrequency(null);
-      // dispatch(actions.showModal((current) => !current));
+      dispatch(actions.showModal(!showModal1));
       return;
     } else {
       setChallengeMessage("챌린지 생성에 실패하였습니다.");
@@ -63,7 +65,6 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
           dispatch(actions.showModal((current) => !current));
         }}
       ></div> */}
-
       <div className={showModal1 ? "ModalContainer" : "hidden"}>
         <br />
         <h1>새로운 챌린지 생성하기</h1>
@@ -98,7 +99,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
         <br />
         <br />
 
-        <form>
+        <div>
           <label>
             <h4>
               챌린지 참여 최대 인원:
@@ -111,10 +112,10 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
               </select>
             </h4>
           </label>
-        </form>
+        </div>
         <br />
         <br />
-        <form>
+        <div>
           <label>
             <h4>
               챌린지 참여 빈도:
@@ -133,12 +134,14 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
               <div>{challengeMessage}</div>
               <br />
               <br />
-              <button type="button" onClick={handleSubmit}>
-                챌린지 생성
-              </button>
+              <div>
+                <button type="button" onClick={handleSubmit}>
+                  챌린지 생성
+                </button>
+              </div>
             </h4>
           </label>
-        </form>
+        </div>
         <br />
       </div>
     </div>
