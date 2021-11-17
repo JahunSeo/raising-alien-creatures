@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
@@ -12,8 +12,10 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
-  const { roomId } = props;
-  const [loginStatus, setLoginStatus] = useState(false);
+  const {user} = useSelector(({user}) => ({user: user.user}));
+
+  const { rooms, roomId, setRoomId } = props;
+  // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
 
@@ -22,8 +24,8 @@ export default function Header(props) {
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
     console.log("res", res);
-    // res.data.
-    setLoginStatus(false);
+    dispatch(actions.logout());
+    // setLoginStatus(false);
   };
 
   const handleLogout = (e) => {
@@ -34,12 +36,15 @@ export default function Header(props) {
   useEffect(() => {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
-      // console.log("res", res);
-      if (res.data.login) setLoginStatus(true);
+      console.log("res", res);
+      if (res.data.login){
+        // setLoginStatus(true);
+        dispatch(actions.checkUser(res))
+      }
     };
 
     getLoginStatus();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles.body}>
@@ -62,9 +67,10 @@ export default function Header(props) {
           생명체 리스트
         </button>
       </div>
-      {loginStatus ? (
+      {/* {loginStatus ? ( */}
+      {user ? (
         <div className={cx("item", "itemUser")}>
-          <Button variant="primary">dummy</Button>
+          <Button variant="primary">{user && user.data.nickname}</Button>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃
@@ -88,7 +94,6 @@ export default function Header(props) {
       <SignInModal
         show={signInModalOn}
         onHide={() => setSignInModalOn(false)}
-        setLoginStatus={setLoginStatus}
         setSignInModalOn={setSignInModalOn}
       />
       <SideBarModal />

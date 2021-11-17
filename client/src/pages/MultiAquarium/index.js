@@ -9,6 +9,8 @@ import FieldCtrl from "./FieldCtrl";
 import MultiField from "./MultiField";
 // import * as socket from "../../apis/socket";
 import styles from "./index.module.css";
+import { useDispatch } from "react-redux";
+import * as actions from "../../Redux/actions";
 
 export default function MultiAquarium() {
   const rooms = useRef();
