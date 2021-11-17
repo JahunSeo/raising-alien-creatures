@@ -1,17 +1,20 @@
 import React, { useCallback, useState } from "react";
 import "./PostList.css";
+import { useSelector } from "react-redux";
 
-const PostItem = React.memo(function PostItem({ fish }) {
+const PostItem = React.memo(function PostItem({ alien }) {
+  console.log(alien.Challenge_id)
+  console.log(alien.createDate.split('T')[0])
   return (
     <>
       <div className="PostItemBlock">
-        <h2>챌린지 : "{fish.challenge}"</h2>
+        <h2>챌린지 : "{alien.challengeName}"</h2>
         <div className="Content">
           <img alt="logo192.png" src="logo192.png" />
           <div className="SubInfo">
-            <p>이름 : {fish.alienName}</p>
-            <p>출생년도 : {fish.createDate}</p>
-            <p>Commit 횟수 : {fish.accuredAuthCnt}번</p>
+            <p>이름 : {alien.alienName}</p>
+            <p>출생년도 : {alien.createDate.split('T')[0]}</p>
+            <p>Commit 횟수 : {alien.accuredAuthCnt}번</p>
           </div>
         </div>
         <div className="buttons">
@@ -25,28 +28,30 @@ const PostItem = React.memo(function PostItem({ fish }) {
 });
 
 const PostList = () => {
-  function createFish() {
-    const array = [];
-    for (let i = 0; i < 15; i++) {
-      array.push({
-        id: i,
-        challenge: `여친한테 전화하기`,
-        nCommit: 30,
-        user_info_id: 1,
-        Challenge_id: 1,
-        createDate: `1996.11.18`,
-        isAlive: 1,
-        alienName: `개복치${i}`,
-        Alien_image_url: "image_url_1",
-        accuredAuthCnt: 26,
-        failureCnt: 0,
-        life: 0,
-        graduate: i % 2,
-      });
-    }
-    return array;
-  }
-  const [myFishList] = useState(createFish);
+  // function createFish() {
+  //   const array = [];
+  //   for (let i = 0; i < 15; i++) {
+  //     array.push({
+  //       id: i,
+  //       challenge: `여친한테 전화하기`,
+  //       nCommit: 30,
+  //       user_info_id: 1,
+  //       Challenge_id: 1,
+  //       createDate: `1996.11.18`,
+  //       isAlive: 1,
+  //       alienName: `개복치${i}`,
+  //       Alien_image_url: "image_url_1",
+  //       accuredAuthCnt: 26,
+  //       failureCnt: 0,
+  //       life: 0,
+  //       graduate: i % 2,
+  //     });
+  //   }
+  //   return array;
+  // }
+  const { aliens_list } = useSelector(({ room }) => ({
+    aliens_list: room.aliens,
+  }));
   const [category, setCategory] = useState(false);
   const [drop, setDrop] = useState(false);
 
@@ -84,9 +89,9 @@ const PostList = () => {
         <span
           className={category === true ? "selected" : null} onClick={grad_onClick} >∘ 졸업 </span>
       </ul>
-      {myFishList.map((Fish) =>
-        Boolean(Fish.graduate) === category ? (
-          <PostItem key={Fish.id} fish={Fish} />
+      {aliens_list.map((alien) =>
+        Boolean(alien.graduate_toggle) === category ? (
+          <PostItem key={alien.Name} alien={alien} />
         ) : null
       )}
     </div>
