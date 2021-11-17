@@ -121,7 +121,6 @@ module.exports = function (passport, connection) {
         });
         return;
       }
-
       var result = {
         result: "success",
         user: user_id,
