@@ -10,3 +10,17 @@ export const showModal2 = (onoff) => ({
   type: types.SHOW_MODAL2,
   showModal2: onoff,
 });
+
+export const checkUser = (res) => ({
+  type: types.CHECK_USER,
+  payload: res,
+});
+
+export const logout = () => ({
+  type: types.LOGOUT,
+});
+
+export const display = (res) =>({
+  type: types.DISPLAY,
+  payload: res,
+})
