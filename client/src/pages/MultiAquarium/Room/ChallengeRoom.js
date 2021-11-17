@@ -54,8 +54,8 @@ export default function ChallengeRoom(props) {
 
   useEffect(() => {
     // user가 참여중인 방인지 확인
-    // console.log("handle socket here!", participating, rooms.current[roomId]);
     if (participating && rooms.current[roomId]) {
+      // console.log("handle socket here!", participating);
       socket.initAndJoin({ roomId, userId: user.id });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       // socket.subscribe(rooms.current[roomId].syncFieldState);

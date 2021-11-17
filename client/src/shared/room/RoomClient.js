@@ -21,6 +21,7 @@ class RoomClient {
   }
 
   initMonsters = (monsters) => {
+    // console.log("initMonsters");
     this.fieldState.monsters = {};
     monsters.forEach((mon) => {
       const monster = new Wanderer({
@@ -29,6 +30,7 @@ class RoomClient {
         color: mon.color,
         authCnt: mon.accuredAuthCnt,
       });
+      monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
       this.fieldState.monsters[mon.id] = monster;
     });
   };
@@ -69,10 +71,11 @@ class RoomClient {
   }
 
   usersOnRoomHandler = (users) => {
+    // console.log("usersOnRoomHandler", users, this.fieldState.monsters);
     this.usersOnRoom = users;
     for (let monId in this.fieldState.monsters) {
       let mon = this.fieldState.monsters[monId];
-      mon.isUserOnRoom = users.includes(mon.userId);
+      mon.isUserOnRoom = this.usersOnRoom.includes(mon.userId);
     }
   };
 
