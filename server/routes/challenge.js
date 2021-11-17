@@ -11,9 +11,7 @@ module.exports = function (connection) {
     if (req.user) {
         try {
         connection.query('INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)', [req.body.challenge_name, req.body.challenge_content, req.user.nickname, max_user, cnt_of_week, life], function(err1, results1) {
-            if (err1) {
-                return;
-            }
+
             res.status(200).json({
                 result: "success",
                 msg: "do insert",

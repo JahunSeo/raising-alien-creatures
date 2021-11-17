@@ -8,9 +8,7 @@ module.exports = function (connection) {
         connection.query(
             sql1,
             function (error, results) {
-              if (error) {
-                  return;
-              }
+
               res.status(200).json({
                 result: "success",
                 data: results,

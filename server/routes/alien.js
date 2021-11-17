@@ -17,9 +17,7 @@ module.exports = function (connection) {
                 connection.query(
                     sql1 + sql2 + sql3,
                     function (error, results) {
-                    if (error) {
-                        return;
-                    }
+
                     res.status(200).json({
                     result: "success",
                     msg: "do insert"
