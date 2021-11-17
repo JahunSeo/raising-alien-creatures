@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 
 export default function Header(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const { rooms, roomId, setRoomId } = props;
+  const { roomId } = props;
   // const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
   const [signInModalOn, setSignInModalOn] = useState(false);
@@ -38,7 +38,7 @@ export default function Header(props) {
       // console.log("res", res);
       if (res.data.login) {
         // setLoginStatus(true);
-        dispatch(actions.checkUser(res));
+        dispatch(actions.checkUser(res.data));
       }
     };
 
@@ -53,29 +53,26 @@ export default function Header(props) {
         </button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
       </div>
-
       <div className={cx("item", "itemRoom")}>
         <Link to={"/"}>
           <button>{"메인화면"}</button>
         </Link>
-        {user && user.data.nickname && (
-          <Link to={`/user/${user.data.id}`}>
+        {user && user.nickname && (
+          <Link to={`/user/${user.id}`}>
             <button>{"나의 어항"}</button>
           </Link>
         )}
         {user &&
-          user.data.nickname &&
+          user.nickname &&
           [{ name: "challenge", url: "/challenge/1" }].map((room) => (
             <Link to={room.url} key={room.name}>
               <button>{room.name}</button>
             </Link>
           ))}
       </div>
-
-      {/* {loginStatus ? ( */}
       {user ? (
         <div className={cx("item", "itemUser")}>
-          <div className={styles.username}>{user && user.data.nickname}</div>
+          <div className={styles.username}>{user && user.nickname}</div>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃
