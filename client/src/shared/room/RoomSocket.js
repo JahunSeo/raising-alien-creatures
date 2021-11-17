@@ -37,7 +37,7 @@ class RoomSocket {
     delete this.clients[client.clientId];
     this.clientCnt -= 1;
     this.users[client.userId]--;
-    if (this.users[client.userId] == 0) {
+    if (this.users[client.userId] === 0) {
       delete this.users[client.userId];
     }
     // console.log("removeParticipant", this.clients, this.users);

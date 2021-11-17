@@ -33,17 +33,21 @@ export default class Field extends Component {
         let x = room.camera.getCanvasSize(location.x);
         let y = room.camera.getCanvasSize(location.y);
         size = room.camera.getCanvasSize(size);
+
         ctx.beginPath();
         ctx.arc(x, y, size / 2, 0, Math.PI * 2);
         ctx.fillStyle = color;
+        if (isUserOnRoom && frameCnt % 100 <= 40) {
+          ctx.fillStyle = "tomato";
+        }
         ctx.fill();
 
-        if (isUserOnRoom) {
-          ctx.beginPath();
-          ctx.arc(x, y, 8, 0, Math.PI * 2);
-          ctx.fillStyle = "tomato";
-          ctx.fill();
-        }
+        // if (isUserOnRoom) {
+        //   ctx.beginPath();
+        //   ctx.arc(x, y, 8, 0, Math.PI * 2);
+        //   ctx.fillStyle = "tomato";
+        //   ctx.fill();
+        // }
       }
 
       if (mouseObj.clicked) {

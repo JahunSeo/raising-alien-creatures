@@ -61,6 +61,7 @@ export default function ChallengeRoom(props) {
       // socket.subscribe(rooms.current[roomId].syncFieldState);
     }
     return () => {
+      console.log("challenge", 123);
       socket.disconnect(roomId);
     };
   }, [rooms, roomId, challengeId, participating]);

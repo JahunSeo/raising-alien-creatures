@@ -31,6 +31,7 @@ class RoomClient {
         authCnt: mon.accuredAuthCnt,
       });
       monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
+      // console.log(monster.monId, monster.isUserOnRoom);
       this.fieldState.monsters[mon.id] = monster;
     });
   };
@@ -71,11 +72,12 @@ class RoomClient {
   }
 
   usersOnRoomHandler = (users) => {
-    // console.log("usersOnRoomHandler", users, this.fieldState.monsters);
+    console.log("usersOnRoomHandler", users);
     this.usersOnRoom = users;
     for (let monId in this.fieldState.monsters) {
       let mon = this.fieldState.monsters[monId];
       mon.isUserOnRoom = this.usersOnRoom.includes(mon.userId);
+      // console.log(mon.monId, mon.isUserOnRoom);
     }
   };
 
