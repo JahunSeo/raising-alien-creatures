@@ -1,7 +1,11 @@
 import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import "./PostList.css";
+import SideBarModal2 from "./SideBarModal2";
+import * as actions from "../../../../Redux/actions/index.js";
 
 const PostItem = React.memo(function PostItem({ fish }) {
+  const dispatch = useDispatch();
   return (
     <>
       <div className="PostItemBlock">
@@ -15,9 +19,18 @@ const PostItem = React.memo(function PostItem({ fish }) {
           </div>
         </div>
         <div className="buttons">
-          <button className="StyledButton"> 인증하기</button>
+          <button
+            className="StyledButton"
+            onClick={() => {
+              dispatch(actions.showModal2(true));
+            }}
+          >
+            {" "}
+            인증하기
+          </button>
           <button className="StyledButton"> 챌린지 어항</button>
           <button className="StyledButton"> 졸업 신청</button>
+          <SideBarModal2 />
         </div>
       </div>
     </>
@@ -50,39 +63,47 @@ const PostList = () => {
   const [category, setCategory] = useState(false);
   const [drop, setDrop] = useState(false);
 
-  const grad_onClick = useCallback(e => {
+  const grad_onClick = useCallback((e) => {
     // submit event는 브라우저에서 새로고침을 발생시키기 때문에 preventDefault는 이걸 방지하는 함수
     e.preventDefault();
-    setCategory(category => !category);
-    }, []
-  )
+    setCategory((category) => !category);
+  }, []);
 
-  const drop_onClick = useCallback(e => {
+  const drop_onClick = useCallback((e) => {
     e.preventDefault();
-    setDrop(drop => !drop)
-    }, []
-  );
+    setDrop((drop) => !drop);
+  }, []);
 
   return (
     <div className="PostListBlock">
-      <button className ='dropdown' onClick= {drop_onClick}>
-        <img style={{width: '1.7em', height: '1.7em' }} alt = "toggledown.png" src="toggledown.png"/>
+      <button className="dropdown" onClick={drop_onClick}>
+        <img
+          style={{ width: "1.7em", height: "1.7em" }}
+          alt="toggledown.png"
+          src="toggledown.png"
+        />
       </button>
-      {
-        drop ?
-      (<div className = 'dropContent'>
+      {drop ? (
+        <div className="dropContent">
           <span> 추가된 날짜 (최신 순) </span>
           <span> 추가된 날짜 (오래된 순) </span>
           <span> 커밋 횟수(가장 많은 순) </span>
           <span> 커밋 횟수(가장 낮은 순) </span>
-        </div>)
-        : null
-        }
+        </div>
+      ) : null}
       <ul>
         <span
-          className={category === false ? "selected" : null} onClick={grad_onClick} >∘ 진행중 </span>
+          className={category === false ? "selected" : null}
+          onClick={grad_onClick}
+        >
+          ∘ 진행중{" "}
+        </span>
         <span
-          className={category === true ? "selected" : null} onClick={grad_onClick} >∘ 졸업 </span>
+          className={category === true ? "selected" : null}
+          onClick={grad_onClick}
+        >
+          ∘ 졸업{" "}
+        </span>
       </ul>
       {myFishList.map((Fish) =>
         Boolean(Fish.graduate) === category ? (

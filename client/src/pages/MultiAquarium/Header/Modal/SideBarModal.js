@@ -26,8 +26,8 @@ export default function SideBarModal() {
           }}
         >
           모달달2ㄱㄱ
-        </button>
-        <SideBarModal2 /> */}
+        </button> */}
+        {/* <SideBarModal2 /> */}
       </div>
     </>
   );

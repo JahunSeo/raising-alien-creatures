@@ -1,7 +1,6 @@
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "../.env") });
-
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -117,7 +116,7 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
     }
   );
   connection.query(
-    'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
+    "UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;",
     [req.challenge_id],
     function (err, results) {
       if (err) {
@@ -172,7 +171,7 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
     }
   );
   connection.query(
-    'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
+    "UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;",
     [req.challenge_id],
     function (err, results) {
       if (err) {
