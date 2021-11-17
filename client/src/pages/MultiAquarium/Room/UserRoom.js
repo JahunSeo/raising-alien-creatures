@@ -7,8 +7,7 @@ import api from "../../../apis";
 
 export default function UserRoom(props) {
   const dispatch = useDispatch();
-
-  // 챌린지 정보 가져오기
+  // 유저 정보 가져오기
   let params = useParams();
   const roomId = `user-${params.userId}`;
   const { rooms } = props;
@@ -16,8 +15,8 @@ export default function UserRoom(props) {
     try {
       const fetchData = async () => {
         if (!rooms.current) rooms.current = {};
-        const res = await api.get("/main");
-        console.log("fetch main data", res.data);
+        const res = await api.get(`/user/${params.userId}`);
+        // console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           rooms.current[roomId] = new Room(roomId);
