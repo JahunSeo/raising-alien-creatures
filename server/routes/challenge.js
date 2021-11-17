@@ -14,15 +14,10 @@ module.exports = function (connection) {
             if (err1) {
                 return;
             }
-            connection.query('INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id) VALUES (?, ?)', [req.user.id, results1.insertId], function(err2, result2) {
-                if (err2) {
-                    return;
-                }
-                res.status(200).json({
-                    result: "success",
-                    msg: "do insert",
-                    data: results1.insertId,
-                });
+            res.status(200).json({
+                result: "success",
+                msg: "do insert",
+                data: results1.insertId,
             });
         });
             
