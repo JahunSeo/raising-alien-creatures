@@ -4,7 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 
 import Room from "../client/src/shared/room/RoomSocket.js";
-import User from "../client/src/shared/room/User.js";
+import Client from "../client/src/shared/room/Client.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -18,7 +18,7 @@ const options = {
 const io = new Server(httpServer, options);
 
 const rooms = {};
-const users = {};
+const clients = {};
 
 io.on("connection", (socket) => {
   console.log(`[socket server] connection with ${socket.id}`);
@@ -29,27 +29,27 @@ io.on("connection", (socket) => {
     console.log(
       `[socket server] join ${clientId}, roomId ${roomId}, userId ${userId}`
     );
-    // 새로운 user 생성
-    if (users[clientId]) return false; // ERROR
-    const user = new User({ clientId, userId, roomId });
-    users[clientId] = user;
+    // 새로운 client 생성
+    if (clients[clientId]) return false; // ERROR
+    const client = new Client({ clientId, userId, roomId });
+    clients[clientId] = client;
 
-    // 해당 room에 user 추가
+    // 해당 room에 client 추가
     if (!rooms[roomId]) {
       rooms[roomId] = new Room(roomId);
       rooms[roomId].start(io);
     }
-    // user에 room 추가 및 join
-    user.enterRoom(roomId);
+    // client에 room 추가 및 join
+    client.enterRoom(roomId);
     socket.join(roomId);
 
-    let result = rooms[roomId].addParticipant(user);
+    let result = rooms[roomId].addParticipant(client);
     if (!result) return false; // ERROR
 
     // broadcasting to all
     // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
     console.log(
-      `[socket server] join result userCnt: ${
+      `[socket server] join result clientCnt: ${
         rooms[roomId] && rooms[roomId].clientCnt
       } / roomCnt: ${Object.keys(rooms).length}`
     );
@@ -74,15 +74,15 @@ io.on("connection", (socket) => {
 
   const handleDisconnect = () => {
     // 방에서 참가자 제거
-    console.log(`[socket server] disconnect user ${clientId}`);
-    const user = users[clientId];
-    if (!user) return false; // ERROR
+    console.log(`[socket server] disconnect client ${clientId}`);
+    const client = clients[clientId];
+    if (!client) return false; // ERROR
 
-    const roomId = user.getParticipatingRooms();
-    let remaining_num = rooms[roomId].removeParticipant(user);
+    const roomId = client.getParticipatingRooms();
+    let remaining_num = rooms[roomId].removeParticipant(client);
 
     // 유저 제거
-    delete users[clientId];
+    delete clients[clientId];
 
     // 방에 참가자가 아무도 없는 경우, 방 제거
     if (rooms[roomId] && remaining_num <= 0) {
@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
       // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
     }
     console.log(
-      `[socket server] disconnect result userCnt: ${
+      `[socket server] disconnect result clientCnt: ${
         rooms[roomId] ? rooms[roomId].clientCnt : "none"
       } / roomCnt: ${Object.keys(rooms).length}`
     );

@@ -1,4 +1,4 @@
-class User {
+class Client {
   constructor(props) {
     this.clientId = props.clientId;
     this.userId = props.userId;
@@ -23,4 +23,4 @@ class User {
   }
 }
 
-export default User;
+export default Client;
