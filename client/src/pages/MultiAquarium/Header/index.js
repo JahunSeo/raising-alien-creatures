@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
@@ -11,6 +11,9 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function Header(props) {
+  const {user} = useSelector(({user}) => ({user: user.user}));
+  console.log('user:', user);
+
   const { rooms, roomId, setRoomId } = props;
   const [loginStatus, setLoginStatus] = useState(false);
   const [signUpModalOn, setSignUpModalOn] = useState(false);
@@ -21,7 +24,7 @@ export default function Header(props) {
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
     console.log("res", res);
-    // res.data.
+    dispatch(actions.logout());
     setLoginStatus(false);
   };
 
@@ -34,11 +37,14 @@ export default function Header(props) {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
       console.log("res", res);
-      if (res.data.login) setLoginStatus(true);
+      if (res.data.login){
+        setLoginStatus(true);
+        dispatch(actions.checkUser(res))
+      }
     };
 
     getLoginStatus();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles.body}>
@@ -60,7 +66,7 @@ export default function Header(props) {
       </div>
       {loginStatus ? (
         <div className={cx("item", "itemUser")}>
-          <Button variant="primary">dummy</Button>
+          <Button variant="primary">{user && user.data.nickname}</Button>
           <h1>&nbsp;</h1>
           <Button variant="info" onClick={handleLogout}>
             로그아웃
