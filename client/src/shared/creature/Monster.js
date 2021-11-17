@@ -1,10 +1,13 @@
-const Vector2D = require("./Vector2D");
+import Vector2D from "../lib/Vector2D.js";
 
 class Monster {
-  constructor(userId) {
+  constructor(props) {
     // TODO
-    this.userId = userId; // TODO: user id or email
+    this.userId = props.userId; // TODO: user id or email
+    this.monId = props.monId; // TODO
     this.init();
+    if (!!props.color) this.color = props.color;
+    if (!!props.authCnt) this.size = 20 + props.authCnt * 2;
   }
 
   init() {
@@ -23,6 +26,18 @@ class Monster {
     this.destination = { ...this.location };
     this.size = 50 + Math.random() * 100;
     this.color = this.getRandomColor();
+  }
+
+  overwrite(monPlain) {
+    for (const property in monPlain) {
+      this[property] = monPlain[property];
+    }
+  }
+
+  sync(monPlain) {
+    // temp
+    this.destination = monPlain.destination;
+    this.size = monPlain.size;
   }
 
   getRandLocation() {
@@ -93,4 +108,4 @@ class Monster {
   }
 }
 
-module.exports = Monster;
+export default Monster;
