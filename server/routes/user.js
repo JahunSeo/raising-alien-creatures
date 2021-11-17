@@ -127,7 +127,6 @@ module.exports = function (passport, connection) {
         });
         return;
       }
-
       var result = {
         result: "success",
         user: user_id,
@@ -143,7 +142,7 @@ module.exports = function (passport, connection) {
 
   // 챌린지 인증 요청
   // Data Type : Front 쪽에서 data JSON Type으로 서버로 전달
-  // var data = {user_info_id : 2, Alien_id : 2, Challenge_if : 2, requestUserNickname : 'john', imgURL : 'test_url'};
+  // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/aquarium/auth", function (req, res) {
     var data = req.body;
     console.log(data);
@@ -164,7 +163,7 @@ module.exports = function (passport, connection) {
       // -> connected clients socket list 의 identifier 가 user identifier로 변경되어야 함
       console.log(results);
       res.json({ result: "success" });
-      // res.redirect('/');ß
+      // res.redirect('/');
     });
   });
 

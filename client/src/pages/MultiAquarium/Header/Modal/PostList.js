@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
+import SideBarModal2 from "./SideBarModal2";
 
 const PostItem = React.memo(function PostItem({ alien }) {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const PostItem = React.memo(function PostItem({ alien }) {
           </button>
           <button className="StyledButton"> 챌린지 어항</button>
           <button className="StyledButton"> 졸업 신청</button>
+          <SideBarModal2 />
         </div>
       </div>
     </>
