@@ -5,7 +5,8 @@ class RoomSocket {
   constructor(roomId) {
     this.roomId = roomId;
     this.clientCnt = 0; // TODO: 접속해 있는 사람 수 개념으로 분리
-    this.participants = {};
+    this.clients = {};
+    this.users = {};
     //
     this.broadcastQueue = [];
   }
@@ -19,15 +20,26 @@ class RoomSocket {
   addParticipant(client) {
     // 참가자 추가
     // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
-    this.participants[client.clientId] = client;
+    this.clients[client.clientId] = client;
     this.clientCnt += 1;
+    if (!(client.userId in this.users)) {
+      this.users[client.userId] = 0;
+    }
+    this.users[client.userId]++;
+    // console.log("addParticipant", this.clients, this.users);
+
     return true;
   }
 
   removeParticipant(client) {
     // 참가자 제거
-    delete this.participants[client.clientId];
+    delete this.clients[client.clientId];
     this.clientCnt -= 1;
+    this.users[client.userId]--;
+    if (this.users[client.userId] == 0) {
+      delete this.users[client.userId];
+    }
+    // console.log("removeParticipant", this.clients, this.users);
     // this.io.to(this.roomId).emit("fieldState", this.getFieldState());
 
     return this.clientCnt;
