@@ -1,7 +1,7 @@
 // 액션 생성 함수들
 import * as types from "./ActionTypes";
 
-export const showModal = (onoff) => ({
+export const showModal1 = (onoff) => ({
   type: types.SHOW_MODAL1,
   showModal1: onoff,
 });

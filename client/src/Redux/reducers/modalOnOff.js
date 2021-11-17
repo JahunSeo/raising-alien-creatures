@@ -3,7 +3,7 @@ import * as types from "../actions/ActionTypes";
 const initialState = {
   showModal1: false,
   showModal2: false,
-  // showModalChal: false,
+  showModal3: false,
 };
 
 export default function modalOnOff(state = initialState, action) {

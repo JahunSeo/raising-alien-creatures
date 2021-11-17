@@ -6,6 +6,7 @@ import styles from "./index.module.css";
 import SignUpModal from "../../../modals/SignUpModal";
 import SignInModal from "../../../modals/SignInModal";
 import ChallengeModal from "./Modal/ChallengeModal";
+import SideBarModal from "./Modal/SideBarModal";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis/index";
 import classNames from "classnames/bind";
@@ -58,7 +59,7 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={cx("item", "itemTitle")}>
-        <button onClick={() => dispatch(actions.showModal(!showModal1))}>
+        <button onClick={() => dispatch(actions.showModal1(!showModal1))}>
           생명체 리스트
         </button>
         <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
@@ -120,6 +121,7 @@ export default function Header(props) {
         show={challengeModalOn}
         onHide={() => setChallengeModalOn(false)}
       />
+      <SideBarModal />
     </div>
   );
 }

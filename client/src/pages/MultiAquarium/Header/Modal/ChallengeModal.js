@@ -31,12 +31,10 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
   }
 
   function handleCapacity(e) {
-    e.preventDefault();
     setChallengeCapacity(e.target.value);
   }
 
   function handleFrequency(e) {
-    e.preventDefault();
     setChallengeFrequency(e.target.value);
   }
 
@@ -73,7 +71,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
       setChallengeFrequency("선택");
       alert("챌린지 생성에 성공하였습니다.");
       dispatch(actions.showModal3(!showModal3));
-      // return;
+      return;
     } else {
       setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
       return;
@@ -88,7 +86,7 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
           dispatch(actions.showModal((current) => !current));
         }}
       ></div> */}
-      <div className={showModal3 ? "ModalContainer" : "hidden"}>
+      <div className={showModal3 ? "ChallengeContainer" : "hidden"}>
         <br />
         <h1>새로운 챌린지 생성하기</h1>
         <br />

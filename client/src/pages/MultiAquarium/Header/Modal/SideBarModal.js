@@ -14,11 +14,11 @@ export default function SideBarModal() {
       <div
         className={showModal1 ? "Background" : null}
         onClick={() => {
-          dispatch(actions.showModal(false));
+          dispatch(actions.showModal1(false));
         }}
       />
       <div className={showModal1 ? "ModalContainer" : "hidden"}>
-        <div>모달달1</div>
+        {/* <div>모달달1</div> */}
         <PostList />
         {/* <button
           onClick={() => {
