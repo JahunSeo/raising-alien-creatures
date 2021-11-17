@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import styles from "./SignInModal.module.css";
 import api from "../apis/index.js";
+import { useDispatch } from "react-redux";
+import * as actions from "../Redux/actions";
 
-const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
+// const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
+const SignInModal = ({ show, onHide, setSignInModalOn }) => {
+
+  const dispatch = useDispatch();
+
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const [signInClicked, setSignInClicked] = useState(false);
+  // const [signInClicked, setSignInClicked] = useState(false);
   const [signInMessage, setSignInMessage] = useState(null);
 
   function validateSignIn(userEmail, userPassword) {
@@ -30,10 +36,10 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (signInClicked) return;
+    // if (signInClicked) return;
     if (!validateSignIn(userEmail, userPassword)) return;
     setSignInMessage(null);
-    setSignInClicked(true);
+    // setSignInClicked(true);
     postSignIn();
   };
 
@@ -43,11 +49,11 @@ const SignInModal = ({ show, onHide, setSignInModalOn, setLoginStatus }) => {
     console.log("res", res);
     if (res.data.result === "success") {
       // TODO: Redux 처리
-      setLoginStatus(true);
+      dispatch(actions.checkUser(res))
       setSignInModalOn(false);
     } else {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
-      setSignInClicked(false);
+      // setSignInClicked(false);
     }
   };
 
