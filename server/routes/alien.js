@@ -11,9 +11,11 @@ module.exports = function (connection) {
             const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, Alien_image_url, total_auth_cnt, auth_day) VALUES (${req.user.id}, ${req.params.challenge_id}, ${req.body.alienName}, ${req.body.Alien_image_url}, ${req.body.total_auth_cnt}, ${req.body.auth_day});`;
             // challenge id 받아오기
             const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.params.challenge_id};`;
+            // user_info_has_challenge 테이블 row 추가
+            const sql3 = `INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id VALUES (${req.user.id}, ${req.params.challenge_id});`;
             try{
                 connection.query(
-                    sql1 + sql2,
+                    sql1 + sql2 + sql3,
                     function (error, results) {
                     if (error) {
                         return;
