@@ -45,6 +45,11 @@ io.on("connection", (socket) => {
 
     // broadcasting to all
     // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
+    console.log(
+      `[socket server] join result userCnt: ${
+        rooms[roomId] && rooms[roomId].clientCnt
+      } / roomCnt: ${Object.keys(rooms).length}`
+    );
   };
 
   const handleChangeDestination = (data) => {
@@ -77,7 +82,7 @@ io.on("connection", (socket) => {
     delete users[clientId];
 
     // 방에 참가자가 아무도 없는 경우, 방 제거
-    if (remaining_num <= 0) {
+    if (rooms[roomId] && remaining_num <= 0) {
       // close room
       rooms[roomId].close();
       delete rooms[roomId];
@@ -87,7 +92,9 @@ io.on("connection", (socket) => {
       // io.to(roomId).emit("fieldState", rooms[roomId].getFieldState());
     }
     console.log(
-      `[socket server] disconnect result ${Object.keys(rooms).length}`
+      `[socket server] disconnect result userCnt: ${
+        rooms[roomId] ? rooms[roomId].clientCnt : "none"
+      } / roomCnt: ${Object.keys(rooms).length}`
     );
   };
 
