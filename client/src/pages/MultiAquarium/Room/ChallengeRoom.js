@@ -59,6 +59,8 @@ export default function ChallengeRoom(props) {
       socket.initAndJoin({ roomId, userId: user.id });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       // socket.subscribe(rooms.current[roomId].syncFieldState);
+    } else if (rooms.current[roomId]) {
+      rooms.current[roomId].eraseUsersOnRoom();
     }
     return () => {
       console.log("challenge", 123);

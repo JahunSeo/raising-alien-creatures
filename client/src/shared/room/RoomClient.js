@@ -81,6 +81,13 @@ class RoomClient {
     }
   };
 
+  eraseUsersOnRoom = () => {
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
+      mon.isUserOnRoom = false;
+    }
+  };
+
   start() {
     console.log("[room] start", this.roomId);
     clearInterval(this.interval);
