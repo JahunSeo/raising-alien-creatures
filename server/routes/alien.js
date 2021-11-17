@@ -13,23 +13,22 @@ module.exports = function (connection) {
             const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.params.challenge_id};`;
             // user_info_has_challenge 테이블 row 추가
             const sql3 = `INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id VALUES (${req.user.id}, ${req.params.challenge_id});`;
-            try{
                 connection.query(
                     sql1 + sql2 + sql3,
                     function (error, results) {
-
-                    res.status(200).json({
-                    result: "success",
-                    msg: "do insert"
-                    });
+                        if (error) {
+                            console.log(error);
+                            res.status(200).json({
+                                result: "fail",
+                                msg: "cant select"
+                            });
+                        }
+                        res.status(200).json({
+                        result: "success",
+                        msg: "do insert"
+                        });
                 });
-            } catch (err) {
-                console.log(err);
-                res.status(501).json({
-                    result: "fail",
-                    msg: "cant select"
-                });
-            }
+                
             
         } else {
             res.status(401).json({

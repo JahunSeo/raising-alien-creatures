@@ -8,7 +8,7 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
 });
     /*
     connection.query(
-      "INSERT INTO Alien_dead SELECT * FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
+      "INSERT INTO Alien_dead(id, user_info_id, Challenge_id, createDate, alienName, color, accuredAuthCnt, failureCnt, life, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day) SELECT id, user_info_id, Challenge_id, createDate, alienName, color, accuredAuthCnt, failureCnt, life, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
       [day],
       function (err, results) {
         if (err) {
@@ -57,9 +57,9 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
         console.log("success update Alien!!!!!!!!!", results);
       }
     );
-    // alien_dead에 column 추가(is_subtract)해서 중복으로 빼주는 것 방지하기
+    // week_auth_cnt != total_auth_cnt을 이용해서 중복으로 빼주는 것 방지하기
     connection.query(
-      'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id AND alien.is_subtract = 1'
+      'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id AND  alien.week_auth_cnt != alien.total_auth_cnt'
       , function (err, results) {
         if (err) {
           console.error(err);
@@ -67,9 +67,9 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
         console.log("success update challenge pariticipant_number!!!!!!");
       }
     );
-    // alien_dead에 column(is_subtract) 0으로 변경
+    // week_auth_cnt = total_auth_cnt으로 변경
     connection.query(
-      'UPDATE Alien_dead SET is_subtract = 0 where is_subtract = 1'
+      'UPDATE Alien_dead SET week_auth_cnt = total_auth_cnt WHERE week_auth_cnt != total_auth_cnt'
       , function (err, results) {
         if (err) {
           console.error(err);
@@ -78,11 +78,19 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
       }
     );
     // user_info_has_challenge table row 삭제
-    
+    connection.query(
+      'UPDATE Alien_dead SET is_subtract = 0 WHERE week_auth_cnt = total_auth_cnt'
+      , function (err, results) {
+        if (err) {
+          console.error(err);
+        }
+        console.log("success update alien_dead colum 0!!!!!!");
+      }
+    );
   
     // 졸업 API
     connection.query(
-      "INSERT INTO Alien_graduated SELECT * FROM Alien where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)",
+      "INSERT INTO Alien_graduated(id, user_info_id, Challenge_id, createDate, alienName, color, accuredAuthCnt, failureCnt, life, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day) SELECT id, user_info_id, Challenge_id, createDate, alienName, color, accuredAuthCnt, failureCnt, life, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day FROM Alien where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)",
       [day],
       function (err, results) {
         if (err) {
@@ -134,9 +142,9 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
         console.log("success update challenge pariticipant_number!!!!!!");
       }
     );
-    // alien_graduated에 column 추가(is_subtract)해서 중복으로 빼주는 것 방지하기
+    // week_auth_cnt != total_auth_cnt을 이용해서 중복으로 빼주는 것 방지하기
     connection.query(
-      'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id AND alien.is_subtract = 1'
+      'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id AND  alien.week_auth_cnt != alien.total_auth_cnt'
       , function (err, results) {
         if (err) {
           console.error(err);
@@ -144,9 +152,9 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
         console.log("success update challenge pariticipant_number!!!!!!");
       }
     );
-    // alien_graduated에 column(is_subtract) 0으로 변경
+    // week_auth_cnt = total_auth_cnt으로 변경
     connection.query(
-      'UPDATE Alien_graduated SET is_subtract = 0 where is_subtract = 1'
+      'UPDATE Alien_graduated SET week_auth_cnt != total_auth_cnt WHERE week_auth_cnt != total_auth_cnt'
       , function (err, results) {
         if (err) {
           console.error(err);
@@ -155,5 +163,14 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
       }
     );
     // user_info_has_challenge table row 삭제
+    connection.query(
+      'UPDATE Alien_dead SET is_subtract = 0 WHERE week_auth_cnt = total_auth_cnt'
+      , function (err, results) {
+        if (err) {
+          console.error(err);
+        }
+        console.log("success update alien_dead colum 0!!!!!!");
+      }
+    );
   });
   */

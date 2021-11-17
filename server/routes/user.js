@@ -204,21 +204,20 @@ module.exports = function (passport, connection) {
 
   router.get("/:userId", (req, res) => {
     const user_id = req.params.userId;
-    try {
-    connection.query('(SELECT * FROM Alien JOIN Challenge ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT * FROM Alien_graduated JOIN Challenge ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)', [user_id, user_id], function(err, result) {
-
+    connection.query('(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.life, Alien.createDate, alienName, color, accuredAuthCnt, color, failureCnt, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day, alive_date FROM Challenge JOIN Alien ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.life, Alien_graduated.createDate, alienName, color, accuredAuthCnt, color, failureCnt, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day, graduated_date FROM Challenge JOIN Alien_graduated ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)', [user_id, user_id], function(err, result) {
+      if (err) {
+        console.error(err);
+        res.status(200).json({
+        result: "fail",
+        msg: "cant select infomations"
+        }); 
+        return;
+      }
       res.status(200).json({
         result: "success",
         data: result,
         });
     })
-  } catch (err) {
-    console.error(err);
-    res.status(501).json({
-      result: "fail",
-      msg: "cant select infomations"
-    });  
-  }
   });
  
 
