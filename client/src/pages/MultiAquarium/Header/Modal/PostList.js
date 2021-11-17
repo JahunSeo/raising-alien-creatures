@@ -7,8 +7,7 @@ import SideBarModal2 from "./SideBarModal2";
 const PostItem = React.memo(function PostItem({ alien }) {
   const dispatch = useDispatch();
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
-
-  console.log(alien);
+  // console.log("alien::", alien);
   // console.log(alien.createDate.split('T')[0])
   return (
     <>

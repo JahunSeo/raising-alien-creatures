@@ -4,10 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index";
 
-export default function SideBarModal2({ alien }) {
+export default function SideBarModal2(props) {
+  const { alien } = props;
+  console.log("props: ", props);
+  console.log("alien밖: ", alien);
+
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   const dispatch = useDispatch();
-  console.log("여기여기", alien);
+  // console.log("여기여기", alien);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
@@ -15,6 +19,7 @@ export default function SideBarModal2({ alien }) {
   console.log("authMessage", authMessage);
 
   const handleSubmit = async (e) => {
+    console.log("alien안: ", { alien });
     e.preventDefault();
     const res = await api.get("/main/s3Url");
     console.log("url", res.data.url);
@@ -32,7 +37,13 @@ export default function SideBarModal2({ alien }) {
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
 
-    // resp = {   , comment : authMessage , imgURL : imageUrl;}
+    // resp = {  alien : al , comment : authMessage , imgURL : imageUrl;}
+
+    // let authData = {};
+    // const res = await api.post("", authData);
+    // console.log("res", res);
+    // if (res.data.result === "success") {
+    // }
 
     // post requst to my server to store any extra data
   };
