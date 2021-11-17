@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index";
 
-export default function SideBarModal2() {
+export default function SideBarModal2({ alien }) {
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   const dispatch = useDispatch();
-
+  console.log("여기여기", alien);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
@@ -46,7 +46,7 @@ export default function SideBarModal2() {
         }}
       /> */}
       <div>
-        <div className={showModal2 ? "ModalContainer2" : null}>
+        <div className={showModal2 ? "ModalContainer2" : "hidden2"}>
           <form id="imageForm">
             <p>인증하기 </p>
             <textarea

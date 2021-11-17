@@ -34,7 +34,7 @@ const PostItem = React.memo(function PostItem({ alien }) {
           </button>
           <button className="StyledButton"> 챌린지 어항</button>
           <button className="StyledButton"> 졸업 신청</button>
-          <SideBarModal2 />
+          <SideBarModal2 alien={alien} />
         </div>
       </div>
     </>
