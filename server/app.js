@@ -203,7 +203,7 @@ const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
       console.log("success update challenge pariticipant_number!!!!!!");
     }
   );
-  // alien_dead에 column(is_subtract) 0으로 변경
+  // alien_graduated에 column(is_subtract) 0으로 변경
   connection.query(
     'UPDATE Alien_graduated SET is_subtract = 0 where is_subtract = 1'
     , function (err, results) {
