@@ -23,7 +23,7 @@ export default function Header(props) {
 
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
-    console.log("res", res);
+    // console.log("res", res);
     dispatch(actions.logout());
     // setLoginStatus(false);
   };
@@ -36,7 +36,7 @@ export default function Header(props) {
   useEffect(() => {
     const getLoginStatus = async () => {
       const res = await api.get("/user/login/confirm");
-      console.log("res", res);
+      // console.log("res", res);
       if (res.data.login) {
         // setLoginStatus(true);
         dispatch(actions.checkUser(res));

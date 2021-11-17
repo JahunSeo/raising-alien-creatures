@@ -12,16 +12,19 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get("/main");
-        // console.log("fetch main data", res.data);
+        const res = await api.post("/user/aquarium/challenge", {
+          challenge_id: params.challengeId,
+        });
+        console.log("fetch challenge data", res.data.Alien);
         if (res.data.result === "success") {
           // rooms 상태 정보
+          const aliens = res.data.Alien;
           if (!rooms.current) rooms.current = {};
           rooms.current[roomId] = new Room(roomId);
-          rooms.current[roomId].initMonsters(res.data.data);
+          rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // TODO: redux
-          setRoomInfo({ roomId, aliens: res.data.data });
+          setRoomInfo({ roomId, aliens });
         } else {
         }
       };
