@@ -70,6 +70,10 @@ class RoomClient {
 
   usersOnRoomHandler = (users) => {
     this.usersOnRoom = users;
+    for (let monId in this.fieldState.monsters) {
+      let mon = this.fieldState.monsters[monId];
+      mon.isUserOnRoom = users.includes(mon.userId);
+    }
   };
 
   start() {

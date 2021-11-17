@@ -14,6 +14,7 @@ export default class Field extends Component {
     if (this.props.room && this.props.room.fieldState) {
       const room = this.props.room;
       const { monsters } = room.fieldState;
+      // console.log(111, this.props.room.usersOnRoom);
 
       // draw background
       // ctx.fillStyle = `rgba(255, 255, 255, 1)`;
@@ -28,7 +29,7 @@ export default class Field extends Component {
       // draw monster
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
       for (const userId in monsters) {
-        let { location, size, color } = monsters[userId];
+        let { location, size, color, isUserOnRoom } = monsters[userId];
         let x = room.camera.getCanvasSize(location.x);
         let y = room.camera.getCanvasSize(location.y);
         size = room.camera.getCanvasSize(size);
@@ -36,6 +37,13 @@ export default class Field extends Component {
         ctx.arc(x, y, size / 2, 0, Math.PI * 2);
         ctx.fillStyle = color;
         ctx.fill();
+
+        if (isUserOnRoom) {
+          ctx.beginPath();
+          ctx.arc(x, y, 10, 0, Math.PI * 2);
+          ctx.fillStyle = "red";
+          ctx.fill();
+        }
       }
 
       if (mouseObj.clicked) {

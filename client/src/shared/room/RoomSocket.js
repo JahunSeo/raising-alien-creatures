@@ -26,7 +26,8 @@ class RoomSocket {
     }
     this.users[client.userId]++;
     // console.log("addParticipant", this.clients, this.users);
-    this.io.to(this.roomId).emit("usersOnRoom", Object.keys(this.users));
+    const usersOnRoom = Object.keys(this.users).map((id) => Number(id));
+    this.io.to(this.roomId).emit("usersOnRoom", usersOnRoom);
 
     return true;
   }
@@ -40,7 +41,8 @@ class RoomSocket {
       delete this.users[client.userId];
     }
     // console.log("removeParticipant", this.clients, this.users);
-    this.io.to(this.roomId).emit("usersOnRoom", Object.keys(this.users));
+    const usersOnRoom = Object.keys(this.users).map((id) => Number(id));
+    this.io.to(this.roomId).emit("usersOnRoom", usersOnRoom);
 
     return this.clientCnt;
   }
