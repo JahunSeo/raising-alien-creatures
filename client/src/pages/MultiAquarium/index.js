@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import PlazaRoom from "./Room/PlazaRoom";
 import UserRoom from "./Room/UserRoom";
+import ChallengeRoom from "./Room/ChallengeRoom";
 
 import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
@@ -52,7 +53,7 @@ export default function MultiAquarium() {
         ></Route>
         <Route
           path="/challenge/:challengeId"
-          element={<PlazaRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
+          element={<ChallengeRoom rooms={rooms} setRoomInfo={setRoomInfo} />}
         ></Route>
       </Routes>
 

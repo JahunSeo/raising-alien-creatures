@@ -4,10 +4,10 @@ import { useParams } from "react-router-dom";
 
 import api from "../../../apis";
 
-export default function UserRoom(props) {
-  // 유저 정보 가져오기
+export default function ChallengeRoom(props) {
+  // 챌린지 정보 가져오기
   let params = useParams();
-  const roomId = `user-${params.userId}`;
+  const roomId = `challenge-${params.challengeId}`;
   const { rooms, setRoomInfo } = props;
   useEffect(() => {
     try {
@@ -32,8 +32,8 @@ export default function UserRoom(props) {
     return () => {
       rooms.current[roomId].close();
     };
-    // }, []);
-  }, [roomId, rooms, setRoomInfo]);
+    //   }, []);
+  }, [rooms, setRoomInfo]);
 
   return <div></div>;
 }
