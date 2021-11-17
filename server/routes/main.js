@@ -16,6 +16,7 @@ module.exports = function (connection) {
                 });
                 return;
               }
+
               res.status(200).json({
                 result: "success",
                 data: results
