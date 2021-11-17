@@ -19,7 +19,7 @@ export default function MultiAquarium() {
     aliens: room.aliens,
   }));
 
-  console.log("[MultiAquarium]", roomId, aliens);
+  // console.log("[MultiAquarium]", roomId, aliens);
 
   return (
     <div className={styles.body}>

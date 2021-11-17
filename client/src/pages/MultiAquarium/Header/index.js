@@ -68,6 +68,9 @@ export default function Header(props) {
         <Link to={"/challenge/1"}>
           <button>{"챌린지1"}</button>
         </Link>
+        <Link to={"/challenge/42"}>
+          <button>{"챌린지42"}</button>
+        </Link>
         {user && user.nickname && (
           <Link to={`/user/${user.id}`}>
             <button>{"나의 어항"}</button>

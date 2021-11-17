@@ -14,7 +14,7 @@ export function initAndJoin(roomId) {
     console.log("[socket] connect");
   });
   if (socket && roomId) {
-    console.log("[socket] join: roomId", roomId);
+    console.log("[socket] join", roomId);
     socket.emit("join", roomId);
   }
 }

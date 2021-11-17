@@ -30,7 +30,7 @@ export default function ChallengeRoom(props) {
         const res = await api.post("/user/aquarium/challenge", {
           challenge_id: challengeId,
         });
-        console.log("fetch challenge data", res.data.Alien);
+        // console.log("fetch challenge data", res.data.Alien);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.Alien;
