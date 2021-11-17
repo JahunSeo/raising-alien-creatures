@@ -70,13 +70,14 @@ export default function Header(props) {
             <button>{"나의 어항"}</button>
           </Link>
         )}
-        {user &&
+
+        {/* {user &&
           user.nickname &&
-          [{ name: "challenge", url: "/challenge/1" }].map((room) => (
-            <Link to={room.url} key={room.name}>
-              <button>{room.name}</button>
+          user.challenges.map((c) => (
+            <Link to={`/challenge/${c.Challenge_id}`}>
+              <button>{c.challengeName}</button>
             </Link>
-          ))}
+          ))} */}
       </div>
       {user ? (
         <div className={cx("item", "itemUser")}>
