@@ -18,7 +18,6 @@ export default function SideBarModal2() {
     e.preventDefault();
     const res = await api.get("/main/s3Url");
     console.log("url", res.data.url);
-
     const { url } = res.data;
     console.log(url);
 
@@ -32,6 +31,12 @@ export default function SideBarModal2() {
     });
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
+
+
+
+
+
+    resp = {   , comment : authMessage , imgURL : imageUrl;}
 
     // post requst to my server to store any extra data
   };
@@ -47,6 +52,7 @@ export default function SideBarModal2() {
       <div>
         <div className={showModal2 ? "ModalContainer2" : "hidden"}>
           <form id="imageForm">
+            <p>인증하기 </p>
             <textarea
               type="text"
               placeholder="Comment"

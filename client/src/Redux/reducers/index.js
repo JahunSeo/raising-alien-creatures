@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import modalOnOff from "./modalOnOff";
 import user from './user'
-import display from './display'
+import room from './room'
 
 export const reducers = combineReducers({
   modalOnOff,
   user,
-  display,
+  room,
 });
