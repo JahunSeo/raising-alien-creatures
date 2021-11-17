@@ -16,7 +16,7 @@ export default function UserRoom(props) {
       const fetchData = async () => {
         if (!rooms.current) rooms.current = {};
         const res = await api.get(`/user/${params.userId}`);
-        // console.log("fetch main data", res.data);
+        console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.data;
