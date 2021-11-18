@@ -20,7 +20,7 @@ module.exports = function (connection) {
           ],
           function (err1, results1) {
             if (err1) {
-              console.error(err);
+              console.error('at the challenge create api', err);
               res.status(200).json({
                 result: "fail",
                 msg: "cant insert",

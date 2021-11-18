@@ -9,7 +9,7 @@ module.exports = function (connection) {
             sql1,
             function (error, results) {
               if (error) {
-                console.error(error);
+                console.error('at the main api', error);
                 res.status(200).json({
                   result: "fail",
                   msg: "cant select",

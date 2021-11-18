@@ -17,7 +17,7 @@ module.exports = function (connection) {
                     sql1 + sql2 + sql3,
                     function (error, results) {
                         if (error) {
-                            console.log(error);
+                            console.log('at the alien create api', error);
                             res.status(200).json({
                                 result: "fail",
                                 msg: "cant select"

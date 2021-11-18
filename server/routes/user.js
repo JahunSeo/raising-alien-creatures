@@ -22,7 +22,7 @@ module.exports = function (passport, connection) {
       [email, encryptedPassword, nickname],
       function (err, results) {
         if (err) {
-          console.error(err);
+          console.error('at the user api', err);
           err_handling = err.sqlMessage.split(" ");
           const duplicated_email = err_handling[2];
           res.json({
