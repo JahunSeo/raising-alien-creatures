@@ -9,7 +9,7 @@ const PostItem = React.memo(function PostItem({ alien, type }) {
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challengeName}"</h2>
         <div className="Content">
-          <img alt="logo192.png" src="logo192.png" />
+          <img alt="logo192.jpg" src="logo192.png" />
           <div className="SubInfo">
             <p>이름 : {alien.alienName}</p>
             <p>출생년도 : <br/>{alien.createDate.split('T')[0]}</p>
