@@ -8,7 +8,6 @@ module.exports = function (connection) {
     const cnt_of_week = parseInt(req.body.cnt_of_week);
     const life = parseInt(req.body.life);
     if (req.user) {
-
         connection.query(
           "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)",
           [
@@ -35,7 +34,6 @@ module.exports = function (connection) {
             });
           }
         );
-
     } else {
       res.status(401).json({
         result: "fail",
@@ -43,7 +41,6 @@ module.exports = function (connection) {
       });
     }
   });
-
   router.use(function (req, res, next) {
     res.status(404).json({
       result: "fail",
