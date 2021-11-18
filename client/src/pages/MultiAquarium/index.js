@@ -14,15 +14,17 @@ import { useSelector } from "react-redux";
 export default function MultiAquarium() {
   const rooms = useRef();
   // redux에서 현재 roomId 받아오기
-  const {roomId} = useSelector(({room}) =>({ roomId : room.roomId }))
+  const { roomId, aliens } = useSelector(({ room }) => ({
+    roomId: room.roomId,
+    aliens: room.aliens,
+  }));
+
+  console.log("[MultiAquarium]", roomId, aliens);
 
   return (
     <div className={styles.body}>
       <Routes>
-        <Route
-          path="/"
-          element={<PlazaRoom rooms={rooms} />}
-        ></Route>
+        <Route path="/" element={<PlazaRoom rooms={rooms} />}></Route>
         <Route
           path="/user/:userId"
           element={<UserRoom rooms={rooms} />}

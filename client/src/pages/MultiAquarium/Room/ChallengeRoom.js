@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import * as actions from "../../../Redux/actions";
 
 import api from "../../../apis";
 import * as socket from "../../../apis/socket";
 
 export default function ChallengeRoom(props) {
+  const dispatch = useDispatch();
   // 챌린지 정보 가져오기
   let params = useParams();
   const roomId = `challenge-${params.challengeId}`;
@@ -13,6 +16,7 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     try {
       const fetchData = async () => {
+        if (!rooms.current) rooms.current = {};
         const res = await api.post("/user/aquarium/challenge", {
           challenge_id: params.challengeId,
         });
@@ -20,14 +24,13 @@ export default function ChallengeRoom(props) {
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.Alien;
-          if (!rooms.current) rooms.current = {};
           rooms.current[roomId] = new Room(roomId);
           rooms.current[roomId].initMonsters(aliens);
           socket.initAndJoin(roomId);
           // socket.subscribe(rooms.current[roomId].syncFieldState);
           rooms.current[roomId].start();
-          // TODO: redux
-          setRoomInfo({ roomId, aliens });
+          // update redux room info
+          dispatch(actions.setRoom({ roomId, aliens }));
         } else {
         }
       };
