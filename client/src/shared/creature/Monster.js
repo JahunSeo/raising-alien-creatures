@@ -3,8 +3,9 @@ import Vector2D from "../lib/Vector2D.js";
 class Monster {
   constructor(props) {
     // TODO
-    this.userId = props.userId; // TODO: user id or email
-    this.monId = props.monId; // TODO
+    this.userId = props.userId;
+    this.monId = props.monId;
+    this.isUserOnRoom = false;
     this.init();
     if (!!props.color) this.color = props.color;
     if (!!props.authCnt) this.size = 20 + props.authCnt * 2;
