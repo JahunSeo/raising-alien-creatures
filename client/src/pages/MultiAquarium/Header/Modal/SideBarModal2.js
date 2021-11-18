@@ -32,9 +32,18 @@ export default function SideBarModal2() {
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
 
-    // resp = {   , comment : authMessage , imgURL : imageUrl;}
+    const resp = {
+      user_info_id: 1,
+      Alien_id: 1,
+      Challenge_id: 1,
+      requestUserNickname: "John",
+      comment: authMessage,
+      imgURL: imageUrl,
+    };
 
     // post requst to my server to store any extra data
+    const result = await api.post("/challenge/auth", resp);
+    console.log(result);
   };
 
   return (
