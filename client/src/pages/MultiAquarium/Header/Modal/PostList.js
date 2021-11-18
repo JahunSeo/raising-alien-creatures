@@ -7,7 +7,6 @@ import SideBarModal2 from "./SideBarModal2";
 const PostItem = React.memo(function PostItem({ alien }) {
   const dispatch = useDispatch();
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
-  // console.log("alien::", alien);
   // console.log(alien.createDate.split('T')[0])
   return (
     <>
@@ -28,6 +27,8 @@ const PostItem = React.memo(function PostItem({ alien }) {
           <button
             className="StyledButton"
             onClick={() => {
+              console.log(11112222, alien);
+              dispatch(actions.alienAuth({ alien }));
               dispatch(actions.showModal2(!showModal2));
             }}
           >
