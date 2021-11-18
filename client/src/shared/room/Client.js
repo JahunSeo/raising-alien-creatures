@@ -1,6 +1,7 @@
-class User {
-  constructor(userId) {
-    this.userId = userId;
+class Client {
+  constructor(props) {
+    this.clientId = props.clientId;
+    this.userId = props.userId;
     // TODO: handle multiple rooms
     this.roomId = null;
   }
@@ -22,4 +23,4 @@ class User {
   }
 }
 
-export default User;
+export default Client;

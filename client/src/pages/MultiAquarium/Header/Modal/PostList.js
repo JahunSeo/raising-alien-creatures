@@ -3,17 +3,19 @@ import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import SideBarModal2 from "./SideBarModal2";
+import { Link } from "react-router-dom";
+import DummyImage from "../../image/babyshark.png";
+import HamburgerBtnImage from "../../image/toggledown.png";
 
-const PostItem = React.memo(function PostItem({ alien }) {
+const PostItem = React.memo(function PostItem({ alien, type }) {
   const dispatch = useDispatch();
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
-  // console.log(alien.createDate.split('T')[0])
   return (
     <>
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challengeName}"</h2>
         <div className="Content">
-          <img alt="logo192.png" src="logo192.png" />
+          <img alt="logo192.png" src={DummyImage} />
           <div className="SubInfo">
             <p>이름 : {alien.alienName}</p>
             <p>
@@ -24,81 +26,121 @@ const PostItem = React.memo(function PostItem({ alien }) {
           </div>
         </div>
         <div className="buttons">
-          <button
-            className="StyledButton"
-            onClick={() => {
-              console.log(11112222, alien);
-              dispatch(actions.alienAuth({ alien }));
-              dispatch(actions.showModal2(!showModal2));
-            }}
-          >
-            {" "}
-            인증하기
-          </button>
-          <button className="StyledButton"> 챌린지 어항</button>
-          <button className="StyledButton"> 졸업 신청</button>
+          {type !== "main" && (
+            <button
+              className="StyledButton"
+              onClick={() => {
+                dispatch(actions.alienAuth({ alien }));
+                dispatch(actions.showModal2(true));
+              }}
+            >
+              {" "}
+              인증하기
+            </button>
+          )}
           <SideBarModal2 alien={alien} />
+          {type !== "challenge" && (
+            <Link to={`/challenge/${alien.Challenge_id}`}>
+              <button className="StyledButton"> 챌린지 어항</button>
+            </Link>
+          )}
+          {type !== "main" && (
+            <button className="StyledButton"> 졸업 신청</button>
+          )}
         </div>
       </div>
     </>
   );
 });
 
-const PostList = () => {
+const PostList = ({ type }) => {
   const { aliens_list } = useSelector(({ room }) => ({
     aliens_list: room.aliens,
   }));
   const [category, setCategory] = useState(false);
   const [drop, setDrop] = useState(false);
-
-  const grad_onClick = useCallback((e) => {
-    // submit event는 브라우저에서 새로고침을 발생시키기 때문에 preventDefault는 이걸 방지하는 함수
-    e.preventDefault();
-    setCategory((category) => !category);
-  }, []);
-
-  const drop_onClick = useCallback((e) => {
-    e.preventDefault();
-    setDrop((drop) => !drop);
-  }, []);
+  const [sort, setSort] = useState("a");
 
   return (
     <div className="PostListBlock">
-      <button className="dropdown" onClick={drop_onClick}>
+      <button className="dropdown" onClick={() => setDrop((drop) => !drop)}>
         <img
           style={{ width: "1.7em", height: "1.7em" }}
           alt="toggledown.png"
-          src="toggledown.png"
+          src={HamburgerBtnImage}
         />
       </button>
       {drop ? (
         <div className="dropContent">
-          <span> 추가된 날짜 (최신 순) </span>
-          <span> 추가된 날짜 (오래된 순) </span>
-          <span> 커밋 횟수(가장 많은 순) </span>
-          <span> 커밋 횟수(가장 낮은 순) </span>
+          <option onClick={() => setSort("a")}> 추가된 날짜 (최신 순) </option>
+          <option onClick={() => setSort("b")}>
+            {" "}
+            추가된 날짜 (오래된 순){" "}
+          </option>
+          <option onClick={() => setSort("c")}>
+            {" "}
+            커밋 횟수(가장 많은 순){" "}
+          </option>
+          <option onClick={() => setSort("d")}>
+            {" "}
+            커밋 횟수(가장 낮은 순){" "}
+          </option>
         </div>
       ) : null}
       <ul>
         <span
           className={category === false ? "selected" : null}
-          onClick={grad_onClick}
+          onClick={() => setCategory((category) => !category)}
         >
           ∘ 진행중{" "}
         </span>
         <span
           className={category === true ? "selected" : null}
-          onClick={grad_onClick}
+          onClick={() => setCategory((category) => !category)}
         >
           ∘ 졸업{" "}
         </span>
       </ul>
-      {aliens_list.map((alien) =>
-        Boolean(alien.graduate_toggle) === category ? (
-          // alien.id unique한걸로 back이랑 얘기하기
-          <PostItem key={alien.id} alien={alien} />
-        ) : null
-      )}
+      {sort === "a" &&
+        aliens_list
+          .sort(
+            (a, b) =>
+              new Date(b.createDate).getTime() -
+              new Date(a.createDate).getTime()
+          )
+          .map((alien) =>
+            Boolean(alien.graduate_toggle) === category ? (
+              <PostItem key={alien.id} alien={alien} type={type} />
+            ) : null
+          )}
+      {sort === "b" &&
+        aliens_list
+          .sort(
+            (a, b) =>
+              new Date(a.createDate).getTime() -
+              new Date(b.createDate).getTime()
+          )
+          .map((alien) =>
+            Boolean(alien.graduate_toggle) === category ? (
+              <PostItem key={alien.id} alien={alien} type={type} />
+            ) : null
+          )}
+      {sort === "c" &&
+        aliens_list
+          .sort((a, b) => b.accuredAuthCnt - a.accuredAuthCnt)
+          .map((alien) =>
+            Boolean(alien.graduate_toggle) === category ? (
+              <PostItem key={alien.id} alien={alien} type={type} />
+            ) : null
+          )}
+      {sort === "d" &&
+        aliens_list
+          .sort((a, b) => a.accuredAuthCnt - b.accuredAuthCnt)
+          .map((alien) =>
+            Boolean(alien.graduate_toggle) === category ? (
+              <PostItem key={alien.id} alien={alien} type={type} />
+            ) : null
+          )}
     </div>
   );
 };

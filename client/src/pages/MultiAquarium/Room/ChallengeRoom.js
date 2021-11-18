@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 
 import api from "../../../apis";
@@ -11,23 +11,31 @@ export default function ChallengeRoom(props) {
   const dispatch = useDispatch();
   // 챌린지 정보 가져오기
   let params = useParams();
-  const roomId = `challenge-${params.challengeId}`;
-  const { rooms, setRoomInfo } = props;
+  const challengeId = params.challengeId;
+  const roomId = `challenge-${challengeId}`;
+  const { rooms } = props;
+  if (!rooms.current) rooms.current = {};
+  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
+
+  // user 정보 확인
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const isChaIdIn = (challenges, cId) => {
+    return challenges.findIndex((c) => c.Challenge_id === cId) !== -1;
+  };
+  let participating = user && isChaIdIn(user.challenges, Number(challengeId));
+  // console.log("[ChallengeRoom] is participating?", participating);
+
   useEffect(() => {
     try {
       const fetchData = async () => {
-        if (!rooms.current) rooms.current = {};
         const res = await api.post("/user/aquarium/challenge", {
-          challenge_id: params.challengeId,
+          challenge_id: challengeId,
         });
         // console.log("fetch challenge data", res.data.Alien);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.Alien;
-          rooms.current[roomId] = new Room(roomId);
           rooms.current[roomId].initMonsters(aliens);
-          socket.initAndJoin(roomId);
-          // socket.subscribe(rooms.current[roomId].syncFieldState);
           rooms.current[roomId].start();
           // update redux room info
           dispatch(actions.setRoom({ roomId, aliens }));
@@ -39,11 +47,26 @@ export default function ChallengeRoom(props) {
       console.error("fetchData fail", err);
     }
     return () => {
-      socket.disconnect();
       rooms.current[roomId].close();
     };
     //   }, []);
-  }, [rooms, setRoomInfo]);
+  }, [rooms, roomId, challengeId, dispatch]);
+
+  useEffect(() => {
+    // user가 참여중인 방인지 확인
+    if (participating && rooms.current[roomId]) {
+      // console.log("handle socket here!", participating);
+      socket.initAndJoin({ roomId, userId: user.id });
+      socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
+      // socket.subscribe(rooms.current[roomId].syncFieldState);
+    } else if (rooms.current[roomId]) {
+      rooms.current[roomId].eraseUsersOnRoom();
+    }
+    return () => {
+      console.log("challenge", 123);
+      socket.disconnect(roomId);
+    };
+  }, [rooms, roomId, challengeId, participating]);
 
   return <div></div>;
 }

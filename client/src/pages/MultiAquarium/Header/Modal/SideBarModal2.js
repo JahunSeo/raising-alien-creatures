@@ -16,8 +16,8 @@ export default function SideBarModal2() {
   console.log("authMessage", authMessage);
 
   const handleSubmit = async (e) => {
-    console.log("alien안: ", alien);
-    console.log("alien안_id: ", alien.alien.id);
+    // console.log("alien안: ", alien);
+    // console.log("alien안_id: ", alien.alien.id);
     e.preventDefault();
     const res = await api.get("/main/s3Url");
     console.log("url", res.data.url);
@@ -35,14 +35,25 @@ export default function SideBarModal2() {
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
 
+    // const resp = {
+    //   user_info_id: alien.alien.user_info_id,
+    //   Alien_id: alien.alien.id,
+    //   Challenge_id: alien.alien.Challenge_id,
+    //   comment: authMessage,
+    //   imgURL: imageUrl,
+    // };
+
+    // dummy test용
     const resp = {
-      user_info_id: alien.alien.user_info_id,
-      Alien_id: alien.alien.id,
-      Challenge_id: alien.alien.Challenge_id,
+      user_info_id: 1,
+      Alien_id: 1,
+      Challenge_id: 1,
+      requestUserNickname: "John",
       comment: authMessage,
       imgURL: imageUrl,
     };
 
+    // post requst to my server to store any extra data
     const result = await api.post("/challenge/auth", resp);
     console.log(result);
   };

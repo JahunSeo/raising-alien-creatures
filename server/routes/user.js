@@ -140,57 +140,6 @@ module.exports = function (passport, connection) {
     });
   });
 
-  // 챌린지 인증 요청
-  // Data Type : Front 쪽에서 data JSON Type으로 서버로 전달
-  // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
-  router.post("/aquarium/auth", function (req, res) {
-    var data = req.body;
-    console.log(data);
-    var sql1 = `INSERT INTO Authentification SET ?;`;
-    // 동일한 챌린지의 멤버들이 로그인을 했을 때, 화면에 알림표시가 되게 할 것. ( DB 연동 후 데이터 )
-    // -> 로그인 성공화면에 해당 기능 추가한다.
-    connection.query(sql1, data, function (error, results, fields) {
-      if (error) {
-        console.error(error);
-        res.json({
-          result: "fail",
-          msg: "Fail to load Information from Database.",
-        });
-        return;
-      }
-
-      // ++추가구현 필요++ 동일한 챌린지의 멤버들이 접속중일 때, 실시간으로 연락이 갈 것. ( 해당 소켓의 room member에게 'msg' )
-      // -> connected clients socket list 의 identifier 가 user identifier로 변경되어야 함
-      console.log(results);
-      res.json({ result: "success" });
-      // res.redirect('/');
-    });
-  });
-
-  // 챌린지 인증 수락
-  // auth data 에 수락표시 is auth 수정
-  // alien에 accured auth count / week_auth_cnt 1씩 증가
-  router.post("/aquarium/approved", function (req, res) {
-    var data = req.body;
-    var auth_id = data.auth_id;
-    var Alien_id = data.Alien_id;
-    sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id};`;
-    sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, week_auth_cnt = week_auth_cnt+1 where id = ${Alien_id}`;
-    connection.query(sql1 + sql2, function (error, results, fields) {
-      if (error) {
-        console.error(error);
-        res.json({
-          result: "fail",
-          msg: "Fail to update Database.",
-        });
-        return;
-      }
-
-      console.log(results);
-      res.json({ result: "success" });
-    });
-  });
-
   router.get("/logout", function (req, res) {
     req.logout();
     req.session.save(function () {
@@ -209,24 +158,24 @@ module.exports = function (passport, connection) {
 
   router.get("/:userId", (req, res) => {
     const user_id = req.params.userId;
-    try {
-      connection.query(
-        "(SELECT * FROM Alien JOIN Challenge ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT * FROM Alien_graduated JOIN Challenge ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)",
-        [user_id, user_id],
-        function (err, result) {
+    connection.query(
+      "(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.life, Alien.createDate, alienName, color, accuredAuthCnt, color, failureCnt, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day, alive_date FROM Challenge JOIN Alien ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.life, Alien_graduated.createDate, alienName, color, accuredAuthCnt, color, failureCnt, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day, graduated_date FROM Challenge JOIN Alien_graduated ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)",
+      [user_id, user_id],
+      function (err, result) {
+        if (err) {
+          console.error(err);
           res.status(200).json({
-            result: "success",
-            data: result,
+            result: "fail",
+            msg: "cant select infomations",
           });
+          return;
         }
-      );
-    } catch (err) {
-      console.error(err);
-      res.status(501).json({
-        result: "fail",
-        msg: "cant select infomations",
-      });
-    }
+        res.status(200).json({
+          result: "success",
+          data: result,
+        });
+      }
+    );
   });
 
   router.use(function (req, res, next) {
