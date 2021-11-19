@@ -25,13 +25,15 @@ export default function SideBarModal2() {
     console.log(url);
 
     // post the image direclty to the s3 bucket
-    await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: authImage[0],
-    });
+    if (authImage) {
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: authImage[0],
+      });
+    }
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
     console.log("문자적자", alien.alien.user_info_id);
