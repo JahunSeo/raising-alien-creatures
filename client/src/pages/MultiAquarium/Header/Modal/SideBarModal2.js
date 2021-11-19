@@ -34,24 +34,24 @@ export default function SideBarModal2() {
     });
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
-
-    // const resp = {
-    //   user_info_id: alien.alien.user_info_id,
-    //   Alien_id: alien.alien.id,
-    //   Challenge_id: alien.alien.Challenge_id,
-    //   comment: authMessage,
-    //   imgURL: imageUrl,
-    // };
-
-    // dummy test용
+    console.log("문자적자", alien.alien.user_info_id);
     const resp = {
-      user_info_id: 1,
-      Alien_id: 1,
-      Challenge_id: 1,
-      requestUserNickname: "John",
+      user_info_id: alien.alien.user_info_id,
+      Alien_id: alien.alien.id,
+      Challenge_id: alien.alien.Challenge_id,
       comment: authMessage,
       imgURL: imageUrl,
     };
+
+    // // dummy test용
+    // const resp = {
+    //   user_info_id: 1,
+    //   Alien_id: 1,
+    //   Challenge_id: 1,
+    //   requestUserNickname: "John",
+    //   comment: authMessage,
+    //   imgURL: imageUrl,
+    // };
 
     // post requst to my server to store any extra data
     const result = await api.post("/challenge/auth", resp);
