@@ -6,17 +6,15 @@ module.exports = function (connection) {
     console.log(req.body);
     const max_user = parseInt(req.body.max_user);
     const cnt_of_week = parseInt(req.body.cnt_of_week);
-    const life = parseInt(req.body.life);
     if (req.user) {
       connection.query(
-        "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek) VALUES (?, ?, ?, ?, ?)",
         [
           req.body.challenge_name,
           req.body.challenge_content,
           req.user.nickname,
           max_user,
           cnt_of_week,
-          life,
         ],
         function (err1, results1) {
           if (err1) {
