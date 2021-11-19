@@ -3,6 +3,7 @@ import Room from "../../../shared/room/RoomClient";
 import { useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis";
+import './PlazaRoom.css'
 
 export default function PlazaRoom(props) {
   const dispatch = useDispatch();
@@ -38,5 +39,10 @@ export default function PlazaRoom(props) {
     //   }, []);
   }, [rooms, roomId, dispatch]);
 
-  return <div></div>;
+  return (
+    <div className = "BigBox">
+      classname
+    </div>
+     
+  );
 }
