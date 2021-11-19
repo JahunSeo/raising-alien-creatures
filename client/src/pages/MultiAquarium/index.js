@@ -1,42 +1,25 @@
-import React, { useRef } from "react";
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-import PlazaRoom from "./Room/PlazaRoom";
-import UserRoom from "./Room/UserRoom";
-import ChallengeRoom from "./Room/ChallengeRoom";
-
-import Header from "./Header";
 import FieldCtrl from "./FieldCtrl";
+import ListCtrl from "./ListCtrl";
 import MultiField from "./MultiField";
 import styles from "./index.module.css";
 import { useSelector } from "react-redux";
 
-export default function MultiAquarium() {
-  const rooms = useRef();
+export default function MultiAquarium(props) {
+  const { rooms } = props;
   // redux에서 현재 roomId 받아오기
-  const { roomId, aliens } = useSelector(({ room }) => ({
+  const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
-    aliens: room.aliens,
   }));
 
   // console.log("[MultiAquarium]", roomId, aliens);
-
   return (
     <div className={styles.body}>
-      <Routes>
-        <Route path="/" element={<PlazaRoom rooms={rooms} />}></Route>
-        <Route
-          path="/user/:userId"
-          element={<UserRoom rooms={rooms} />}
-        ></Route>
-        <Route
-          path="/challenge/:challengeId"
-          element={<ChallengeRoom rooms={rooms} />}
-        ></Route>
-      </Routes>
-
-      <section className={styles.SecHead}>
-        <Header roomId={roomId} />
+      <Outlet />
+      <section className={styles.SecListCtrl}>
+        <ListCtrl room={rooms.current && rooms.current[roomId]} />
       </section>
       <section className={styles.SecFieldCtrl}>
         <FieldCtrl room={rooms.current && rooms.current[roomId]} />
