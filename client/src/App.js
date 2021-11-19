@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Header from "./pages/Header";
 import Approval from "./pages/Approval";
@@ -33,10 +34,13 @@ function App() {
 }
 
 function Layout() {
+  const { roomId } = useSelector(({ room }) => ({
+    roomId: room.roomId,
+  }));
   return (
     <div className={styles.body}>
       <nav className={styles.nav}>
-        <Header />
+        <Header roomId={roomId} />
       </nav>
       <div className={styles.content}>
         <Outlet />
