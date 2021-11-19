@@ -29,6 +29,16 @@
   z-index: 6;
 }
 
+.SecListCtrl {
+  width: 44px;
+  height: 84px;
+
+  position: absolute;
+  right: 20px;
+  top: 90px;
+  z-index: 7;
+}
+
 .SecField {
   /* position: fixed; */
   /* left: 0; */

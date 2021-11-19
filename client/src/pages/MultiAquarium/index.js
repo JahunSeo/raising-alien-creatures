@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 import FieldCtrl from "./FieldCtrl";
+import ListCtrl from "./ListCtrl";
 import MultiField from "./MultiField";
 import styles from "./index.module.css";
 import { useSelector } from "react-redux";
@@ -18,6 +19,9 @@ export default function MultiAquarium(props) {
   return (
     <div className={styles.body}>
       <Outlet />
+      <section className={styles.SecListCtrl}>
+        <ListCtrl room={rooms.current && rooms.current[roomId]} />
+      </section>
       <section className={styles.SecFieldCtrl}>
         <FieldCtrl room={rooms.current && rooms.current[roomId]} />
       </section>
