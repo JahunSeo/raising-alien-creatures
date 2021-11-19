@@ -9,6 +9,7 @@ const cx = classNames.bind(styles);
 export default function Title(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
+  //   console.log(123, user);
   // url 확인하기
   const userMatch = useMatch("/user/:userId");
   const challengeMatch = useMatch("/challenge/:challengeId");
@@ -25,7 +26,9 @@ export default function Title(props) {
     // 본 챌린지에 참가중인지 확인
     let participating;
     if (user && user.challenges) {
-      participating = user.challenges.includes(params.challengeId);
+      participating = user.challenges.findIndex(
+        (e) => e.Challenge_id === params.challengeId
+      );
     }
     return (
       <React.Fragment>
