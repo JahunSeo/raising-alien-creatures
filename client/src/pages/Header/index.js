@@ -98,8 +98,13 @@ export default function Header(props) {
               <button>{"나의 어항"}</button>
             </Link>
           )}
+          {/* {user && user.nickname && (
+            <button onClick={() => switchModal3()}>챌린지 생성</button>
+          )} */}
           {user && user.nickname && (
-            <button onClick={() => switchModal3()}>새로운 챌린지 생성</button>
+            <Link to={`/approval`}>
+              <button>{"승인"}</button>
+            </Link>
           )}
         </div>
         {user ? (
