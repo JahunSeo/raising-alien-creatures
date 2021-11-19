@@ -19,6 +19,7 @@ export default function ChallengeRoom(props) {
 
   // user 정보 확인
   const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const userId = user && user.id;
   const isChaIdIn = (challenges, cId) => {
     return challenges.findIndex((c) => c.Challenge_id === cId) !== -1;
   };
@@ -63,28 +64,9 @@ export default function ChallengeRoom(props) {
       rooms.current[roomId].eraseUsersOnRoom();
     }
     return () => {
-      console.log("challenge", 123);
       socket.disconnect(roomId);
     };
-  }, [rooms, roomId, challengeId, participating]);
+  }, [userId, rooms, roomId, challengeId, participating]);
 
   return <div></div>;
 }
-
-// 주의! 아직 지우지 말기! 챌린지 리스트 그릴 때 소켓 방식 활용해야 함
-// useEffect(() => {
-//   // rooms가 생성되었는지 확인
-//   if (!rooms.current || !currRoomId) return;
-
-//   // 해당 room에 조인
-//   console.log("set currRoomId", currRoomId);
-//   // socket.initAndJoin(currRoomId);
-//   // socket.subscribe(rooms.current[currRoomId].syncFieldState);
-//   // room의 update logic start
-//   rooms.current[currRoomId].start();
-
-//   return () => {
-//     // socket.disconnect();
-//     rooms.current[currRoomId].close();
-//   };
-// }, [currRoomId]);
