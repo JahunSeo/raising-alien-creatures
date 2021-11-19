@@ -1,7 +1,6 @@
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "../.env") });
-
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -16,7 +15,7 @@ const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const fs = require("fs");
 // const flash = require("connect-flash");
-const schedule = require("node-schedule");
+const schedule = require("./routes/scheduler");
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -60,128 +59,6 @@ app.use("/api/main", mainRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/test", testRouter);
-
-// 생명체 사망 api and 졸업 api
-const j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
-  let today = new Date();
-  let day = today.getDay();
-  console.log(day);
-  connection.query(
-    "INSERT INTO Alien_dead SELECT * FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success insert dead_alien!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    "INSERT INTO dead_authentification SELECT Authentification.id, Authentification.user_info_id, Alien_id, Authentification.Challenge_id, requestDate, responseDate, requestUserNickname, responseUserNickname, isAuth, imgURL FROM Authentification LEFT JOIN Alien ON Alien.id = Authentification.Alien_id where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success insert dead_authentification!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    "DELETE FROM Authentification USING Alien LEFT JOIN Authentification ON Alien.id = Authentification.Alien_id where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success delete authentification!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    "DELETE FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success delete Alien!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    "UPDATE Alien SET week_auth_cnt = 0 where auth_day = 7 OR auth_day = ?",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success update Alien!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    'UPDATE Challenge challenge, Alien_dead alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
-    [req.challenge_id],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success update challenge pariticipant_number!!!!!!");
-    }
-  );
-
-  // 졸업 API
-  connection.query(
-    "INSERT INTO Alien_graduated SELECT * FROM Alien where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success insert graduated_alien!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    "INSERT INTO graduated_authentification SELECT Authentification.id, Authentification.user_info_id, Alien_id, Authentification.Challenge_id, requestDate, responseDate, requestUserNickname, responseUserNickname, isAuth, imgURL FROM Authentification LEFT JOIN Alien ON Alien.id = Authentification.Alien_id where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log(
-        "success insert graduated_authentification!!!!!!!!!",
-        results
-      );
-    }
-  );
-  connection.query(
-    "DELETE FROM Authentification USING Alien LEFT JOIN Authentification ON Alien.id = Authentification.Alien_id where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success delete authentification!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    "DELETE FROM Alien where graduate_toggle = 1 AND (auth_day = 7 OR auth_day = ?)",
-    [day],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success delete Alien!!!!!!!!!", results);
-    }
-  );
-  connection.query(
-    'UPDATE Challenge challenge, Alien_graduated alien SET challenge.participantNumber = challenge.participantNumber - 1 WHERE challenge.id = alien.Challenge_id;',
-    [req.challenge_id],
-    function (err, results) {
-      if (err) {
-        console.error(err);
-      }
-      console.log("success update challenge pariticipant_number!!!!!!");
-    }
-  );
-});
 
 const port = process.env.PORT || 5000;
 

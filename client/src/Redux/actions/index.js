@@ -29,3 +29,8 @@ export const setRoom = ({ roomId, aliens }) => ({
   type: types.CURRENT_ROOM,
   payload: { roomId, aliens },
 });
+
+export const alienAuth = (alien_auth) => ({
+  type: types.ALIEN_AUTH,
+  alien_auth: alien_auth,
+});

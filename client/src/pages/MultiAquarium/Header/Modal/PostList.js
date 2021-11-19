@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./PostList.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../../../../Redux/actions/index.js";
+import SideBarModal2 from "./SideBarModal2";
 import { Link } from "react-router-dom";
 import DummyImage from "../../image/babyshark.png";
 import HamburgerBtnImage from "../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type }) {
+  const dispatch = useDispatch();
+  const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   return (
     <>
       <div className="PostItemBlock">
@@ -23,8 +27,18 @@ const PostItem = React.memo(function PostItem({ alien, type }) {
         </div>
         <div className="buttons">
           {type !== "main" && (
-            <button className="StyledButton"> 인증하기</button>
+            <button
+              className="StyledButton"
+              onClick={() => {
+                dispatch(actions.alienAuth({ alien }));
+                dispatch(actions.showModal2(true));
+              }}
+            >
+              {" "}
+              인증하기
+            </button>
           )}
+          <SideBarModal2 alien={alien} />
           {type !== "challenge" && (
             <Link to={`/challenge/${alien.Challenge_id}`}>
               <button className="StyledButton"> 챌린지 어항</button>
