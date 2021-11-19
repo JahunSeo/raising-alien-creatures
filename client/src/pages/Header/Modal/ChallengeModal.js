@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./ChallengeModal.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
-import api from "../../../../apis/index.js";
+import * as actions from "../../../Redux/actions/index.js";
+import api from "../../../apis/index.js";
 
 const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
   const [challengeTitle, setChallengeTitle] = useState("");

@@ -20,20 +20,6 @@
   z-index: 0;
 }
 
-.SecHead {
-  width: 90%;
-  max-width: 1000px;
-  /* height: 70px; */
-
-  position: absolute;
-  top: 20px;
-  /* bottom: 0; */
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 5;
-}
-
 .SecFieldCtrl {
   width: 44px;
   height: 84px;

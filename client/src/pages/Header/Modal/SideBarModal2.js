@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
-import api from "../../../../apis/index";
+import api from "../../../apis/index";
 
 export default function SideBarModal2() {
   // console.log("alien밖: ", alien);

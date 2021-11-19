@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
-import SignUpModal from "../../../modals/SignUpModal";
-import SignInModal from "../../../modals/SignInModal";
+import SignUpModal from "../../modals/SignUpModal";
+import SignInModal from "../../modals/SignInModal";
 import ChallengeModal from "./Modal/ChallengeModal";
 import SideBarModal from "./Modal/SideBarModal";
-import * as actions from "../../../Redux/actions";
-import api from "../../../apis/index";
+import * as actions from "../../Redux/actions";
+import api from "../../apis/index";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -84,55 +84,43 @@ export default function Header(props) {
 
   return (
     <div className={styles.body}>
-      <div className={cx("item", "itemTitle")}>
-        <button onClick={() => switchModal1()}>Aliens</button>
-        <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
-      </div>
-      <div className={cx("item", "itemRoom")}>
-        <Link to={"/"}>
-          <button>{"메인화면"}</button>
-        </Link>
-        {/* <Link to={"/challenge/1"}>
-          <button>{"챌린지1"}</button>
-        </Link>
-        <Link to={"/challenge/42"}>
-          <button>{"챌린지42"}</button>
-        </Link> */}
-        {user && user.nickname && (
-          <Link to={`/user/${user.id}`}>
-            <button>{"나의 어항"}</button>
+      <div className={styles.bodyInner}>
+        <div className={cx("item", "itemTitle")}>
+          <button onClick={() => switchModal1()}>Aliens</button>
+          <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
+        </div>
+        <div className={cx("item", "itemRoom")}>
+          <Link to={"/"}>
+            <button>{"메인화면"}</button>
           </Link>
-        )}
-        {user && user.nickname && (
-          <button onClick={() => switchModal3()}>새로운 챌린지 생성</button>
-        )}
-
-        {/* {user &&
-          user.nickname &&
-          user.challenges.map((c) => (
-            <Link to={`/challenge/${c.Challenge_id}`}>
-              <button>{c.challengeName}</button>
+          {user && user.nickname && (
+            <Link to={`/user/${user.id}`}>
+              <button>{"나의 어항"}</button>
             </Link>
-          ))} */}
+          )}
+          {user && user.nickname && (
+            <button onClick={() => switchModal3()}>새로운 챌린지 생성</button>
+          )}
+        </div>
+        {user ? (
+          <div className={cx("item", "itemUser")}>
+            <div className={styles.username}>{user && user.nickname}</div>
+            <Button variant="info" onClick={handleLogout}>
+              로그아웃
+            </Button>
+          </div>
+        ) : (
+          <div className={cx("item", "itemUser")}>
+            <Button variant="primary" onClick={() => setSignUpModalOn(true)}>
+              회원가입
+            </Button>
+            <h1>&nbsp;</h1>
+            <Button variant="info" onClick={() => setSignInModalOn(true)}>
+              로그인
+            </Button>
+          </div>
+        )}
       </div>
-      {user ? (
-        <div className={cx("item", "itemUser")}>
-          <div className={styles.username}>{user && user.nickname}</div>
-          <Button variant="info" onClick={handleLogout}>
-            로그아웃
-          </Button>
-        </div>
-      ) : (
-        <div className={cx("item", "itemUser")}>
-          <Button variant="primary" onClick={() => setSignUpModalOn(true)}>
-            회원가입
-          </Button>
-          <h1>&nbsp;</h1>
-          <Button variant="info" onClick={() => setSignInModalOn(true)}>
-            로그인
-          </Button>
-        </div>
-      )}
       <SignUpModal
         show={signUpModalOn}
         onHide={() => setSignUpModalOn(false)}

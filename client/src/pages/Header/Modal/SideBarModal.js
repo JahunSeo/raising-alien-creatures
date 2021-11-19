@@ -3,7 +3,6 @@ import "./SideBarModal.css";
 import { useSelector, useDispatch } from "react-redux";
 import SideBarModal2 from "./SideBarModal2";
 import { Routes, Route } from "react-router-dom";
-import * as actions from "../../../../Redux/actions/index.js";
 import PostList from "./PostList";
 
 export default function SideBarModal() {
