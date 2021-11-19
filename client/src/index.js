@@ -4,12 +4,19 @@ import "./bootstrap.min.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+// Redux 관련
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { reducers } from "./Redux/reducers";
 
+// 스토어 생성
+const store = createStore(
+  reducers /* preloadedState, */,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 ReactDOM.render(
-  <Provider store={createStore(reducers)}>
+  <Provider store={store}>
     <React.StrictMode>
       <App />
     </React.StrictMode>

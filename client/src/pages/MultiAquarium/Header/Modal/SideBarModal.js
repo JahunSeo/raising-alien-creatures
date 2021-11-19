@@ -1,9 +1,8 @@
 import React from "react";
 import "./SideBarModal.css";
 import { useSelector, useDispatch } from "react-redux";
+import SideBarModal2 from "./SideBarModal2";
 import { Routes, Route } from "react-router-dom";
-
-// import SideBarModal2 from "./SideBarModal2";
 import * as actions from "../../../../Redux/actions/index.js";
 import PostList from "./PostList";
 
@@ -21,9 +20,15 @@ export default function SideBarModal() {
       /> */}
       <div className={showModal1 ? "ModalContainer" : "hidden"}>
         <Routes>
-          <Route path="/" element={<PostList type="main"/>}></Route>
-          <Route path="/user/:userId" element={<PostList type="personal"/>}></Route>
-          <Route path="/challenge/:challengeId" element={<PostList type="challenge" />}></Route>
+          <Route path="/" element={<PostList type="main" />}></Route>
+          <Route
+            path="/user/:userId"
+            element={<PostList type="personal" />}
+          ></Route>
+          <Route
+            path="/challenge/:challengeId"
+            element={<PostList type="challenge" />}
+          ></Route>
         </Routes>
         {/* <button
           onClick={() => {
@@ -31,8 +36,8 @@ export default function SideBarModal() {
           }}
         >
           모달달2ㄱㄱ
-        </button>
-        <SideBarModal2 /> */}
+        </button> */}
+        <SideBarModal2 />
       </div>
     </>
   );

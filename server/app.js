@@ -1,7 +1,6 @@
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "../.env") });
-
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -60,7 +59,6 @@ app.use("/api/main", mainRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/test", testRouter);
-
 
 const port = process.env.PORT || 5000;
 
