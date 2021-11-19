@@ -8,7 +8,6 @@ module.exports = function (connection) {
     const cnt_of_week = parseInt(req.body.cnt_of_week);
     const life = parseInt(req.body.life);
     if (req.user) {
-<<<<<<< HEAD
         connection.query(
           "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)",
           [
@@ -28,34 +27,11 @@ module.exports = function (connection) {
               });
               return;
             }
-=======
-      connection.query(
-        "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)",
-        [
-          req.body.challenge_name,
-          req.body.challenge_content,
-          req.user.nickname,
-          max_user,
-          cnt_of_week,
-          life,
-        ],
-        function (err1, results1) {
-          if (err1) {
-            console.error(err);
->>>>>>> 61026a0127210d712d480c053fa56a615b0516b3
-            res.status(200).json({
-              result: "fail",
-              msg: "cant insert",
-            });
-            return;
-          }
-          res.status(200).json({
-            result: "success",
-            msg: "do insert",
-            data: results1.insertId,
           });
-        }
-      );
+        res.status(200).json({
+          result: "fail",
+          msg: "cant insert",
+        });
     } else {
       res.status(401).json({
         result: "fail",
