@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams, useMatch } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import styles from "./index.module.css";
 import SignUpModal from "../../modals/SignUpModal";
@@ -10,9 +10,29 @@ import api from "../../apis/index";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
+const CHAL_BTN_TYPES = {
+  NULL: 0,
+  ON: 1,
+  OFF: 2,
+};
+
 export default function Header(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const params = useParams();
+  const userMatch = useMatch("/user/:userId");
+  console.log(123, userMatch);
+  const { challengeId, userId } = params;
+  // TODO: 헤더에서 페이지 구별하는 구조 재설계 필요
+  let chalBtnType = CHAL_BTN_TYPES.NULL;
+  if (challengeId && userId) {
+    console.log("Alien 생성 페이지");
+  } else if (challengeId) {
+    console.log("챌린지 어항 페이지");
+    // TODO: 챌린지 참여중 여부 체크
+    if (user && user.nickname) chalBtnType = CHAL_BTN_TYPES.OFF;
+  }
+
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
   const { roomId } = props;
@@ -55,7 +75,16 @@ export default function Header(props) {
     <div className={styles.body}>
       <div className={styles.bodyInner}>
         <div className={cx("item", "itemTitle")}>
-          <h1 className={styles.title}>{`${roomId ? roomId : ""}`}</h1>
+          {challengeId && (
+            <div>
+              <h1 className={styles.title}>{`challenge-${challengeId}`}</h1>
+              {chalBtnType === CHAL_BTN_TYPES.OFF && (
+                <Link to={`/alien/${challengeId}/${user.id}`}>
+                  <button>{"시작하기"}</button>
+                </Link>
+              )}
+            </div>
+          )}
         </div>
         <div className={cx("item", "itemRoom")}>
           <Link to={"/"}>

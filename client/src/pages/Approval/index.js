@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import SignalImage from "../../image/signal.png";
 
 export default function Approval(props) {
+  // TODO: login 상태일 때만 접근할 수 있음
   return (
     <div className={styles.body}>
       <img src={SignalImage} alt={"singal halsooedda"} />

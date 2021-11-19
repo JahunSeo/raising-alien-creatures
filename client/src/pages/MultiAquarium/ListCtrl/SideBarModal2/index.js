@@ -11,8 +11,8 @@ export default function SideBarModal2() {
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
-  console.log("authImage", authImage);
-  console.log("authMessage", authMessage);
+  // console.log("authImage", authImage);
+  // console.log("authMessage", authMessage);
 
   const handleSubmit = async (e) => {
     // console.log("alien안: ", alien);

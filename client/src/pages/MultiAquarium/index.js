@@ -10,9 +10,8 @@ import { useSelector } from "react-redux";
 export default function MultiAquarium(props) {
   const { rooms } = props;
   // redux에서 현재 roomId 받아오기
-  const { roomId, aliens } = useSelector(({ room }) => ({
+  const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
-    aliens: room.aliens,
   }));
 
   // console.log("[MultiAquarium]", roomId, aliens);

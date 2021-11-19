@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 import Header from "./pages/Header";
 import Approval from "./pages/Approval";
+import NewAlien from "./pages/NewAlien";
+
 import MultiAquarium from "./pages/MultiAquarium";
 
 import PlazaRoom from "./pages/MultiAquarium/Room/PlazaRoom";
@@ -19,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="approval" element={<Approval />} />
+          <Route path="alien/:challengeId/:userId" element={<NewAlien />} />
           <Route path="/" element={<MultiAquarium rooms={rooms} />}>
             <Route path="" element={<PlazaRoom rooms={rooms} />} />
             <Route path="user/:userId" element={<UserRoom rooms={rooms} />} />
