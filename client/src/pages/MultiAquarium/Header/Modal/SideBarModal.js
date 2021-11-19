@@ -13,14 +13,13 @@ export default function SideBarModal() {
 
   return (
     <>
-      <div
+      {/* <div
         className={showModal1 ? "Background" : null}
         onClick={() => {
-          dispatch(actions.showModal(false));
+          dispatch(actions.showModal1(false));
         }}
-      />
+      /> */}
       <div className={showModal1 ? "ModalContainer" : "hidden"}>
-        <div>모달달1</div>
         <Routes>
           <Route path="/" element={<PostList type="main"/>}></Route>
           <Route path="/user/:userId" element={<PostList type="personal"/>}></Route>
