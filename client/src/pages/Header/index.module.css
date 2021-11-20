@@ -23,6 +23,15 @@
   font-weight: bold;
   color: #ffffff;
   margin-left: 20px;
+  margin-right: 20px;
+}
+
+.chalBtn {
+  font-size: 16px;
+}
+.chalBtn--ing {
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .item {
