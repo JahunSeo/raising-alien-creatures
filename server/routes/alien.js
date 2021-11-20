@@ -1,7 +1,8 @@
+const { ConnectContactLens } = require('aws-sdk');
 const express = require('express');
 const router = express.Router();
 
-module.exports = function (connection) { 
+module.exports = function (pool) { 
 
     router.post('/create', function(req, res){
          // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
@@ -13,11 +14,20 @@ module.exports = function (connection) {
             const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.params.challenge_id};`;
             // user_info_has_challenge 테이블 row 추가
             const sql3 = `INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id VALUES (${req.user.id}, ${req.params.challenge_id});`;
+            pool.getConnection(function(err, connection) {
+                if (err) {
+                    console.error(err);
+                    res.status(200).json({
+                        result: "fail",
+                        msg: "cant connection mysql"
+                    });
+                    return;
+                }
                 connection.query(
                     sql1 + sql2 + sql3,
                     function (error, results) {
                         if (error) {
-                            console.log(error);
+                            console.log('at the alien create api', error);
                             res.status(200).json({
                                 result: "fail",
                                 msg: "cant select"
@@ -27,7 +37,10 @@ module.exports = function (connection) {
                         result: "success",
                         msg: "do insert"
                         });
+                    connection.release();
                 });
+            });
+            
                 
             
         } else {
