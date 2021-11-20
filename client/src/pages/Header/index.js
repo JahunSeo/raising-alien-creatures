@@ -61,17 +61,17 @@ export default function Header(props) {
         </div>
         <div className={cx("item", "itemRoom")}>
           <Link to={"/"}>
-            <button>{"메인화면"}</button>
+            <button className={cx("btn")}>{"메인화면"}</button>
           </Link>
           {user && user.nickname && (
             <Link to={`/user/${user.id}`}>
-              <button>{"나의 어항"}</button>
+              <button className={cx("btn")}>{"나의 어항"}</button>
             </Link>
           )}
 
           {user && user.nickname && (
             <Link to={`/approval`}>
-              <button>{"승인"}</button>
+              <button className={cx("btn")}>{"승인하기"}</button>
             </Link>
           )}
         </div>

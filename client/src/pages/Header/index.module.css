@@ -26,12 +26,17 @@
   margin-right: 20px;
 }
 
-.chalBtn {
+.btn {
+  color: #ffffff;
+  padding: 5px 10px;
+  border: 1px solid #ffffff;
   font-size: 16px;
 }
-.chalBtn--ing {
+
+.btn--ing {
   font-weight: bold;
   color: #ffffff;
+  border: 0;
 }
 
 .item {
