@@ -3,8 +3,8 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-import Room from "../client/src/shared/room/RoomSocket.js";
-import Client from "../client/src/shared/room/Client.js";
+import Room from "../client/src/shared/room/RoomSocket.mjs";
+import Client from "../client/src/shared/room/Client.mjs";
 
 const app = express();
 const httpServer = createServer(app);
