@@ -7,7 +7,7 @@ module.exports = function (pool) {
     const max_user = parseInt(req.body.max_user);
     const cnt_of_week = parseInt(req.body.cnt_of_week);
     if (req.user) {
-      pool.getConnection(function(err, connection) {
+      pool.getConnection(function (err, connection) {
         connection.query(
           "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek) VALUES (?, ?, ?, ?, ?)",
           [
@@ -32,7 +32,8 @@ module.exports = function (pool) {
               data: results1.insertId,
             });
             connection.release();
-          });
+          }
+        );
       });
     } else {
       res.status(401).json({
@@ -51,7 +52,7 @@ module.exports = function (pool) {
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
     var sql1 = `INSERT INTO Authentification SET ?;`;
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function (err, connection) {
       connection.query(sql1, data, function (error, results, fields) {
         console.log("TESTTEST1");
         if (error) {
@@ -74,22 +75,25 @@ module.exports = function (pool) {
 
   router.post("/search", function (req, res) {
     var data = req.body;
-    console.log(data.keyword);
-    connection.query(
-      `select * from Challenge where challengeName regexp '${data.keyword}'`,
-      function (err, results, fields) {
-        if (err) {
-          console.log(err);
-          res.json({
-            result: "fail",
-            msg: "Fail to search",
-          });
-          return;
+    // console.log(data.keyword);
+    pool.getConnection(function (err, connection) {
+      connection.query(
+        `select * from Challenge where challengeName regexp '${data.keyword}'`,
+        function (err, results, fields) {
+          if (err) {
+            console.log(err);
+            res.json({
+              result: "fail",
+              msg: "Fail to search",
+            });
+            connection.release();
+            return;
+          }
+          res.json({ result: "success", challenge: results });
+          connection.release();
         }
-        console.log(results);
-        res.json({ result: "success", challenge: results });
-      }
-    );
+      );
+    });
   });
 
   // 챌린지 인증 수락
@@ -101,7 +105,7 @@ module.exports = function (pool) {
     var Alien_id = data.Alien_id;
     sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id};`;
     sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, week_auth_cnt = week_auth_cnt+1 where id = ${Alien_id}`;
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function (err, connection) {
       connection.query(sql1 + sql2, function (error, results, fields) {
         if (error) {
           console.error(error);
