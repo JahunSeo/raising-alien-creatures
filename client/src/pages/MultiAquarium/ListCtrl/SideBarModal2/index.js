@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index";
 
 export default function SideBarModal2() {
@@ -12,8 +11,8 @@ export default function SideBarModal2() {
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
-  console.log("authImage", authImage);
-  console.log("authMessage", authMessage);
+  // console.log("authImage", authImage);
+  // console.log("authMessage", authMessage);
 
   const handleSubmit = async (e) => {
     // console.log("alien안: ", alien);

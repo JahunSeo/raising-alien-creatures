@@ -26,8 +26,8 @@ const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
     if (
       challengeTitle === "" ||
       challengeDescription === "" ||
-      challengeCapacity == SELECT_DEFAULT ||
-      challengeFrequency == SELECT_DEFAULT
+      challengeCapacity === SELECT_DEFAULT ||
+      challengeFrequency === SELECT_DEFAULT
     ) {
       setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
       return false;
