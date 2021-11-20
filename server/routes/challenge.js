@@ -72,6 +72,26 @@ module.exports = function (pool) {
     });
   });
 
+  router.post("/search", function (req, res) {
+    var data = req.body;
+    console.log(data.keyword);
+    connection.query(
+      `select * from Challenge where challengeName regexp '${data.keyword}'`,
+      function (err, results, fields) {
+        if (err) {
+          console.log(err);
+          res.json({
+            result: "fail",
+            msg: "Fail to search",
+          });
+          return;
+        }
+        console.log(results);
+        res.json({ result: "success", challenge: results });
+      }
+    );
+  });
+
   // 챌린지 인증 수락
   // auth data 에 수락표시 is auth 수정
   // alien에 accured auth count / week_auth_cnt 1씩 증가
