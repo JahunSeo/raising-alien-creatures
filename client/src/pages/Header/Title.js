@@ -26,21 +26,21 @@ export default function Title(props) {
     // 본 챌린지에 참가중인지 확인
     let participating;
     if (user && user.challenges) {
-      participating = user.challenges.findIndex(
-        (e) => e.Challenge_id === params.challengeId
-      );
+      participating =
+        user.challenges.findIndex(
+          (e) => e.Challenge_id === Number(challengeId)
+        ) !== -1;
     }
+
     return (
       <React.Fragment>
         <div className={styles.title}>{`Challenge-${params.challengeId}`}</div>
         {!!user && participating && (
-          <div className={cx("chalBtn", "chalBtn--ing")}>참가중</div>
+          <div className={cx("btn", "btn--ing")}>참가중</div>
         )}
         {!!user && !participating && (
           <Link to={`/alien/${challengeId}/${user.id}`}>
-            <button className={cx("chalBtn", "chalBtn--start")}>
-              시작하기
-            </button>
+            <button className={cx("btn", "btn--start")}>시작하기</button>
           </Link>
         )}
       </React.Fragment>
