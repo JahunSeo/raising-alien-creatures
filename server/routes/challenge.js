@@ -6,31 +6,30 @@ module.exports = function (connection) {
     console.log(req.body);
     const max_user = parseInt(req.body.max_user);
     const cnt_of_week = parseInt(req.body.cnt_of_week);
-    const life = parseInt(req.body.life);
     if (req.user) {
-        connection.query(
-          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, life) VALUES (?, ?, ?, ?, ?, ?)",
-          [
-            req.body.challenge_name,
-            req.body.challenge_content,
-            req.user.nickname,
-            max_user,
-            cnt_of_week,
-            life,
-          ],
-          function (err1, results1) {
-            if (err1) {
-              console.error('at the challenge create api', err);
-              res.status(200).json({
-                result: "fail",
-                msg: "cant insert",
-              });
-              return;
-            }
+      connection.query(
+        "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek) VALUES (?, ?, ?, ?, ?)",
+        [
+          req.body.challenge_name,
+          req.body.challenge_content,
+          req.user.nickname,
+          max_user,
+          cnt_of_week,
+        ],
+        function (err1, results1) {
+          if (err1) {
+            console.error(err);
+            res.status(200).json({
+              result: "fail",
+              msg: "cant insert",
+            });
+            return;
+          }
+          res.status(200).json({
+            result: "success",
+            msg: "do insert",
+            data: results1.insertId,
           });
-        res.status(200).json({
-          result: "fail",
-          msg: "cant insert",
         });
     } else {
       res.status(401).json({

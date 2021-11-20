@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
+import * as actions from "../../../Redux/actions/index.js";
 import SideBarModal2 from "./SideBarModal2";
 import { Link } from "react-router-dom";
-import DummyImage from "../../image/babyshark.png";
-import HamburgerBtnImage from "../../image/toggledown.png";
+import DummyImage from "../../../image/babyshark.png";
+import HamburgerBtnImage from "../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type }) {
   const dispatch = useDispatch();

@@ -1,14 +1,12 @@
 import React from "react";
 import "./SideBarModal.css";
-import { useSelector, useDispatch } from "react-redux";
-import SideBarModal2 from "./SideBarModal2";
+import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import * as actions from "../../../../Redux/actions/index.js";
-import PostList from "./PostList";
+import SideBarModal2 from "../SideBarModal2";
+import PostList from "../PostList";
 
 export default function SideBarModal() {
   const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
-  const dispatch = useDispatch();
 
   return (
     <>

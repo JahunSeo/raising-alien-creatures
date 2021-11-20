@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index";
 
 export default function SideBarModal2() {
@@ -12,8 +11,8 @@ export default function SideBarModal2() {
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
-  console.log("authImage", authImage);
-  console.log("authMessage", authMessage);
+  // console.log("authImage", authImage);
+  // console.log("authMessage", authMessage);
 
   const handleSubmit = async (e) => {
     // console.log("alien안: ", alien);
@@ -25,13 +24,15 @@ export default function SideBarModal2() {
     console.log(url);
 
     // post the image direclty to the s3 bucket
-    await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: authImage[0],
-    });
+    if (authImage) {
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: authImage[0],
+      });
+    }
     const imageUrl = url.split("?")[0];
     console.log(imageUrl);
     console.log("문자적자", alien.alien.user_info_id);
