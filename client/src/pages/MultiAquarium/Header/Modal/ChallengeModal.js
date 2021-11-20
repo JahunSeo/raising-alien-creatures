@@ -5,11 +5,10 @@ import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index.js";
 
 const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
-  const [challengeTitle, setChallengeTitle] = useState("");
-  const [challengeDescription, setChallengeDescription] = useState("");
-
   const SELECT_DEFAULT = 0;
 
+  const [challengeTitle, setChallengeTitle] = useState("");
+  const [challengeDescription, setChallengeDescription] = useState("");
   const [challengeCapacity, setChallengeCapacity] = useState(SELECT_DEFAULT);
   const [challengeFrequency, setChallengeFrequency] = useState(SELECT_DEFAULT);
 
