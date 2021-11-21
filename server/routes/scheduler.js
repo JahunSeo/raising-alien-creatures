@@ -72,7 +72,7 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
         console.log("success delete user_info_has_challenge table row!!!!!!");
       }
     );
-    // week_auth_cnt != total_auth_cnt을 이용해서 중복으로 빼주는 것 방지하기
+    // participantNumber - 1은 trigger 사용
     
   
     // 졸업 API
@@ -140,7 +140,7 @@ exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
         console.log("success delete user_info_has_challenge table row!!!!!!");
       }
     );
-    // week_auth_cnt != total_auth_cnt을 이용해서 중복으로 빼주는 것 방지하기
+    // participantNumber - 1은 trigger 사용
 */
   });
 

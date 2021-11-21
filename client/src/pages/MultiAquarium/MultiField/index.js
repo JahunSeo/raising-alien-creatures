@@ -4,6 +4,23 @@ import Canvas from "../../../components/Canvas";
 // import * as socket from "../../../apis/socket";
 
 export default class Field extends Component {
+  BG_COLORSET = {
+    sunset: [
+      // https://www.color-hex.com/color-palette/40131
+      `rgba(238,175,97,1)`,
+      `rgba(251,144,98,1)`,
+      `rgba(238,93,108,1)`,
+      `rgba(206,73,147,1)`,
+    ],
+    space: [
+      // https://www.color-hex.com/color-palette/35848
+      `rgba(5,55,123,1)`,
+      `rgba(4,44,98,1)`,
+      `rgba(3,33,74,1)`,
+      `rgba(1,11,25,1)`,
+    ],
+  };
+
   draw = (ctx, frameCnt, mouseObj) => {
     // console.log(mouseObj);
     let cvsWidth = ctx.canvas.width;
@@ -17,13 +34,28 @@ export default class Field extends Component {
       // console.log(111, this.props.room.usersOnRoom);
 
       // draw background
-      // ctx.fillStyle = `rgba(255, 255, 255, 1)`;
-      ctx.fillStyle = `rgba(3, 33, 74, 1)`;
+      let lingrad = ctx.createLinearGradient(0, 0, 0, cvsHeight);
+      let colorset = this.BG_COLORSET["space"];
+      let pcts = room.camera.getGradientPct();
+      lingrad.addColorStop(0, colorset[0]);
+      lingrad.addColorStop(pcts[0], colorset[1]);
+      lingrad.addColorStop(pcts[1], colorset[2]);
+      lingrad.addColorStop(1, colorset[3]);
+      ctx.fillStyle = lingrad;
       ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
       // translate location
       const { center } = room.camera;
-      ctx.translate(cvsWidth / 2 - center.x, cvsHeight / 2 - center.y);
+      const { selectedAlien } = this.props;
+      if (!!selectedAlien && !!(selectedAlien in monsters)) {
+        let { location } = monsters[selectedAlien];
+        let x = room.camera.getCanvasSize(location.x);
+        let y = room.camera.getCanvasSize(location.y);
+        ctx.translate(cvsWidth / 2 - x, cvsHeight / 2 - y);
+      } else {
+        ctx.translate(cvsWidth / 2 - center.x, cvsHeight / 2 - center.y);
+      }
+
       // room.camera.center.x++;
 
       // draw monster

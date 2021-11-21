@@ -17,14 +17,14 @@ const fs = require("fs");
 // const flash = require("connect-flash");
 const schedule = require("./routes/scheduler");
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
+  connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   multipleStatements: true,
 });
-connection.connect();
 
 app.use(compression());
 app.use(helmet());
@@ -48,16 +48,18 @@ app.use(cookieParser(process.env.SESSION_SECRET)); // middleware for parsing coo
 app.use(morgan("dev")); // middleware for logging HTTP request
 // app.use(flash()); // 반드시 session 다음에
 
-const passport = require("./lib/passport")(app, connection);
-const userRouter = require("./routes/user.js")(passport, connection);
-const mainRouter = require("./routes/main.js")(connection);
-const challengeRouter = require("./routes/challenge.js")(connection);
-const alienRouter = require("./routes/alien.js")(connection);
-const testRouter = require("./routes/test")(connection);
+const passport = require("./lib/passport")(app, pool);
+const userRouter = require("./routes/user.js")(passport, pool);
+const mainRouter = require("./routes/main.js")(pool);
+const challengeRouter = require("./routes/challenge.js")(pool);
+const alienRouter = require("./routes/alien.js")(pool);
+const chatRouter = require("./routes/chat.js")(pool);
+const testRouter = require("./routes/test.js")(pool);
 app.use("/api/user", userRouter);
 app.use("/api/main", mainRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
+app.use("/api/chat", chatRouter);
 app.use("/api/test", testRouter);
 
 const port = process.env.PORT || 5000;
