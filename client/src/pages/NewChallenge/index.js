@@ -12,7 +12,7 @@ export default function NewAlien(props) {
   return (
     <div className={styles.body}>
       <img src={DeanImage} alt={"singal halsooedda"} />
-      <h3>실물이 나음</h3>
+      <h3>기존에 만들었던 Challenge modal를 활용해 ㄲ</h3>
     </div>
   );
 }

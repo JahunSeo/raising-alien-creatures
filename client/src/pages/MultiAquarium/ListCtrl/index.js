@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 import styles from "./index.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
-import ChallengeModal from "./ChallengeModal";
 import SideBarModal from "./SideBarModal";
+import ChatModal from "./ChatModal";
 import * as actions from "../../../Redux/actions";
 import { CHAL_INFO_TYPE } from "../../../Redux/reducers/modalOnOff";
 
@@ -35,13 +35,13 @@ export default function ListCtrl(props) {
         A
       </div>
       <div
-        className={cx("btn", "btn--create")}
+        className={cx("btn", "btn--chat")}
         onClick={() => switchModal(CHAL_INFO_TYPE.CHAT)}
       >
         C
       </div>
       <SideBarModal modalType={CHAL_INFO_TYPE.ALIEN} />
-      <ChallengeModal modalType={CHAL_INFO_TYPE.CHAT} />
+      <ChatModal modalType={CHAL_INFO_TYPE.CHAT} />
     </div>
   );
 }
