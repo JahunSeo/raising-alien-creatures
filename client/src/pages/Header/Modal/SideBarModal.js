@@ -3,7 +3,6 @@ import "./SideBarModal.css";
 import { useSelector, useDispatch } from "react-redux";
 import SideBarModal2 from "./SideBarModal2";
 import { Routes, Route } from "react-router-dom";
-import * as actions from "../../../../Redux/actions/index.js";
 import PostList from "./PostList";
 
 export default function SideBarModal() {
@@ -22,11 +21,11 @@ export default function SideBarModal() {
         <Routes>
           <Route path="/" element={<PostList type="main" />}></Route>
           <Route
-            path="/user/:userId"
+            path="/user/:userId/room"
             element={<PostList type="personal" />}
           ></Route>
           <Route
-            path="/challenge/:challengeId"
+            path="/challenge/:challengeId/room"
             element={<PostList type="challenge" />}
           ></Route>
         </Routes>

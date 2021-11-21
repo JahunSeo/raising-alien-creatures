@@ -11,7 +11,7 @@ class Camera {
     this.levelMax = 20;
     this.levelMin = 1;
     this.levelRange = this.levelMax - this.levelMin;
-    this.level = this.levelDefault;
+    this.level = 7; //this.levelDefault;
     this.ratioMax = 2;
     this.ratioMin = 0.5;
     this.ratioRange = this.ratioMax - this.ratioMin;
@@ -48,6 +48,19 @@ class Camera {
     this.center.x = x;
     this.center.y = y;
   }
+
+  getGradientPct = () => {
+    // TODO: 배경 이미지로 변경
+    if (!this.cvsHeight || !this.center.y) return [0.4, 0.6];
+
+    let baseY = this.cvsHeight;
+    let pct1 = (baseY * 0.4 - this.center.y / this.level) / baseY;
+    pct1 = Math.min(Math.max(pct1, 0), 1);
+    let pct2 = (baseY * 0.6 - this.center.y / this.level) / baseY;
+    pct2 = Math.min(Math.max(pct2, 0), 1);
+    // console.log(this.level, pct1, pct2);
+    return [pct1, pct2];
+  };
 
   getCanvasSize = (size) => {
     // TODO: level과 ratio 범위 확정되면 계산 효율화

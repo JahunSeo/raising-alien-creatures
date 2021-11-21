@@ -20,25 +20,22 @@
   z-index: 0;
 }
 
-.SecHead {
-  width: 90%;
-  max-width: 1000px;
-  /* height: 70px; */
-
-  position: absolute;
-  top: 20px;
-  /* bottom: 0; */
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 5;
-}
-
-.SecFieldCtrl {
+.SecListCtrl {
   width: 44px;
   height: 84px;
 
   position: absolute;
+  right: 20px;
+  top: calc(50% - 110px);
+  z-index: 7;
+}
+
+.SecFieldCtrl {
+  width: 44px;
+  height: 134px;
+
+  position: absolute;
+  bottom: calc(50% - 130px);
   right: 20px;
   z-index: 6;
 }

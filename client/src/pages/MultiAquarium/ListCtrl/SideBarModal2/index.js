@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index";
 
 export default function SideBarModal2() {
@@ -20,9 +19,9 @@ export default function SideBarModal2() {
     // console.log("alien안_id: ", alien.alien.id);
     e.preventDefault();
     const res = await api.get("/main/s3Url");
-    // console.log("url", res.data.url);
+    console.log("url", res.data.url);
     const { url } = res.data;
-    // console.log(url);
+    console.log(url);
 
     // post the image direclty to the s3 bucket
     if (authImage) {
@@ -35,8 +34,8 @@ export default function SideBarModal2() {
       });
     }
     const imageUrl = url.split("?")[0];
-    // console.log(imageUrl);
-    // console.log("문자적자", alien.alien.user_info_id);
+    console.log(imageUrl);
+    console.log("문자적자", alien.alien.user_info_id);
     const resp = {
       user_info_id: alien.alien.user_info_id,
       Alien_id: alien.alien.id,
@@ -57,7 +56,7 @@ export default function SideBarModal2() {
 
     // post requst to my server to store any extra data
     const result = await api.post("/challenge/auth", resp);
-    // console.log(result);
+    console.log(result);
   };
 
   return (
