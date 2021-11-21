@@ -43,7 +43,7 @@ export default function SearchBox(props) {
 
   return (
     <div className={cn("NormalBox", { longer })}>
-      <div className="top">
+      <div className="topBtnRow">
         {longer && (
           <img
             className="goback"
@@ -57,15 +57,17 @@ export default function SearchBox(props) {
         </Link>
       </div>
       <div className="header">
-        <form className="double" onSubmit={onSubmit}>
-          <input id="input" placeholder=" " />
-          <label for="input"> 어떤 챌린지를 찾으시나요?</label>
-          <img
-            className="search"
-            onClick={onSubmit}
-            alt="search"
-            src={searchIcon}
-          ></img>
+        <form className="searchForm" onSubmit={onSubmit}>
+          <div className="double">
+            <input id="input" placeholder=" " />
+            <label for="input">어떤 챌린지를 찾으시나요?</label>
+            <img
+              className="search"
+              onClick={onSubmit}
+              alt="search"
+              src={searchIcon}
+            ></img>
+          </div>
         </form>
         {message && <div className="errmsg">{message}</div>}
       </div>

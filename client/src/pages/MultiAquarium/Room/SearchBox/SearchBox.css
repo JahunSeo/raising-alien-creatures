@@ -13,9 +13,10 @@
   /* transition: height 400ms ease-in, width 800ms ease-out; */
   transition-duration: 300ms;
 }
-.top {
+.topBtnRow {
   height: 50px;
 }
+
 .header {
   position: relative;
   height: 250px;
@@ -36,59 +37,73 @@
   color: #18ffff;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+}
+
+.searchForm {
+  width: 90%;
+}
+
 .double {
   position: relative;
+  border: 2px solid rgb(179, 174, 174);
+  border-radius: 5px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .double input {
-  position: relative;
-  top: 80px;
-  width: 90%;
-  max-width: 600px;
-  outline: none;
-  border: 2.5px solid rgb(179, 174, 174);
-  border-radius: 10px;
   color: white;
   background: none;
-  padding-right: 2em;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 50px;
+  outline: none;
 }
 
-.NormalBox input:hover {
-  border: 3px solid #adffff;
+.double input:hover {
+  border: 2px solid #adffff;
+  border-radius: 3px;
 }
-.NormalBox input:focus {
-  border: 3px solid #18ffff;
+.double input:focus {
+  border: 2px solid #18ffff;
+  border-radius: 3px;
 }
 
 .header label {
   position: absolute;
-  top: 80px;
-  left: 50px;
+  top: 0px;
+  left: 80px;
+  margin: auto;
   font-size: 1em;
   cursor: text;
-  transition: top 200ms ease-in, font-size 200ms ease-in;
+  transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
   /* transition-duration: 300ms; */
 }
 /* sibling selector ~ */
 .double input:focus ~ label {
   left: 30px;
-  top: 40px;
-  font-size: 1em;
+  top: -40px;
+  font-size: 0.8em;
 }
 .NormalBox input:not(:placeholder-shown) {
   border: 3px solid #18ffff;
 }
 .double input:not(:placeholder-shown) ~ label {
   left: 30px;
-  top: 40px;
-  font-size: 1em;
+  top: -40px;
+  font-size: 0.8em;
 }
 
 .double .search {
   position: absolute;
   width: 33px;
-  top: 90px;
-  right: 2vw;
+  top: 10px;
+  right: 15px;
   cursor: pointer;
 }
 
@@ -108,6 +123,11 @@
   /* transition: height 280ms ease-in, width 1000ms ease-in; */
   transition-duration: 500ms;
 }
+
+.NormalBox.longer .header {
+  padding: 0;
+}
+
 .NormalBox.longer label {
   top: 1rem;
   left: 30px;
