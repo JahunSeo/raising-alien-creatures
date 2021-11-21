@@ -23,7 +23,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="approval" element={<Approval />} />
           <Route path="challenge/new" element={<NewChallenge />} />
-          <Route path="alien/:challengeId/:userId" element={<NewAlien />} />
+          <Route path="challenge/:challengeId/join" element={<NewAlien />} />
           <Route path="/" element={<MultiAquarium rooms={rooms} />}>
             <Route path="" element={<PlazaRoom rooms={rooms} />} />
             <Route

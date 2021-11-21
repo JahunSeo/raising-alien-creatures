@@ -13,10 +13,11 @@ export default function Title(props) {
   // url 확인하기
   const userMatch = useMatch("/user/:userId/room");
   const challengeMatch = useMatch("/challenge/:challengeId/room");
-  const alienMatch = useMatch("/alien/:challengeId/:userId");
+  const newchalMatch = useMatch("/challenge/new");
+  const alienMatch = useMatch("/challenge/:challengeId/join");
   const approvalMatch = useMatch("/approval");
   const mainMatch = useMatch("/");
-  //   console.log(userMatch, challengeMatch, alienMatch, approvalMatch, mainMatch);
+  //   console.log(userMatch, challengeMatch, newchalMatch, alienMatch, approvalMatch, mainMatch);
   if (!!userMatch) {
     let { params } = userMatch;
     return <div className={styles.title}>{`User-${params.userId}`}</div>;
@@ -31,7 +32,6 @@ export default function Title(props) {
           (e) => e.Challenge_id === Number(challengeId)
         ) !== -1;
     }
-
     return (
       <React.Fragment>
         <div className={styles.title}>{`Challenge-${params.challengeId}`}</div>
@@ -39,12 +39,14 @@ export default function Title(props) {
           <div className={cx("btn", "btn--ing")}>참가중</div>
         )}
         {!!user && !participating && (
-          <Link to={`/alien/${challengeId}/${user.id}`}>
+          <Link to={`/challenge/${challengeId}/join`}>
             <button className={cx("btn", "btn--start")}>시작하기</button>
           </Link>
         )}
       </React.Fragment>
     );
+  } else if (!!newchalMatch) {
+    return <div className={styles.title}>{`New Challenge`}</div>;
   } else if (!!alienMatch) {
     let { params } = alienMatch;
     return (
