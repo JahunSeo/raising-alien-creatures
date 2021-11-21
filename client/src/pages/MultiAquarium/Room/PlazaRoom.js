@@ -86,9 +86,9 @@ export default function PlazaRoom(props) {
             src={backIcon}
           ></img>
         )}
-        <a href="/" className="newChallenge">
-          새로운 챌린지 생성
-        </a>
+        <Link to={`/challenge/new`}>
+          <button className={"newChallenge"}>{"새로운 챌린지 생성"}</button>
+        </Link>
       </div>
       <div className="header">
         <form onSubmit={onSubmit}>
@@ -145,7 +145,7 @@ const ChallengeItem = ({ challenge }) => {
             챌린지 설명: <br />
             {challenge.challengeContent}
           </div>
-          <Link to={`/challenge/${challenge.id}`}>
+          <Link to={`/challenge/${challenge.id}/room`}>
             <button className="challengeButton">챌린지 방 가기</button>
           </Link>
         </>
