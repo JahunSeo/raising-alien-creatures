@@ -11,7 +11,7 @@ class Camera {
     this.levelMax = 20;
     this.levelMin = 1;
     this.levelRange = this.levelMax - this.levelMin;
-    this.level = this.levelDefault;
+    this.level = 7; //this.levelDefault;
     this.ratioMax = 2;
     this.ratioMin = 0.5;
     this.ratioRange = this.ratioMax - this.ratioMin;
