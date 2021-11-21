@@ -1,0 +1,254 @@
+.NormalBox {
+  position: absolute;
+  width: 40%;
+  min-width: 300px;
+  max-width: 700px;
+  height: 300px;
+  background-color: rgba(4, 30, 66, 0.95);
+  box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
+  border-radius: 20px;
+  color: whitesmoke;
+  z-index: 5;
+  font-size: 1.8rem;
+  /* transition: height 400ms ease-in, width 800ms ease-out; */
+  transition-duration: 300ms;
+}
+.top {
+  height: 50px;
+}
+.header {
+  position:relative;
+  height:250px;
+}
+.NormalBox.longer .header {
+  height:80px;
+}
+
+.newChallenge {
+  color: rgb(175, 173, 173);
+  margin: 0.8em;
+  position: absolute;
+  right: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.newChallenge:hover {
+  color: #18ffff;
+}
+
+.double{
+  position: relative;
+}
+
+.double input {
+  position: relative;
+  top: 80px;
+  left:1vw;
+  width: 90%;
+  max-width: 600px;
+  outline: none;
+  border: 2.5px solid rgb(179, 174, 174);
+  border-radius: 10px;
+  color: white;
+  background: none;
+  padding-right: 2em;
+}
+
+.NormalBox input:hover {
+  border: 3px solid #adffff;
+}
+.NormalBox input:focus {
+  border: 3px solid #18ffff;
+}
+
+.header label {
+  position: absolute;
+  top: 80px;
+  right:100px;
+  font-size: 1em;
+  cursor: text;
+  transition: top 200ms ease-in, font-size 200ms ease-in;
+  /* transition-duration: 300ms; */
+}
+/* sibling selector ~ */
+.double input:focus ~ label {
+  left: 30px;
+  top: 40px;
+  font-size: 1em;
+}
+.NormalBox input:not(:placeholder-shown) {
+  border: 3px solid #18ffff;
+}
+.double input:not(:placeholder-shown) ~ label {
+  left: 30px;
+  top: 40px;
+  font-size: 1em;
+}
+
+.double .search {
+  position: absolute;
+  width: 33px;
+  top: 90px;
+  right:2vw;
+  cursor: pointer;
+}
+
+.NormalBox .goback:hover {
+  transition: all 200ms;
+  transform: scale(1.2);
+}
+.NormalBox .search:hover {
+  transition: all 200ms;
+  transform: scale(1.2);
+}
+
+.NormalBox.longer {
+  height: 85vh;
+  width: 100%;
+  top: 120px;
+  /* transition: height 280ms ease-in, width 1000ms ease-in; */
+  transition-duration: 500ms;
+}
+.NormalBox.longer label {
+  top: 1rem;
+  left: 30px;
+}
+.NormalBox.longer input {
+  top: 1vh;
+}
+
+.NormalBox.longer input:focus ~ label {
+  top:-1.8rem;
+  left:30px;
+  font-size: 1em;
+}
+
+.NormalBox.longer input:not(:placeholder-shown) ~ label {
+  /* bottom:70px; */
+  top:-1.8rem;
+  font-size: 1em;
+}
+.NormalBox.longer .search {
+  width: 33px;
+  position: relative;
+  top: 1vh;
+  right: 5%;
+  cursor: pointer;
+}
+
+.goback {
+  width: 33px;
+  position: absolute;
+  top: 3%;
+  left: 2%;
+  cursor: pointer;
+}
+
+.errmsg {
+  font-size: 1.1vw;
+  color: rgb(240, 56, 56);
+  position: absolute;
+  bottom:30%;
+  left: 30% ;
+}
+
+.NormalBox.longer .errmsg {
+  position: relative;
+  top: 88%;
+  font-size: 1.2vw;
+  left:1%;
+}
+
+@media screen and (max-width: 1000px) {
+  .NormalBox label {
+    font-size: 18px;
+    top: 45%;
+  }
+  .NormalBox input:focus ~ label {
+    top: 95px;
+    font-size: 17px;
+  }
+  .NormalBox input:not(:placeholder-shown) ~ label {
+    top: 95px;
+    font-size: 16px;
+  }
+}
+
+.findChallenge {
+  height: 65vh;
+  overflow-y: auto;
+  display:grid;
+  grid-template-columns: auto auto;
+  font-family: 'gulim';
+}
+.findChallenge::-webkit-scrollbar {
+  width: 10px;
+}
+.findChallenge::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: whitesmoke;
+}
+.findChallenge::-webkit-scrollbar-thumb {
+  background-color: #a19e9e;
+  border-radius: 10px;
+}
+.findChallenge::-webkit-scrollbar-thumb:hover {
+  background: #727171;
+}
+
+.challengeItem{
+  height:200px;
+  background: rgb(238, 238, 232);
+	border: 1.5px solid #1f8b17;
+  border-radius: 5px;
+  margin-left: 8px;
+	margin-bottom: 1vh;
+	padding: 15px;
+	display: grid;
+  color:black;
+  font-size:1.3rem;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.challengeItem .challengeName{
+  grid-column: 1/-1;
+  color: blue;
+  font-weight:bold;
+  font-size:1.5rem;
+}
+.challengeItem .challengeImg {
+  grid-row: 2/4;
+  object-fit: cover;
+  width:6rem;
+  height:6rem;
+  justify-self: center;
+}
+
+.challengeItem.expand{
+  grid-column: 1/3;
+  grid-template-columns: auto auto auto;
+  height:auto;
+}
+.challengeItem.expand .challengeName{
+  grid-column: 1/2;
+}
+.challengeItem .Details{
+  grid-row : span 2;
+  grid-column : span 2;
+}
+.challengeItem button{
+  margin-top:10px;
+  border: none;
+  border-radius: 400px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  color: rgb(255, 254, 254);
+  cursor: pointer;
+  background: linear-gradient(to right, #008aff, grey);
+}
+.challengeItem.expand .challengeImg{
+  width:7rem;
+  height:7rem;
+}
