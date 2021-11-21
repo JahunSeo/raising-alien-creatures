@@ -2,8 +2,39 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = function (pool) {
+  // read chat messages
+  router.get("/:challenge_id", function (req, res) {
+    let challenge_id = parseInt(req.params.challenge_id);
+    // 1단계: validation check
+    if (!challenge_id) {
+      res.status(400).json({
+        result: "fail",
+        msg: "Bad Request: challenge_id should be provided.",
+      });
+      return;
+    }
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      // 2단계: 해당 챌린지의 메시지들을 시간순으로 정렬해 전송
+      // - TODO: 최근 n일의 메시지만 1차 전송 후, 스크롤 시 요청 받아 추가 전송하는 방식으로 변경
+      connection.query(
+        "SELECT * from chat_message where challenge_id=? ORDER BY create_date ASC",
+        [challenge_id],
+        function (err, results) {
+          if (err) throw err;
+          res.status(201).json({
+            result: "success",
+            msg: "select messages",
+            data: results,
+          });
+          return;
+        }
+      );
+    });
+  });
+
   // add chat message
-  router.post("/create", function (req, res) {
+  router.post("/", function (req, res) {
     console.log(req.body);
     // 1단계: login 상태 확인
     if (!req.user) {
@@ -29,7 +60,7 @@ module.exports = function (pool) {
       // 3단계: user가 challenge에 참가중인지 확인
       connection.query(
         "SELECT * from user_info_has_challenge where user_info_id=? and challenge_id=?",
-        [req.user.id, req.body.challenge_id],
+        [user_info_id, challenge_id],
         function (err, results) {
           if (err) throw err; // server error!
           if (results.length <= 0) {
