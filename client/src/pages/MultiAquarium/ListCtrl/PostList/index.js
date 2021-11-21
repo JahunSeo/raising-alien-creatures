@@ -15,7 +15,13 @@ const PostItem = React.memo(function PostItem({ alien, type }) {
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challengeName}"</h2>
         <div className="Content">
-          <img alt="logo192.png" src={DummyImage} />
+          <img
+            alt="logo192.png"
+            src={DummyImage}
+            onClick={() => {
+              dispatch(actions.selectAlien(alien.id));
+            }}
+          />
           <div className="SubInfo">
             <p>이름 : {alien.alienName}</p>
             <p>

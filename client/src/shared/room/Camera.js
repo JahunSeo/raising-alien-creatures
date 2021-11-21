@@ -22,6 +22,8 @@ class Camera {
     this.dragFrom = { x: 0, y: 0 };
     this.dragRatio = 0.6;
     this.initPinchDist = null;
+
+    this.following = null;
   }
 
   setLevel(level) {

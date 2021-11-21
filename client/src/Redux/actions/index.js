@@ -34,3 +34,8 @@ export const alienAuth = (alien_auth) => ({
   type: types.ALIEN_AUTH,
   alien_auth: alien_auth,
 });
+
+export const selectAlien = (selectedAlien) => ({
+  type: types.SELECT_ALIEN,
+  payload: selectedAlien,
+});
