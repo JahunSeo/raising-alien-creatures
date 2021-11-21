@@ -1,6 +1,6 @@
 .NormalBox {
   position: absolute;
-  width: 40%;
+  width: 600px;
   min-width: 300px;
   max-width: 700px;
   height: 300px;
@@ -17,11 +17,11 @@
   height: 50px;
 }
 .header {
-  position:relative;
-  height:250px;
+  position: relative;
+  height: 250px;
 }
 .NormalBox.longer .header {
-  height:80px;
+  height: 80px;
 }
 
 .newChallenge {
@@ -36,14 +36,13 @@
   color: #18ffff;
 }
 
-.double{
+.double {
   position: relative;
 }
 
 .double input {
   position: relative;
   top: 80px;
-  left:1vw;
   width: 90%;
   max-width: 600px;
   outline: none;
@@ -64,7 +63,7 @@
 .header label {
   position: absolute;
   top: 80px;
-  right:100px;
+  left: 50px;
   font-size: 1em;
   cursor: text;
   transition: top 200ms ease-in, font-size 200ms ease-in;
@@ -89,7 +88,7 @@
   position: absolute;
   width: 33px;
   top: 90px;
-  right:2vw;
+  right: 2vw;
   cursor: pointer;
 }
 
@@ -118,14 +117,14 @@
 }
 
 .NormalBox.longer input:focus ~ label {
-  top:-1.8rem;
-  left:30px;
+  top: -1.8rem;
+  left: 30px;
   font-size: 1em;
 }
 
 .NormalBox.longer input:not(:placeholder-shown) ~ label {
   /* bottom:70px; */
-  top:-1.8rem;
+  top: -1.8rem;
   font-size: 1em;
 }
 .NormalBox.longer .search {
@@ -148,15 +147,15 @@
   font-size: 1.1vw;
   color: rgb(240, 56, 56);
   position: absolute;
-  bottom:30%;
-  left: 30% ;
+  bottom: 30%;
+  left: 30%;
 }
 
 .NormalBox.longer .errmsg {
   position: relative;
   top: 88%;
   font-size: 1.2vw;
-  left:1%;
+  left: 1%;
 }
 
 @media screen and (max-width: 1000px) {
@@ -177,9 +176,9 @@
 .findChallenge {
   height: 65vh;
   overflow-y: auto;
-  display:grid;
+  display: grid;
   grid-template-columns: auto auto;
-  font-family: 'gulim';
+  font-family: "gulim";
 }
 .findChallenge::-webkit-scrollbar {
   width: 10px;
@@ -196,49 +195,49 @@
   background: #727171;
 }
 
-.challengeItem{
-  height:200px;
+.challengeItem {
+  height: 200px;
   background: rgb(238, 238, 232);
-	border: 1.5px solid #1f8b17;
+  border: 1.5px solid #1f8b17;
   border-radius: 5px;
   margin-left: 8px;
-	margin-bottom: 1vh;
-	padding: 15px;
-	display: grid;
-  color:black;
-  font-size:1.3rem;
+  margin-bottom: 1vh;
+  padding: 15px;
+  display: grid;
+  color: black;
+  font-size: 1.3rem;
   grid-template-columns: auto auto;
   align-items: center;
   justify-content: space-between;
 }
-.challengeItem .challengeName{
+.challengeItem .challengeName {
   grid-column: 1/-1;
   color: blue;
-  font-weight:bold;
-  font-size:1.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 .challengeItem .challengeImg {
   grid-row: 2/4;
   object-fit: cover;
-  width:6rem;
-  height:6rem;
+  width: 6rem;
+  height: 6rem;
   justify-self: center;
 }
 
-.challengeItem.expand{
+.challengeItem.expand {
   grid-column: 1/3;
   grid-template-columns: auto auto auto;
-  height:auto;
+  height: auto;
 }
-.challengeItem.expand .challengeName{
+.challengeItem.expand .challengeName {
   grid-column: 1/2;
 }
-.challengeItem .Details{
-  grid-row : span 2;
-  grid-column : span 2;
+.challengeItem .Details {
+  grid-row: span 2;
+  grid-column: span 2;
 }
-.challengeItem button{
-  margin-top:10px;
+.challengeItem button {
+  margin-top: 10px;
   border: none;
   border-radius: 400px;
   font-size: 0.8rem;
@@ -248,7 +247,7 @@
   cursor: pointer;
   background: linear-gradient(to right, #008aff, grey);
 }
-.challengeItem.expand .challengeImg{
-  width:7rem;
-  height:7rem;
+.challengeItem.expand .challengeImg {
+  width: 7rem;
+  height: 7rem;
 }
