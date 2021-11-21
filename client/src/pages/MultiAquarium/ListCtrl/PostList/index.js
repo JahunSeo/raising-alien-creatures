@@ -7,9 +7,10 @@ import { Link } from "react-router-dom";
 import DummyImage from "../../../../image/babyshark.png";
 import HamburgerBtnImage from "../../../../image/toggledown.png";
 
-const PostItem = React.memo(function PostItem({ alien, type }) {
+const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
+
   return (
     <>
       <div className="PostItemBlock">
@@ -19,7 +20,11 @@ const PostItem = React.memo(function PostItem({ alien, type }) {
             alt="logo192.png"
             src={DummyImage}
             onClick={() => {
-              dispatch(actions.selectAlien(alien.id));
+              if (selectedAlien == alien.id) {
+                dispatch(actions.selectAlien(null));
+              } else {
+                dispatch(actions.selectAlien(alien.id));
+              }
             }}
           />
           <div className="SubInfo">
@@ -60,9 +65,11 @@ const PostItem = React.memo(function PostItem({ alien, type }) {
 });
 
 const PostList = ({ type }) => {
-  const { aliens_list } = useSelector(({ room }) => ({
+  const { aliens_list, selectedAlien } = useSelector(({ room }) => ({
     aliens_list: room.aliens,
+    selectedAlien: room.selectedAlien,
   }));
+
   const [category, setCategory] = useState(false);
   const [drop, setDrop] = useState(false);
   const [sort, setSort] = useState("a");
@@ -116,7 +123,12 @@ const PostList = ({ type }) => {
           )
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
-              <PostItem key={alien.id} alien={alien} type={type} />
+              <PostItem
+                key={alien.id}
+                alien={alien}
+                type={type}
+                selectedAlien={selectedAlien}
+              />
             ) : null
           )}
       {sort === "b" &&
@@ -128,7 +140,12 @@ const PostList = ({ type }) => {
           )
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
-              <PostItem key={alien.id} alien={alien} type={type} />
+              <PostItem
+                key={alien.id}
+                alien={alien}
+                type={type}
+                selectedAlien={selectedAlien}
+              />
             ) : null
           )}
       {sort === "c" &&
@@ -136,7 +153,12 @@ const PostList = ({ type }) => {
           .sort((a, b) => b.accuredAuthCnt - a.accuredAuthCnt)
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
-              <PostItem key={alien.id} alien={alien} type={type} />
+              <PostItem
+                key={alien.id}
+                alien={alien}
+                type={type}
+                selectedAlien={selectedAlien}
+              />
             ) : null
           )}
       {sort === "d" &&
@@ -144,7 +166,12 @@ const PostList = ({ type }) => {
           .sort((a, b) => a.accuredAuthCnt - b.accuredAuthCnt)
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
-              <PostItem key={alien.id} alien={alien} type={type} />
+              <PostItem
+                key={alien.id}
+                alien={alien}
+                type={type}
+                selectedAlien={selectedAlien}
+              />
             ) : null
           )}
     </div>
