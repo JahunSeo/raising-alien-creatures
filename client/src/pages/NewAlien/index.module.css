@@ -10,3 +10,29 @@
   align-items: center;
   justify-content: center;
 }
+
+.slider {
+  /* width: 640px;
+  height: 480px;
+  position: relative;
+  margin: 0 auto; */
+}
+/* .slider input[type="radio"] {
+  display: none;
+} */
+
+/* ul.imgs {
+  padding: 0;
+  margin: 0;
+} */
+/* ul.imgs li {
+  position: absolute;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 30px;
+}
+ul.imgs li img {
+  border-radius: 30px;
+  border: 5px solid rgba(0, 0, 0, 0.3);
+} */
