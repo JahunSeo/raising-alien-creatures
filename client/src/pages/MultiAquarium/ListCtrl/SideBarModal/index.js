@@ -5,8 +5,12 @@ import { Routes, Route } from "react-router-dom";
 import SideBarModal2 from "../SideBarModal2";
 import PostList from "../PostList";
 
-export default function SideBarModal() {
-  const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
+export default function SideBarModal(props) {
+  const { chalInfoModal } = useSelector(({ modalOnOff }) => ({
+    chalInfoModal: modalOnOff.chalInfoModal,
+  }));
+  const { modalType } = props;
+  const toggle = modalType && chalInfoModal === modalType;
 
   return (
     <>
@@ -16,15 +20,15 @@ export default function SideBarModal() {
           dispatch(actions.showModal1(false));
         }}
       /> */}
-      <div className={showModal1 ? "ModalContainer" : "hidden"}>
+      <div className={toggle ? "ModalContainer" : "hidden"}>
         <Routes>
           <Route path="/" element={<PostList type="main" />}></Route>
           <Route
-            path="/user/:userId"
+            path="/user/:userId/room"
             element={<PostList type="personal" />}
           ></Route>
           <Route
-            path="/challenge/:challengeId"
+            path="/challenge/:challengeId/room"
             element={<PostList type="challenge" />}
           ></Route>
         </Routes>
