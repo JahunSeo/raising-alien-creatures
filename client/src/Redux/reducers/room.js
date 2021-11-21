@@ -4,6 +4,7 @@ import * as types from "../actions/ActionTypes";
 const initialState = {
   roomId: null,
   aliens: [],
+  selectedAlien: null,
 };
 
 const room = handleActions(
@@ -13,6 +14,12 @@ const room = handleActions(
       ...state,
       roomId: roomId,
       aliens: aliens,
+      selectedAlien: null,
+    }),
+
+    [types.SELECT_ALIEN]: (state, { payload: selectedAlien }) => ({
+      ...state,
+      selectedAlien: selectedAlien,
     }),
   },
   initialState

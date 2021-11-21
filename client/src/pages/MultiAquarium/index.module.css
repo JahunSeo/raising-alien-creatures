@@ -32,10 +32,10 @@
 
 .SecFieldCtrl {
   width: 44px;
-  height: 84px;
+  height: 134px;
 
   position: absolute;
-  bottom: calc(50% - 110px);
+  bottom: calc(50% - 130px);
   right: 20px;
   z-index: 6;
 }
