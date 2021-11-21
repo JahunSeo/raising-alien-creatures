@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import Header from "./pages/Header";
 import Approval from "./pages/Approval";
+import NewChallenge from "./pages/NewChallenge";
 import NewAlien from "./pages/NewAlien";
 
 import MultiAquarium from "./pages/MultiAquarium";
@@ -21,12 +22,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="approval" element={<Approval />} />
-          <Route path="alien/:challengeId/:userId" element={<NewAlien />} />
+          <Route path="challenge/new" element={<NewChallenge />} />
+          <Route path="challenge/:challengeId/join" element={<NewAlien />} />
           <Route path="/" element={<MultiAquarium rooms={rooms} />}>
             <Route path="" element={<PlazaRoom rooms={rooms} />} />
-            <Route path="user/:userId" element={<UserRoom rooms={rooms} />} />
             <Route
-              path="challenge/:challengeId"
+              path="user/:userId/room"
+              element={<UserRoom rooms={rooms} />}
+            />
+            <Route
+              path="challenge/:challengeId/room"
               element={<ChallengeRoom rooms={rooms} />}
             />
           </Route>

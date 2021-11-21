@@ -18,7 +18,7 @@ const fs = require("fs");
 const schedule = require("./routes/scheduler");
 
 const pool = mysql.createPool({
-  connectionLimit : 10,
+  connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -53,11 +53,13 @@ const userRouter = require("./routes/user.js")(passport, pool);
 const mainRouter = require("./routes/main.js")(pool);
 const challengeRouter = require("./routes/challenge.js")(pool);
 const alienRouter = require("./routes/alien.js")(pool);
-const testRouter = require("./routes/test")(pool);
+const chatRouter = require("./routes/chat.js")(pool);
+const testRouter = require("./routes/test.js")(pool);
 app.use("/api/user", userRouter);
 app.use("/api/main", mainRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
+app.use("/api/chat", chatRouter);
 app.use("/api/test", testRouter);
 
 const port = process.env.PORT || 5000;
