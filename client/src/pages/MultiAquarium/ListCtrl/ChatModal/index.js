@@ -1,4 +1,5 @@
-import React from "react";
+import React, { userEffect, useState } from "react";
+// import ScrollToBottom from "react-scroll-to-bottom";
 import "./ChatModal.css";
 import {
   useSelector,
