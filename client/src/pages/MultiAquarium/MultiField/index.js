@@ -23,7 +23,16 @@ export default class Field extends Component {
 
       // translate location
       const { center } = room.camera;
-      ctx.translate(cvsWidth / 2 - center.x, cvsHeight / 2 - center.y);
+      const { selectedAlien } = this.props;
+      if (!!selectedAlien && !!(selectedAlien in monsters)) {
+        let { location } = monsters[selectedAlien];
+        let x = room.camera.getCanvasSize(location.x);
+        let y = room.camera.getCanvasSize(location.y);
+        ctx.translate(cvsWidth / 2 - x, cvsHeight / 2 - y);
+      } else {
+        ctx.translate(cvsWidth / 2 - center.x, cvsHeight / 2 - center.y);
+      }
+
       // room.camera.center.x++;
 
       // draw monster
