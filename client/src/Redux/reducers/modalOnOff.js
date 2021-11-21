@@ -4,6 +4,8 @@ const initialState = {
   showModal1: false,
   showModal2: false,
   showModal3: false,
+  showSignUpModal: false,
+  showSignInModal: false,
 };
 
 export default function modalOnOff(state = initialState, action) {
@@ -22,6 +24,16 @@ export default function modalOnOff(state = initialState, action) {
       return {
         ...state,
         showModal3: action.showModal3,
+      };
+    case types.SHOW_SIGNUP:
+      return {
+        ...state,
+        showSignUpModal: action.showSignUpModal,
+      };
+    case types.SHOW_SIGNIN:
+      return {
+        ...state,
+        showSignInModal: action.showSignInModal,
       };
     default:
       return state;

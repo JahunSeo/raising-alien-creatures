@@ -10,10 +10,10 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function ListCtrl(props) {
-  const dispatch = useDispatch();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
 
-  const [challengeModalOn, setChallengeModalOn] = useState(false);
+  const dispatch = useDispatch();
+  // const [challengeModalOn, setChallengeModalOn] = useState(false);
   const showModal1 = useSelector((state) => state.modalOnOff.showModal1);
   const showModal3 = useSelector((state) => state.modalOnOff.showModal3);
 
@@ -56,10 +56,7 @@ export default function ListCtrl(props) {
           C
         </div>
       )}
-      <ChallengeModal
-        show={challengeModalOn}
-        onHide={() => setChallengeModalOn(false)}
-      />
+      <ChallengeModal />
       <SideBarModal />
     </div>
   );

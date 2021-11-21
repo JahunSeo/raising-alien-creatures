@@ -1,16 +1,42 @@
 import React, { useState } from "react";
-import { Button, Container, Form, Modal } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import "./SignUpModal.css";
 import styles from "./SignUpModal.module.css";
 import api from "../apis/index.js";
+import * as actions from "../Redux/actions";
 
-const SignUpModal = ({ show, onHide, setSignUpModalOn }) => {
+const SignUpModal = ({}) => {
+  const dispatch = useDispatch();
+  const showSignUpModal = useSelector(
+    (state) => state.modalOnOff.showSignUpModal
+  );
+
   const [userNickname, setUserNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userConfirm, setUserConfirm] = useState("");
-
-  const [signUpClicked, setSignUpClicked] = useState(false);
   const [signUpMessage, setSignUpMessage] = useState(null);
+
+  const postSignUp = async () => {
+    let signUpData = { userNickname, userEmail, userPassword, userConfirm };
+    const res = await api.post("/user/register", signUpData);
+    console.log("res", res);
+    if (res.data.result === "success") {
+      alert("회원가입에 성공하였습니다.");
+      setUserNickname("");
+      setUserEmail("");
+      setUserPassword("");
+      setUserConfirm("");
+      setSignUpMessage(null);
+      dispatch(actions.showSignUpModal(!showSignUpModal));
+    } else {
+      if (res.data.result === "fail") {
+        setSignUpMessage("이미 존재하는 이메일 주소입니다.");
+      } else {
+        setSignUpMessage("이미 존재하는 닉네임입니다.");
+      }
+    }
+  };
 
   function validateSignUp(userNickname, userEmail, userPassword, userConfirm) {
     if (
@@ -51,120 +77,87 @@ const SignUpModal = ({ show, onHide, setSignUpModalOn }) => {
     if (!validateSignUp(userNickname, userEmail, userPassword, userConfirm))
       return;
     setSignUpMessage(null);
-    setSignUpClicked(true);
     postSignUp();
   };
 
-  const postSignUp = async () => {
-    let signUpData = { userNickname, userEmail, userPassword, userConfirm };
-    const res = await api.post("/user/register", signUpData);
-    console.log("res", res);
-    if (res.data.result === "success") {
-      // TODO: Redux 처리
-      alert("회원가입에 성공하였습니다.");
-      setSignUpClicked(false);
-      // setSignUpModalOn(false);
-    } else {
-      if (res.data.msg === "DB Insert Fail.") {
-        setSignUpMessage("이미 존재하는 이메일입니다.");
-        setSignUpClicked(false);
-      } else {
-        setSignUpMessage("이미 존재하는 닉네임입니다.");
-        setSignUpClicked(false);
-      }
-    }
-  };
-
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Container>
-        <Modal.Header
-          closeButton
-          onClick={() => {
-            setUserNickname("");
-            setUserEmail("");
-            setUserPassword("");
-            setUserConfirm("");
-            setSignUpMessage(null);
-          }}
-        >
-          <Modal.Title id="contained-modal-title-vcenter">회원가입</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group>
-              <Form.Label>닉네임</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="이재열"
-                onChange={(e) => {
-                  setUserNickname(e.target.value);
-                }}
-              />
+    <div className={showSignUpModal ? "SignUpContainer" : "hidden"}>
+      <div class="flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div class="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
+          신나는 회원가입
+        </div>
+        <div class="p-6 mt-8">
+          <form action="#">
+            <div class="flex flex-col mb-2">
+              <div class="relative">
+                <input
+                  type="text"
+                  class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  value={userNickname}
+                  placeholder="이재열"
+                  onChange={(e) => {
+                    setUserNickname(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div class="flex flex-col mb-2">
+              <div class="relative">
+                <input
+                  type="text"
+                  class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  value={userEmail}
+                  placeholder="santoryu1118@gmail.com"
+                  onChange={(e) => {
+                    setUserEmail(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div class="flex flex-col mb-2">
+              <div class="relative">
+                <input
+                  type="password"
+                  class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  value={userPassword}
+                  placeholder="********"
+                  onChange={(e) => {
+                    setUserPassword(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div class="flex flex-col mb-2">
+              <div class="relative">
+                <input
+                  type="password"
+                  class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  value={userConfirm}
+                  placeholder="********"
+                  onChange={(e) => {
+                    setUserConfirm(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div class="text-red-600">
               <br />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>이메일</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="helloalien@jungle.com"
-                onChange={(e) => {
-                  setUserEmail(e.target.value);
-                }}
-              />
-              <br />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>패스워드</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="********"
-                onChange={(e) => {
-                  setUserPassword(e.target.value);
-                }}
-              />
-              <br />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>패스워드 확인</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="********"
-                onChange={(e) => {
-                  setUserConfirm(e.target.value);
-                }}
-              />
-              <br />
-            </Form.Group>
-
-            <Form.Group className={styles.form__signup__message}>
               {signUpMessage}
               <br />
-            </Form.Group>
-
-            <Button
-              className="my-3"
-              type="button"
-              variant="success"
-              style={{
-                width: "100%",
-              }}
-              onClick={handleSubmit}
-            >
-              회원가입
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Container>
-    </Modal>
+            </div>
+            <div class="flex w-full my-4">
+              <button
+                type="submit"
+                class="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                onClick={handleSubmit}
+              >
+                회원가입
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

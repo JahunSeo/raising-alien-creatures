@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useMatch } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import Title from "./Title";
-
 import SignUpModal from "../../modals/SignUpModal";
 import SignInModal from "../../modals/SignInModal";
 import * as actions from "../../Redux/actions";
@@ -15,12 +13,15 @@ const cx = classNames.bind(styles);
 export default function Header(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
   // const [loginStatus, setLoginStatus] = useState(false);
-  const [signUpModalOn, setSignUpModalOn] = useState(false);
-  const [signInModalOn, setSignInModalOn] = useState(false);
+  const showSignUpModal = useSelector(
+    (state) => state.modalOnOff.showSignUpModal
+  );
+  const showSignInModal = useSelector(
+    (state) => state.modalOnOff.showSignInModal
+  );
 
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
@@ -32,6 +33,32 @@ export default function Header(props) {
     // TODO: Redux 처리 - setSignInClicked();
     postSignOut();
   };
+
+  function switchSignUpModal() {
+    if (showSignInModal) {
+      dispatch(actions.showSignInModal(false));
+      dispatch(actions.showSignUpModal(true));
+    } else {
+      dispatch(actions.showSignUpModal(true));
+    }
+
+    if (showSignUpModal) {
+      dispatch(actions.showSignUpModal(false));
+    }
+  }
+
+  function switchSignInModal() {
+    if (showSignUpModal) {
+      dispatch(actions.showSignUpModal(false));
+      dispatch(actions.showSignInModal(true));
+    } else {
+      dispatch(actions.showSignInModal(true));
+    }
+
+    if (showSignInModal) {
+      dispatch(actions.showSignInModal(false));
+    }
+  }
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -78,31 +105,36 @@ export default function Header(props) {
         {user ? (
           <div className={cx("item", "itemUser")}>
             <div className={styles.username}>{user && user.nickname}</div>
-            <Button variant="info" onClick={handleLogout}>
+            <button
+              type="button"
+              class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              onClick={handleLogout}
+            >
               로그아웃
-            </Button>
+            </button>
           </div>
         ) : (
           <div className={cx("item", "itemUser")}>
-            <Button variant="primary" onClick={() => setSignUpModalOn(true)}>
+            <button
+              type="button"
+              class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              onClick={() => switchSignUpModal()}
+            >
               회원가입
-            </Button>
+            </button>
             <h1>&nbsp;</h1>
-            <Button variant="info" onClick={() => setSignInModalOn(true)}>
+            <button
+              type="button"
+              class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              onClick={() => switchSignInModal()}
+            >
               로그인
-            </Button>
+            </button>
           </div>
         )}
       </div>
-      <SignUpModal
-        show={signUpModalOn}
-        onHide={() => setSignUpModalOn(false)}
-      />
-      <SignInModal
-        show={signInModalOn}
-        onHide={() => setSignInModalOn(false)}
-        setSignInModalOn={setSignInModalOn}
-      />
+      <SignUpModal />
+      <SignInModal />
     </div>
   );
 }
