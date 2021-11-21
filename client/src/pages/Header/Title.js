@@ -11,8 +11,8 @@ export default function Title(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   //   console.log(123, user);
   // url 확인하기
-  const userMatch = useMatch("/user/:userId");
-  const challengeMatch = useMatch("/challenge/:challengeId");
+  const userMatch = useMatch("/user/:userId/room");
+  const challengeMatch = useMatch("/challenge/:challengeId/room");
   const alienMatch = useMatch("/alien/:challengeId/:userId");
   const approvalMatch = useMatch("/approval");
   const mainMatch = useMatch("/");

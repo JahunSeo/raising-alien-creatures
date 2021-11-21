@@ -51,7 +51,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           )}
           <SideBarModal2 alien={alien} />
           {type !== "challenge" && (
-            <Link to={`/challenge/${alien.Challenge_id}`}>
+            <Link to={`/challenge/${alien.Challenge_id}/room`}>
               <button className="StyledButton"> 챌린지 어항</button>
             </Link>
           )}

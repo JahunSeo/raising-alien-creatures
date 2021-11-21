@@ -21,11 +21,11 @@ export default function SideBarModal() {
         <Routes>
           <Route path="/" element={<PostList type="main" />}></Route>
           <Route
-            path="/user/:userId"
+            path="/user/:userId/room"
             element={<PostList type="personal" />}
           ></Route>
           <Route
-            path="/challenge/:challengeId"
+            path="/challenge/:challengeId/room"
             element={<PostList type="challenge" />}
           ></Route>
         </Routes>
