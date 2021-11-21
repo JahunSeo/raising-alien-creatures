@@ -6,6 +6,8 @@ export const CLOSE_MODAL1 = "CLOSE_MODAL1";
 export const CLOSE_MODAL2 = "CLOSE_MODAL2";
 export const CLOSE_MODAL3 = "CLOSE_MODAL3";
 
+export const SET_CHAL_INFO_MODAL = "SET_CHAL_INFO_MODAL";
+
 export const CHECK_USER = "CHECK_USER";
 export const LOGOUT = "USER_LOGOUT";
 

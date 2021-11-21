@@ -4,14 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import api from "../../../../apis/index.js";
 
-const ChallengeModal = (props) => {
-  const { chalInfoModal } = useSelector(({ modalOnOff }) => ({
-    chalInfoModal: modalOnOff.chalInfoModal,
-  }));
-  const { modalType } = props;
-  const toggle = modalType && chalInfoModal === modalType;
-  const dispatch = useDispatch();
-
+const ChallengeModal = ({ show, onHide, setChallengeModalOn }) => {
   const [challengeTitle, setChallengeTitle] = useState("");
   const [challengeDescription, setChallengeDescription] = useState("");
 
@@ -21,6 +14,9 @@ const ChallengeModal = (props) => {
   const [challengeFrequency, setChallengeFrequency] = useState(SELECT_DEFAULT);
 
   const [challengeMessage, setChallengeMessage] = useState(null);
+
+  const dispatch = useDispatch();
+  const showModal3 = useSelector((state) => state.modalOnOff.showModal3);
 
   function validateChallenge(
     challengeTitle,
@@ -82,7 +78,7 @@ const ChallengeModal = (props) => {
       setChallengeCapacity(SELECT_DEFAULT);
       setChallengeFrequency(SELECT_DEFAULT);
       alert("챌린지 생성에 성공하였습니다.");
-      dispatch(actions.setChalInfoModal(null));
+      dispatch(actions.showModal3(!showModal3));
       return;
     } else {
       setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
@@ -91,7 +87,7 @@ const ChallengeModal = (props) => {
   };
 
   return (
-    <div className={toggle ? "ChallengeContainer" : "hidden"}>
+    <div className={showModal3 ? "ChallengeContainer" : "hidden"}>
       <h1>새로운 챌린지 생성하기</h1>
       <label>
         <h4>챌린지 제목</h4>
