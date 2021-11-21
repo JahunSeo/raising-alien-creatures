@@ -17,7 +17,15 @@ export default function Title(props) {
   const alienMatch = useMatch("/challenge/:challengeId/join");
   const approvalMatch = useMatch("/approval");
   const mainMatch = useMatch("/");
-  //   console.log(userMatch, challengeMatch, newchalMatch, alienMatch, approvalMatch, mainMatch);
+
+  // console.log(
+  //   userMatch,
+  //   challengeMatch,
+  //   newchalMatch,
+  //   alienMatch,
+  //   approvalMatch,
+  //   mainMatch
+  // );
   if (!!userMatch) {
     let { params } = userMatch;
     return <div className={styles.title}>{`User-${params.userId}`}</div>;
