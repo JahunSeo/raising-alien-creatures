@@ -45,7 +45,10 @@
 }
 
 .searchForm {
-  width: 90%;
+  width: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .double {
@@ -54,6 +57,7 @@
   border-radius: 5px;
   width: 100%;
   max-width: 600px;
+  height: 48px;
 }
 
 .double input {
@@ -125,34 +129,7 @@
 }
 
 .NormalBox.longer .header {
-  padding: 0;
-}
-
-.NormalBox.longer label {
-  top: 1rem;
-  left: 30px;
-}
-.NormalBox.longer input {
-  top: 1vh;
-}
-
-.NormalBox.longer input:focus ~ label {
-  top: -1.8rem;
-  left: 30px;
-  font-size: 1em;
-}
-
-.NormalBox.longer input:not(:placeholder-shown) ~ label {
-  /* bottom:70px; */
-  top: -1.8rem;
-  font-size: 1em;
-}
-.NormalBox.longer .search {
-  width: 33px;
-  position: relative;
-  top: 1vh;
-  right: 5%;
-  cursor: pointer;
+  padding-top: 15px;
 }
 
 .goback {
