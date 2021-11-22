@@ -44,6 +44,8 @@ export default class Field extends Component {
       ctx.fillStyle = lingrad;
       ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
+      // draw source (black hole?)
+
       // translate location
       const { center } = room.camera;
       const { selectedAlien } = this.props;
