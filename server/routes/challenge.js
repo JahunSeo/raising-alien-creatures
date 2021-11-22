@@ -30,7 +30,7 @@ module.exports = function (pool) {
             res.status(200).json({
               result: "success",
               msg: "do insert",
-              data: results1.insertId,
+              data: {challenge_id: results1.insertId, total_auth_cnt: cnt_of_week}
             });
             connection.release();
           }
