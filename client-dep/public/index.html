@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -24,6 +24,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script type="module">
+      import "https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate";
+      const el = document.createElement("pwa-update");
+      document.body.appendChild(el);
+    </script>
     <title>외계생물 기르기</title>
   </head>
   <body>
@@ -39,29 +44,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker
-            .register("worker.js")
-            .then(
-              function (registration) {
-                console.log(
-                  "Worker registration successful",
-                  registration.scope
-                );
-              },
-              function (err) {
-                console.log("Worker registration failed", err);
-              }
-            )
-            .catch(function (err) {
-              console.log(err);
-            });
-        });
-      } else {
-        console.log("Service Worker is not supported by browser.");
-      }
-    </script>
   </body>
 </html>
