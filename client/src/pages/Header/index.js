@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useMatch } from "react-router-dom";
 import Title from "./Title";
@@ -26,11 +26,9 @@ export default function Header(props) {
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
     dispatch(actions.logout());
-    // setLoginStatus(false);
   };
 
   const handleLogout = (e) => {
-    // TODO: Redux 처리 - setSignInClicked();
     postSignOut();
   };
 
@@ -78,8 +76,6 @@ export default function Header(props) {
     getLoginStatus();
   }, [dispatch]);
 
-  // console.log("[Header] user", user);
-
   return (
     <div className={styles.body}>
       <div className={styles.bodyInner}>
@@ -116,15 +112,15 @@ export default function Header(props) {
           <div className={cx("item", "itemUser")}>
             <button
               type="button"
-              class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              class="py-1.5 w-32  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
               onClick={() => switchSignUpModal()}
             >
               회원가입
             </button>
-            <h1>&nbsp;</h1>
+            <h1>&nbsp;&nbsp;&nbsp;</h1>
             <button
               type="button"
-              class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              class="py-1.5 w-32  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
               onClick={() => switchSignInModal()}
             >
               로그인

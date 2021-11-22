@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./SignUpModal.css";
-import styles from "./SignUpModal.module.css";
+// import styles from "./SignUpModal.module.css";
 import api from "../apis/index.js";
 import * as actions from "../Redux/actions";
 
-const SignUpModal = ({}) => {
+const SignUpModal = () => {
   const dispatch = useDispatch();
   const showSignUpModal = useSelector(
     (state) => state.modalOnOff.showSignUpModal

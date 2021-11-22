@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./SignInModal.css";
-import styles from "./SignInModal.css";
 import api from "../apis/index.js";
 import * as actions from "../Redux/actions";
 
@@ -17,7 +16,6 @@ const SignInModal = () => {
 
   const postSignIn = async () => {
     let signInData = { email: userEmail, pwd: userPassword };
-    // 1단계: 로그인 요청
     let res = await api.post("/user/login", signInData);
     console.log("res", res);
     if (res.data.result !== "success") {
@@ -28,12 +26,10 @@ const SignInModal = () => {
     delete user.result;
     user.login = true;
     user.challenges = [];
-    // 2단계: 유저 관련 정보 확인 (참여중 챌린지 등)
     res = await api.get("/user/personalinfo");
     if (res.data.result === "success") {
       user.challenges = res.data.Challenge;
     }
-    // 리덕스에 저장
     dispatch(actions.checkUser(user));
     dispatch(actions.showSignInModal(!showSignInModal));
   };
@@ -158,73 +154,3 @@ const SignInModal = () => {
 };
 
 export default SignInModal;
-
-//   return (
-//     <Modal
-//       show={show}
-//       onHide={onHide}
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Container className={styles.container}>
-//         <Modal.Header
-//           closeButton
-//           onClick={() => {
-//             setUserEmail("");
-//             setUserPassword("");
-//             setSignInMessage(null);
-//           }}
-//         >
-//           <Modal.Title id="contained-modal-title-vcenter">로그인</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <Form>
-//             <Form.Group>
-//               <Form.Label>이메일</Form.Label>
-//               <Form.Control
-//                 className={styles.form__input}
-//                 type="email"
-//                 placeholder="helloalien@jungle.com"
-//                 onChange={(e) => {
-//                   setUserEmail(e.target.value);
-//                 }}
-//               />
-//               <br />
-//             </Form.Group>
-
-//             <Form.Group>
-//               <Form.Label>패스워드</Form.Label>
-//               <Form.Control
-//                 type="password"
-//                 placeholder="********"
-//                 onChange={(e) => {
-//                   setUserPassword(e.target.value);
-//                 }}
-//               />
-//               <br />
-//             </Form.Group>
-
-// <Form.Group className={styles.form__signin__message}>
-//   {signInMessage}
-//   <br />
-// </Form.Group>
-
-//             <Button
-//               className="my-3"
-//               type="button"
-//               variant="success"
-//               style={{
-//                 width: "100%",
-//               }}
-//               onClick={handleSubmit}
-//             >
-//               로그인
-//             </Button>
-//           </Form>
-//         </Modal.Body>
-//       </Container>
-//     </Modal>
-//   );
-// };
-
-// export default SignInModal;
