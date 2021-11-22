@@ -21,7 +21,7 @@ const ChallengeModal = (props) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
 
   // console.log("roomId", roomId);
-  // if (user) {
+  // if (user) {wef
   //   console.log("nickname", user.nickname);
   // }
   const { chalInfoModal } = useSelector(({ modalOnOff }) => ({
@@ -37,6 +37,7 @@ const ChallengeModal = (props) => {
   // const dispatch = useDispatch();
 
   const sendMessage = async () => {
+    if (!user) return;
     if (currentMessage !== "") {
       const messageData = {
         room: roomId,
@@ -65,6 +66,7 @@ const ChallengeModal = (props) => {
 
         <ScrollToBottom className="messages">
           {messages.map((messageContent, index) => {
+            if (!user) return;
             return (
               <div
                 className="message"
