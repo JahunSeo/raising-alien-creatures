@@ -10,5 +10,5 @@ export const reducers = combineReducers({
   modalOnOff,
   user,
   room,
-  chat,
+  // chat,
 });

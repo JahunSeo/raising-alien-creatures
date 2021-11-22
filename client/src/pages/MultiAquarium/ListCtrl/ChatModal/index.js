@@ -14,6 +14,7 @@ import * as actions from "../../../../Redux/actions/index.js";
 const ChallengeModal = (props) => {
   const [currentMessage, setCurrentMessage] = useState("");
   // const [messageList, setMessageList] = useState([]);
+  const dispatch = useDispatch();
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
   }));
@@ -27,20 +28,13 @@ const ChallengeModal = (props) => {
     chalInfoModal: modalOnOff.chalInfoModal,
   }));
 
-  const { messages } = useSelector(({ chat }) => ({
-    messages: chat.messages,
+  const { messages } = useSelector(({ room }) => ({
+    messages: room.messages,
   }));
 
   const { modalType } = props;
   const toggle = modalType && chalInfoModal === modalType;
   // const dispatch = useDispatch();
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    socket.Message_receive();
-    console.log("message_receive");
-    console.log("정신호짱짱");
-  });
 
   const sendMessage = async () => {
     if (currentMessage !== "") {
@@ -53,34 +47,35 @@ const ChallengeModal = (props) => {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      socket.message_send(messageData);
-      dispatch(actions.setMessage([...messages, messageData]));
+      socket.messageSend(messageData);
+      dispatch(actions.setMessage(messageData));
       setCurrentMessage("");
     }
   };
 
   return (
     <div className={toggle ? "ChallengeContainer" : "hidden"}>
-      <div class="boxborder">
-        <div class="container px-1 max-w-xs py-5 mx-auto ">
-          <div class="chat-header">
+      <div className="boxborder">
+        <div className="container px-1 max-w-xs py-5 mx-auto ">
+          <div className="chat-header">
             <p>Live Chat</p>
           </div>
           <br />
           <br />
 
           <ScrollToBottom className="messages">
-            {messages.map((messageContent) => {
+            {messages.map((messageContent, index) => {
               return (
                 <div
-                  class="message"
+                  className="message"
+                  key={index}
                   id={user.nickname === messageContent.author ? "you" : "other"} // css 파일에서 구분
                 >
-                  <div class="message-align">
-                    <div class="message-content">
+                  <div className="message-align">
+                    <div className="message-content">
                       <p>{messageContent.message}</p>
                     </div>
-                    <div class="message-meta">
+                    <div className="message-meta">
                       <p>{messageContent.time}</p>
                       &nbsp;&nbsp;
                       <p>{messageContent.author}</p>
@@ -91,10 +86,10 @@ const ChallengeModal = (props) => {
             })}
           </ScrollToBottom>
 
-          <div class="chat-footer">
-            <div class="relative flex">
+          <div className="chat-footer">
+            <div className="relative flex">
               <input
-                class="chat-input"
+                className="chat-input"
                 type="text"
                 value={currentMessage}
                 placeholder=" Hey..."
@@ -105,8 +100,8 @@ const ChallengeModal = (props) => {
                   event.key === "Enter" && sendMessage();
                 }}
               />
-              <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
-                <button class="send-button" onClick={sendMessage}>
+              <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                <button className="send-button" onClick={sendMessage}>
                   &#9658;
                 </button>
               </div>

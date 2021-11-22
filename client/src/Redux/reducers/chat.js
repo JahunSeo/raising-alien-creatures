@@ -7,9 +7,9 @@ const initialState = {
 
 const chat = handleActions(
   {
-    [types.MESSAGE_UPDATE]: (state, { payload: messages }) => ({
+    [types.MESSAGE_UPDATE]: (state, { payload: msg }) => ({
       ...state,
-      messages: messages,
+      messages: [...state.messages, msg],
     }),
   },
   initialState

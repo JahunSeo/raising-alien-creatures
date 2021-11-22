@@ -5,6 +5,7 @@ const initialState = {
   roomId: null,
   aliens: [],
   selectedAlien: null,
+  messages: [],
 };
 
 const room = handleActions(
@@ -20,6 +21,11 @@ const room = handleActions(
     [types.SELECT_ALIEN]: (state, { payload: selectedAlien }) => ({
       ...state,
       selectedAlien: selectedAlien,
+    }),
+
+    [types.MESSAGE_UPDATE]: (state, { payload: msg }) => ({
+      ...state,
+      messages: [...state.messages, msg],
     }),
   },
   initialState

@@ -35,7 +35,7 @@ export const selectAlien = (selectedAlien) => ({
   payload: selectedAlien,
 });
 
-export const setMessage = (messages) => ({
+export const setMessage = (msg) => ({
   type: types.MESSAGE_UPDATE,
-  payload: messages,
+  payload: msg,
 });

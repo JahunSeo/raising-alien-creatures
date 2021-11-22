@@ -27,7 +27,7 @@ export function disconnect(roomId) {
   socket.disconnect();
 }
 
-export function message_send(message) {
+export function messageSend(message) {
   if (!socket) return;
 
   socket.emit("send_message", message, (response) => {
@@ -36,17 +36,9 @@ export function message_send(message) {
   });
 }
 
-export function Message_receive() {
+export function messageReceive(handler) {
   if (!socket) return;
-
-  socket.on("receive_message", (data) => {
-    const { messages } = useSelector(({ chat }) => ({
-      messages: chat.messages,
-    }));
-    console.log(messages);
-    useDispatch(actions.setMessage([...messages, data]));
-    console.log(data);
-  });
+  socket.on("receive_message", handler);
 }
 
 // export function subscribe(handler) {
