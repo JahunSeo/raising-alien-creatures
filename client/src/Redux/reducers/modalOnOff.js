@@ -24,6 +24,16 @@ export default function modalOnOff(state = initialState, action) {
         ...state,
         chalInfoModal: action.chalInfoModal,
       };
+    case types.SHOW_SIGNUP:
+      return {
+        ...state,
+        showSignUpModal: action.showSignUpModal,
+      };
+    case types.SHOW_SIGNIN:
+      return {
+        ...state,
+        showSignInModal: action.showSignInModal,
+      };
 
     default:
       return state;
