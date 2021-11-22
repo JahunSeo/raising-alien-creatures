@@ -12,16 +12,13 @@
   text-align: center;
   transition: all 1s;
   z-index: 2;
+  @apply flex-col;
 }
 
 .form__challenge__message {
   color: var(--color-error);
   text-align: center;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 #you .message-content {
   @apply px-4 py-2 rounded-lg inline-block bg-blue-500 text-white text-sm  flex items-end justify-end;
@@ -44,7 +41,7 @@
 }
 
 .send-button {
-  @apply inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none;
+  @apply inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none;
 }
 
 .chat-footer {
@@ -56,11 +53,11 @@
 }
 
 .messages {
-  @apply h-80 overflow-y-auto overscroll-auto;
+  @apply h-4/5;
 }
 
 .chat-input {
-  @apply w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3;
+  @apply w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 bg-gray-200 rounded-full py-1;
 }
 /* max-w-xs */
 #you .message-align {

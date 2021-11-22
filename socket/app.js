@@ -106,7 +106,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", handleDisconnect);
   socket.on("send_message", (data) => {
     console.log("Server", data);
-    console.log("Server", data.room);
     socket.to(data.room).emit("receive_message", data);
   });
 });

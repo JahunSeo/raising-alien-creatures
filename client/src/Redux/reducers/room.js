@@ -16,6 +16,7 @@ const room = handleActions(
       roomId: roomId,
       aliens: aliens,
       selectedAlien: null,
+      messages: [],
     }),
 
     [types.SELECT_ALIEN]: (state, { payload: selectedAlien }) => ({
