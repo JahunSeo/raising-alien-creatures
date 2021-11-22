@@ -1,0 +1,49 @@
+.body {
+  text-align: center;
+
+  width: 100%;
+  min-width: 100vw;
+  height: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.body > img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.SecListCtrl {
+  width: 44px;
+  height: 84px;
+
+  position: absolute;
+  right: 20px;
+  top: calc(50% - 110px);
+  z-index: 7;
+}
+
+.SecFieldCtrl {
+  width: 44px;
+  height: 134px;
+
+  position: absolute;
+  bottom: calc(50% - 130px);
+  right: 20px;
+  z-index: 6;
+}
+
+.SecField {
+  /* position: fixed; */
+  /* left: 0; */
+  /* top: 0; */
+  position: relative;
+  z-index: 3;
+}
