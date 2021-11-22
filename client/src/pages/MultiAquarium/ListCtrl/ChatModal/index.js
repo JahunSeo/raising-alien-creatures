@@ -55,12 +55,14 @@ const ChallengeModal = (props) => {
 
   return (
     <div className={toggle ? "ChallengeContainer" : "hidden"}>
-      {/* <div className="boxborder"> */}
-      <div className=" px-1  mx-auto py-1 my-auto h-4/5">
+      <div className="boxborder  px-1 mx-auto py-1 my-auto h-full">
         <div className="chat-header">
-          <p>Live Chat</p>
+          <p className="font-sans text-white bg-indigo-400 bg-opacity-25 rounded-xl">
+            TALK !{" "}
+          </p>
         </div>
         <br />
+
         <ScrollToBottom className="messages">
           {messages.map((messageContent, index) => {
             return (
@@ -90,7 +92,7 @@ const ChallengeModal = (props) => {
               className="chat-input"
               type="text"
               value={currentMessage}
-              placeholder=" Hey..."
+              placeholder=" Hey....."
               onChange={(event) => {
                 setCurrentMessage(event.target.value);
               }}
@@ -106,6 +108,7 @@ const ChallengeModal = (props) => {
           </div>
         </div>
       </div>
+
       {/* </div> */}
     </div>
   );

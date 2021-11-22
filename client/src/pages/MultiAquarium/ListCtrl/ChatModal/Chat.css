@@ -3,10 +3,10 @@
   left: 170px;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  max-height: 80%;
+  background-color: transparent;
+  max-height: 70%;
   width: 20rem;
-  height: 70%;
+  height: 60%;
   padding: 16px;
   border-radius: 10px;
   text-align: center;
@@ -25,7 +25,7 @@
 }
 
 #you .message-meta {
-  @apply text-xs pb-1 flex items-end justify-end;
+  @apply text-xs text-white pb-1 flex items-end justify-end;
 }
 
 #other .message-content {
@@ -33,19 +33,23 @@
 }
 
 #other .message-meta {
-  @apply text-xs pb-1 flex items-end;
+  @apply text-xs text-white pb-1 flex items-end;
 }
 
 .boxborder {
-  @apply box-border border-solid border-4 max-w-xs mx-auto;
+  @apply box-border border-dashed border-4 rounded-2xl;
 }
 
 .send-button {
-  @apply inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none;
+  @apply inline-flex items-center justify-center rounded-full h-full w-8 transition duration-500 ease-in-out text-white bg-blue-300 hover:bg-blue-300 focus:outline-none;
+}
+
+.chat-header {
+  background-color: transparent;
 }
 
 .chat-footer {
-  @apply border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0;
+  @apply border-t-2 border-gray-200 w-10/12 p-2 absolute bottom-4;
 }
 
 .message-container {
@@ -53,11 +57,11 @@
 }
 
 .messages {
-  @apply h-4/5;
+  @apply h-5/6;
 }
 
 .chat-input {
-  @apply w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 bg-gray-200 rounded-full py-1;
+  @apply w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 bg-blue-400 bg-opacity-30  rounded-full py-1;
 }
 /* max-w-xs */
 #you .message-align {
