@@ -12,18 +12,18 @@ import "./SearchBox.css";
 export default function SearchBox(props) {
   const [longer, setLonger] = useState(false);
   const [challengeList, setChallengeList] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [message, setMessage] = useState("");
 
   const backClick = () => {
     setLonger(false);
     setMessage("");
-    document.getElementById("input").value = "";
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    let keyword = { keyword: document.getElementById("input").value };
+    let keyword = { keyword: searchKeyword };
     let res = await api.post("/challenge/search", keyword);
     if (res.data.result !== "success") {
       console.log("안받아와짐");
@@ -59,8 +59,14 @@ export default function SearchBox(props) {
       <div className="header">
         <form className="searchForm" onSubmit={onSubmit}>
           <div className="double">
-            <input id="input" placeholder=" " />
-            <label for="input">어떤 챌린지를 찾으시나요?</label>
+            <input
+              id="input"
+              placeholder=" "
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              autoComplete="off"
+            />
+            <label htmlFor="input">어떤 챌린지를 찾으시나요?</label>
             <img
               className="search"
               onClick={onSubmit}
