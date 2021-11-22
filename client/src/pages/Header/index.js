@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams, useMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Title from "./Title";
 import SignUpModal from "../../modals/SignUpModal";
 import SignInModal from "../../modals/SignInModal";
 import * as actions from "../../Redux/actions";
 import api from "../../apis/index";
 import styles from "./index.module.css";
+import "./UserBtn.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -102,7 +103,7 @@ export default function Header(props) {
             <div className={styles.username}>{user && user.nickname}</div>
             <button
               type="button"
-              className="py-1.5 w-24 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              className="UserBtn UserBtn--logout"
               onClick={handleLogout}
             >
               로그아웃
@@ -112,15 +113,14 @@ export default function Header(props) {
           <div className={cx("item", "itemUser")}>
             <button
               type="button"
-              className="py-1.5 w-24 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              className="UserBtn UserBtn--register"
               onClick={() => switchSignUpModal()}
             >
               회원가입
             </button>
-            <h1>&nbsp;&nbsp;&nbsp;</h1>
             <button
               type="button"
-              className="py-1.5 w-24 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              className="UserBtn UserBtn--login"
               onClick={() => switchSignInModal()}
             >
               로그인
