@@ -102,7 +102,7 @@ export default function Header(props) {
             <div className={styles.username}>{user && user.nickname}</div>
             <button
               type="button"
-              class="py-1.5 w-32  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              class="py-1.5 w-24  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
               onClick={handleLogout}
             >
               로그아웃
@@ -112,7 +112,7 @@ export default function Header(props) {
           <div className={cx("item", "itemUser")}>
             <button
               type="button"
-              class="py-1.5 w-32  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              class="py-1.5 w-24  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
               onClick={() => switchSignUpModal()}
             >
               회원가입
@@ -120,7 +120,7 @@ export default function Header(props) {
             <h1>&nbsp;&nbsp;&nbsp;</h1>
             <button
               type="button"
-              class="py-1.5 w-32  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+              class="py-1.5 w-24  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
               onClick={() => switchSignInModal()}
             >
               로그인
