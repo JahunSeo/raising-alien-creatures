@@ -104,6 +104,10 @@ io.on("connection", (socket) => {
   socket.on("join", handleJoin);
   socket.on("changeDestination", handleChangeDestination);
   socket.on("disconnect", handleDisconnect);
+  socket.on("send_message", (data) => {
+    console.log("Server", data);
+    socket.to(data.room).emit("receive_message", data);
+  });
 });
 
 const port = process.env.SOCKET_PORT || 5001;

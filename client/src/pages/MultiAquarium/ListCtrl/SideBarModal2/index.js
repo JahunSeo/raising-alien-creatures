@@ -41,7 +41,7 @@ export default function SideBarModal2() {
       Alien_id: alien.alien.id,
       Challenge_id: alien.alien.Challenge_id,
       comment: authMessage,
-      imgURL: imageUrl,
+      image_url: imageUrl,
     };
 
     // // dummy test용

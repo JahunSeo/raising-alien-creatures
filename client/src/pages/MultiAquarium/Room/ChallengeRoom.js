@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -50,7 +50,6 @@ export default function ChallengeRoom(props) {
     return () => {
       rooms.current[roomId].close();
     };
-    //   }, []);
   }, [rooms, roomId, challengeId, dispatch]);
 
   useEffect(() => {
@@ -59,6 +58,7 @@ export default function ChallengeRoom(props) {
       // console.log("handle socket here!", participating);
       socket.initAndJoin({ roomId, userId: user.id });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
+      socket.messageReceive((msg) => dispatch(actions.setMessage(msg)));
       // socket.subscribe(rooms.current[roomId].syncFieldState);
     } else if (rooms.current[roomId]) {
       rooms.current[roomId].eraseUsersOnRoom();
@@ -66,7 +66,7 @@ export default function ChallengeRoom(props) {
     return () => {
       socket.disconnect(roomId);
     };
-  }, [userId, rooms, roomId, challengeId, participating]);
+  }, [userId, rooms, roomId, challengeId, participating, dispatch]);
 
   return <div></div>;
 }
