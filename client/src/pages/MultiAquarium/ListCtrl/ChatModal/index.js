@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import * as socket from "../../../../apis/socket";
 
@@ -65,27 +65,27 @@ const ChallengeModal = (props) => {
         <br />
 
         <ScrollToBottom className="messages">
-          {messages.map((messageContent, index) => {
-            if (!user) return;
-            return (
-              <div
-                className="message"
-                key={index}
-                id={user.nickname === messageContent.author ? "you" : "other"} // css 파일에서 구분
-              >
-                <div className="message-align">
-                  <div className="message-content">
-                    <p>{messageContent.message}</p>
-                  </div>
-                  <div className="message-meta">
-                    <p>{messageContent.time}</p>
-                    &nbsp;&nbsp;
-                    <p>{messageContent.author}</p>
+          {!!user &&
+            messages.map((messageContent, index) => {
+              return (
+                <div
+                  className="message"
+                  key={index}
+                  id={user.nickname === messageContent.author ? "you" : "other"} // css 파일에서 구분
+                >
+                  <div className="message-align">
+                    <div className="message-content">
+                      <p>{messageContent.message}</p>
+                    </div>
+                    <div className="message-meta">
+                      <p>{messageContent.time}</p>
+                      &nbsp;&nbsp;
+                      <p>{messageContent.author}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </ScrollToBottom>
 
         <div className="chat-footer">

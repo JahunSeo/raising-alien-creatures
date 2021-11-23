@@ -26,7 +26,6 @@ export default function ListCtrl(props) {
     }
   }
 
-  const userMatch = useMatch("/user/:userId/room");
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const mainMatch = useMatch("/");
   if (!!mainMatch) {

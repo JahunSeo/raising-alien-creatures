@@ -25,7 +25,7 @@ export default function Header(props) {
   );
 
   const postSignOut = async () => {
-    const res = await api.get("/user/logout");
+    await api.get("/user/logout");
     dispatch(actions.logout());
   };
 

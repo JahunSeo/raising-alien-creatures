@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -56,7 +56,7 @@ export default function ChallengeRoom(props) {
     // user가 참여중인 방인지 확인
     if (participating && rooms.current[roomId]) {
       // console.log("handle socket here!", participating);
-      socket.initAndJoin({ roomId, userId: user.id });
+      socket.initAndJoin({ roomId, userId: userId });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       socket.messageReceive((msg) => dispatch(actions.setMessage(msg)));
       // socket.subscribe(rooms.current[roomId].syncFieldState);
