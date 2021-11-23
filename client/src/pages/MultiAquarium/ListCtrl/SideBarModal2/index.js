@@ -13,7 +13,7 @@ export default function SideBarModal2() {
   console.log("auth Image", authImage);
 
   const handleSubmit = async (e) => {
-    // console.log("alien안: ", alien);
+    console.log("alien안: ", alien);
     // console.log("alien안_id: ", alien.alien.id);
     e.preventDefault();
     const res = await api.get("/main/s3Url");
@@ -34,7 +34,7 @@ export default function SideBarModal2() {
       user_info_id: alien.alien.user_info_id,
       Alien_id: alien.alien.id,
       Challenge_id: alien.alien.Challenge_id,
-      comment: authMessage,
+      comments: authMessage,
       image_url: imageUrl,
     };
 
