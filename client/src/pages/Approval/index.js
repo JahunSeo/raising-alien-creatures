@@ -1,115 +1,206 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import api from "../../apis/index.js";
 import * as actions from "../../Redux/actions";
-
-import styles from "./index.module.css";
-import SignalImage from "../../image/signal.png";
 
 export default function Approval(props) {
   // TODO: login 상태일 때만 접근할 수 있음
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const dispatch = useDispatch();
-  const loadRequests = async () => {};
+
+  const [authRequests, setAuthRequests] = useState([]);
+
+  useEffect(() => {
+    const loadAuthRequests = async () => {
+      const res = await api.get("/user/approval/list");
+      if (!res.data.data.length) {
+        console.log("res", res);
+        console.log("현재 수락을 기다리는 인증 요청이 없습니다.");
+      } else {
+        console.log("res", res);
+        setAuthRequests(res.data.data);
+        return;
+      }
+    };
+    loadAuthRequests();
+  }, []);
+
+  console.log("authRequests", authRequests);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="w-120 bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
-        <div className="flex items-center mb-2 space-x-4">
-          <img
-            className="w-10 rounded-full ml-2"
-            src="https://www.adobe.com/express/create/media_1bcd514348a568faed99e65f5249895e38b06c947.jpeg?width=2000&format=webply&optimize=medium"
-            alt="David"
-          />
-          <div>
-            <h1 className="mb-1 text-xl font-bold text-gray-700">
-              Stuar Manson
-            </h1>
-            <p className="text-sm font-normal text-gray-600 mr-14 hover:underline">
-              #Publicado hace 2 horas
-            </p>
+    <div className="authRequests">
+      {authRequests.map((authRequest) => (
+        <AuthRequest key={authRequest.id} authRequest={authRequest} />
+      ))}
+    </div>
+  );
+}
+
+const AuthRequest = ({ authRequest }) => {
+  const navigate = useNavigate();
+
+  const authYear = authRequest.request_date.slice(0, 4);
+  const authMonth = authRequest.request_date.slice(5, 7);
+  const authDate = authRequest.request_date.slice(8, 10);
+  const authHour = authRequest.request_date.slice(11, 13);
+  const authMinute = authRequest.request_date.slice(14, 16);
+
+  const [approvalStatus, SetApprovalStatus] = useState(false);
+
+  const postApproval = async () => {
+    const req = await api.post("/challenge/approve", {
+      auth_id: authRequest.authentification_id,
+      Alien_id: authRequest.alien_id,
+    });
+    console.log("req", req);
+  };
+
+  const handleSubmit = () => {
+    postApproval();
+    alert(
+      `${authRequest.request_user_nickname} 님의 인증을 흔쾌히 수락하였습니다.`
+    );
+    SetApprovalStatus(true);
+  };
+
+  const handleNavigate = () => {
+    navigate(`/user/${authRequest.request_user_id}/room`);
+  };
+
+  const ApprovalButton = () => {
+    if (!approvalStatus & !authRequest.isAuth) {
+      return (
+        <button
+          type="button"
+          class="flex max-w-sm w-full bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-500 hover:from-indigo-600 hover:via-pink-600 hover:to-red-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
+          onClick={handleSubmit}
+        >
+          <div class="flex sm:flex-cols-12 gap-4">
+            <div class="col-span-1">
+              <svg
+                class="h-12 w-12"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                />
+              </svg>
+            </div>
+            <div class="col-span-2 pt-1.5">인증 수락</div>
           </div>
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 hover:text-blue-400 transition duration-200"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-              />
-            </svg>
-          </span>
-        </div>
-        <img
-          src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80"
-          alt=""
-        />
-        <div className="flex justify-between px-10 py-6">
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-red-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
-            </svg>
-          </span>
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
+        </button>
+      );
+    } else {
+      return (
+        <button
+          type="button"
+          class="flex max-w-sm w-full bg-gradient-to-r from-indigo-600 via-pink-600 to-red-600 hover:from-indigo-500 hover:via-pink-500 hover:to-yellow-500 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
+        >
+          <div class="flex sm:flex-cols-12 gap-4">
+            <div class="col-span-1">
+              <svg
+                class="h-12 w-12"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                />
+              </svg>
+            </div>
+            <div class="col-span-2 pt-1.5">인증 완료</div>
+          </div>
+        </button>
+      );
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-0 p-12  bg-gray-100">
+      <div className="w-1/3 bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+        <img src={authRequest.image_url} alt="authImage" />
+        <div className="flex flex-col items-center mb-2 space-x-4">
+          <div className="flex flex-col items-center mb-2 space-x-4">
+            <div className="mt-6 mb-4 text-2xl font-bold text-lack ">
+              "{authRequest.request_user_nickname}" 쿤의 [
+              {authRequest.challenge_name}] 인증 요청
+            </div>
+            <div className="text-2xl font-semibold text-gray-600 mt-2 mb-2 hover:underline">
+              {authYear}년 {authMonth}월 {authDate}일 {authHour}시 {authMinute}
+              분에 인증
+            </div>
+          </div>
         </div>
         <div>
-          <img src="" alt="" />
-          <div className="px-10">
-            <input
-              className=" text-sm font-thin  px-5 py-2 mb-2 bg-gray-50 outline-none rounded-full border-1"
-              type="text"
-              placeholder="Enter your comment"
-            />
-            <span className="text-sm text-gray-500 bg-gray-50 p-2 rounded-full px-2 py-2 transition duration-100 hover:text-blue-400 cursor-pointer">
-              Send
-            </span>
+          <div className="flex place-content-center content-start space-x-4 px-6 py-2">
+            <div className="flex w-full bg-gray-300 rounded-lg px-2 py-2">
+              <h1 className="flex w-full px-60 py-2 mb-3 text-xl font-semibold text-black border-1">
+                "{authRequest.comments}"
+              </h1>
+            </div>
           </div>
+        </div>
+        <div className="flex items-center justify-between px-6 py-6 gap-4">
+          <ApprovalButton />
+          {/* <button
+            type="button"
+            class="flex max-w-sm w-full bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-500 hover:from-indigo-600 hover:via-pink-600 hover:to-red-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
+            onClick={handleSubmit}
+          >
+            <div class="flex sm:flex-cols-12 gap-4">
+              <div class="col-span-1">
+                <svg
+                  class="h-12 w-12"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                  />
+                </svg>
+              </div>
+              <div class="col-span-2 pt-1.5">인증 수락</div>
+            </div>
+          </button> */}
+          <button
+            type="button"
+            class="flex max-w-sm w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
+            onClick={handleNavigate}
+          >
+            <div class="flex sm:flex-cols-12 gap-4">
+              <div class="col-span-1">
+                <svg
+                  class="h-12 w-12"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                  />
+                </svg>
+              </div>
+              <div class="col-span-2 pt-1.5">챌린지룸으로 이동</div>
+            </div>
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};

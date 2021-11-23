@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
@@ -9,7 +9,7 @@ import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
+  // const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
 
   return (
     <>
@@ -20,7 +20,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             alt="logo192.png"
             src={DummyImage}
             onClick={() => {
-              if (selectedAlien == alien.id) {
+              if (selectedAlien === alien.id) {
                 dispatch(actions.selectAlien(null));
               } else {
                 dispatch(actions.selectAlien(alien.id));

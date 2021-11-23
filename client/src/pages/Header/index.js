@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Title from "./Title";
 import SignUpModal from "../../modals/SignUpModal";
@@ -24,6 +25,8 @@ export default function Header(props) {
     (state) => state.modalOnOff.showSignInModal
   );
 
+  const navigate = useNavigate();
+
   const postSignOut = async () => {
     const res = await api.get("/user/logout");
     dispatch(actions.logout());
@@ -31,6 +34,7 @@ export default function Header(props) {
 
   const handleLogout = (e) => {
     postSignOut();
+    navigate("/");
   };
 
   function switchSignUpModal() {
