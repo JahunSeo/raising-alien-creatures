@@ -188,6 +188,32 @@ module.exports = function (passport, pool) {
     });
   });
 
+  router.get("/approval/list", (req, res) => {
+    const user_id = req.user.id;
+    pool.getConnection(function(err, connection){
+      connection.query(
+        "select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ?",
+        [user_id],
+        function (err, result) {
+          if (err) {
+            console.error(err);
+            res.status(200).json({
+              result: "fail",
+              msg: "cant select infomations",
+            });
+            return;
+          }
+          
+          res.status(200).json({
+            result: "success",
+            data: result,
+          });
+        }
+      );
+      connection.release();
+    });
+  });
+
   router.use(function (req, res, next) {
     res.status(404).send("Sorry cant find that!");
   });

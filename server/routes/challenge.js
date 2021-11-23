@@ -100,7 +100,7 @@ module.exports = function (pool) {
   // 챌린지 인증 수락
   // auth data 에 수락표시 is auth 수정
   // alien에 accured auth count / week_auth_cnt 1씩 증가
-  router.post("/approve", function (req, res) {
+  router.post("/approval", function (req, res) {
     var data = req.body;
     var auth_id = data.auth_id;
     var Alien_id = data.Alien_id;
