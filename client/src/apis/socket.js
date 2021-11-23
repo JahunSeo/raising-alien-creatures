@@ -1,4 +1,6 @@
 import io from "socket.io-client";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../Redux/actions";
 let socket = null;
 
 // temp
@@ -23,6 +25,20 @@ export function disconnect(roomId) {
   if (!socket) return;
   console.log("[socket] disconnect", roomId);
   socket.disconnect();
+}
+
+export function messageSend(message) {
+  if (!socket) return;
+
+  socket.emit("send_message", message, (response) => {
+    console.log(response);
+    console.log("HI");
+  });
+}
+
+export function messageReceive(handler) {
+  if (!socket) return;
+  socket.on("receive_message", handler);
 }
 
 // export function subscribe(handler) {
