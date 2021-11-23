@@ -192,8 +192,8 @@ module.exports = function (passport, pool) {
     const user_id = req.user.id;
     pool.getConnection(function(err, connection){
       connection.query(
-        "select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ?",
-        [user_id],
+        "select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ? and request_user_id != ?",
+        [user_id, user_id],
         function (err, result) {
           if (err) {
             console.error(err);
