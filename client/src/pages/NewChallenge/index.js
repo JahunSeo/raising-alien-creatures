@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "../../apis/index.js";
 import ReactSlider from "react-slider"
+import { useNavigate } from "react-router";
 
 export default function NewAlien(props) {
   // TODO: login 상태일 때만 접근할 수 있음
@@ -51,6 +52,12 @@ export default function NewAlien(props) {
     setChallengeMessage(null);
     postChallenge();
   };
+  const navigate = useNavigate()
+  const handleCancel = () => {
+    // 홈으로 이동
+    navigate('/');
+    return;
+  }
 
   function validateChallenge(
     challengeTitle,
@@ -83,14 +90,22 @@ export default function NewAlien(props) {
       tag: challengeTag,
     };
     const res = await api.post("/challenge/create", challengeData);
+    // const navigate = useNavigate();
+
     if (res.data.result === "success") {
       console.log("challengeData", challengeData);
+      console.log(res.data.data);
+      const challengeId = res.data.data.challenge_id;
+
       setChallengeTitle("");
       setChallengeDescription("");
       setChallengeFrequency(SELECT_DEFAULT);
       setChallengeTag(SELECT_DEFAULT);
       setValue(0);
+      //alert보다는 모달창으로 문구와 챌린지로 이동 버튼 있으면 좋을 듯..
+      // 고민: 방장이 챌린지 생성 후 생명체를 만들지 않고 나가버리면 추후에 어떻게 챌린지방을 찾을 수 있는가?
       alert("챌린지 생성에 성공하였습니다.");
+      navigate(`/challenge/${challengeId}/room`); 
       return;
     } else {
       console.log("challengeData", challengeData);
@@ -120,12 +135,12 @@ export default function NewAlien(props) {
               </select>
             </div>
             
-            <div class="flex flex-col mb-4 p-4">
+            <div class="flex flex-col mb-4 p-3">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="textarea">챌린지 설명</label>
                 <textarea class="border py-2 px-3 text-grey-800" name="textarea" id="textarea" rows="4" value={challengeDescription} onChange={handleChallengeDescription}></textarea>
             </div>
 
-            <div class="flex flex-col mb-4 p-4">
+            <div class="flex flex-col mb-4 p-3">
               <label class="mb-2 font-bold text-lg text-gray-900">최대 참여 인원</label>
               <ReactSlider
                 step={5}
@@ -140,7 +155,7 @@ export default function NewAlien(props) {
             </div>
 
             
-            <div class="flex flex-col mb-4 p-4">
+            <div class="flex flex-col mb-4 p-3">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="Select">주 몇회?</label>
                 <select class="border py-2 px-3 text-grey-800" value={challengeFrequency} onChange={handleChallengeFrequency}>
                 <option value={SELECT_DEFAULT}>선택</option>
@@ -154,8 +169,9 @@ export default function NewAlien(props) {
                 </select>
             </div>
 
-            <div style={{ color: "#cc3333" }} class="p-2 pl-5 pr-5">{challengeMessage}</div>
+            <div style={{ color: "#cc3333" }} >{challengeMessage}</div>
             <button class="p-2 pl-5 pr-5 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-400 text-gray-100 text-lg rounded-lg focus:border-4 border-indigo-300" type="button" onClick={handleSubmit}>챌린지 생성</button>
+            <button class="mx-5 p-2 pl-5 pr-5 transition-colors duration-700 transform bg-gray-200 hover:bg-blue-400 text-black-100 text-lg rounded-lg focus:border-4 border-indigo-300" type="button" onClick={handleCancel}>취소</button>
             
     </div>
 </div>
