@@ -9,13 +9,14 @@ module.exports = function (pool) {
     if (req.user) {
       pool.getConnection(function (err, connection) {
         connection.query(
-          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek) VALUES (?, ?, ?, ?, ?)",
+          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, tag) VALUES (?, ?, ?, ?, ?, ?)",
           [
             req.body.challenge_name,
             req.body.challenge_content,
-            req.user.nickname,
+            req.user.id,
             max_user,
             cnt_of_week,
+            req.body.tag,
           ],
           function (err1, results1) {
             if (err1) {
@@ -29,7 +30,7 @@ module.exports = function (pool) {
             res.status(200).json({
               result: "success",
               msg: "do insert",
-              data: results1.insertId,
+              data: {challenge_id: results1.insertId, total_auth_cnt: cnt_of_week}
             });
             connection.release();
           }

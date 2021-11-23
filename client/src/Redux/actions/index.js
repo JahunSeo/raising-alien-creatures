@@ -11,6 +11,16 @@ export const setChalInfoModal = (chalInfoModal) => ({
   chalInfoModal,
 });
 
+export const showSignUpModal = (onoff) => ({
+  type: types.SHOW_SIGNUP,
+  showSignUpModal: onoff,
+});
+
+export const showSignInModal = (onoff) => ({
+  type: types.SHOW_SIGNIN,
+  showSignInModal: onoff,
+});
+
 export const checkUser = (res) => ({
   type: types.CHECK_USER,
   payload: res,
