@@ -18,14 +18,14 @@ export default function FieldCtrl(props) {
 
   return (
     <div className={styles.body}>
-      <div className={styles.focusRow}>
+      {/* <div className={styles.focusRow}>
         <div
           className={cx("btn", "btn--focus", selectedAlien && "btn--focusOn")}
           onClick={() => handleFocus()}
         >
           {"Φ"}
         </div>
-      </div>
+      </div> */}
       <div className={styles.zoomRow}>
         <div
           className={cx("btn", "btn--zoomin")}
