@@ -16,8 +16,13 @@ export default function MultiAquarium(props) {
     roomId: room.roomId,
     selectedAlien: room.selectedAlien,
   }));
-  const handleSelectAlien = (alienId) => {
-    dispatch(actions.selectAlien(alienId));
+  const handleSelectAlien = (alien) => {
+    const room = rooms.current && rooms.current[roomId];
+    if (!room) return;
+    dispatch(actions.selectAlien(alien.monId));
+    room.camera.setChasingTarget(alien, () => {
+      dispatch(actions.selectAlien(null));
+    });
   };
 
   // console.log("[MultiAquarium]", roomId, aliens);

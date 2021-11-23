@@ -46,16 +46,9 @@ export default class Field extends Component {
 
       // translate location
       const { center } = room.camera;
-      const { selectedAlien } = this.props;
-      let transX, transY;
-      if (!!selectedAlien && !!(selectedAlien in monsters)) {
-        let { location } = monsters[selectedAlien];
-        transX = room.camera.getCanvasSize(location.x);
-        transY = room.camera.getCanvasSize(location.y);
-      } else {
-        transX = center.x;
-        transY = center.y;
-      }
+      room.camera.run();
+      let transX = center.x;
+      let transY = center.y;
       ctx.translate(cvsWidth / 2 - transX, cvsHeight / 2 - transY);
 
       let mouseX = mouseObj.deltaXfromCenter + transX;
@@ -75,9 +68,9 @@ export default class Field extends Component {
           !selectedMonster &&
           (x - mouseX) ** 2 + (y - mouseY) ** 2 < size ** 2
         ) {
-          selectedMonster = monId;
           // console.log(monId);
-          this.props.handleSelectAlien(monId);
+          selectedMonster = monId;
+          this.props.handleSelectAlien(monsters[monId]);
         }
 
         ctx.beginPath();
