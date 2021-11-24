@@ -25,6 +25,20 @@ export function disconnect(roomId) {
   socket.disconnect();
 }
 
+export function messageSend(message) {
+  if (!socket) return;
+
+  socket.emit("send_message", message, (response) => {
+    console.log(response);
+    console.log("HI");
+  });
+}
+
+export function messageReceive(handler) {
+  if (!socket) return;
+  socket.on("receive_message", handler);
+}
+
 // export function subscribe(handler) {
 //   if (!socket) return;
 //   console.log("[socket] fieldState");

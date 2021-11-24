@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import api from "../../../../apis/index";
 
 export default function SideBarModal2() {
   // console.log("alien밖: ", alien);
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   const alien = useSelector((state) => state.alien_auth_func.alien_auth);
-  const dispatch = useDispatch();
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
@@ -41,7 +40,7 @@ export default function SideBarModal2() {
       Alien_id: alien.alien.id,
       Challenge_id: alien.alien.Challenge_id,
       comment: authMessage,
-      imgURL: imageUrl,
+      image_url: imageUrl,
     };
 
     // // dummy test용

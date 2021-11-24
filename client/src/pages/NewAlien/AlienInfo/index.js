@@ -1,55 +1,129 @@
-export default function DayCheckBox(setAlienName) {
+import React, { useState } from "react";
+
+export default function DayCheckBox({
+  setAlienName,
+  authCount,
+  checkDay,
+  setCheckDay,
+}) {
+  const handleClick = (checked, id) => {
+    if (!checked) {
+      setCheckDay([...checkDay, { id: id, value: 1 }]);
+    } else {
+      console.log("checkDay 내부 :", checkDay);
+      setCheckDay(checkDay.filter((e) => e.id !== id));
+    }
+  };
+
   return (
     <>
       <div className=" w-1/2 px-3 sm:mt-40">
         <label
-          className=" overflow-visible block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
+          className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2"
           for="grid-first-name"
         >
           생명체 이름
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
+          className="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
           id="grid-first-name"
           type="text"
-          placeholder="정글특전대"
+          placeholder="김진영"
           onChange={(e) => {
             setAlienName(e.target.value);
           }}
         ></input>
       </div>
-      <div className="container w-1/2 pl-3 py-6 font-bold text-gray-700">
-        <div>챌린지 인증 요일를 선택해 주세요(총 x회) </div>
-        <div class="bg-gray-800">
-          <div class="w-full">
-            <div class="flex ">
-              <div class="m-auto flex flex-row gap-3">
-                <div class="border-2 border-yellow-600 rounded-lg px-3 py-2 text-yellow-400 cursor-pointer hover:bg-yellow-600 hover:text-yellow-200">
+      <div className="container w-1/2 px-3 py-3 font-bold text-lg text-gray-700 tracking-wide">
+        <div>챌린지 인증 요일를 선택해 주세요({authCount}회) </div>
+        <div className=" rounded mt-3">
+          <div className="w-full ">
+            <div className="flex ">
+              <div className="m-auto flex flex-row gap-3">
+                <button
+                  id="sun"
+                  onClick={(e) => handleClick(e.target.checked, "sun")}
+                  className={
+                    checkDay.includes("sun")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("sun") ? true : false}
+                >
                   일
-                </div>
-
-                <div class="border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200">
+                </button>
+                <button
+                  id="mon"
+                  onClick={(e) => handleClick(e.target.checked, "mon")}
+                  className={
+                    checkDay.includes("mon")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("mon") ? true : false}
+                >
                   월
-                </div>
-
-                <div class="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
+                </button>
+                <button
+                  id="tue"
+                  onClick={(e) => handleClick(e.target.checked, "tue")}
+                  className={
+                    checkDay.includes("tue")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("tue") ? true : false}
+                >
                   화
-                </div>
-
-                <div class="border-2 border-purple-600 rounded-lg px-3 py-2 text-purple-400 cursor-pointer hover:bg-purple-600 hover:text-purple-200">
+                </button>
+                <button
+                  id="wed"
+                  onClick={(e) => handleClick(e.target.checked, "wed")}
+                  className={
+                    checkDay.includes("wed")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("wed") ? true : false}
+                >
                   수
-                </div>
-
-                <div class="border-2 border-red-600 rounded-lg px-3 py-2 text-red-400 cursor-pointer hover:bg-red-600 hover:text-red-200">
+                </button>
+                <button
+                  id="thu"
+                  onClick={(e) => handleClick(e.target.checked, "thu")}
+                  className={
+                    checkDay.includes("thu")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("thu") ? true : false}
+                >
                   목
-                </div>
-
-                <div class="border-2 border-gray-800 rounded-lg px-3 py-2 text-gray-400 cursor-pointer hover:bg-gray-800 hover:text-gray-200">
+                </button>
+                <button
+                  id="fri"
+                  onClick={(e) => handleClick(e.target.checked, "fri")}
+                  className={
+                    checkDay.includes("fri")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("fri") ? true : false}
+                >
                   금
-                </div>
-                <div class="border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200">
+                </button>
+                <button
+                  id="sat"
+                  onClick={(e) => handleClick(e.target.checked, "sat")}
+                  className={
+                    checkDay.includes("sat")
+                      ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                  }
+                  checked={checkDay.includes("sat") ? true : false}
+                >
                   토
-                </div>
+                </button>
               </div>
             </div>
           </div>

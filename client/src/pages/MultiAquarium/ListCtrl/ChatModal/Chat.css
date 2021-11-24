@@ -1,0 +1,73 @@
+.ChallengeContainer {
+  position: fixed;
+  left: 170px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  max-height: 70%;
+  width: 20rem;
+  height: 60%;
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 1s;
+  z-index: 2;
+  @apply flex-col;
+}
+
+.form__challenge__message {
+  color: var(--color-error);
+  text-align: center;
+}
+
+#you .message-content {
+  @apply px-4 py-2 rounded-lg inline-block bg-blue-500 text-white text-sm  flex items-end justify-end;
+}
+
+#you .message-meta {
+  @apply text-xs text-white pb-1 flex items-end justify-end;
+}
+
+#other .message-content {
+  @apply px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 text-sm flex items-end;
+}
+
+#other .message-meta {
+  @apply text-xs text-white pb-1 flex items-end;
+}
+
+.boxborder {
+  @apply box-border border-dashed border-4 rounded-2xl;
+}
+
+.send-button {
+  @apply inline-flex items-center justify-center rounded-full h-full w-8 transition duration-500 ease-in-out text-white bg-blue-300 hover:bg-blue-300 focus:outline-none;
+}
+
+.chat-header {
+  background-color: transparent;
+}
+
+.chat-footer {
+  @apply border-t-2 border-gray-200 w-10/12 p-2 absolute bottom-4;
+}
+
+.message-container {
+  @apply flex flex-col space-y-4 p-3 overflow-y-auto overscroll-auto;
+}
+
+.messages {
+  @apply h-5/6;
+}
+
+.chat-input {
+  @apply w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 bg-blue-400 bg-opacity-30  rounded-full py-1;
+}
+/* max-w-xs */
+#you .message-align {
+  @apply flex flex-col text-xs  mx-2 order-1 items-end;
+}
+/* max-w-xs */
+#other .message-align {
+  @apply flex flex-col text-xs  mx-2 order-2 items-start;
+}

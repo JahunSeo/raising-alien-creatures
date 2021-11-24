@@ -94,7 +94,6 @@ export default function NewAlien(props) {
     if (res.data.result === "success") {
       console.log("challengeData", challengeData);
       console.log(res.data.data);
-
       const challengeId = res.data.data.challenge_id;
 
       setChallengeTitle("");
