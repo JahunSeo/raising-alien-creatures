@@ -48,9 +48,8 @@ module.exports = function (pool) {
   });
 
   // 챌린지 total_auth_cnt 보내주기
-  router.get("/totalAuthCnt", function (req, res) {
-    console.log(res.params.challengeid);
-    const challengeId = res.params.challengeid;
+  router.get("/totalAuthCnt/:challengeid", function (req, res) {
+    const challengeId = req.params.challengeid;
     pool.getConnection(function (err, connection) {
       if (err) {
         console.error(err);
@@ -60,25 +59,28 @@ module.exports = function (pool) {
         });
         return;
       }
-      connection.query("SELECT cntOfWeek FROM aliens.Challenge where id = ?;",[challengeId],function(error, results) {
+      connection.query(
+        "SELECT cntOfWeek FROM aliens.Challenge where id = ?;",
+        [challengeId],
+        function (error, results) {
           if (error) {
             console.error(error);
             res.status(200).json({
               result: "fail",
-              msg: "cant query to select"
-            })
+              msg: "cant query to select",
+            });
             return;
           }
           res.status(200).json({
             result: "success",
             msg: "do insert",
-            results
+            cntOfWeek: results[0].cntOfWeek,
           });
           connection.release();
-        })
+        }
+      );
     });
   });
-
 
   // 챌린지 인증 요청
   // Data Type : Front 쪽에서 data JSON Type으로 서버로 전달
