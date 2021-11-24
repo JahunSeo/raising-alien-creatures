@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./index.module.css";
-import apis from "../../apis";
+import api from "../../apis";
 import AlienSlide from "./AlienSlide/index.js";
 import DayCheckBox from "./AlienInfo/index.js";
 
@@ -14,8 +14,15 @@ export default function NewChallenge(props) {
   const [alienNumber, setAlienNumber] = useState(0);
   // 인증 요일
   const [checkDay, setCheckDay] = useState([]);
-  const [dayArr, setDayArr] = useState([]);
+  const [sun, setSun] = useState(0);
+  const [mon, setMon] = useState(0);
+  const [tue, setTue] = useState(0);
+  const [wed, setWed] = useState(0);
+  const [thu, setThu] = useState(0);
+  const [fri, setFri] = useState(0);
+  const [sat, setSat] = useState(0);
 
+  const [creAlienMessage, setCreAlienMessage] = useState(null);
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
 
@@ -38,62 +45,73 @@ export default function NewChallenge(props) {
   }
 
   // 인증 요일
-  // useEffect(() => {
-  //   if (checkDay.includes("sun")) {
-  //     setDayArr;
-  //   }
-  // }, [checkDay]);
+  useEffect(() => {
+    if (checkDay.includes("sun")) setSun(1);
+    if (checkDay.includes("mon")) setMon(1);
+    if (checkDay.includes("tue")) setTue(1);
+    if (checkDay.includes("wed")) setWed(1);
+    if (checkDay.includes("thu")) setThu(1);
+    if (checkDay.includes("fri")) setFri(1);
+    if (checkDay.includes("sat")) setSat(1);
+  }, [checkDay]);
+
+  function validateCreAlien(alienName, checkDay, authCount) {
+    if (!alienName) {
+      setCreAlienMessage("생명체 이름을 지어주세요!");
+      return false;
+    }
+    if (!checkDay) {
+      setCreAlienMessage("챌린지 인증 요일을 선택해 주세요");
+      return false;
+    }
+    setCreAlienMessage(null);
+    return true;
+  }
 
   // 생명체 생성 event
   const handleSubmit = (e) => {
     // e.preventDefault();
+    if (!validateCreAlien(alienName, checkDay, authCount)) return;
     console.log("alienNumber:", alienNumber);
     // postCreateAlien();
   };
 
-  // const postCreateAlien = async () => {
-  //   let createAlienData = {
-  //     Challenge_id: params,
-  //     alien_Name: alienName,
-  //     alien_image: aNumber
-  //     total_auth_cnt: authCount,
-  //     sun: ,
-  //     mon: ,
-  //     tue: ,
-  //     wed: ,
-  //     thu: ,
-  //     fri: ,
-  //     sat:
-  //   };
-  //   let res = await apis.post("/api/alien/create", createAlienData);
-  //   console.log("res", res);
-  // };
-
-  // const getAlienNum = (aNumber) => {
-  //   setAlienNumber(aNumber);
-  //   console.log(aNumber);
-  // };
+  const postCreateAlien = async () => {
+    let createAlienData = {
+      challenge_id: params.challengeId,
+      alien_name: alienName,
+      alien_image: aNumber,
+      total_auth_cnt: authCount,
+      sun: sun,
+      mon: mon,
+      tue: tue,
+      wed: wed,
+      thu: thu,
+      fri: fri,
+      sat: sat,
+    };
+    // let res = await api.post("/alien/create", createAlienData);
+    // console.log("res", res);
+  };
 
   useEffect(() => {
     // cntOfWeek
     try {
-      console.log("생명체 생성방 마운트 될때만 실행.");
       const getChalData = async () => {
-        let res = await apis.get("/challenge/totalAuthCnt");
-        if (res.data.data) {
-          setAuthCount(res.data.data);
-          console.log("res 데이터", res.data.data);
+        let res = await api.get(
+          `/challenge/totalAuthCnt/${params.challengeId}`
+        );
+        if (res.data.cntOfWeek) {
+          setAuthCount(res.data.cntOfWeek);
         }
       };
       getChalData();
     } catch (err) {
       console.error("fetchData fail", err);
     }
-  }, []);
+  }, [params]);
 
-  console.log("checkDay", checkDay);
-  console.log("checkDay.id", Object.keys(checkDay));
-
+  // console.log("checkDay", checkDay); // log 2번 찍힘
   return (
     <div className={styles.body}>
       <DayCheckBox
@@ -122,6 +140,9 @@ export default function NewChallenge(props) {
             setAlienNumber={setAlienNumber}
           />
         </div>
+      </div>
+      <div className=" bottom-0 py-1 px-3 shadow-sm text-red-500 font-semibold">
+        {creAlienMessage}
       </div>
       <button
         className=" bottom-0 border py-1 px-3 rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 font-semibold"

@@ -8,10 +8,10 @@ export default function DayCheckBox({
 }) {
   const handleClick = (checked, id) => {
     if (!checked) {
-      setCheckDay([...checkDay, { id: id, value: 1 }]);
+      setCheckDay([...checkDay, id]);
     } else {
-      console.log("checkDay 내부 :", checkDay);
-      setCheckDay(checkDay.filter((e) => e.id !== id));
+      // console.log("checkDay 내부 :", checkDay);
+      setCheckDay(checkDay.filter((e) => e !== id));
     }
   };
 
@@ -35,7 +35,10 @@ export default function DayCheckBox({
         ></input>
       </div>
       <div className="container w-1/2 px-3 py-3 font-bold text-lg text-gray-700 tracking-wide">
-        <div>챌린지 인증 요일를 선택해 주세요({authCount}회) </div>
+        <div>
+          챌린지 인증 요일를 선택해 주세요(총{" "}
+          <span style={{ color: "red" }}>{authCount}</span>회 선택!){" "}
+        </div>
         <div className=" rounded mt-3">
           <div className="w-full ">
             <div className="flex ">
