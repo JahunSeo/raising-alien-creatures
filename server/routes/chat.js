@@ -46,8 +46,11 @@ module.exports = function (pool) {
     }
     // 2단계: 저장할 값 validation check
     let user_info_id = parseInt(req.user.id);
-    let challenge_id = parseInt(req.body.challenge_id);
-    let msg_text = req.body.msg_text;
+    let challenge_id = req.body.challenge_id;
+    let user_nickname = req.body.user_nickname;
+    let time = req.body.time;
+    let message = req.body.message;
+    console.log(message);
     if (!user_info_id || !challenge_id) {
       res.status(400).json({
         result: "fail",
@@ -76,7 +79,9 @@ module.exports = function (pool) {
             {
               user_info_id,
               challenge_id,
-              msg_text,
+              user_nickname,
+              message,
+              time,
             },
             function (err, results) {
               if (err) throw err; // server error!
