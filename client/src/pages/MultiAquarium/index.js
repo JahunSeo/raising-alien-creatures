@@ -27,7 +27,7 @@ export default function MultiAquarium(props) {
   };
 
   // console.log("[MultiAquarium]", roomId, aliens);
-  console.log("selectedAlien", selectedAlien);
+  // console.log("selectedAlien", selectedAlien);
   return (
     <div className={styles.body}>
       <Outlet />
