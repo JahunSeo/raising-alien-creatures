@@ -7,7 +7,6 @@ module.exports = function (pool) {
          // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
          // auth day도 매일하는 challenge이면 어떠한 값이 오는지, 주 n회이면 생명체 생성 시 넘어오는 값 넣기(매일이면 7, n이면 0~6)
         if (req.user) {
-            console.log(req.body)
             const alien_name = '"' + req.body.alien_name + '"'
             const image_url_obj = {
                 0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
@@ -19,7 +18,7 @@ module.exports = function (pool) {
                 6: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
                 7: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981"
             }
-            const image_url = image_url_obj[req.body.image_url]
+            const image_url = '"' + image_url_obj[req.body.image_url] + '"'
             //body 변수 추가하기
             const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
             // challenge id 받아오기
@@ -36,13 +35,13 @@ module.exports = function (pool) {
                     return;
                 }
                 connection.query(
-                    sql1 + sql2 + sql3,
+                    sql3 + sql1 + sql2,
                     function (error, results) {
                         if (error) {
                             console.log('at the alien create api', error);
                             res.status(200).json({
                                 result: "fail",
-                                msg: "cant select"
+                                msg: "already participant"
                             });
                             return;
                         }
