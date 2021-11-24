@@ -44,21 +44,16 @@ export default class Field extends Component {
       ctx.fillStyle = lingrad;
       ctx.fillRect(0, 0, cvsWidth, cvsHeight);
 
-      // draw source (black hole?)
-
       // translate location
       const { center } = room.camera;
-      const { selectedAlien } = this.props;
-      if (!!selectedAlien && !!(selectedAlien in monsters)) {
-        let { location } = monsters[selectedAlien];
-        let x = room.camera.getCanvasSize(location.x);
-        let y = room.camera.getCanvasSize(location.y);
-        ctx.translate(cvsWidth / 2 - x, cvsHeight / 2 - y);
-      } else {
-        ctx.translate(cvsWidth / 2 - center.x, cvsHeight / 2 - center.y);
-      }
+      room.camera.run();
+      let transX = center.x;
+      let transY = center.y;
+      ctx.translate(cvsWidth / 2 - transX, cvsHeight / 2 - transY);
 
-      // room.camera.center.x++;
+      let mouseX = mouseObj.deltaXfromCenter + transX;
+      let mouseY = mouseObj.deltaYfromCenter + transY;
+      let selectedMonster = null;
 
       // draw monster
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
@@ -66,10 +61,20 @@ export default class Field extends Component {
         let { location, size, color, isUserOnRoom } = monsters[monId];
         let x = room.camera.getCanvasSize(location.x);
         let y = room.camera.getCanvasSize(location.y);
-        size = room.camera.getCanvasSize(size);
+        size = room.camera.getCanvasSize(size) / 2;
+        // if (isUserOnRoom) console.log(x, y);
+        if (
+          mouseObj.clicked &&
+          !selectedMonster &&
+          (x - mouseX) ** 2 + (y - mouseY) ** 2 < size ** 2
+        ) {
+          // console.log(monId);
+          selectedMonster = monId;
+          this.props.handleSelectAlien(monsters[monId]);
+        }
 
         ctx.beginPath();
-        ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+        ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fillStyle = color;
         if (isUserOnRoom && frameCnt % 100 <= 40) {
           ctx.fillStyle = "tomato";
