@@ -27,6 +27,15 @@ class Monster {
     this.destination = { ...this.location };
     this.size = 50 + Math.random() * 100;
     this.color = this.getRandomColor();
+
+    // 추가
+    this.frameX = 0;
+    this.frameY = 0;
+    this.fish = new Image()
+    // this.fish.src = require('../../../image/__cartoon_fish_06_red_swim.png').default;
+    this.fish.src = require('../../image/__cartoon_fish_06_red_swim.png').default;
+    this.spriteWidth = 498;
+    this.spriteHeight = 327;
   }
 
   overwrite(monPlain) {
@@ -46,6 +55,30 @@ class Monster {
     let x = (Math.random() - 0.5) * randRange;
     let y = (Math.random() - 0.5) * randRange;
     return { x, y };
+  }
+
+  display(ctx, frameCnt, room) {
+    // console.log(frameCnt)
+    let x = room.camera.getCanvasSize(this.location.x);
+    let y = room.camera.getCanvasSize(this.location.y);
+    let size = room.camera.getCanvasSize(this.size);
+
+    // draw circle
+    ctx.beginPath();
+    ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    if (this.isUserOnRoom && frameCnt % 100 <= 40) {
+      ctx.fillStyle = "tomato";
+    }
+    ctx.fill();
+
+    // console.log(x,y,size, this.angle, this.fish, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, 0,0, size/2, size/2 )
+
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(this.angle)
+    ctx.drawImage(this.fish, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, 0,0, size/2, size/2)
+    ctx.restore();
   }
 
   run() {
