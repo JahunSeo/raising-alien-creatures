@@ -170,6 +170,7 @@ module.exports = function (pool) {
           });
           return;
         }
+
         if (results.message.split("  ")[0] == "(Rows matched: 0") {
           res.json({
             result: "fail",
