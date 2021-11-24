@@ -9,8 +9,19 @@ module.exports = function (pool) {
         if (req.user) {
             console.log(req.body)
             const alien_name = '"' + req.body.alien_name + '"'
+            const image_url_obj = {
+                0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
+                1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
+                2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
+                3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981",
+                4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
+                5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
+                6: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
+                7: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981"
+            }
+            const image_url = image_url_obj[req.body.image_url]
             //body 변수 추가하기
-            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${req.body.image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
+            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
             // challenge id 받아오기
             const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.body.challenge_id};`;
             // user_info_has_challenge 테이블 row 추가
@@ -41,9 +52,7 @@ module.exports = function (pool) {
                         });
                     connection.release();
                 });
-            });
-            
-                
+            });     
             
         } else {
             res.status(401).json({
