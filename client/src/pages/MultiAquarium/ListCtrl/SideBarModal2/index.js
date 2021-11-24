@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import api from "../../../../apis/index";
+import * as actions from "../../../../Redux/actions/index.js";
 
 export default function SideBarModal2() {
   // console.log("alien밖: ", alien);
@@ -9,18 +10,13 @@ export default function SideBarModal2() {
   const alien = useSelector((state) => state.alien_auth_func.alien_auth);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
-
-  // console.log("authImage", authImage);
-  // console.log("authMessage", authMessage);
-
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
-    // console.log("alien안: ", alien);
+    console.log("alien안: ", alien);
     // console.log("alien안_id: ", alien.alien.id);
     e.preventDefault();
     const res = await api.get("/main/s3Url");
-    console.log("url", res.data.url);
     const { url } = res.data;
-    console.log(url);
 
     // post the image direclty to the s3 bucket
     if (authImage) {
@@ -33,13 +29,11 @@ export default function SideBarModal2() {
       });
     }
     const imageUrl = url.split("?")[0];
-    console.log(imageUrl);
-    console.log("문자적자", alien.alien.user_info_id);
     const resp = {
       user_info_id: alien.alien.user_info_id,
       Alien_id: alien.alien.id,
       Challenge_id: alien.alien.Challenge_id,
-      comment: authMessage,
+      comments: authMessage,
       image_url: imageUrl,
     };
 
@@ -60,35 +54,82 @@ export default function SideBarModal2() {
 
   return (
     <>
-      {/* <div
-        className={showModal2 ? "Background2" : null}
-        onClick={() => {
-          dispatch(actions.showModal2(false));
-        }}
-      /> */}
       <div>
         <div className={showModal2 ? "ModalContainer2" : "hidden2"}>
-          <form id="imageForm">
-            <p>인증하기 </p>
-            <textarea
-              type="text"
-              placeholder="Comment"
-              onChange={(e) => {
-                setAuthMessage(e.target.value);
-              }}
-            ></textarea>
-            <input
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                setAuthImage(e.target.files);
-              }}
-            ></input>
-            <button type="button" onClick={handleSubmit}>
-              사진 업로드
-            </button>
-          </form>
+          <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
+            <div className="md:flex">
+              <div className="w-full px-4 py-6">
+                <div className="mb-1">
+                  <span className="text-sm"> Comment </span>
+                  <textarea
+                    type="text"
+                    className="Comment"
+                    onChange={(e) => {
+                      setAuthMessage(e.target.value);
+                    }}
+                  ></textarea>
+                </div>
+                <div className="mb-1">
+                  <span className="text-sm text-gray-400">
+                    인증 사진과 실천 내용을 간단히 설명해주세요.
+                  </span>
+                </div>
+                <div className="mb-1">
+                  <span>Attachments</span>
+                  <div className="Attachments">
+                    <div className="absolute">
+                      <div className="flex flex-col items-center">
+                        <i className="fa fa-folder-open fa-3x text-blue-700"></i>
+                        <span className="block text-gray-400 font-normal">
+                          Drag or Attach your files here
+                        </span>
+                      </div>
+                    </div>
+
+                    <input
+                      type="file"
+                      className="h-full w-full opacity-0"
+                      name=""
+                      accept="image/*"
+                      id="imageInput"
+                      onChange={(e) => {
+                        setAuthImage(e.target.files);
+                        // processImage(e);
+                      }}
+                    />
+                  </div>
+                </div>
+                {authImage && authImage[0] ? (
+                  <img src={URL.createObjectURL(authImage[0])}></img>
+                ) : (
+                  <div></div>
+                )}
+                <div className="mt-3 text-right">
+                  <button
+                    onClick={() => {
+                      dispatch(actions.showModal2(false));
+                    }}
+                  >
+                    뒤로 가기
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="
+                ml-2
+                h-8
+                w-20
+                bg-blue-600
+                rounded
+                text-white
+                hover:bg-blue-700
+              "
+                  >
+                    인증하기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
