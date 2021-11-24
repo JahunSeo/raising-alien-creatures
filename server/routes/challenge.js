@@ -5,26 +5,47 @@ module.exports = function (pool) {
     console.log("/challenge/:challengeId", req.params.challengeId);
     pool.getConnection(function (err, connection) {
       if (err) throw err;
-      // Alien에서
+      // 1단계: challenge 정보 가져오기
       const { challengeId } = req.params;
-      // 1안 (현재): alien table과 user_info table을 join
-      // 2안: alien table과 user_info_has_challange table, user_info table 각각에서 쿼리 수행 후 병합
-      let columns = `Alien.id, Challenge_id, createDate\
-                    alienName, color, accuredAuthCnt, image_url,\
+      // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
+      let columns = `id, challengeName as challenge_name, challengeContent as challenge_content,\
+                    maxUserNumber as max_user_number, participantNumber as participant_number,\
+                    createDate as create_date, cntOfWeek as cnt_of_week`;
+      let sql = `SELECT ${columns} FROM Challenge WHERE Challenge.id=${challengeId};`;
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        const challenge = results[0];
+        if (!challenge) {
+          res.status(400).json({
+            result: "fail",
+            msg: `request challengeId ${req.params.challengeId}`,
+          });
+          return;
+        }
+        // 2단계: challenge에 포함된 alien들 가져오기
+        // 1안 (현재): alien table과 user_info table을 join
+        // 2안: alien table과 user_info_has_challange table, user_info table 각각에서 쿼리 수행 후 병합
+        // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
+        let columns = `Alien.id, Challenge_id, createDate as create_date,\
+                    alienName as alien_name, color, accuredAuthCnt as accured_auth_cnt, image_url,\
                     practice_status, end_date, status,\
                     time_per_week, sun, mon, tue, wed, thu, fri, sat,\
-                    user_info_id, email, nickname`;
-      // columns = "*";
-      let sql = `SELECT ${columns} FROM Alien LEFT JOIN user_info \
+                    user_info_id, email, nickname as user_nickname`;
+        let sql = `SELECT ${columns} FROM Alien LEFT JOIN user_info \
                 ON Alien.user_info_id=user_info.id \
                 WHERE Alien.Challenge_id=${challengeId} and Alien.status=0;`;
 
-      connection.query(sql, function (err, results) {
-        if (err) throw err;
-        res.status(200).json({
-          result: "success",
-          msg: `request challengeId ${req.params.challengeId}`,
-          data: results,
+        connection.query(sql, function (err, results) {
+          if (err) throw err;
+          results.forEach((alien) => {
+            alien.challenge_name = challenge.challenge_name;
+          });
+          res.status(200).json({
+            result: "success",
+            msg: `request challengeId ${req.params.challengeId}`,
+            challenge: challenge,
+            aliens: results,
+          });
         });
       });
     });

@@ -35,9 +35,9 @@ export default function AlienCtrl(props) {
   } else {
     return (
       <div className={styles.body}>
-        <p>{`챌린지  : ${alien.challengeName}`}</p>
-        <p>{`참가자  : ${alien.userNickname}`}</p>
-        <p>{`생명체  : ${alien.alienName} (${alien.accuredAuthCnt}회 인증)`}</p>
+        <p>{`챌린지  : ${alien.challenge_name}`}</p>
+        <p>{`참가자  : ${alien.user_nickname}`}</p>
+        <p>{`생명체  : ${alien.alien_name} (${alien.accured_auth_cnt}회 인증)`}</p>
         <div className={styles.btnRow}>
           {!!userMatch && user.id === parseInt(userMatch.params.userId) && (
             <button className={cx("btn", "btn--request")}>인증하기</button>
