@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./SideBarModal2.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import api from "../../../../apis/index";
+import * as actions from "../../../../Redux/actions/index.js";
 
 export default function SideBarModal2() {
   // console.log("alien밖: ", alien);
@@ -9,8 +10,7 @@ export default function SideBarModal2() {
   const alien = useSelector((state) => state.alien_auth_func.alien_auth);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
-  console.log("auth Image", authImage);
-
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     console.log("alien안: ", alien);
     // console.log("alien안_id: ", alien.alien.id);
@@ -63,16 +63,7 @@ export default function SideBarModal2() {
                   <span className="text-sm"> Comment </span>
                   <textarea
                     type="text"
-                    className="
-                h-24
-                py-1
-                px-3
-                w-full
-                border-2 border-blue-400
-                rounded
-                focus:outline-none focus:border-blue-600
-                resize-none
-              "
+                    className="Comment"
                     onChange={(e) => {
                       setAuthMessage(e.target.value);
                     }}
@@ -85,19 +76,7 @@ export default function SideBarModal2() {
                 </div>
                 <div className="mb-1">
                   <span>Attachments</span>
-                  <div
-                    className="
-                relative
-                border-dotted
-                h-20
-                rounded-lg
-                border-dashed border-2 border-blue-700
-                bg-gray-100
-                flex
-                justify-center
-                items-center
-              "
-                  >
+                  <div className="Attachments">
                     <div className="absolute">
                       <div className="flex flex-col items-center">
                         <i className="fa fa-folder-open fa-3x text-blue-700"></i>
@@ -126,7 +105,13 @@ export default function SideBarModal2() {
                   <div></div>
                 )}
                 <div className="mt-3 text-right">
-                  <a href="#">뒤로 가기</a>
+                  <button
+                    onClick={() => {
+                      dispatch(actions.showModal2(false));
+                    }}
+                  >
+                    뒤로 가기
+                  </button>
                   <button
                     onClick={handleSubmit}
                     className="
@@ -149,28 +134,4 @@ export default function SideBarModal2() {
       </div>
     </>
   );
-}
-
-{
-  /* <form id="imageForm">
-            <p>인증하기 </p>
-            <textarea
-              type="text"
-              placeholder="Comment"
-              onChange={(e) => {
-                setAuthMessage(e.target.value);
-              }}
-            ></textarea>
-            <input
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                setAuthImage(e.target.files);
-              }}
-            ></input>
-            <button type="button" onClick={handleSubmit}>
-              사진 업로드
-            </button>
-          </form> */
 }
