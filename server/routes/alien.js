@@ -11,7 +11,7 @@ module.exports = function (pool) {
             console.log(req.body)
             const alien_name = '"' + req.body.alien_name + '"'
             //body 변수 추가하기
-            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
+            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${req.body.image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
             // challenge id 받아오기
             const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.body.challenge_id};`;
             // user_info_has_challenge 테이블 row 추가
