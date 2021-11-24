@@ -1,4 +1,3 @@
-const { PollyCustomizations } = require("aws-sdk/lib/services/polly");
 const schedule = require("node-schedule");
 
 // 생명체 사망 api
