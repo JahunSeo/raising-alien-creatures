@@ -1,11 +1,16 @@
 import Vector2D from "../lib/Vector2D.js";
 
+const S3URL = "https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/";
+
 class Monster {
   constructor(props) {
     // TODO
     this.userId = props.userId;
     this.monId = props.monId;
     this.isUserOnRoom = false;
+    // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981
+    //          0                      1                   2 3  4    5
+    if (props.image_url) this.image_url = props.image_url.split("-");
     this.init();
     if (!!props.color) this.color = props.color;
     if (!!props.authCnt) this.size = 20 + props.authCnt * 2;
@@ -28,14 +33,18 @@ class Monster {
     this.size = 50 + Math.random() * 100;
     this.color = this.getRandomColor();
 
-    // 추가
-    this.frameX = 0;
-    this.frameY = 0;
-    this.fish = new Image()
-    // this.fish.src = require('../../../image/__cartoon_fish_06_red_swim.png').default;
-    this.fish.src = require('../../image/__cartoon_fish_06_red_swim.png').default;
-    this.spriteWidth = 498;
-    this.spriteHeight = 327;
+    // for sprite images
+    if (this.image_url) {
+      this.spriteWidth = this.image_url[4] / this.image_url[2];
+      this.spriteHeight = this.image_url[5] / this.image_url[3];
+      this.spriteAngle = 0;
+      this.frameX = Math.floor(Math.random() * this.image_url[2]); // 0~3
+      this.frameY = Math.floor(Math.random() * this.image_url[3]); // 0~2
+      this.fishLeft = new Image();
+      this.fishLeft.src = S3URL + this.image_url[0];
+      this.fishRight = new Image();
+      this.fishRight.src = S3URL + this.image_url[1];
+    }
   }
 
   overwrite(monPlain) {
@@ -57,8 +66,16 @@ class Monster {
     return { x, y };
   }
 
+  calculateFrames(frameCnt) {
+    if (frameCnt % 10 === 0) {
+      this.frameX++;
+      this.frameY += this.frameX === parseInt(this.image_url[2]) ? 1 : 0;
+      this.frameX %= this.image_url[2];
+      this.frameY %= this.image_url[3];
+    }
+  }
+
   display(ctx, frameCnt, room) {
-    // console.log(frameCnt)
     let x = room.camera.getCanvasSize(this.location.x);
     let y = room.camera.getCanvasSize(this.location.y);
     let size = room.camera.getCanvasSize(this.size);
@@ -72,13 +89,40 @@ class Monster {
     }
     ctx.fill();
 
-    // console.log(x,y,size, this.angle, this.fish, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, 0,0, size/2, size/2 )
-
-    ctx.save();
-    ctx.translate(x,y);
-    ctx.rotate(this.angle)
-    ctx.drawImage(this.fish, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, 0,0, size/2, size/2)
-    ctx.restore();
+    // draw sprite images
+    if (this.image_url) {
+      this.calculateFrames(frameCnt);
+      ctx.save();
+      ctx.translate(x, y);
+      let direction = this.location.x - this.destination.x;
+      ctx.rotate(this.spriteAngle);
+      if (direction > 0) {
+        ctx.drawImage(
+          this.fishLeft,
+          this.frameX * this.spriteWidth,
+          this.frameY * this.spriteHeight,
+          this.spriteWidth,
+          this.spriteHeight,
+          -size / 2,
+          -size / 2,
+          size,
+          size
+        );
+      } else {
+        ctx.drawImage(
+          this.fishRight,
+          this.frameX * this.spriteWidth,
+          this.frameY * this.spriteHeight,
+          this.spriteWidth,
+          this.spriteHeight,
+          -size / 2,
+          -size / 2,
+          size,
+          size
+        );
+      }
+      ctx.restore();
+    }
   }
 
   run() {
@@ -93,7 +137,9 @@ class Monster {
 
     let dx = this.location.x - target.x;
     let dy = this.location.y - target.y;
-    let angleBase = Math.atan2(dy, dx) - Math.PI;
+    this.spriteAngle = Math.atan2(dy, dx);
+    let angleBase = this.spriteAngle - Math.PI;
+    // let angleBase = Math.atan2(dy, dx) - Math.PI;
 
     let dist = Vector2D.getMag(desired);
     Vector2D.normalize(desired);

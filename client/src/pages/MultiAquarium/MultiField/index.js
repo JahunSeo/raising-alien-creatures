@@ -62,17 +62,10 @@ export default class Field extends Component {
 
       // draw monster
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요      
-
-      for (const monId in monsters) {        
-        //추가
-        // if (frameCnt % 5 === 0) {
-        //   frameX++;
-        //   frameY += frameX === 4 ? 1 : 0;
-        //   frameX %= 4;
-        //   frameY %= 3;
-        // }
-        monsters[monId].display(ctx, frameCnt, room)
+      for (const monId in monsters) {       
+          monsters[monId].display(ctx, frameCnt, room)
       }
+      
 
       if (mouseObj.clicked) {
         // let destination = {
