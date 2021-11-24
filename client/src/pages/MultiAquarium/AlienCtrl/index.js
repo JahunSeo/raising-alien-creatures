@@ -7,8 +7,8 @@ import {
 // import * as actions from "../../../Redux/actions";
 
 import styles from "./index.module.css";
-import classNames from "classnames/bind";
-const cx = classNames.bind(styles);
+// import classNames from "classnames/bind";
+// const cx = classNames.bind(styles);
 
 export default function AlienCtrl(props) {
   const { aliens, selectedAlien } = useSelector(({ room }) => ({
@@ -16,7 +16,7 @@ export default function AlienCtrl(props) {
     selectedAlien: room.selectedAlien,
   }));
 
-  let alien = aliens.find((a) => a.id == selectedAlien);
+  let alien = aliens.find((a) => a.id === selectedAlien);
 
   return (
     <div className={styles.body}>
@@ -27,7 +27,7 @@ export default function AlienCtrl(props) {
 
 function AlienBox(props) {
   const { alien } = props;
-  console.log(alien);
+  //   console.log(alien);
   if (!alien) {
     return <p>생명체를 선택해주세요.</p>;
   } else {
