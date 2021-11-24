@@ -23,10 +23,12 @@ export default function UserRoom(props) {
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.aliens;
+          const user = res.data.user;
+          const roomTitle = `${user.nickname}의 어항`;
           rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // update redux room info
-          dispatch(actions.setRoom({ roomId, aliens }));
+          dispatch(actions.setRoom({ roomId, aliens, roomTitle }));
         } else {
         }
       };
