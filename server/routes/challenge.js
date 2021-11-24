@@ -9,13 +9,14 @@ module.exports = function (pool) {
     if (req.user) {
       pool.getConnection(function (err, connection) {
         connection.query(
-          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek) VALUES (?, ?, ?, ?, ?)",
+          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, tag) VALUES (?, ?, ?, ?, ?, ?)",
           [
             req.body.challenge_name,
             req.body.challenge_content,
-            req.user.nickname,
+            req.user.id,
             max_user,
             cnt_of_week,
+            req.body.tag,
           ],
           function (err1, results1) {
             if (err1) {
@@ -29,7 +30,10 @@ module.exports = function (pool) {
             res.status(200).json({
               result: "success",
               msg: "do insert",
-              data: results1.insertId,
+              data: {
+                challenge_id: results1.insertId,
+                total_auth_cnt: cnt_of_week,
+              },
             });
             connection.release();
           }
@@ -99,26 +103,56 @@ module.exports = function (pool) {
   // 챌린지 인증 수락
   // auth data 에 수락표시 is auth 수정
   // alien에 accured auth count / week_auth_cnt 1씩 증가
-  router.post("/approve", function (req, res) {
-    var data = req.body;
-    var auth_id = data.auth_id;
-    var Alien_id = data.Alien_id;
-    sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id};`;
-    sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, week_auth_cnt = week_auth_cnt+1 where id = ${Alien_id}`;
+  router.post("/approval", function (req, res) {
+    const data = req.body;
+    const auth_id = data.auth_id;
+    const Alien_id = data.Alien_id;
+    const request_date = data.request_date.split("T")[0].split("-");
+    console.log(request_date);
+    //1. 날짜 지난지 check 지났으면 Client에 메시지 return
+    const request_month = request_date[1];
+    const request_day = request_date[2];
+    if (
+      new Date().getMonth() + 1 != request_month ||
+      new Date().getDate() > request_day
+    ) {
+      res.json({
+        result: "fail",
+        msg: "인증 수락 가능한 날짜가 만료되었습니다.",
+      });
+      return;
+    }
+    //2. Authentification id로 검색 후 수정 / 0 row changed -> Client notice.
+    sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, practice_status=2 where id = ${Alien_id}`;
+    sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id} and current_time() > date(request_date) + interval 1 day and isAuth=0;`; // is Auth = 0 일때만 올리고 0 row 변하면 이미 완료된 요청입니다.
     pool.getConnection(function (err, connection) {
-      connection.query(sql1 + sql2, function (error, results, fields) {
+      connection.query(sql1, function (error, results, fields) {
         if (error) {
           console.error(error);
           res.json({
             result: "fail",
-            msg: "Fail to update Database.",
+            msg: "[DB] Fail to update Database.",
           });
           return;
         }
-
-        console.log(results);
-        res.json({ result: "success" });
-        connection.release();
+        if (results.message.split("  ")[0] == "(Rows matched: 0") {
+          res.json({
+            result: "fail",
+            msg: "이미 인증이 완료된 건 입니다.",
+          });
+          return;
+        }
+        connection.query(sql2, function (error, results, fields) {
+          if (error) {
+            res.json({
+              result: "fail",
+              msg: "[DB] Fail to update Database.",
+            });
+            return;
+          }
+          res.json({ result: "success" });
+          connection.release();
+        });
       });
     });
   });
