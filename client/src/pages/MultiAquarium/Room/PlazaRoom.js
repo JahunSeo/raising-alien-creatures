@@ -24,11 +24,18 @@ export default function PlazaRoom(props) {
         if (res.data.result === "success") {
           // rooms 상태 정보
           console.log("plazaroom:", roomId);
-          rooms.current[roomId].initMonsters(res.data.data);
+          const aliens = res.data.aliens;
+          rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
-          
+
           // TODO: redux
-          dispatch(actions.setRoom({ roomId: roomId, aliens: res.data.data }));
+          dispatch(
+            actions.setRoom({
+              roomId: roomId,
+              aliens: aliens,
+              roomTitle: "외계생물 기르기",
+            })
+          );
         } else {
         }
       };
@@ -37,6 +44,7 @@ export default function PlazaRoom(props) {
       console.error("fetchData fail", err);
     }
     return () => {
+      dispatch(actions.setRoom({ roomId: null, aliens: [] }));
       rooms.current[roomId].close();
     };
     //   }, []);

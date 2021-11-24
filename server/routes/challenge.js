@@ -1,6 +1,58 @@
 const express = require("express");
 const router = express.Router();
 module.exports = function (pool) {
+  router.get("/:challengeId", function (req, res) {
+    console.log("/challenge/:challengeId", req.params.challengeId);
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      // 1단계: challenge 정보 가져오기
+      const { challengeId } = req.params;
+      // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
+      let columns = `id, challengeName as challenge_name, challengeContent as challenge_content,\
+                    maxUserNumber as max_user_number, participantNumber as participant_number,\
+                    createDate as create_date, cntOfWeek as cnt_of_week`;
+      let sql = `SELECT ${columns} FROM Challenge WHERE Challenge.id=${challengeId};`;
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        const challenge = results[0];
+        if (!challenge) {
+          res.status(400).json({
+            result: "fail",
+            msg: `challenge ${req.params.challengeId} not found`,
+          });
+          connection.release();
+          return;
+        }
+        // 2단계: challenge에 포함된 alien들 가져오기
+        // 1안 (현재): alien table과 user_info table을 join
+        // 2안: alien table과 user_info_has_challange table, user_info table 각각에서 쿼리 수행 후 병합
+        // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
+        let columns = `Alien.id, Challenge_id, createDate as create_date,\
+                    alienName as alien_name, color, accuredAuthCnt as accured_auth_cnt, image_url,\
+                    practice_status, end_date, status,\
+                    time_per_week, sun, mon, tue, wed, thu, fri, sat,\
+                    user_info_id, email, nickname as user_nickname`;
+        let sql = `SELECT ${columns} FROM Alien LEFT JOIN user_info \
+                ON Alien.user_info_id=user_info.id \
+                WHERE Alien.Challenge_id=${challengeId} AND Alien.status=0;`;
+
+        connection.query(sql, function (err, results) {
+          if (err) throw err;
+          results.forEach((alien) => {
+            alien.challenge_name = challenge.challenge_name;
+          });
+          res.status(200).json({
+            result: "success",
+            msg: `request challengeId ${req.params.challengeId}`,
+            challenge: challenge,
+            aliens: results,
+          });
+          connection.release();
+        });
+      });
+    });
+  });
+
   // 챌린지 생성 api
   router.post("/create", function (req, res) {
     console.log(req.body);
@@ -170,6 +222,7 @@ module.exports = function (pool) {
           });
           return;
         }
+
         if (results.message.split("  ")[0] == "(Rows matched: 0") {
           res.json({
             result: "fail",

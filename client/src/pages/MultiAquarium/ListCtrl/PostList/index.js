@@ -27,12 +27,12 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             }}
           />
           <div className="SubInfo">
-            <p>이름 : {alien.alienName}</p>
+            <p>이름 : {alien.alien_name}</p>
             <p>
               출생년도 : <br />
-              {alien.createDate.split("T")[0]}
+              {alien.create_date.split("T")[0]}
             </p>
-            <p>Commit 횟수 : {alien.accuredAuthCnt}번</p>
+            <p>Commit 횟수 : {alien.accured_auth_cnt}번</p>
           </div>
         </div>
         <div className="buttons">
@@ -118,8 +118,8 @@ const PostList = ({ type }) => {
         aliens_list
           .sort(
             (a, b) =>
-              new Date(b.createDate).getTime() -
-              new Date(a.createDate).getTime()
+              new Date(b.create_date).getTime() -
+              new Date(a.create_date).getTime()
           )
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
@@ -135,8 +135,8 @@ const PostList = ({ type }) => {
         aliens_list
           .sort(
             (a, b) =>
-              new Date(a.createDate).getTime() -
-              new Date(b.createDate).getTime()
+              new Date(a.create_date).getTime() -
+              new Date(b.create_date).getTime()
           )
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
@@ -150,7 +150,7 @@ const PostList = ({ type }) => {
           )}
       {sort === "c" &&
         aliens_list
-          .sort((a, b) => b.accuredAuthCnt - a.accuredAuthCnt)
+          .sort((a, b) => b.accured_auth_cnt - a.accured_auth_cnt)
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
               <PostItem
@@ -163,7 +163,7 @@ const PostList = ({ type }) => {
           )}
       {sort === "d" &&
         aliens_list
-          .sort((a, b) => a.accuredAuthCnt - b.accuredAuthCnt)
+          .sort((a, b) => a.accured_auth_cnt - b.accured_auth_cnt)
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
               <PostItem
