@@ -99,6 +99,41 @@ module.exports = function (pool) {
     }
   });
 
+  // 챌린지 total_auth_cnt 보내주기
+  router.get("/totalAuthCnt/:challengeid", function (req, res) {
+    const challengeId = req.params.challengeid;
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          result: "fail",
+          msg: "cant connection",
+        });
+        return;
+      }
+      connection.query(
+        "SELECT cntOfWeek FROM aliens.Challenge where id = ?;",
+        [challengeId],
+        function (error, results) {
+          if (error) {
+            console.error(error);
+            res.status(200).json({
+              result: "fail",
+              msg: "cant query to select",
+            });
+            return;
+          }
+          res.status(200).json({
+            result: "success",
+            msg: "do insert",
+            cntOfWeek: results[0].cntOfWeek,
+          });
+          connection.release();
+        }
+      );
+    });
+  });
+
   // 챌린지 인증 요청
   // Data Type : Front 쪽에서 data JSON Type으로 서버로 전달
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
@@ -187,6 +222,7 @@ module.exports = function (pool) {
           });
           return;
         }
+
         if (results.message.split("  ")[0] == "(Rows matched: 0") {
           res.json({
             result: "fail",
