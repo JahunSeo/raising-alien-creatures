@@ -9,7 +9,7 @@ import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-
+  const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   return (
     <>
       <div className="PostItemBlock">
@@ -41,7 +41,8 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               className="StyledButton"
               onClick={() => {
                 dispatch(actions.alienAuth({ alien }));
-                dispatch(actions.showModal2(true));
+
+                dispatch(actions.showModal2(!showModal2));
               }}
             >
               {" "}

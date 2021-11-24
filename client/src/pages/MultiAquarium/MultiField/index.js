@@ -56,6 +56,7 @@ export default class Field extends Component {
       let selectedMonster = null;
 
       // draw monster
+
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
       for (const monId in monsters) {
         let { location, size, color, isUserOnRoom } = monsters[monId];
@@ -73,14 +74,8 @@ export default class Field extends Component {
           this.props.handleSelectAlien(monsters[monId]);
         }
 
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        if (isUserOnRoom && frameCnt % 100 <= 40) {
-          ctx.fillStyle = "tomato";
-        }
-        ctx.fill();
-
+        monsters[monId].display(ctx, frameCnt, room)
+        
         // if (isUserOnRoom) {
         //   ctx.beginPath();
         //   ctx.arc(x, y, 8, 0, Math.PI * 2);
@@ -88,6 +83,7 @@ export default class Field extends Component {
         //   ctx.fill();
         // }
       }
+      
 
       if (mouseObj.clicked) {
         // let destination = {
@@ -98,7 +94,6 @@ export default class Field extends Component {
         // socket.changeDestination(room.roomId, destination);
       }
     }
-
     ctx.restore();
   };
 
