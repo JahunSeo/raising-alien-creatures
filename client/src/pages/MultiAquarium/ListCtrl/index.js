@@ -1,10 +1,11 @@
 import React from "react";
 import { useMatch } from "react-router-dom";
 import styles from "./index.module.css";
-import { useDispatch, useSelector } from "react-redux";
 
 import SideBarModal from "./SideBarModal";
 import ChatModal from "./ChatModal";
+
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import { CHAL_INFO_TYPE } from "../../../Redux/reducers/modalOnOff";
 
@@ -26,7 +27,6 @@ export default function ListCtrl(props) {
     }
   }
 
-  const userMatch = useMatch("/user/:userId/room");
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const mainMatch = useMatch("/");
   if (!!mainMatch) {

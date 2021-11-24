@@ -1,6 +1,4 @@
 import io from "socket.io-client";
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../Redux/actions";
 let socket = null;
 
 // temp
