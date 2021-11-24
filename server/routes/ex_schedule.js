@@ -1,0 +1,68 @@
+
+    connection.query(
+      "INSERT INTO Alien_dead(id, user_info_id, Challenge_id, createDate, alienName, color, accuredAuthCnt, failureCnt, life, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day) SELECT id, user_info_id, Challenge_id, createDate, alienName, color, accuredAuthCnt, failureCnt, life, graduate_toggle, week_auth_cnt, total_auth_cnt, auth_day FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
+      [day],
+      function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("success insert dead_alien!!!!!!!!!");
+      }
+    );
+    connection.query(
+      "INSERT INTO dead_authentification SELECT Authentification.id, Authentification.user_info_id, Alien_id, Authentification.Challenge_id, requestDate, responseDate, requestUserNickname, responseUserNickname, isAuth, imgURL, comment FROM Authentification LEFT JOIN Alien ON Alien.id = Authentification.Alien_id where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
+      [day],
+      function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("success insert dead_authentification!!!!!!!!!");
+      }
+    );
+    connection.query(
+      "DELETE FROM Authentification USING Alien LEFT JOIN Authentification ON Alien.id = Authentification.Alien_id where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
+      [day],
+      function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("success delete authentification!!!!!!!!!");
+      }
+    );
+    connection.query(
+      "DELETE FROM Alien where week_auth_cnt < total_auth_cnt AND (auth_day = 7 OR auth_day = ?)",
+      [day],
+      function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("success delete Alien!!!!!!!!!");
+      }
+    );
+    connection.query(
+      "UPDATE Alien SET week_auth_cnt = 0 where auth_day = 7 OR auth_day = ?",
+      [day],
+      function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("success update Alien!!!!!!!!!");
+      }
+    );
+    // user_info_has_challenge table row 삭제
+    connection.query(
+      'DELETE FROM user_info_has_Challenge USING Alien_dead LEFT JOIN user_info_has_Challenge ON Alien_dead.Challenge_id = user_info_has_Challenge.Challenge_id where week_auth_cnt != total_auth_cnt'
+      , function (err, results) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("success delete user_info_has_challenge table row!!!!!!");
+      }
+    );
+    // participantNumber - 1은 trigger 사용
