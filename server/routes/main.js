@@ -4,16 +4,19 @@ const s3 = require("../lib/s3");
 module.exports = function (pool) {
   router.get("/", (req, res) => {
     const sql1 = `(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.createDate, alienName, image_url, accuredAuthCnt, color, end_date FROM Alien JOIN Challenge ON Alien.Challenge_id = Challenge.id) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.createDate, alienName, image_url, accuredAuthCnt, color, graduated_date FROM Alien_graduated JOIN Challenge ON Alien_graduated.Challenge_id = Challenge.id) ORDER BY accuredAuthCnt DESC LIMIT 50;`;
-    pool.getConnection(function (err, connection) {
-      connection.query(sql1, function (error, results) {
-        if (error) {
-          console.error("at the main api", error);
-          res.status(200).json({
-            result: "fail",
-            msg: "cant select",
-          });
-          return;
-        }
+    pool.getConnection(function(err, connection){
+        connection.query(
+            sql1,
+            function (error, results) {
+              if (error) {
+                console.error('at the main api', error);
+                res.status(200).json({
+                  result: "fail",
+                  msg: "cant select",
+                });
+                return;
+              }
+
 
         res.status(200).json({
           result: "success",
