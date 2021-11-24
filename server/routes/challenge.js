@@ -124,7 +124,7 @@ module.exports = function (pool) {
     }
     //2. Authentification id로 검색 후 수정 / 0 row changed -> Client notice.
     sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, practice_status=2 where id = ${Alien_id}`;
-    sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id} and current_time() > date(request_date) + interval 1 day and isAuth=0;`; // is Auth = 0 일때만 올리고 0 row 변하면 이미 완료된 요청입니다.
+    sql1 = `update Authentification set isAuth = isAuth +1 where id=${auth_id} and isAuth=0;`; // is Auth = 0 일때만 올리고 0 row 변하면 이미 완료된 요청입니다.
     pool.getConnection(function (err, connection) {
       connection.query(sql1, function (error, results, fields) {
         if (error) {
