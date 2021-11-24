@@ -9,13 +9,14 @@ module.exports = function (pool) {
     if (req.user) {
       pool.getConnection(function (err, connection) {
         connection.query(
-          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek) VALUES (?, ?, ?, ?, ?)",
+          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, tag) VALUES (?, ?, ?, ?, ?, ?)",
           [
             req.body.challenge_name,
             req.body.challenge_content,
-            req.user.nickname,
+            req.user.id,
             max_user,
             cnt_of_week,
+            req.body.tag,
           ],
           function (err1, results1) {
             if (err1) {
@@ -29,7 +30,7 @@ module.exports = function (pool) {
             res.status(200).json({
               result: "success",
               msg: "do insert",
-              data: results1.insertId,
+              data: {challenge_id: results1.insertId, total_auth_cnt: cnt_of_week}
             });
             connection.release();
           }
@@ -48,7 +49,7 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
-    data.requestUserNickname = req.user.nickname;
+    data.request_user = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
     var sql1 = `INSERT INTO Authentification SET ?;`;
@@ -99,7 +100,7 @@ module.exports = function (pool) {
   // 챌린지 인증 수락
   // auth data 에 수락표시 is auth 수정
   // alien에 accured auth count / week_auth_cnt 1씩 증가
-  router.post("/approve", function (req, res) {
+  router.post("/approval", function (req, res) {
     var data = req.body;
     var auth_id = data.auth_id;
     var Alien_id = data.Alien_id;

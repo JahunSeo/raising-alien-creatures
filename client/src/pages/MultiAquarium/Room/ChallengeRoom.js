@@ -50,15 +50,15 @@ export default function ChallengeRoom(props) {
     return () => {
       rooms.current[roomId].close();
     };
-    //   }, []);
   }, [rooms, roomId, challengeId, dispatch]);
 
   useEffect(() => {
     // user가 참여중인 방인지 확인
     if (participating && rooms.current[roomId]) {
       // console.log("handle socket here!", participating);
-      socket.initAndJoin({ roomId, userId: user.id });
+      socket.initAndJoin({ roomId, userId: userId });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
+      socket.messageReceive((msg) => dispatch(actions.setMessage(msg)));
       // socket.subscribe(rooms.current[roomId].syncFieldState);
     } else if (rooms.current[roomId]) {
       rooms.current[roomId].eraseUsersOnRoom();
@@ -66,7 +66,7 @@ export default function ChallengeRoom(props) {
     return () => {
       socket.disconnect(roomId);
     };
-  }, [userId, rooms, roomId, challengeId, participating]);
+  }, [userId, rooms, roomId, challengeId, participating, dispatch]);
 
   return <div></div>;
 }

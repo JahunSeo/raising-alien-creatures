@@ -9,7 +9,6 @@ import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  // const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
 
   return (
     <>

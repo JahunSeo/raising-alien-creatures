@@ -20,9 +20,18 @@
   z-index: 0;
 }
 
+.SecAlienCtrl {
+  position: absolute;
+  right: 0px;
+  left: 0;
+  top: 70px;
+  margin: auto;
+  z-index: 8;
+}
+
 .SecListCtrl {
   width: 44px;
-  height: 84px;
+  height: 94px;
 
   position: absolute;
   right: 20px;

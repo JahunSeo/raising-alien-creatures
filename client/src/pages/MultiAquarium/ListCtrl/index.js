@@ -1,10 +1,11 @@
 import React from "react";
-
+import { useMatch } from "react-router-dom";
 import styles from "./index.module.css";
-import { useDispatch, useSelector } from "react-redux";
 
 import SideBarModal from "./SideBarModal";
 import ChatModal from "./ChatModal";
+
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import { CHAL_INFO_TYPE } from "../../../Redux/reducers/modalOnOff";
 
@@ -26,6 +27,12 @@ export default function ListCtrl(props) {
     }
   }
 
+  const challengeMatch = useMatch("/challenge/:challengeId/room");
+  const mainMatch = useMatch("/");
+  if (!!mainMatch) {
+    return <div></div>;
+  }
+
   return (
     <div className={styles.body}>
       <div
@@ -34,12 +41,14 @@ export default function ListCtrl(props) {
       >
         A
       </div>
-      <div
-        className={cx("btn", "btn--chat")}
-        onClick={() => switchModal(CHAL_INFO_TYPE.CHAT)}
-      >
-        C
-      </div>
+      {!!challengeMatch && (
+        <div
+          className={cx("btn", "btn--chat")}
+          onClick={() => switchModal(CHAL_INFO_TYPE.CHAT)}
+        >
+          C
+        </div>
+      )}
       <SideBarModal modalType={CHAL_INFO_TYPE.ALIEN} />
       <ChatModal modalType={CHAL_INFO_TYPE.CHAT} />
     </div>
