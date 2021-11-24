@@ -167,7 +167,7 @@ module.exports = function (passport, pool) {
     const user_id = req.params.userId;
     pool.getConnection(function(err, connection){
       connection.query(
-        "(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.createDate, alienName, accuredAuthCnt, color, user_info_id, end_date FROM Challenge JOIN Alien ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.createDate, alienName, accuredAuthCnt, color, user_info_id, graduated_date FROM Challenge JOIN Alien_graduated ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)",
+        "(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.createDate, alienName, image_url, accuredAuthCnt, color, user_info_id, end_date FROM Challenge JOIN Alien ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.createDate, alienName, image_url, accuredAuthCnt, color, user_info_id, graduated_date FROM Challenge JOIN Alien_graduated ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)",
         [user_id, user_id],
         function (err, result) {
           if (err) {
