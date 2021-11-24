@@ -1,6 +1,10 @@
 .body {
   color: #ffffff;
-  max-width: 200px;
+  width: 100%;
+}
+
+.body > p {
+  white-space: nowrap;
 }
 
 .btnRow {

@@ -12,36 +12,36 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 export default function AlienCtrl(props) {
+  const { user } = useSelector(({ user }) => ({
+    user: user.user,
+  }));
   const { aliens, selectedAlien } = useSelector(({ room }) => ({
     aliens: room.aliens,
     selectedAlien: room.selectedAlien,
   }));
 
   let alien = aliens.find((a) => a.id === selectedAlien);
-
-  return (
-    <div className={styles.body}>
-      <AlienBox alien={alien} />
-    </div>
-  );
-}
-
-function AlienBox(props) {
-  const { alien } = props;
   const challengeMatch = useMatch("/challenge/:challengeId/room");
-  // const userMatch = useMatch("/user/:userId/room");
-  // const mainMatch = useMatch("/");
-  // console.log(alien);
+  const userMatch = useMatch("/user/:userId/room");
+  const mainMatch = useMatch("/");
 
+  // todo 조건 강화!
   if (!alien) {
-    return <p>생명체를 선택해주세요.</p>;
+    return (
+      <div className={styles.body}>
+        <p>생명체를 선택해주세요.</p>
+      </div>
+    );
   } else {
     return (
-      <div>
+      <div className={styles.body}>
         <p>{`챌린지  : ${alien.challengeName}`}</p>
+        <p>{`참가자  : ${alien.userNickname}`}</p>
         <p>{`생명체  : ${alien.alienName} (${alien.accuredAuthCnt}회 인증)`}</p>
         <div className={styles.btnRow}>
-          <button className={cx("btn", "btn--request")}>인증하기</button>
+          {!!userMatch && user.id === parseInt(userMatch.params.userId) && (
+            <button className={cx("btn", "btn--request")}>인증하기</button>
+          )}
           {!!challengeMatch ? (
             <Link to={`/user/${alien.user_info_id}/room`}>
               <button className={cx("btn", "btn--room")}>개인 어항</button>
