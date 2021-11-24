@@ -1,3 +1,5 @@
+import Vector2D from "../lib/Vector2D.js";
+
 class Camera {
   constructor() {
     this.origin = { x: 0, y: 0 };
@@ -22,6 +24,76 @@ class Camera {
     this.dragFrom = { x: 0, y: 0 };
     this.dragRatio = 0.6;
     this.initPinchDist = null;
+
+    this.chasingTarget = null;
+    this.velocity = { x: 0, y: 0 };
+    this.acceleration = { x: 0, y: 0 };
+    this.maxSpeed = 15;
+    this.maxForce = 5;
+    this.seekLimit = 50;
+    this.chasingLimit = 10;
+
+    // 우선순위: chasing > mousedown(drag, click)
+  }
+
+  setChasingTarget(target, cb) {
+    this.chasingTarget = target;
+    this.cancelChasingCallback = cb;
+  }
+
+  cancelChasing() {
+    if (!this.chasingTarget) return;
+    this.chasingTarget = null;
+    this.cancelChasingCallback();
+  }
+
+  run() {
+    if (!!this.chasingTarget) {
+      let x = this.getCanvasSize(this.chasingTarget.location.x);
+      let y = this.getCanvasSize(this.chasingTarget.location.y);
+
+      let force = this.seek({ x, y });
+      if (!!force) {
+        this.applyForce(force);
+        this.update();
+      } else {
+        this.center.x = x;
+        this.center.y = y;
+      }
+    }
+  }
+
+  seek(target) {
+    let desired = { x: target.x, y: target.y };
+    Vector2D.sub(desired, this.center);
+
+    let dist = Vector2D.getMag(desired);
+    Vector2D.normalize(desired);
+    if (dist < this.chasingLimit) {
+      return false;
+    } else if (dist < this.seekLimit) {
+      let speed = (dist / this.seekLimit) * this.maxSpeed;
+      Vector2D.mult(desired, speed);
+    } else {
+      Vector2D.mult(desired, this.maxSpeed);
+    }
+
+    Vector2D.sub(desired, this.velocity);
+    Vector2D.limit(desired, this.maxForce);
+
+    return desired;
+  }
+
+  applyForce(force) {
+    Vector2D.add(this.acceleration, force);
+  }
+
+  update() {
+    Vector2D.add(this.velocity, this.acceleration);
+    Vector2D.limit(this.velocity, this.maxSpeed);
+    Vector2D.mult(this.velocity, 0.99);
+    Vector2D.add(this.center, this.velocity);
+    Vector2D.mult(this.acceleration, 0);
   }
 
   setLevel(level) {
@@ -104,6 +176,7 @@ class Camera {
     this.dragFrom.y = evtLocal.y;
     this.centerFrom.x = this.center.x;
     this.centerFrom.y = this.center.y;
+    this.cancelChasing();
   };
 
   onMouseMove = (e) => {
@@ -141,7 +214,7 @@ class Camera {
   onTouchEnd = (e) => this.handleTouch(e, this.onMouseUp);
 
   onWheel = (e) => {
-    console.log("camera onWheel");
+    // console.log("camera onWheel");
   };
 
   onResize = (cvsWidth, cvsHeight) => {
