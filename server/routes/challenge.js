@@ -18,8 +18,9 @@ module.exports = function (pool) {
         if (!challenge) {
           res.status(400).json({
             result: "fail",
-            msg: `request challengeId ${req.params.challengeId}`,
+            msg: `challenge ${req.params.challengeId} not found`,
           });
+          connection.release();
           return;
         }
         // 2단계: challenge에 포함된 alien들 가져오기
@@ -33,7 +34,7 @@ module.exports = function (pool) {
                     user_info_id, email, nickname as user_nickname`;
         let sql = `SELECT ${columns} FROM Alien LEFT JOIN user_info \
                 ON Alien.user_info_id=user_info.id \
-                WHERE Alien.Challenge_id=${challengeId} and Alien.status=0;`;
+                WHERE Alien.Challenge_id=${challengeId} AND Alien.status=0;`;
 
         connection.query(sql, function (err, results) {
           if (err) throw err;
@@ -46,6 +47,7 @@ module.exports = function (pool) {
             challenge: challenge,
             aliens: results,
           });
+          connection.release();
         });
       });
     });
