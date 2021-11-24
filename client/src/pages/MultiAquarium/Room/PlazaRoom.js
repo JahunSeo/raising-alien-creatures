@@ -29,7 +29,13 @@ export default function PlazaRoom(props) {
           rooms.current[roomId].start();
 
           // TODO: redux
-          dispatch(actions.setRoom({ roomId: roomId, aliens: aliens }));
+          dispatch(
+            actions.setRoom({
+              roomId: roomId,
+              aliens: aliens,
+              roomTitle: "외계생물 기르기",
+            })
+          );
         } else {
         }
       };
