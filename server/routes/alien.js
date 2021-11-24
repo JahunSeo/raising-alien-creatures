@@ -34,6 +34,7 @@ module.exports = function (pool) {
                                 result: "fail",
                                 msg: "cant select"
                             });
+                            return;
                         }
                         res.status(200).json({
                         result: "success",
