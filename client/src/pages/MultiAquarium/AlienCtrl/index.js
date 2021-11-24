@@ -23,7 +23,7 @@ export default function AlienCtrl(props) {
   let alien = aliens.find((a) => a.id === selectedAlien);
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const userMatch = useMatch("/user/:userId/room");
-  const mainMatch = useMatch("/");
+  // const mainMatch = useMatch("/");
 
   // todo 조건 강화!
   if (!alien) {
@@ -39,9 +39,11 @@ export default function AlienCtrl(props) {
         <p>{`참가자  : ${alien.user_nickname}`}</p>
         <p>{`생명체  : ${alien.alien_name} (${alien.accured_auth_cnt}회 인증)`}</p>
         <div className={styles.btnRow}>
-          {!!userMatch && user.id === parseInt(userMatch.params.userId) && (
-            <button className={cx("btn", "btn--request")}>인증하기</button>
-          )}
+          {(!!userMatch || !!challengeMatch) &&
+            user &&
+            user.id === parseInt(alien.user_info_id) && (
+              <button className={cx("btn", "btn--request")}>인증하기</button>
+            )}
           {!!challengeMatch ? (
             <Link to={`/user/${alien.user_info_id}/room`}>
               <button className={cx("btn", "btn--room")}>개인 어항</button>
