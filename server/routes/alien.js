@@ -8,13 +8,14 @@ module.exports = function (pool) {
          // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
          // auth day도 매일하는 challenge이면 어떠한 값이 오는지, 주 n회이면 생명체 생성 시 넘어오는 값 넣기(매일이면 7, n이면 0~6)
         if (req.user) {
-            const image_url = '' + req.body.alien_image
+            console.log(req.body)
+            const alien_name = '"' + req.body.alien_name + '"'
             //body 변수 추가하기
-            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, Alien_image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${req.body.alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
+            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
             // challenge id 받아오기
             const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.body.challenge_id};`;
             // user_info_has_challenge 테이블 row 추가
-            const sql3 = `INSERT INTO user_info_has_Challenge (user_info_id, Challenge_id VALUES (${req.user.id}, ${req.body.challenge_id});`;
+            const sql3 = `INSERT INTO user_info_has_Challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
             pool.getConnection(function(err, connection) {
                 if (err) {
                     console.error(err);
