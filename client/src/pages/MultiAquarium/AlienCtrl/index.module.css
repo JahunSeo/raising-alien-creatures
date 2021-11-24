@@ -1,3 +1,19 @@
 .body {
   color: #ffffff;
+  max-width: 200px;
+}
+
+.btnRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.btn {
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  padding: 3px 5px;
+  margin: 0 5px;
 }
