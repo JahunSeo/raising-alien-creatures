@@ -1,6 +1,35 @@
 const express = require("express");
 const router = express.Router();
 module.exports = function (pool) {
+  router.get("/:challengeId", function (req, res) {
+    console.log("/challenge/:challengeId", req.params.challengeId);
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      // Alien에서
+      const { challengeId } = req.params;
+      // 1안 (현재): alien table과 user_info table을 join
+      // 2안: alien table과 user_info_has_challange table, user_info table 각각에서 쿼리 수행 후 병합
+      let columns = `Alien.id, Challenge_id, createDate\
+                    alienName, color, accuredAuthCnt, image_url,\
+                    practice_status, end_date, status,\
+                    time_per_week, sun, mon, tue, wed, thu, fri, sat,\
+                    user_info_id, email, nickname`;
+      // columns = "*";
+      let sql = `SELECT ${columns} FROM Alien LEFT JOIN user_info \
+                ON Alien.user_info_id=user_info.id \
+                WHERE Alien.Challenge_id=${challengeId} and Alien.status=0;`;
+
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        res.status(200).json({
+          result: "success",
+          msg: `request challengeId ${req.params.challengeId}`,
+          data: results,
+        });
+      });
+    });
+  });
+
   // 챌린지 생성 api
   router.post("/create", function (req, res) {
     console.log(req.body);
@@ -30,7 +59,10 @@ module.exports = function (pool) {
             res.status(200).json({
               result: "success",
               msg: "do insert",
-              data: {challenge_id: results1.insertId, total_auth_cnt: cnt_of_week}
+              data: {
+                challenge_id: results1.insertId,
+                total_auth_cnt: cnt_of_week,
+              },
             });
             connection.release();
           }
