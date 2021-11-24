@@ -29,7 +29,10 @@ export default function Approval(props) {
     return (
       <div className="authRequests">
         {authRequests.map((authRequest) => (
-          <AuthRequest key={authRequest.id} authRequest={authRequest} />
+          <AuthRequest
+            key={authRequest.authentification_id}
+            authRequest={authRequest}
+          />
         ))}
       </div>
     );
@@ -57,9 +60,18 @@ const AuthRequest = ({ authRequest }) => {
     const req = await api.post("/challenge/approval", {
       auth_id: authRequest.authentification_id,
       Alien_id: authRequest.alien_id,
-      request_date: authRequest.request_id,
+      request_date: authRequest.request_date,
     });
     console.log("req", req);
+
+    if (req.data.msg === "인증 수락 가능한 날짜가 만료되었습니다.") {
+      alert("수락 가능 기간이 만료된 인증 요청입니다.");
+      return;
+    }
+    if (req.data.msg == "이미 인증이 완료된 건 입니다.") {
+      alert("이미 수락이 완료된 인증 요청입니다.");
+      return;
+    }
     if (req.data.result === "success") {
       alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
       SetApprovalStatus(true);
@@ -98,7 +110,7 @@ const AuthRequest = ({ authRequest }) => {
                 />
               </svg>
             </div>
-            <div className="m-auto col-span-2 pt-1.5">인증 수락</div>
+            <div className="m-auto min-w-max col-span-2 pt-1.5">인증 수락</div>
           </div>
         </button>
       );
@@ -124,7 +136,7 @@ const AuthRequest = ({ authRequest }) => {
                 />
               </svg>
             </div>
-            <div className="m-auto col-span-2 pt-2">인증 완료</div>
+            <div className="m-auto min-w-max col-span-2 pt-2">인증 완료</div>
           </div>
         </button>
       );
@@ -133,8 +145,12 @@ const AuthRequest = ({ authRequest }) => {
 
   return (
     <div className="flex items-center justify-center min-w-min min-h-0 p-12  bg-gray-100">
-      <div className="w-1/3 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
-        <img src={authRequest.image_url} alt="authImage" />
+      <div className="w-2/5 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+        <img
+          className="m-auto mt-6"
+          src={authRequest.image_url}
+          alt="authImage"
+        />
         <div className="flex flex-col items-center mb-2 space-x-4">
           <div className="mb-2 space-x-4">
             <div className="justify-center items-center mt-6 mb-4 text-2xl font-bold text-black">
@@ -179,7 +195,7 @@ const AuthRequest = ({ authRequest }) => {
                   />
                 </svg>
               </div>
-              <div className="m-auto col-span-2">챌린지룸 이동</div>
+              <div className="m-auto min-w-max col-span-2">챌린지룸 이동</div>
             </div>
           </button>
         </div>
