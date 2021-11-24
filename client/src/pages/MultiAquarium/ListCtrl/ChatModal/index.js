@@ -22,11 +22,6 @@ const ChallengeModal = (props) => {
   }));
   const { user } = useSelector(({ user }) => ({ user: user.user }));
 
-  console.log("TEST123", roomId, challengeId);
-
-  if (user) {
-    console.log("nickname", user.id);
-  }
   const { chalInfoModal } = useSelector(({ modalOnOff }) => ({
     chalInfoModal: modalOnOff.chalInfoModal,
   }));
@@ -34,25 +29,26 @@ const ChallengeModal = (props) => {
     messages: room.messages,
   }));
   const { modalType } = props;
-
   const toggle = modalType && chalInfoModal === modalType;
   // const dispatch = useDispatch();
 
-  // const saveChat = async (messageData) => {
-  //   messageData.challenge_id = challengeId;
-  //   const result = await api.post("/chat", messageData);
-  //   console.log(result);
-  // };
+  const saveChat = async (messageData) => {
+    messageData.challenge_id = challengeId;
+    const result = await api.post("/chat", messageData);
+    console.log(result);
+  };
 
-  useEffect(() => {
-    const getLastchat = async () => {
-      const res = await api.get(`/chat/${challengeId}`);
-      console.log("CHAT ", res.data.data);
-      messages = res.data.data;
-    };
-
-    if (challengeId) getLastchat();
-  }, []);
+  // useEffect(() => {
+  //   console.log("TEST 이게 실행되야된다")
+  //   const getLastchat = async () => {
+  //     const res = await api.get(`/chat/${challengeId}`);
+  //     res.data.data.map((msg, index) => {
+  //       dispatch(actions.setMessage(msg));
+  //     });
+  //     console.log("CHAT ", res.data.data);
+  //   };
+  //   if (challengeId) getLastchat();
+  // }, []);
 
   const sendMessage = async () => {
     if (!user) return;
@@ -74,7 +70,7 @@ const ChallengeModal = (props) => {
           new Date(Date.now()).getMinutes(),
       };
       console.log(messageData);
-      // saveChat(messageData);
+      saveChat(messageData);
       socket.messageSend(messageData);
       dispatch(actions.setMessage(messageData));
       setCurrentMessage("");

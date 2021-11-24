@@ -55,7 +55,7 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     // user가 참여중인 방인지 확인
     if (participating && rooms.current[roomId]) {
-      // console.log("handle socket here!", participating);
+      // console.log("handle socket here!", participating);initMonsters
       socket.initAndJoin({ roomId, userId: userId });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       socket.messageReceive((msg) => dispatch(actions.setMessage(msg)));
@@ -67,6 +67,18 @@ export default function ChallengeRoom(props) {
       socket.disconnect(roomId);
     };
   }, [userId, rooms, roomId, challengeId, participating, dispatch]);
+
+  useEffect(() => {
+    const getLastchat = async () => {
+      const res = await api.get(`/chat/${challengeId}`);
+      console.log("TEST 이게 실행되야된다");
+      res.data.data.map((msg, index) => {
+        dispatch(actions.setMessage(msg));
+      });
+      console.log("TEST 이게 실행되야된다2");
+    };
+    if (challengeId) getLastchat();
+  }, []);
 
   return <div></div>;
 }

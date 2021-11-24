@@ -27,6 +27,7 @@ module.exports = function (pool) {
             msg: "select messages",
             data: results,
           });
+          connection.release();
           return;
         }
       );
@@ -71,6 +72,7 @@ module.exports = function (pool) {
               result: "fail",
               msg: "Forbidden",
             });
+            connection.release();
             return;
           }
           // 4단계: message 추가
@@ -89,6 +91,7 @@ module.exports = function (pool) {
                 result: "success",
                 msg: "do insert",
               });
+              connection.release();
               return;
             }
           );
