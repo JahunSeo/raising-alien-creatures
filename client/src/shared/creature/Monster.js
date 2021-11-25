@@ -85,14 +85,14 @@ class Monster {
     let y = room.camera.getCanvasSize(this.location.y);
     let size = room.camera.getCanvasSize(this.size);
 
-    // draw circle
-    ctx.beginPath();
-    ctx.arc(x, y, size / 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    if (this.isUserOnRoom && frameCnt % 100 <= 40) {
-      ctx.fillStyle = "tomato";
-    }
-    ctx.fill();
+    // // draw circle
+    // ctx.beginPath();
+    // ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+    // ctx.fillStyle = this.color;
+    // if (this.isUserOnRoom && frameCnt % 100 <= 40) {
+    //   ctx.fillStyle = "tomato";
+    // }
+    // ctx.fill();
 
     // draw sprite images
     if (this.image_url) {
