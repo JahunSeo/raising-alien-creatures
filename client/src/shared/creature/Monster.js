@@ -7,6 +7,7 @@ class Monster {
     this.userId = props.userId;
     this.monId = props.monId;
     this.isUserOnRoom = false;
+    this.wanderRange = props.wanderRange;
     // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981
     //          0                      1                   2 3  4    5
     // TODO: 임시처리된 코드 개선
@@ -84,13 +85,13 @@ class Monster {
     let size = room.camera.getCanvasSize(this.size);
 
     // draw circle
-    ctx.beginPath();
-    ctx.arc(x, y, size / 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    if (this.isUserOnRoom && frameCnt % 100 <= 40) {
-      ctx.fillStyle = "tomato";
-    }
-    ctx.fill();
+    // ctx.beginPath();
+    // ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+    // ctx.fillStyle = this.color;
+    // if (this.isUserOnRoom && frameCnt % 100 <= 40) {
+    //   ctx.fillStyle = "tomato";
+    // }
+    // ctx.fill();
 
     // draw sprite images
     if (this.image_url) {
