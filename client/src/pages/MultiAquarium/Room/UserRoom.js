@@ -19,14 +19,16 @@ export default function UserRoom(props) {
     try {
       const fetchData = async () => {
         const res = await api.get(`/user/${userId}`);
-        // console.log("fetch main data", res.data);
+        console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
-          const aliens = res.data.data;
+          const aliens = res.data.aliens;
+          const user = res.data.user;
+          const roomTitle = `${user.nickname}의 어항`;
           rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // update redux room info
-          dispatch(actions.setRoom({ roomId, aliens }));
+          dispatch(actions.setRoom({ roomId, aliens, roomTitle }));
         } else {
         }
       };
