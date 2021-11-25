@@ -29,7 +29,7 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get(`/challenge/${challengeId}`);
+        let res = await api.get(`/challenge/${challengeId}`);
         console.log("fetch challenge data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
@@ -41,6 +41,17 @@ export default function ChallengeRoom(props) {
           // update redux room info
           dispatch(actions.setRoom({ roomId, aliens, roomTitle, challenge }));
         } else {
+          return;
+        }
+
+        res = await api.get(`/chat/${challengeId}`);
+        if (res.data.result === "success") {
+          const messages = res.data.data;
+          messages.map((msg, index) => {
+            dispatch(actions.setMessage(msg));
+          });
+        } else {
+          return;
         }
       };
       fetchData();
@@ -68,17 +79,17 @@ export default function ChallengeRoom(props) {
     };
   }, [userId, rooms, roomId, challengeId, participating, dispatch]);
 
-  useEffect(() => {
-    const getLastchat = async () => {
-      const res = await api.get(`/chat/${challengeId}`);
-      console.log("TEST 이게 실행되야된다");
-      res.data.data.map((msg, index) => {
-        dispatch(actions.setMessage(msg));
-      });
-      console.log("TEST 이게 실행되야된다2");
-    };
-    if (challengeId) getLastchat();
-  }, []);
+  // useEffect(() => {
+  //   const getLastchat = async () => {
+  //     const res = await api.get(`/chat/${challengeId}`);
+  //     console.log("TEST 이게 실행되야된다");
+  //     res.data.data.map((msg, index) => {
+  //       dispatch(actions.setMessage(msg));
+  //     });
+  //     console.log("TEST 이게 실행되야된다2");
+  //   };
+  //   if (challengeId) getLastchat();
+  // }, []);
 
   return <div></div>;
 }

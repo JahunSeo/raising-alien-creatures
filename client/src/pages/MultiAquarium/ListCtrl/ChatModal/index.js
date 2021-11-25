@@ -25,6 +25,18 @@ const ChallengeModal = (props) => {
   const { chalInfoModal } = useSelector(({ modalOnOff }) => ({
     chalInfoModal: modalOnOff.chalInfoModal,
   }));
+
+  // useEffect(() => {
+  //   const getLastchat = async () => {
+  //     const res = await api.get(`/chat/${challengeId}`);
+  //     res.data.data.map((msg, index) => {
+  //       dispatch(actions.setMessage(msg));
+  //     });
+  //     console.log("CHAT ", res.data.data);
+  //   };
+  //   if (challengeId) getLastchat();
+  // }, []);
+
   let { messages } = useSelector(({ room }) => ({
     messages: room.messages,
   }));
@@ -37,18 +49,6 @@ const ChallengeModal = (props) => {
     const result = await api.post("/chat", messageData);
     console.log(result);
   };
-
-  // useEffect(() => {
-  //   console.log("TEST 이게 실행되야된다")
-  //   const getLastchat = async () => {
-  //     const res = await api.get(`/chat/${challengeId}`);
-  //     res.data.data.map((msg, index) => {
-  //       dispatch(actions.setMessage(msg));
-  //     });
-  //     console.log("CHAT ", res.data.data);
-  //   };
-  //   if (challengeId) getLastchat();
-  // }, []);
 
   const sendMessage = async () => {
     if (!user) return;
