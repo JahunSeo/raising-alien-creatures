@@ -31,9 +31,9 @@ const room = handleActions(
       selectedAlien: selectedAlien,
     }),
 
-    [types.MESSAGE_UPDATE]: (state, { payload: msg }) => ({
+    [types.MESSAGE_UPDATE]: (state, { payload: msgArray }) => ({
       ...state,
-      messages: [...state.messages, msg],
+      messages: [...state.messages, ...msgArray],
     }),
   },
   initialState

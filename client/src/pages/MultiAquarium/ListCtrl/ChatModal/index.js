@@ -72,7 +72,7 @@ const ChallengeModal = (props) => {
       console.log(messageData);
       saveChat(messageData);
       socket.messageSend(messageData);
-      dispatch(actions.setMessage(messageData));
+      dispatch(actions.setMessage([messageData]));
       setCurrentMessage("");
     }
   };

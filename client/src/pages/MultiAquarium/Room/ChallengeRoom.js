@@ -47,9 +47,7 @@ export default function ChallengeRoom(props) {
         res = await api.get(`/chat/${challengeId}`);
         if (res.data.result === "success") {
           const messages = res.data.data;
-          messages.map((msg, index) => {
-            dispatch(actions.setMessage(msg));
-          });
+          dispatch(actions.setMessage(messages));
         } else {
           return;
         }
