@@ -10,8 +10,7 @@
   box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
   border-radius: 20px;
   z-index: 10;
-  /* transition: height 400ms ease-in, width 800ms ease-out; */
-  transition-duration: 300ms;
+  transition: height 300ms ease-in, width 300ms ease-out;
 }
 
 .SearchBox:hover,
@@ -23,8 +22,6 @@
   background-color: rgba(4, 30, 66, 0.95);
   height: 85vh;
   width: 100%;
-  top: 120px;
-  /* transition: height 280ms ease-in, width 1000ms ease-in; */
   transition-duration: 500ms;
 }
 
@@ -32,7 +29,7 @@
   position: relative;
   z-index: 3;
   padding-top: 80px;
-  padding-bottom: 33px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,9 +152,8 @@
 .findChallenge {
   height: 65vh;
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: auto auto;
-  font-family: "gulim";
+  margin: 0 15px 0 25px;
+  /* font-family: "gulim"; */
 }
 .findChallenge::-webkit-scrollbar {
   width: 10px;
@@ -176,8 +172,9 @@
 
 .challengeItem {
   height: 200px;
+  margin-right: 10px;
   background: rgb(238, 238, 232);
-  border: 1.5px solid #1f8b17;
+  /* border: 1.5px solid #1f8b17; */
   border-radius: 5px;
   margin-left: 8px;
   margin-bottom: 1vh;
@@ -185,35 +182,32 @@
   display: grid;
   color: black;
   font-size: 1.3rem;
-  grid-template-columns: auto auto;
-  align-items: center;
-  justify-content: space-between;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  grid-column: 1/3;
+  grid-template-columns: 150px auto auto;
+  height: auto;
 }
 .challengeItem .challengeName {
-  grid-column: 1/-1;
-  color: blue;
+  grid-column: 1/2;
+  /* color: blue; */
   font-weight: bold;
   font-size: 1.5rem;
 }
 .challengeItem .challengeImg {
   grid-row: 2/4;
   object-fit: cover;
-  width: 6rem;
-  height: 6rem;
+
   justify-self: center;
+
+  width: 7rem;
+  height: 7rem;
 }
 
-.challengeItem.expand {
-  grid-column: 1/3;
-  grid-template-columns: auto auto auto;
-  height: auto;
-}
-.challengeItem.expand .challengeName {
-  grid-column: 1/2;
-}
 .challengeItem .Details {
   grid-row: span 2;
   grid-column: span 2;
+  padding: 0 20px;
 }
 .challengeItem button {
   margin-top: 10px;
@@ -225,8 +219,4 @@
   color: rgb(255, 254, 254);
   cursor: pointer;
   background: linear-gradient(to right, #008aff, grey);
-}
-.challengeItem.expand .challengeImg {
-  width: 7rem;
-  height: 7rem;
 }

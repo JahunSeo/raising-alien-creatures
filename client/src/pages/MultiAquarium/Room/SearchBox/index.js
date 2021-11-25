@@ -6,7 +6,6 @@ import api from "../../../../apis";
 import searchIcon from "../../image/search-icon.png";
 import backIcon from "../../image/goback-icon.png";
 import tigerIcon from "../../image/무케.jpg";
-import "./SearchBox.css";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -93,36 +92,26 @@ export default function SearchBox(props) {
 }
 
 const ChallengeItem = ({ challenge }) => {
-  const [expand, setExpand] = useState(false);
-
   return (
-    <div
-      onClick={() => setExpand(!expand)}
-      className={cx("challengeItem", { expand })}
-    >
-      <div className="challengeName">{challenge.challengeName}</div>
-      <img className="challengeImg" alt="yammy" src={tigerIcon} />
-      <div className="participant">
+    <div className={cx("challengeItem")}>
+      <div className={styles.challengeName}>{challenge.challengeName}</div>
+      <img className={styles.challengeImg} alt="yammy" src={tigerIcon} />
+      <div className={styles.participant}>
         참여인원: {challenge.participantNumber}/{challenge.maxUserNumber}명
       </div>
-      <div className="participant"> 주 인증횟수: {challenge.cntOfWeek}번</div>
-      {expand && (
-        <>
-          <div className="createDate">
-            생성일: {challenge.createDate.split("T")[0]}
-          </div>
-          <div className="createUser">
-            생성원: {challenge.createUserNickName}
-          </div>
-          <div className="Details">
-            챌린지 설명: <br />
-            {challenge.challengeContent}
-          </div>
-          <Link to={`/challenge/${challenge.id}/room`}>
-            <button className="challengeButton">챌린지 방 가기</button>
-          </Link>
-        </>
-      )}
+      <div className={styles.participant}>
+        주 인증횟수: {challenge.cntOfWeek}번
+      </div>
+      <div className={styles.createDate}>
+        생성일: {challenge.createDate.split("T")[0]}
+      </div>
+      <div className={styles.createUser}>
+        생성원: {challenge.createUserNickName}
+      </div>
+      <div className={styles.Details}>{challenge.challengeContent}</div>
+      <Link to={`/challenge/${challenge.id}/room`}>
+        <button className={styles.challengeButton}>챌린지 방 가기</button>
+      </Link>
     </div>
   );
 };
