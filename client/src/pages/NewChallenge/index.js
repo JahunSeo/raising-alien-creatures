@@ -1,49 +1,53 @@
 import React, { useState } from "react";
-import api from "../../apis/index.js";
-import ReactSlider from "react-slider";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import ReactSlider from "react-slider";
+import api from "../../apis/index.js";
+import "./index.module.css";
+import Background from "../../image/createChallenge.jpeg";
 
 export default function NewAlien(props) {
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
+
   const SELECT_DEFAULT = 0;
   const [challengeTitle, setChallengeTitle] = useState("");
   const [challengeDescription, setChallengeDescription] = useState("");
-  const [challengeCapacity, setValue] = useState(0);
+  const [challengeCapacity, setChallengeCapacity] = useState(SELECT_DEFAULT);
   const [challengeFrequency, setChallengeFrequency] = useState(SELECT_DEFAULT);
-  const [challengeTag, setChallengeTag] = useState(SELECT_DEFAULT);
+  const [challengeCategory, setChallengeCategory] = useState(SELECT_DEFAULT);
   const [challengeMessage, setChallengeMessage] = useState(null);
 
-  function handleChallengeTitle(e) {
+  function handleTitle(e) {
     setChallengeTitle(e.target.value);
   }
 
-  function handleChallengeDescription(e) {
+  function handleDescription(e) {
     setChallengeDescription(e.target.value);
   }
 
-  function handleChallengeCapacity(challengeCapacity) {
-    setValue(challengeCapacity);
+  function handleCapacity(challengeCapacity) {
+    setChallengeCapacity(challengeCapacity);
   }
 
-  function handleChallengeFrequency(e) {
+  function handleFrequency(e) {
     setChallengeFrequency(e.target.value);
   }
 
-  function handleChallengeTag(e) {
-    setChallengeTag(e.target.value);
+  function handleCategory(e) {
+    setChallengeCategory(e.target.value);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 입력하지 않은 것이 있는지 확인
     if (
       !validateChallenge(
         challengeTitle,
         challengeDescription,
         challengeCapacity,
         challengeFrequency,
-        challengeTag
+        challengeCategory
       )
     )
       return;
@@ -53,7 +57,6 @@ export default function NewAlien(props) {
   };
   const navigate = useNavigate();
   const handleCancel = () => {
-    // 홈으로 이동
     navigate("/");
     return;
   };
@@ -63,14 +66,14 @@ export default function NewAlien(props) {
     challengeDescription,
     challengeCapacity,
     challengeFrequency,
-    challengeTag
+    challengeCategory
   ) {
     if (
       challengeTitle === "" ||
       challengeDescription === "" ||
       challengeCapacity === 0 ||
       challengeFrequency === SELECT_DEFAULT ||
-      challengeTag === SELECT_DEFAULT
+      challengeCategory === SELECT_DEFAULT
     ) {
       setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
       return false;
@@ -86,22 +89,15 @@ export default function NewAlien(props) {
       challenge_content: challengeDescription,
       max_user: challengeCapacity,
       cnt_of_week: challengeFrequency,
-      tag: challengeTag,
+      tag: challengeCategory,
     };
     const res = await api.post("/challenge/create", challengeData);
-    // const navigate = useNavigate();
+    console.log("res", res);
 
     if (res.data.result === "success") {
       console.log("challengeData", challengeData);
       console.log(res.data.data);
       const challengeId = res.data.data.challenge_id;
-
-      setChallengeTitle("");
-      setChallengeDescription("");
-      setChallengeFrequency(SELECT_DEFAULT);
-      setChallengeTag(SELECT_DEFAULT);
-      setValue(0);
-      //alert보다는 모달창으로 문구와 챌린지로 이동 버튼 있으면 좋을 듯..
       // 고민: 방장이 챌린지 생성 후 생명체를 만들지 않고 나가버리면 추후에 어떻게 챌린지방을 찾을 수 있는가?
       alert("챌린지 생성에 성공하였습니다.");
       navigate(`/challenge/${challengeId}/room`);
@@ -114,86 +110,76 @@ export default function NewAlien(props) {
   };
 
   return (
-    <div class="flex justify-center items-center w-full h-full p-10">
-      <div class="w-1/2 h-full bg-white rounded shadow-2xl p-8 m-4">
-        <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">
+    <div className="flex h-screen w-1/2 justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-green-900 hover:from-indigo-900 hover:via-transparent hover:to-green-900">
+      <div className="min-w-max m-auto w-2/3 rounded-xl bg-gray-100 rounded shadow-2xl p-10">
+        <h1 className="block w-full text-center text-2xl font-bold mb-6">
           새로운 챌린지 생성
         </h1>
-        <div class="flex flex-col mb-4 p-4">
-          <label
-            class="mb-2 font-bold text-lg text-gray-900"
-            for="challenge_name"
-          >
-            챌린지 이름
-          </label>
+        <div className="flex flex-col mb-4 p-4">
+          <label className="mb-2 font-bold text-lg">챌린지 이름</label>
           <input
-            class="border py-2 px-3 text-grey-800"
+            className="border rounded-xl py-2 px-3"
             type="text"
             name="challenge_name"
             id="challenge_name"
             value={challengeTitle}
-            onChange={handleChallengeTitle}
+            onChange={handleTitle}
           />
         </div>
 
-        <div class="main flex border rounded-full overflow-hidden m-4 select-none ">
-          <div class="title py-5 my-auto px-3 bg-indigo-500 text-white text-sm font-semibold mr-3">
-            Category
-          </div>
+        <div class="flex flex-col min-w-max relative py-2 px-3">
+          <label className="mb-2 font-bold text-lg">챌린지 카테고리</label>
           <select
-            class="border py-2 px-4 text-grey-800"
-            value={challengeTag}
-            onChange={handleChallengeTag}
+            class="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+            value={challengeCategory}
+            onChange={handleCategory}
           >
-            <option value={SELECT_DEFAULT}>선택</option>
-            <option value="운동">운동</option>
-            <option value="실생활">실생활</option>
-            <option value="독서">독서</option>
-            <option value="공부">공부</option>
-            <option value="기타">기타</option>
+            <option>카테고리 선택</option>
+            <option>운동</option>
+            <option>건강</option>
+            <option>자기개발</option>
+            <option>공부</option>
+            <option>독서</option>
+            <option>취미</option>
+            <option>기타</option>
           </select>
         </div>
 
-        <div class="flex flex-col mb-4 p-3">
-          <label class="mb-2 font-bold text-lg text-gray-900" for="textarea">
-            챌린지 설명
-          </label>
+        <div className="flex flex-col mb-4 p-3">
+          <label className="mb-2 font-bold text-lg">챌린지 설명</label>
           <textarea
-            class="border py-2 px-3 text-grey-800"
-            name="textarea"
-            id="textarea"
+            className="border rounded-xl py-2 px-3"
             rows="4"
             value={challengeDescription}
-            onChange={handleChallengeDescription}
+            onChange={handleDescription}
           ></textarea>
         </div>
 
-        <div class="flex flex-col mb-4 p-3">
-          <label class="mb-2 font-bold text-lg text-gray-900">
-            최대 참여 인원
-          </label>
+        <div className="flex flex-col mb-4 p-3">
+          <label className="mb-2 font-bold text-lg">최대 참여 인원</label>
           <ReactSlider
             step={5}
             min={0}
             max={100}
+            valueLabelDisplay="on"
             className="w-full h-3 pr-2 my-4 bg-gray-200 rounded-md cursor-grab"
-            thumbClassName="absolute w-7 h-7 cursor-grab bg-indigo-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 -top-2px"
+            thumbClassName="m-auto w-5 h-5 cursor-grab bg-indigo-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 -top-2px"
             value={challengeCapacity}
-            onChange={handleChallengeCapacity}
+            onChange={handleCapacity}
           />
-          <span>{challengeCapacity}명</span>
+          <span>{challengeCapacity} 명</span>
         </div>
 
-        <div class="flex flex-col mb-4 p-3">
-          <label class="mb-2 font-bold text-lg text-gray-900" for="Select">
-            주 몇회?
+        <div className="flex flex-col mb-4 p-3">
+          <label className="mb-2 rounded-xl font-bold text-lg">
+            챌린지 참여 빈도
           </label>
           <select
-            class="border py-2 px-3 text-grey-800"
+            className="border rounded-xl"
             value={challengeFrequency}
-            onChange={handleChallengeFrequency}
+            onChange={handleFrequency}
           >
-            <option value={SELECT_DEFAULT}>선택</option>
+            <option value={SELECT_DEFAULT}>참여 빈도 선택</option>
             <option value="7">매일 참여</option>
             <option value="6">주 6회 참여</option>
             <option value="5">주 5회 참여</option>
@@ -204,21 +190,27 @@ export default function NewAlien(props) {
           </select>
         </div>
 
-        <div style={{ color: "#cc3333" }}>{challengeMessage}</div>
-        <button
-          class="p-2 pl-5 pr-5 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-400 text-gray-100 text-lg rounded-lg focus:border-4 border-indigo-300"
-          type="button"
-          onClick={handleSubmit}
-        >
-          챌린지 생성
-        </button>
-        <button
-          class="mx-5 p-2 pl-5 pr-5 transition-colors duration-700 transform bg-gray-200 hover:bg-blue-400 text-black-100 text-lg rounded-lg focus:border-4 border-indigo-300"
-          type="button"
-          onClick={handleCancel}
-        >
-          취소
-        </button>
+        <div className="flex-col min-w-max justify-center items-center py-2 px-3">
+          <div className="text-center text-lg text-red-600">
+            <h1>{challengeMessage}</h1>
+          </div>
+          <div className="flex justify-center">
+            <button
+              className="p-2 pl-5 pr-5 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-500 text-gray-100 text-lg rounded-lg focus:border-4 border-indigo-300"
+              type="button"
+              onClick={handleSubmit}
+            >
+              챌린지 생성
+            </button>
+            <button
+              className="mx-5 p-2 pl-5 pr-5 transition-colors duration-700 transform bg-gray-300 hover:bg-gray-400 text-black-100 text-lg rounded-lg focus:border-4 border-indigo-300"
+              type="button"
+              onClick={handleCancel}
+            >
+              취소
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
