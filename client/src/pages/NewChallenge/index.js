@@ -191,8 +191,9 @@ export default function NewAlien(props) {
         </div>
 
         <div className="flex-col min-w-max justify-center items-center py-2 px-3">
-          <div className="text-center text-lg text-red-600">
+          <div className="text-center text-lg text-red-600 animate-pulse">
             <h1>{challengeMessage}</h1>
+            <br />
           </div>
           <div className="flex justify-center">
             <button
