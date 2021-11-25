@@ -48,7 +48,7 @@ export default function Approval(props) {
 
 const AuthRequest = ({ authRequest }) => {
   const navigate = useNavigate();
-
+  let request_date = authRequest.request_date.toLocaleStringS;
   const authYear = authRequest.request_date.slice(0, 4);
   const authMonth = authRequest.request_date.slice(5, 7);
   const authDate = authRequest.request_date.slice(8, 10);
