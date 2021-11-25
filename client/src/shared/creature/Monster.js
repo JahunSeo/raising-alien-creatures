@@ -4,13 +4,16 @@ const S3URL = "https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/";
 
 class Monster {
   constructor(props) {
-    // TODO
     this.userId = props.userId;
     this.monId = props.monId;
     this.isUserOnRoom = false;
     // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981
     //          0                      1                   2 3  4    5
-    if (props.image_url) this.image_url = props.image_url.split("-");
+    // TODO: 임시처리된 코드 개선
+    let parsed = props.image_url && props.image_url.split("-");
+    if (parsed && parsed[0].startsWith("Alien_base")) {
+      this.image_url = parsed;
+    }
     this.init();
     if (!!props.color) this.color = props.color;
     if (!!props.authCnt) this.size = 20 + props.authCnt * 2;
