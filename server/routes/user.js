@@ -17,13 +17,13 @@ module.exports = function (passport, pool) {
     const password = data.userPassword;
     const encryptedPassword = bcrypt.hashSync(password, 10);
     const nickname = data.userNickname;
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function (err, connection) {
       connection.query(
         "INSERT INTO user_info (email, password, nickname) values (?, ?, ?)",
         [email, encryptedPassword, nickname],
         function (err, results) {
           if (err) {
-            console.error('at the user api', err);
+            console.error("at the user api", err);
             err_handling = err.sqlMessage.split(" ");
             const duplicated_email = err_handling[2];
             res.json({
@@ -83,7 +83,7 @@ module.exports = function (passport, pool) {
     var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
     var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
     var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function (err, connection) {
       connection.query(
         sql1 + sql2 + sql3 + sql4 + sql5,
         function (error, results, fields) {
@@ -123,7 +123,7 @@ module.exports = function (passport, pool) {
     var sql1 = `select * from Alien where Alien.Challenge_id = ${challenge_id};`;
     var sql2 = `select * from Alien_dead where Alien_dead.Challenge_id = ${challenge_id};`;
     var sql3 = `select * from Alien_graduated where Alien_graduated.Challenge_id=${challenge_id};`;
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function (err, connection) {
       connection.query(sql1 + sql2 + sql3, function (error, results, fields) {
         if (error) {
           console.error(error);
@@ -164,35 +164,59 @@ module.exports = function (passport, pool) {
   // });
 
   router.get("/:userId", (req, res) => {
-    const user_id = req.params.userId;
-    pool.getConnection(function(err, connection){
-      connection.query(
-        "(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.createDate, alienName, image_url, accuredAuthCnt, color, user_info_id, end_date FROM Challenge JOIN Alien ON Challenge.id = Alien.Challenge_id WHERE Alien.user_info_id = ?) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.createDate, alienName, image_url, accuredAuthCnt, color, user_info_id, graduated_date FROM Challenge JOIN Alien_graduated ON Challenge.id = Alien_graduated.Challenge_id WHERE Alien_graduated.user_info_id = ?)",
-        [user_id, user_id],
-        function (err, result) {
-          if (err) {
-            console.error(err);
-            res.status(200).json({
-              result: "fail",
-              msg: "cant select infomations",
-            });
-            return;
-          }
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      // 1단계: user 정보 가져오기
+      const { userId } = req.params;
+      // TODO: 테이블 수정 후 간소화하기
+      let columns = `*`;
+      let sql = `SELECT ${columns} FROM user_info WHERE user_info.id=${userId};`;
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        const user = results[0];
+        if (!user) {
+          res.status(400).json({
+            result: "fail",
+            msg: `user ${userId} not found`,
+          });
+          connection.release();
+          return;
+        }
+        // 2단계: user에 포함된 alien들 가져오기
+        let columns = `Alien.id, Challenge_id, Alien.createDate as create_date,\
+                  alienName as alien_name, color, accuredAuthCnt as accured_auth_cnt, image_url,\
+                  practice_status, end_date, status,\
+                  time_per_week, sun, mon, tue, wed, thu, fri, sat,\
+                  user_info_id,\
+                  challengeName as challenge_name, challengeContent as challenge_content,\
+                  maxUserNumber as max_user_number, participantNumber as participant_number,\
+                  Challenge.createDate as challenge_create_date, cntOfWeek as cnt_of_week`;
+        let sql = `SELECT ${columns} FROM Alien LEFT JOIN Challenge \
+              ON Alien.Challenge_id=Challenge.id \
+              WHERE Alien.user_info_id=${userId} AND (Alien.status=0 OR Alien.status=1);`;
+
+        connection.query(sql, function (err, results) {
+          if (err) throw err;
+          results.forEach((alien) => {
+            alien.user_info_id = user.id;
+            alien.user_nickname = user.nickname;
+          });
           res.status(200).json({
             result: "success",
-            data: result,
+            user: user,
+            aliens: results,
           });
-        }
-      );
-      connection.release();
+          connection.release();
+        });
+      });
     });
   });
 
   router.get("/approval/list", (req, res) => {
     const user_id = req.user.id;
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function (err, connection) {
       connection.query(
-        "SELECT Authentification.id AS authentification_id, alien_id, Authentification.challenge_id, Authentification.user_info_id AS request_user_id, Challenge.challengeName AS challenge_name, request_user_nickname, request_date, response_user_id, response_user_nickname, response_date, isAuth, image_url, comments from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id INNER JOIN Challenge ON user_info_has_Challenge.Challenge_id = Challenge.id where user_info_has_Challenge.user_info_id = ? and Authentification.user_info_id != ?",
+        "SELECT Authentification.id AS authentification_id, alien_id, Authentification.challenge_id, Authentification.user_info_id AS request_user_id, Challenge.challengeName AS challenge_name, request_user_nickname, request_date, response_user_id, response_user_nickname, response_date, isAuth, image_url, comments from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id INNER JOIN Challenge ON user_info_has_Challenge.Challenge_id = Challenge.id where user_info_has_Challenge.user_info_id = ? AND Authentification.user_info_id != ? AND isAuth=0",
         [user_id, user_id],
         function (err, result) {
           if (err) {
@@ -203,7 +227,7 @@ module.exports = function (passport, pool) {
             });
             return;
           }
-          
+
           res.status(200).json({
             result: "success",
             data: result,

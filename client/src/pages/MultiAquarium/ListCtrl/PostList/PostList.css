@@ -7,6 +7,7 @@
   border-radius: 12px;
   overflow: auto;
   background: linear-gradient(to top, #008aff, #ccf5f1);
+  background: linear-gradient(to top, #008aff, #ccf5f1);
   font-family: "gulim";
   font-weight: bold;
 }
@@ -158,7 +159,7 @@ ul span {
   pointer-events: none;
   border-radius: 50%;
   /* animation: animate 1s linear infinite; */
-  /* overflow: hidden; 
+/* overflow: hidden; 
 } */
 
 /* @keyframes animate {
