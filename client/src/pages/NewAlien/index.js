@@ -84,7 +84,8 @@ export default function NewChallenge(props) {
     // e.preventDefault();
 
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
-    console.log("alienNumber:", alienNumber);
+    // console.log("alienNumber:", alienNumber);
+    console.log("aNumber:", aNumber);
     postCreateAlien();
   };
 
@@ -92,7 +93,7 @@ export default function NewChallenge(props) {
     let createAlienData = {
       challenge_id: params.challengeId,
       alien_name: alienName,
-      alien_image: aNumber,
+      image_url: aNumber,
       total_auth_cnt: authCount,
       sun: sun,
       mon: mon,
