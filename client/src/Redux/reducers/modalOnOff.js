@@ -8,7 +8,8 @@ export const CHAL_INFO_TYPE = {
 
 const initialState = {
   showModal2: false, // TODO: refactoring
-
+  showSignInModal:false,
+  showSignUpModal:false,
   chalInfoModal: null,
 };
 

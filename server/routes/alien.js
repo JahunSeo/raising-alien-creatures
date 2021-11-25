@@ -56,7 +56,11 @@ module.exports = function (pool) {
       });
     }
   });
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 35ae32444bb7d50210f547b3080eaf409dfd12f3
     //졸업 api
     router.get('/graduation', function(req, res){
         // 필요한 데이터: challenge_id, ailen_id

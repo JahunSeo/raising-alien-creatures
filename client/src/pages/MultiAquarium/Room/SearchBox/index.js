@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../../apis";
 
-import searchIcon from "../../image/search-icon.png";
-import backIcon from "../../image/goback-icon.png";
-import tigerIcon from "../../image/무케.jpg";
+import searchIcon from "../../../../image/search-icon.png";
+import backIcon from "../../../../image/goback-icon.png";
+import tigerIcon from "../../../../image/무케.jpg";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
