@@ -65,7 +65,7 @@ const AuthRequest = ({ authRequest }) => {
     console.log("req", req);
 
     if (req.data.msg === "인증 수락 가능한 날짜가 만료되었습니다.") {
-      alert("수락 가능 기간이 만료된 인증 요청입니다.");
+      alert("기간이 만료된 인증 요청입니다.");
       return;
     }
     if (req.data.msg == "이미 인증이 완료된 건 입니다.") {
