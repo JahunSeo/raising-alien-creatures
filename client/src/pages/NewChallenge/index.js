@@ -127,10 +127,10 @@ export default function NewChallenge(props) {
           />
         </div>
 
-        <div class="flex flex-col min-w-max relative py-2 px-3">
+        <div className="flex flex-col min-w-max relative py-2 px-3">
           <label className="mb-2 font-bold text-lg">챌린지 카테고리</label>
           <select
-            class="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+            className="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
             value={challengeCategory}
             onChange={handleCategory}
           >
