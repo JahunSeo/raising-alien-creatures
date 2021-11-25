@@ -30,7 +30,7 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await api.get(`/challenge/${challengeId}`);
+        let res = await api.get(`/challenge/${challengeId}`);
         console.log("fetch challenge data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
@@ -42,6 +42,15 @@ export default function ChallengeRoom(props) {
           // update redux room info
           dispatch(actions.setRoom({ roomId, aliens, roomTitle, challenge }));
         } else {
+          return;
+        }
+
+        res = await api.get(`/chat/${challengeId}`);
+        if (res.data.result === "success") {
+          const messages = res.data.data;
+          dispatch(actions.setMessage(messages));
+        } else {
+          return;
         }
       };
       fetchData();
@@ -56,7 +65,7 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     // user가 참여중인 방인지 확인
     if (participating && rooms.current[roomId]) {
-      // console.log("handle socket here!", participating);
+      // console.log("handle socket here!", participating);initMonsters
       socket.initAndJoin({ roomId, userId: userId });
       socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
       socket.messageReceive((msg) => dispatch(actions.setMessage(msg)));

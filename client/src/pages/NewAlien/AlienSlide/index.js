@@ -44,32 +44,36 @@ function AlienSlide({ alienNumber, setAlienNumber }) {
     <>
       <div className={styles.carousel} id="carousel">
         <figure id="spinner">
-          <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/wanaka-tree.jpg"
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          {/* <img
+            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_1.png"
             alt="이미지 로딩 실패"
           />
           <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/still-lake.jpg"
+            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_2.png"
             alt="이미지 로딩 실패"
           />
           <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/pink-milford-sound.jpg"
+            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_3.png"
             alt="이미지 로딩 실패"
           />
           <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/paradise.jpg"
+            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_4.png"
             alt="이미지 로딩 실패"
           />
           <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/morekai.jpg"
-            alt="이미지 로딩 실패"
-          />
-          <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/milky-blue-lagoon.jpg"
+            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_5.png"
             alt="이미지 로딩 실패"
           />
           <img src={DeanImage} alt="이미지 로딩 실패" />
-          <img src={babyshark} alt="이미지 로딩 실패" />
+          <img src={babyshark} alt="이미지 로딩 실패" /> */}
         </figure>
       </div>
       <span
