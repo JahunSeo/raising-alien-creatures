@@ -1,7 +1,7 @@
 const schedule = require("node-schedule");
 
 // 생명체 사망 api
-exports.j = schedule.scheduleJob({ hour: 21, minute: 31 }, function () {
+exports.j = schedule.scheduleJob({ hour: 00, minute: 00 }, function () {
     let today = new Date();
     let day = today.getDay();
     // 숫자로 들어오는 오늘 요일을 컬럼명과 같도록 변경하기위한 obj.

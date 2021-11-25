@@ -56,42 +56,38 @@ module.exports = function (pool) {
       });
     }
   });
-
-  //졸업 api
-  router.get("/graduation", function (req, res) {
-    // 필요한 데이터: challenge_id, ailen_id
-    // 해야할 일 1: alien 테이블 변경
-    const sql1 = "UPDATE Alien SET status = 1, end_date = NOW() WHERE id = ?;";
-    // 해야할 일 2: user_info_has_challenge row 삭제->트리거이용
-    // 해야할 일 3: participant - 1
-    const sql2 =
-      "UPDATE Challenge set participantNumber = participantNumber - 1 where id = ?;";
-    pool.getConnection(function (err, connection) {
-      if (err) {
-        console.error(err);
-        res.status(200).json({
-          result: "fail",
-          msg: "cant connection mysql",
-        });
-        return;
-      }
-      connection.query(
-        sql1 + sql2,
-        [req.body.alien_id, res.body.challenge_id],
-        function (error, results) {
-          if (error) {
-            console.log("at the alien create api", error);
-            res.status(200).json({
-              result: "fail",
-              msg: "cant graduation",
-            });
-            return;
-          }
-          res.status(200).json({
-            result: "success",
-            msg: "do graduation",
-          });
-          connection.release();
+  
+    //졸업 api
+    router.get('/graduation', function(req, res){
+        // 필요한 데이터: challenge_id, ailen_id
+        // 해야할 일 1: alien 테이블 변경
+        const sql1 = 'UPDATE Alien SET status = 1, end_date = NOW() WHERE id = ?;'
+        // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                console.error(err);
+                res.status(200).json({
+                    result: "fail",
+                    msg: "cant connection mysql"
+                });
+                return;
+            }
+            connection.query(
+                sql1, [req.body.alien_id],
+                function (error, results) {
+                    if (error) {
+                        console.log('at the alien create api', error);
+                        res.status(200).json({
+                            result: "fail",
+                            msg: "cant graduation"
+                        });
+                        return;
+                    }
+                    res.status(200).json({
+                    result: "success",
+                    msg: "do graduation"
+                    });
+                connection.release();
         }
       );
     });
