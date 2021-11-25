@@ -19,7 +19,7 @@ export default function ChallengeRoom(props) {
 
   // user 정보 확인
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const userId = user && user.login && user.id;
+  const userId = user.login && user.id;
   const isChaIdIn = (challenges, cId) => {
     return challenges.findIndex((c) => c.Challenge_id === cId) !== -1;
   };
