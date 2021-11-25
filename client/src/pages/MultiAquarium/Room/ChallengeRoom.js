@@ -77,17 +77,5 @@ export default function ChallengeRoom(props) {
     };
   }, [userId, rooms, roomId, challengeId, participating, dispatch]);
 
-  // useEffect(() => {
-  //   const getLastchat = async () => {
-  //     const res = await api.get(`/chat/${challengeId}`);
-  //     console.log("TEST 이게 실행되야된다");
-  //     res.data.data.map((msg, index) => {
-  //       dispatch(actions.setMessage(msg));
-  //     });
-  //     console.log("TEST 이게 실행되야된다2");
-  //   };
-  //   if (challengeId) getLastchat();
-  // }, []);
-
   return <div></div>;
 }
