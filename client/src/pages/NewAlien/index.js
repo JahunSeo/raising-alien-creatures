@@ -78,7 +78,6 @@ export default function NewChallenge(props) {
     setCreAlienMessage(null);
     return true;
   }
-  console.log("dfdf", authCount);
   // 생명체 생성 event
   const handleSubmit = (e) => {
     // e.preventDefault();

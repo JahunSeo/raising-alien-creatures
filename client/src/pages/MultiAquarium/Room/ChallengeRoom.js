@@ -14,7 +14,6 @@ export default function ChallengeRoom(props) {
   const challengeId = params.challengeId;
   const roomId = `challenge-${challengeId}`;
   const { rooms } = props;
-  console.log("ChallengeRoom 정보", params);
   if (!rooms.current) rooms.current = {};
   if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
 
