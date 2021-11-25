@@ -216,7 +216,7 @@ module.exports = function (passport, pool) {
     const user_id = req.user.id;
     pool.getConnection(function (err, connection) {
       connection.query(
-        "SELECT Authentification.id AS authentification_id, alien_id, Authentification.challenge_id, Authentification.user_info_id AS request_user_id, Challenge.challengeName AS challenge_name, request_user_nickname, request_date, response_user_id, response_user_nickname, response_date, isAuth, image_url, comments from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id INNER JOIN Challenge ON user_info_has_Challenge.Challenge_id = Challenge.id where user_info_has_Challenge.user_info_id = ? AND Authentification.user_info_id != ? AND isAuth=0",
+        "SELECT Authentification.id AS authentification_id, alien_id, Authentification.challenge_id, Authentification.user_info_id AS request_user_id, Challenge.challengeName AS challenge_name, request_user_nickname, request_date, response_user_id, response_user_nickname, response_date, isAuth, image_url, comments from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id INNER JOIN Challenge ON user_info_has_Challenge.Challenge_id = Challenge.id where user_info_has_Challenge.user_info_id = ? AND Authentification.user_info_id != ? AND isAuth=0 ORDER BY Authentification.request_date DESC",
         [user_id, user_id],
         function (err, result) {
           if (err) {
