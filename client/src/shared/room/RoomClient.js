@@ -29,6 +29,7 @@ class RoomClient {
         monId: mon.id,
         color: mon.color,
         authCnt: mon.accuredAuthCnt,
+        image_url : mon.image_url
       });
       monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
       // console.log(monster.monId, monster.isUserOnRoom);

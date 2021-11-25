@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function DayCheckBox({
+export default function AlienInfo({
   setAlienName,
   authCount,
   checkDay,
@@ -17,7 +17,8 @@ export default function DayCheckBox({
 
   return (
     <>
-      <div className=" w-1/2 px-3 sm:mt-40">
+      <div className="py-12 flrx-shrink-0"></div>
+      <div className="px-3">
         <label
           className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2"
           for="grid-first-name"
@@ -34,7 +35,7 @@ export default function DayCheckBox({
           }}
         ></input>
       </div>
-      <div className="container w-1/2 px-3 py-3 font-bold text-lg text-gray-700 tracking-wide">
+      <div className="container px-3 py-3 font-bold text-lg text-gray-700 tracking-wide">
         <div>
           챌린지 인증 요일를 선택해 주세요(총{" "}
           <span style={{ color: "red" }}>{authCount}</span>회 선택!){" "}

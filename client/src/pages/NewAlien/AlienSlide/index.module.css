@@ -6,13 +6,14 @@
   margin-bottom: 3rem;
   padding-top: 60px;
   width: 40vw;
+  min-width: 340px;
   overflow: hidden;
-  height: 350px;
+  height: 300px;
 }
 .carousel figure {
   transform-style: preserve-3d;
   height: 500px;
-  transform-origin: 50% 50% -400px;
+  transform-origin: 50% 50% -300px;
   transition: 1s;
 }
 .carousel figure img {
@@ -20,7 +21,7 @@
   max-width: 500px;
   position: absolute;
   left: 30%;
-  transform-origin: 50% 50% -400px;
+  transform-origin: 50% 50% -300px;
   outline: 1px solid transparent;
   display: inline;
 }

@@ -26,6 +26,7 @@ export default function PlazaRoom(props) {
           console.log("plazaroom:", roomId);
           rooms.current[roomId].initMonsters(res.data.data);
           rooms.current[roomId].start();
+          
           // TODO: redux
           dispatch(actions.setRoom({ roomId: roomId, aliens: res.data.data }));
         } else {

@@ -17,12 +17,13 @@ module.exports = function (pool) {
                 return;
               }
 
-              res.status(200).json({
-                result: "success",
-                data: results,
-              });
-              connection.release();
-            });
+
+        res.status(200).json({
+          result: "success",
+          data: results,
+        });
+        connection.release();
+      });
     });
   });
 

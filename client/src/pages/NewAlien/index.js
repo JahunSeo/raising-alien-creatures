@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styles from "./index.module.css";
 import api from "../../apis";
 import AlienSlide from "./AlienSlide/index.js";
-import DayCheckBox from "./AlienInfo/index.js";
+import AlienInfo from "./AlienInfo/index.js";
 
 export default function NewChallenge(props) {
   let params = useParams();
@@ -21,8 +22,11 @@ export default function NewChallenge(props) {
   const [thu, setThu] = useState(0);
   const [fri, setFri] = useState(0);
   const [sat, setSat] = useState(0);
-
+  // validation
   const [creAlienMessage, setCreAlienMessage] = useState(null);
+  // 링크 이동
+  const navigate = useNavigate();
+
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
 
@@ -60,8 +64,15 @@ export default function NewChallenge(props) {
       setCreAlienMessage("생명체 이름을 지어주세요!");
       return false;
     }
-    if (!checkDay) {
-      setCreAlienMessage("챌린지 인증 요일을 선택해 주세요");
+    if (!checkDay.length) {
+      setCreAlienMessage("인증 요일을 선택해주세요!");
+      return false;
+    }
+    console.log(111, checkDay.length);
+    console.log(221, authCount);
+    if (checkDay.length !== authCount) {
+      console.log("hihi");
+      setCreAlienMessage("인증 횟수를 확인해주세요!");
       return false;
     }
     setCreAlienMessage(null);
@@ -71,9 +82,10 @@ export default function NewChallenge(props) {
   // 생명체 생성 event
   const handleSubmit = (e) => {
     // e.preventDefault();
+
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
     console.log("alienNumber:", alienNumber);
-    // postCreateAlien();
+    postCreateAlien();
   };
 
   const postCreateAlien = async () => {
@@ -90,8 +102,10 @@ export default function NewChallenge(props) {
       fri: fri,
       sat: sat,
     };
-    // let res = await api.post("/alien/create", createAlienData);
+    await api.post("/alien/create", createAlienData);
     // console.log("res", res);
+    alert("생명체 생성을 성공하였습니다!");
+    navigate(`/challenge/${params.challengeId}/room`);
   };
 
   useEffect(() => {
@@ -114,42 +128,46 @@ export default function NewChallenge(props) {
   // console.log("checkDay", checkDay); // log 2번 찍힘
   return (
     <div className={styles.body}>
-      <DayCheckBox
-        setAlienName={setAlienName}
-        authCount={authCount}
-        checkDay={checkDay}
-        setCheckDay={setCheckDay}
-      />
+      <div className="container w-2/5 min-w-max">
+        <AlienInfo
+          setAlienName={setAlienName}
+          authCount={authCount}
+          checkDay={checkDay}
+          setCheckDay={setCheckDay}
+        />
 
-      <div className=" container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
-        <ul className="relative px-1 py-1 inline-flex">
-          <li className=" mr-1 inline-block ">
-            <a className="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold">
-              캐릭터 선택
-            </a>
-          </li>
-          {/* <li className="mr-1 inline-block">
+        <div className=" container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
+          <ul className="relative px-1 py-1 inline-flex min-w-max">
+            <li className=" mr-1 inline-block ">
+              <a className="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold">
+                캐릭터 선택
+              </a>
+            </li>
+            {/* <li className="mr-1 inline-block">
               <a className="bg-white inline-block py-2 px-4 text-blue-500  font-semibold">
                 꾸미기
               </a>
             </li> */}
-        </ul>
-        <div className="border p-10 md:p-10 ">
-          <AlienSlide
-            alienNumber={alienNumber}
-            setAlienNumber={setAlienNumber}
-          />
+          </ul>
+          <div className="border p-5 md:p-10 w-full min-w-max">
+            <AlienSlide
+              alienNumber={alienNumber}
+              setAlienNumber={setAlienNumber}
+            />
+          </div>
+        </div>
+        <div className="pb-3 px-3 text-red-500 font-semibold text-center">
+          {creAlienMessage}
+        </div>
+        <div className="flex justify-center pb-5">
+          <button
+            className="border py-1 px-3 rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 font-semibold"
+            onClick={handleSubmit}
+          >
+            생명체 생성
+          </button>
         </div>
       </div>
-      <div className=" bottom-0 py-1 px-3 shadow-sm text-red-500 font-semibold">
-        {creAlienMessage}
-      </div>
-      <button
-        className=" bottom-0 border py-1 px-3 rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 font-semibold"
-        onClick={handleSubmit}
-      >
-        생명체 생성
-      </button>
     </div>
   );
 }

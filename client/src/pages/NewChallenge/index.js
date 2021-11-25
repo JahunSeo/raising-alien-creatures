@@ -114,7 +114,7 @@ export default function NewAlien(props) {
   };
 
   return (
-    <div class="flex justify-center items-center w-full h-full bg-blue-400 p-10">
+    <div class="flex justify-center items-center w-full h-full p-10">
       <div class="w-1/2 h-full bg-white rounded shadow-2xl p-8 m-4">
         <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">
           새로운 챌린지 생성
