@@ -47,8 +47,13 @@ const SignUpModal = () => {
       return false;
     }
 
-    if (userNickname.length > 20) {
-      setSignUpMessage("닉네임은 최대 20글자 이하여야 합니다.");
+    if (userNickname.length > 12) {
+      setSignUpMessage("닉네임은 12글자 이하여야 합니다.");
+      return false;
+    }
+
+    if (userNickname.length < 2) {
+      setSignUpMessage("닉네임은 2글자 이상이여야 합니다.");
       return false;
     }
 
@@ -82,8 +87,8 @@ const SignUpModal = () => {
 
   return (
     <div className={showSignUpModal ? "SignUpContainer" : "hidden"}>
-      <div className="flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
-        <div className="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
+      <div className="flex flex-col m-auto max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div className="self-center mb-2 text-2xl font-bold text-gray-800 sm:text-2xl dark:text-white">
           신나는 회원가입
         </div>
         <div className="p-6 mt-8">
@@ -182,7 +187,7 @@ const SignUpModal = () => {
                 />
               </div>
             </div>
-            <div className="text-red-600">
+            <div className="text-red-600 animate-pulse">
               <br />
               {signUpMessage}
               <br />
