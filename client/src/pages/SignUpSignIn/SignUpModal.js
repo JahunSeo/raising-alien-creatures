@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./SignUpModal.css";
 // import styles from "./SignUpModal.module.css";
-import api from "../apis/index.js";
-import * as actions from "../Redux/actions";
+import api from "../../apis/index.js";
+import * as actions from "../../Redux/actions";
 
 const SignUpModal = () => {
   const dispatch = useDispatch();
