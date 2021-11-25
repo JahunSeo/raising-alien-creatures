@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import styles from "./index.module.css";
 import api from "../../apis";
@@ -78,7 +78,7 @@ export default function NewChallenge(props) {
     setCreAlienMessage(null);
     return true;
   }
-
+  console.log("dfdf", authCount);
   // 생명체 생성 event
   const handleSubmit = (e) => {
     // e.preventDefault();
@@ -105,7 +105,9 @@ export default function NewChallenge(props) {
     await api.post("/alien/create", createAlienData);
     // console.log("res", res);
     alert("생명체 생성을 성공하였습니다!");
+
     navigate(`/challenge/${params.challengeId}/room`);
+    // <Link to={`/challenge/${params.challengeId}/room`} />;
   };
 
   useEffect(() => {
