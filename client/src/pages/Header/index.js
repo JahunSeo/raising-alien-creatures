@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Title from "./Title";
-import SignUpModal from "../../modals/SignUpModal";
-import SignInModal from "../../modals/SignInModal";
+import SignInModal from "../SignUpSignIn/SignInModal";
+import SignUpModal from "../SignUpSignIn/SignUpModal";
 import * as actions from "../../Redux/actions";
 import api from "../../apis/index";
 import styles from "./index.module.css";
@@ -17,7 +17,6 @@ export default function Header(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
-  // const [loginStatus, setLoginStatus] = useState(false);
   const showSignUpModal = useSelector(
     (state) => state.modalOnOff.showSignUpModal
   );
@@ -38,29 +37,13 @@ export default function Header(props) {
   };
 
   function switchSignUpModal() {
-    if (showSignInModal) {
-      dispatch(actions.showSignInModal(false));
-      dispatch(actions.showSignUpModal(true));
-    } else {
-      dispatch(actions.showSignUpModal(true));
-    }
-
-    if (showSignUpModal) {
-      dispatch(actions.showSignUpModal(false));
-    }
+    dispatch(actions.showSignInModal(false));
+    dispatch(actions.showSignUpModal(!showSignUpModal));
   }
 
   function switchSignInModal() {
-    if (showSignUpModal) {
-      dispatch(actions.showSignUpModal(false));
-      dispatch(actions.showSignInModal(true));
-    } else {
-      dispatch(actions.showSignInModal(true));
-    }
-
-    if (showSignInModal) {
-      dispatch(actions.showSignInModal(false));
-    }
+    dispatch(actions.showSignUpModal(false));
+    dispatch(actions.showSignInModal(!showSignInModal));
   }
 
   useEffect(() => {

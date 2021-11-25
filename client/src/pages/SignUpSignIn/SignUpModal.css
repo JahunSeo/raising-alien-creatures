@@ -8,17 +8,14 @@
   z-index: 1;
 }
 
-.ModalContainer {
+.SignUpContainer {
   position: fixed;
-  left: 150px;
   top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  max-height: 80%;
-  width: 20rem;
-  height: 70%;
-  padding: 16px;
-  /* background: skyblue; */
-  /* background: lightblue; */
+  max-height: 100%;
+  width: 30rem;
+  padding: 40px;
   border-radius: 10px;
   text-align: center;
   transition: all 1s;

@@ -6,6 +6,7 @@ import NoAuthRequest from "./NoAuthRequest.js";
 
 export default function Approval(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
+  console.log(111, user);
 
   const [authRequests, setAuthRequests] = useState([]);
 

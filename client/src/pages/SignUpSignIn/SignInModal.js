@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./SignInModal.css";
-import api from "../apis/index.js";
-import * as actions from "../Redux/actions";
+import api from "../../apis/index.js";
+import * as actions from "../../Redux/actions";
 
 const SignInModal = () => {
   const dispatch = useDispatch();
@@ -48,6 +48,8 @@ const SignInModal = () => {
       return false;
     }
 
+    setUserEmail("");
+    setUserPassword("");
     setSignInMessage(null);
     return true;
   }
@@ -61,14 +63,14 @@ const SignInModal = () => {
 
   return (
     <div className={showSignInModal ? "SignInContainer" : "hidden"}>
-      <div className="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
-        <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
+      <div className="flex flex-col m-auto max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div className="self-center mb-6 text-xl font-bold text-gray-600 sm:text-2xl dark:text-white">
           나만의 계정으로 로그인
         </div>
         <div className="mt-8">
           <form action="#" autoComplete="off">
             <div className="flex flex-col mb-2">
-              <div className="flex relative ">
+              <div className="flex relative">
                 <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
                   <svg
                     width="15"
@@ -81,9 +83,9 @@ const SignInModal = () => {
                 </span>
                 <input
                   type="text"
-                  id="sign-in-email"
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="santoryu1118@gmail.com"
+                  value={userEmail}
                   onChange={(e) => {
                     setUserEmail(e.target.value);
                   }}
@@ -104,9 +106,9 @@ const SignInModal = () => {
                 </span>
                 <input
                   type="password"
-                  id="sign-in-password"
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="********"
+                  value={userPassword}
                   onChange={(e) => {
                     setUserPassword(e.target.value);
                   }}
@@ -123,7 +125,7 @@ const SignInModal = () => {
                 </a>
               </div>
             </div>
-            <div className="text-red-600">
+            <div className="text-red-600 animate-pulse">
               {signInMessage}
               <br />
               <br />

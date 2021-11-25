@@ -5,48 +5,170 @@
   font-size: 0;
   margin-bottom: 3rem;
   padding-top: 60px;
-  width: 40vw;
+  width: 50vw;
   min-width: 340px;
   overflow: hidden;
-  height: 300px;
+  height: 400px;
 }
 .carousel figure {
   transform-style: preserve-3d;
   height: 500px;
-  transform-origin: 50% 50% -300px;
+  transform-origin: 50% 50% -400px;
   transition: 1s;
+  /* left: 30%; */
 }
 .carousel figure img {
   width: 40%;
   max-width: 500px;
   position: absolute;
   left: 30%;
-  transform-origin: 50% 50% -300px;
+  transform-origin: 50% 50% -400px;
   outline: 1px solid transparent;
   display: inline;
 }
-.carousel figure img:nth-child(1) {
+.carousel figure div:nth-child(1) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_0.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(2) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_1.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(3) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_2.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(4) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_3.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(5) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_4.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(6) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_5.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(7) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_2.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+.carousel figure div:nth-child(8) {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  /* display: inline; */
+  background-image: url("https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_1.png");
+  background-size: 80vw;
+  /* background-color: red; */
+  animation: animate 800ms steps(4) infinite;
+}
+@keyframes animate {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: -80vw;
+  }
+}
+
+.carousel figure div:nth-child(1) {
   transform: rotateY(0deg);
 }
-.carousel figure img:nth-child(2) {
+.carousel figure div:nth-child(2) {
   transform: rotateY(-45deg);
 }
-.carousel figure img:nth-child(3) {
+.carousel figure div:nth-child(3) {
   transform: rotateY(-90deg);
 }
-.carousel figure img:nth-child(4) {
+.carousel figure div:nth-child(4) {
   transform: rotateY(-135deg);
 }
-.carousel figure img:nth-child(5) {
+.carousel figure div:nth-child(5) {
   transform: rotateY(-180deg);
 }
-.carousel figure img:nth-child(6) {
+.carousel figure div:nth-child(6) {
   transform: rotateY(-225deg);
 }
-.carousel figure img:nth-child(7) {
+.carousel figure div:nth-child(7) {
   transform: rotateY(-270deg);
 }
-.carousel figure img:nth-child(8) {
+.carousel figure div:nth-child(8) {
   transform: rotateY(-315deg);
 }
 .carousel ~ span {
