@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Title from "./Title";
 import SignInModal from "../SignUpSignIn/SignInModal";
 import SignUpModal from "../SignUpSignIn/SignUpModal";
@@ -50,8 +49,11 @@ export default function Header(props) {
     const getLoginStatus = async () => {
       // 1단계: 로그인 상태 확인
       let res = await api.get("/user/login/confirm");
-      if (!res.data.login) return;
       let user = res.data;
+      if (!res.data.login) {
+        dispatch(actions.checkUser(user)); // {login: false}
+        return;
+      }
       user.challenges = [];
       // 2단계: 유저 관련 정보 확인 (참여중 챌린지 등)
       res = await api.get("/user/personalinfo");
@@ -64,30 +66,42 @@ export default function Header(props) {
     getLoginStatus();
   }, [dispatch]);
 
+  // login 여부 확인 완료된 시점에 접근하도록 구분
+  let isLogin = undefined;
+  if (user && !user.login) isLogin = false;
+  if (user && user.login) isLogin = true;
   return (
     <div className={styles.body}>
       <div className={styles.bodyInner}>
         <div className={cx("item", "itemTitle")}>
-          <Title />
+          <Title isLogin={isLogin} />
         </div>
         <div className={cx("item", "itemRoom")}>
           <Link to={"/"}>
             <button className={cx("btn")}>{"챌린지 검색"}</button>
           </Link>
-          {user && user.nickname && (
+          {isLogin ? (
             <Link to={`/user/${user.id}/room`}>
               <button className={cx("btn")}>{"나의 어항"}</button>
             </Link>
+          ) : (
+            <button className={cx("btn")} onClick={() => switchSignInModal()}>
+              {"나의 어항"}
+            </button>
           )}
-          {user && user.nickname && (
+          {isLogin ? (
             <Link to={`/approval`}>
               <button className={cx("btn")}>{"승인하기"}</button>
             </Link>
+          ) : (
+            <button className={cx("btn")} onClick={() => switchSignInModal()}>
+              {"승인하기"}
+            </button>
           )}
         </div>
-        {user ? (
+        {isLogin ? (
           <div className={cx("item", "itemUser")}>
-            <div className={styles.username}>{user && user.nickname}</div>
+            <div className={styles.username}>{user.nickname}</div>
             <button
               type="button"
               className="UserBtn UserBtn--logout"

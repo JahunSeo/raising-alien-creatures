@@ -5,9 +5,7 @@ import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
 
 export default function Approval(props) {
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
-  console.log(111, user);
-
+  // const { user } = useSelector(({ user }) => ({ user: user.user }));
   const [authRequests, setAuthRequests] = useState([]);
 
   useEffect(() => {

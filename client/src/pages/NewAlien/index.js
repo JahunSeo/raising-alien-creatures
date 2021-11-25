@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import api from "../../apis";
 import AlienSlide from "./AlienSlide";
