@@ -1,7 +1,6 @@
-const { ConnectContactLens } = require('aws-sdk');
-const express = require('express');
+const { ConnectContactLens } = require("aws-sdk");
+const express = require("express");
 const router = express.Router();
-
 module.exports = function (pool) { 
     router.post('/create', function(req, res){
          // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
@@ -94,26 +93,22 @@ module.exports = function (pool) {
                     msg: "do graduation"
                     });
                 connection.release();
-            });
-        });
-        
-
-
+        }
+      );
     });
-
-    router.use(function (req, res, next) {
-        res.status(404).json({
-            result: "fail",
-            msg: 'Sorry cant post that!',
-        });
+  });
+  router.use(function (req, res, next) {
+    res.status(404).json({
+      result: "fail",
+      msg: "Sorry cant post that!",
     });
-    router.use(function (err, req, res, next) {
-        console.error(err.stack)
-        res.status(500).json({
-            result: "fail",
-            msg: 'Something broke!',
-          });
+  });
+  router.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).json({
+      result: "fail",
+      msg: "Something broke!",
     });
-    
-    return router;
-}
+  });
+  return router;
+};
