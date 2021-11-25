@@ -190,10 +190,15 @@ module.exports = function (pool) {
 
   router.post("/searchCategory", function (req, res) {
     var category = req.body.category;
-    // console.log(data.keyword);
+    let sql1;
+    if (category === "전체") {
+      sql1 = 'select * from Challenge'
+    } else {
+      sql1 = `select * from Challenge where challengeName = ${category}`
+    }
     pool.getConnection(function (err, connection) {
       connection.query(
-        `select * from Challenge where challengeName regexp '${data.keyword}'`,
+        sql1,
         function (err, results, fields) {
           if (err) {
             console.log(err);
