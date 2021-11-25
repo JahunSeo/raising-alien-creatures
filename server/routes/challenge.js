@@ -139,6 +139,7 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
+    data.request_date = new Date();
     data.request_user_nickname = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
@@ -199,9 +200,10 @@ module.exports = function (pool) {
     //1. 날짜 지난지 check 지났으면 Client에 메시지 return
     const request_month = request_date[1];
     const request_day = request_date[2];
+    let today = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
     if (
-      new Date().getMonth() + 1 != request_month ||
-      new Date().getDate() > request_day
+      today.getMonth() + 1 != request_month ||
+      today.getDate() > request_day
     ) {
       res.json({
         result: "fail",
