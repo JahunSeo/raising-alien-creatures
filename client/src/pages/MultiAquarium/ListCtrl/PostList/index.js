@@ -4,12 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import SideBarModal2 from "../SideBarModal2";
 import { Link } from "react-router-dom";
+import api from '../../../../apis/index'
 import DummyImage from "../../../../image/babyshark.png";
 import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
+  console.log(alien)
+  const onClickGraduate = async() =>{
+    let req = { alien_id: alien.id };
+    let res = await api.post("/alien/graduation", req);
+    console.log(res);
+  }
   return (
     <>
       <div className="PostItemBlock">
@@ -45,7 +52,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
                 dispatch(actions.showModal2(!showModal2));
               }}
             >
-              {" "}
               인증하기
             </button>
           )}
@@ -56,7 +62,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             </Link>
           )}
           {type !== "main" && (
-            <button className="StyledButton"> 졸업 신청</button>
+            <button className="StyledButton" onClick = {onClickGraduate}> 졸업 신청</button>
           )}
         </div>
       </div>
@@ -74,6 +80,20 @@ const PostList = ({ type }) => {
   const [drop, setDrop] = useState(false);
   const [sort, setSort] = useState("a");
 
+  // functions for sort
+  const recentCreate = (a,b) =>{
+    return new Date(b.create_date).getTime() - new Date(a.create_date).getTime();
+  }
+  const leastRecentCreate = (a,b) =>{
+    return new Date(a.create_date).getTime() - new Date(b.create_date).getTime();
+  }
+  const mostCommit = (a,b) =>{
+    return b.accured_auth_cnt - a.accured_auth_cnt;
+  }
+  const leastCommit = (a,b) =>{
+    return a.accured_auth_cnt - b.accured_auth_cnt;
+  }
+
   return (
     <div className="PostListBlock">
       <button className="dropdown" onClick={() => setDrop((drop) => !drop)}>
@@ -86,18 +106,9 @@ const PostList = ({ type }) => {
       {drop ? (
         <div className="dropContent">
           <option onClick={() => setSort("a")}> 추가된 날짜 (최신 순) </option>
-          <option onClick={() => setSort("b")}>
-            {" "}
-            추가된 날짜 (오래된 순){" "}
-          </option>
-          <option onClick={() => setSort("c")}>
-            {" "}
-            커밋 횟수(가장 많은 순){" "}
-          </option>
-          <option onClick={() => setSort("d")}>
-            {" "}
-            커밋 횟수(가장 낮은 순){" "}
-          </option>
+          <option onClick={() => setSort("b")}> 추가된 날짜 (오래된 순)</option>
+          <option onClick={() => setSort("c")}> 커밋 횟수(가장 많은 순)</option>
+          <option onClick={() => setSort("d")}> 커밋 횟수(가장 낮은 순) </option>
         </div>
       ) : null}
       <ul>
@@ -105,21 +116,24 @@ const PostList = ({ type }) => {
           className={category === false ? "selected" : null}
           onClick={() => setCategory((category) => !category)}
         >
-          ∘ 진행중{" "}
+          ∘ 진행중
         </span>
         <span
           className={category === true ? "selected" : null}
           onClick={() => setCategory((category) => !category)}
         >
-          ∘ 졸업{" "}
+          ∘ 졸업
         </span>
       </ul>
-      {sort === "a" &&
-        aliens_list
-          .sort(
-            (a, b) =>
-              new Date(b.create_date).getTime() -
-              new Date(a.create_date).getTime()
+
+        {aliens_list
+          .sort((a, b) =>
+            {
+              if (sort ==='a') return recentCreate(a,b);
+              else if (sort === 'b') return leastRecentCreate(a,b);
+              else if (sort === 'c') return mostCommit(a,b);
+              else return leastCommit(a,b);
+            }
           )
           .map((alien) =>
             Boolean(alien.graduate_toggle) === category ? (
@@ -130,50 +144,8 @@ const PostList = ({ type }) => {
                 selectedAlien={selectedAlien}
               />
             ) : null
-          )}
-      {sort === "b" &&
-        aliens_list
-          .sort(
-            (a, b) =>
-              new Date(a.create_date).getTime() -
-              new Date(b.create_date).getTime()
           )
-          .map((alien) =>
-            Boolean(alien.graduate_toggle) === category ? (
-              <PostItem
-                key={alien.id}
-                alien={alien}
-                type={type}
-                selectedAlien={selectedAlien}
-              />
-            ) : null
-          )}
-      {sort === "c" &&
-        aliens_list
-          .sort((a, b) => b.accured_auth_cnt - a.accured_auth_cnt)
-          .map((alien) =>
-            Boolean(alien.graduate_toggle) === category ? (
-              <PostItem
-                key={alien.id}
-                alien={alien}
-                type={type}
-                selectedAlien={selectedAlien}
-              />
-            ) : null
-          )}
-      {sort === "d" &&
-        aliens_list
-          .sort((a, b) => a.accured_auth_cnt - b.accured_auth_cnt)
-          .map((alien) =>
-            Boolean(alien.graduate_toggle) === category ? (
-              <PostItem
-                key={alien.id}
-                alien={alien}
-                type={type}
-                selectedAlien={selectedAlien}
-              />
-            ) : null
-          )}
+        }
     </div>
   );
 };
