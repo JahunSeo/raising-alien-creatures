@@ -21,7 +21,7 @@ class RoomClient {
   }
 
   initMonsters = (monsters) => {
-    console.log("initMonsters", monsters);
+    // console.log("initMonsters", monsters);
     this.fieldState.monsters = {};
     monsters.forEach((mon) => {
       const monster = new Wanderer({
@@ -30,6 +30,7 @@ class RoomClient {
         color: mon.color,
         authCnt: mon.accured_auth_cnt,
         image_url: mon.image_url,
+        wanderRange: 300 + 30 * monsters.length,
       });
       monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
       // console.log(monster.monId, monster.isUserOnRoom);

@@ -1,64 +1,61 @@
 const { ConnectContactLens } = require("aws-sdk");
 const express = require("express");
 const router = express.Router();
-module.exports = function (pool) { 
-    router.post('/create', function(req, res){
-         // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
-         // auth day도 매일하는 challenge이면 어떠한 값이 오는지, 주 n회이면 생명체 생성 시 넘어오는 값 넣기(매일이면 7, n이면 0~6)
-        if (req.user) {
-            const alien_name = '"' + req.body.alien_name + '"'
-            const image_url_obj = {
-                0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
-                1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
-                2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
-                3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981",
-                4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
-                5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
-                6: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
-                7: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981"
-            }
-            const image_url = '"' + image_url_obj[req.body.image_url] + '"'
-            //body 변수 추가하기
-            const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
-            // challenge id 받아오기
-            const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.body.challenge_id};`;
-            // user_info_has_challenge 테이블 row 추가
-            const sql3 = `INSERT INTO user_info_has_Challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
-            pool.getConnection(function(err, connection) {
-                if (err) {
-                    console.error(err);
-                    res.status(200).json({
-                        result: "fail",
-                        msg: "cant connection mysql"
-                    });
-                    return;
-                }
-                connection.query(
-                    sql3 + sql1 + sql2,
-                    function (error, results) {
-                        if (error) {
-                            console.log('at the alien create api', error);
-                            res.status(200).json({
-                                result: "fail",
-                                msg: "already participant"
-                            });
-                            return;
-                        }
-                        res.status(200).json({
-                        result: "success",
-                        msg: "do insert"
-                        });
-                    connection.release();
-                });
-            });     
-            
-        } else {
-            res.status(401).json({
-                result: "fail",
-                msg: 'Unauthorized',
-            });
+module.exports = function (pool) {
+  router.post("/create", function (req, res) {
+    // challenge table과 join해서 total_auth_cnt(주 몇회인지) front에서 주 몇회인지 받아오기-> total_auth_cnt insert(매일이면 1, 주 n회이면 n)
+    // auth day도 매일하는 challenge이면 어떠한 값이 오는지, 주 n회이면 생명체 생성 시 넘어오는 값 넣기(매일이면 7, n이면 0~6)
+    if (req.user) {
+      const alien_name = '"' + req.body.alien_name + '"';
+      const image_url_obj = {
+        0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
+        1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
+        2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
+        3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981",
+        4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
+        5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
+        6: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
+        7: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
+      };
+      const image_url = '"' + image_url_obj[req.body.image_url] + '"';
+      //body 변수 추가하기
+      const sql1 = `INSERT INTO Alien (user_info_id, Challenge_id, alienName, image_url, time_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.total_auth_cnt}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
+      // challenge id 받아오기
+      const sql2 = `UPDATE Challenge set participantNumber = participantNumber + 1 where id = ${req.body.challenge_id};`;
+      // user_info_has_challenge 테이블 row 추가
+      const sql3 = `INSERT INTO user_info_has_Challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
+      pool.getConnection(function (err, connection) {
+        if (err) {
+          console.error(err);
+          res.status(200).json({
+            result: "fail",
+            msg: "cant connection mysql",
+          });
+          return;
         }
-    });
+        connection.query(sql3 + sql1 + sql2, function (error, results) {
+          if (error) {
+            console.log("at the alien create api", error);
+            res.status(200).json({
+              result: "fail",
+              msg: "already participant",
+            });
+            return;
+          }
+          res.status(200).json({
+            result: "success",
+            msg: "do insert",
+          });
+          connection.release();
+        });
+      });
+    } else {
+      res.status(401).json({
+        result: "fail",
+        msg: "Unauthorized",
+      });
+    }
+  });
 
     //졸업 api
     router.get('/graduation', function(req, res){

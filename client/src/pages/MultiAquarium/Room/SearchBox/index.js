@@ -6,8 +6,10 @@ import api from "../../../../apis";
 import searchIcon from "../../image/search-icon.png";
 import backIcon from "../../image/goback-icon.png";
 import tigerIcon from "../../image/무케.jpg";
-import cn from "classnames";
-import "./SearchBox.css";
+
+import styles from "./index.module.css";
+import classNames from "classnames/bind";
+const cx = classNames.bind(styles);
 
 export default function SearchBox(props) {
   const [longer, setLonger] = useState(false);
@@ -42,23 +44,21 @@ export default function SearchBox(props) {
   };
 
   return (
-    <div className={cn("NormalBox", { longer })}>
-      <div className="topBtnRow">
-        {longer && (
-          <img
-            className="goback"
-            onClick={backClick}
-            alt="뒤로가기"
-            src={backIcon}
-          ></img>
-        )}
-        <Link to={`/challenge/new`}>
-          <button className={"newChallenge"}>{"새로운 챌린지 생성"}</button>
-        </Link>
-      </div>
-      <div className="header">
-        <form className="searchForm" onSubmit={onSubmit}>
-          <div className="double">
+    <div className={cx("SearchBox", { longer })}>
+      {longer && (
+        <img
+          className={styles.backBtn}
+          onClick={backClick}
+          alt="뒤로가기"
+          src={backIcon}
+        ></img>
+      )}
+      <Link to={`/challenge/new`} className={styles.newChalBtn}>
+        <button>{"새로운 챌린지 생성"}</button>
+      </Link>
+      <div className={styles.header}>
+        <form className={styles.searchForm} onSubmit={onSubmit}>
+          <div className={styles.double}>
             <input
               id="input"
               placeholder=" "
@@ -66,19 +66,19 @@ export default function SearchBox(props) {
               onChange={(e) => setSearchKeyword(e.target.value)}
               autoComplete="off"
             />
-            <label htmlFor="input">어떤 챌린지를 찾으시나요?</label>
+            <label htmlFor="input">어떤 챌린지를 찾으세요?</label>
             <img
-              className="search"
+              className={styles.searchBtn}
               onClick={onSubmit}
-              alt="search"
+              alt="searchBtn"
               src={searchIcon}
             ></img>
+            {message && <p className={styles.errMsg}>{message}</p>}
           </div>
         </form>
-        {message && <div className="errmsg">{message}</div>}
       </div>
       {longer && (
-        <div className="findChallenge">
+        <div className={styles.findChallenge}>
           {challengeList.map((challenge) => (
             <ChallengeItem
               key={challenge.id}
@@ -92,36 +92,26 @@ export default function SearchBox(props) {
 }
 
 const ChallengeItem = ({ challenge }) => {
-  const [expand, setExpand] = useState(false);
-
   return (
-    <div
-      onClick={() => setExpand(!expand)}
-      className={cn("challengeItem", { expand })}
-    >
-      <div className="challengeName">{challenge.challengeName}</div>
-      <img className="challengeImg" alt="yammy" src={tigerIcon} />
-      <div className="participant">
+    <div className={cx("challengeItem")}>
+      <div className={styles.challengeName}>{challenge.challengeName}</div>
+      <img className={styles.challengeImg} alt="yammy" src={tigerIcon} />
+      <div className={styles.participant}>
         참여인원: {challenge.participantNumber}/{challenge.maxUserNumber}명
       </div>
-      <div className="participant"> 주 인증횟수: {challenge.cntOfWeek}번</div>
-      {expand && (
-        <>
-          <div className="createDate">
-            생성일: {challenge.createDate.split("T")[0]}
-          </div>
-          <div className="createUser">
-            생성원: {challenge.createUserNickName}
-          </div>
-          <div className="Details">
-            챌린지 설명: <br />
-            {challenge.challengeContent}
-          </div>
-          <Link to={`/challenge/${challenge.id}/room`}>
-            <button className="challengeButton">챌린지 방 가기</button>
-          </Link>
-        </>
-      )}
+      <div className={styles.participant}>
+        주 인증횟수: {challenge.cntOfWeek}번
+      </div>
+      <div className={styles.createDate}>
+        생성일: {challenge.createDate.split("T")[0]}
+      </div>
+      <div className={styles.createUser}>
+        생성원: {challenge.createUserNickName}
+      </div>
+      <div className={styles.Details}>{challenge.challengeContent}</div>
+      <Link to={`/challenge/${challenge.id}/room`}>
+        <button className={styles.challengeButton}>챌린지 방 가기</button>
+      </Link>
     </div>
   );
 };

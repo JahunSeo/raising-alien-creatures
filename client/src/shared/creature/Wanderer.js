@@ -14,9 +14,8 @@ class Wanderer extends Monster {
   }
 
   getRandLocation() {
-    let randRange = 1200;
-    let x = (Math.random() - 0.5) * randRange;
-    let y = (Math.random() - 0.5) * randRange;
+    let x = (Math.random() - 0.5) * this.wanderRange;
+    let y = (Math.random() - 0.5) * this.wanderRange;
     return { x, y };
   }
 
