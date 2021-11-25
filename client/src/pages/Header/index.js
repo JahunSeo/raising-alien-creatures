@@ -17,7 +17,6 @@ export default function Header(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
   const dispatch = useDispatch();
-  // const [loginStatus, setLoginStatus] = useState(false);
   const showSignUpModal = useSelector(
     (state) => state.modalOnOff.showSignUpModal
   );
@@ -38,29 +37,13 @@ export default function Header(props) {
   };
 
   function switchSignUpModal() {
-    if (showSignInModal) {
-      dispatch(actions.showSignInModal(false));
-      dispatch(actions.showSignUpModal(true));
-    } else {
-      dispatch(actions.showSignUpModal(true));
-    }
-
-    if (showSignUpModal) {
-      dispatch(actions.showSignUpModal(false));
-    }
+    dispatch(actions.showSignInModal(false));
+    dispatch(actions.showSignUpModal(!showSignUpModal));
   }
 
   function switchSignInModal() {
-    if (showSignUpModal) {
-      dispatch(actions.showSignUpModal(false));
-      dispatch(actions.showSignInModal(true));
-    } else {
-      dispatch(actions.showSignInModal(true));
-    }
-
-    if (showSignInModal) {
-      dispatch(actions.showSignInModal(false));
-    }
+    dispatch(actions.showSignUpModal(false));
+    dispatch(actions.showSignInModal(!showSignInModal));
   }
 
   useEffect(() => {
