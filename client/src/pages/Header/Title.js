@@ -9,7 +9,9 @@ const cx = classNames.bind(styles);
 export default function Title(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  //   console.log(123, user);
+  const { roomTitle } = useSelector(({ room }) => ({
+    roomTitle: room.roomTitle,
+  }));
   // url 확인하기
   const userMatch = useMatch("/user/:userId/room");
   const challengeMatch = useMatch("/challenge/:challengeId/room");
@@ -18,17 +20,8 @@ export default function Title(props) {
   const approvalMatch = useMatch("/approval");
   const mainMatch = useMatch("/");
 
-  // console.log(
-  //   userMatch,
-  //   challengeMatch,
-  //   newchalMatch,
-  //   alienMatch,
-  //   approvalMatch,
-  //   mainMatch
-  // );
   if (!!userMatch) {
-    let { params } = userMatch;
-    return <div className={styles.title}>{`User-${params.userId}`}</div>;
+    return <div className={styles.title}>{roomTitle}</div>;
   } else if (!!challengeMatch) {
     let { params } = challengeMatch;
     let { challengeId } = params;
@@ -42,7 +35,7 @@ export default function Title(props) {
     }
     return (
       <React.Fragment>
-        <div className={styles.title}>{`Challenge-${params.challengeId}`}</div>
+        <div className={styles.title}>{roomTitle}</div>
         {!!user && participating && (
           <div className={cx("btn", "btn--ing")}>참가중</div>
         )}
@@ -57,14 +50,12 @@ export default function Title(props) {
     return <div className={styles.title}>{`New Challenge`}</div>;
   } else if (!!alienMatch) {
     let { params } = alienMatch;
-    return (
-      <div className={styles.title}>{`Challenge-${params.challengeId}`}</div>
-    );
+    return <div className={styles.title}>{roomTitle}</div>;
   } else if (!!approvalMatch) {
     return <div className={styles.title}>{`Approval`}</div>;
   } else if (!!mainMatch) {
-    return <div className={styles.title}>{`Plaza`}</div>;
+    return <div className={styles.title}>{roomTitle}</div>;
   } else {
-    return <div className={styles.title}>{`Plaza`}</div>;
+    return <div className={styles.title}>{roomTitle}</div>;
   }
 }

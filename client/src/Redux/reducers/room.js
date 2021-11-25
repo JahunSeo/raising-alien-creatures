@@ -3,19 +3,26 @@ import * as types from "../actions/ActionTypes";
 
 const initialState = {
   roomId: null,
+  roomTitle: null,
   aliens: [],
   selectedAlien: null,
+  challenge: {},
   messages: [],
 };
 
 const room = handleActions(
   {
     // 화면에 나타나는 alien들을 페이지별로 다르게 받아옴
-    [types.CURRENT_ROOM]: (state, { payload: { roomId, aliens } }) => ({
+    [types.CURRENT_ROOM]: (
+      state,
+      { payload: { roomId, aliens, roomTitle, challenge } }
+    ) => ({
       ...state,
       roomId: roomId,
-      aliens: aliens,
+      roomTitle: roomTitle || null,
+      aliens: aliens || [],
       selectedAlien: null,
+      challenge: challenge || {},
       messages: [],
     }),
 
@@ -24,9 +31,9 @@ const room = handleActions(
       selectedAlien: selectedAlien,
     }),
 
-    [types.MESSAGE_UPDATE]: (state, { payload: msg }) => ({
+    [types.MESSAGE_UPDATE]: (state, { payload: msgArray }) => ({
       ...state,
-      messages: [...state.messages, msg],
+      messages: [...state.messages, ...msgArray],
     }),
   },
   initialState

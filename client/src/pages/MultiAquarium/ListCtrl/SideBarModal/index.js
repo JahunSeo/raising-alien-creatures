@@ -14,12 +14,6 @@ export default function SideBarModal(props) {
 
   return (
     <>
-      {/* <div
-        className={showModal1 ? "Background" : null}
-        onClick={() => {
-          dispatch(actions.showModal1(false));
-        }}
-      /> */}
       <div className={toggle ? "ModalContainer" : "hidden"}>
         <Routes>
           <Route path="/" element={<PostList type="main" />}></Route>
