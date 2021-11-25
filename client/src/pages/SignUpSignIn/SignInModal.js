@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./SignInModal.css";
-import api from "../apis/index.js";
-import * as actions from "../Redux/actions";
+import api from "../../apis/index.js";
+import * as actions from "../../Redux/actions";
 
 const SignInModal = () => {
   const dispatch = useDispatch();
