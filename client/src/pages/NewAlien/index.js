@@ -97,8 +97,6 @@ export default function NewAlien(props) {
       setCreAlienMessage("인증 요일을 선택해주세요!");
       return false;
     }
-    // console.log(111, checkDay.length);
-    // console.log(221, authCount);
     if (checkDay.length !== authCount) {
       setCreAlienMessage("인증 횟수를 확인해주세요!");
       return false;
@@ -129,17 +127,39 @@ export default function NewAlien(props) {
       fri: fri,
       sat: sat,
     };
-    const res = await api.post("/alien/create", createAlienData);
-    if (res.data.result === "success") {
-      // console.log("/alien/create", res);
-      // TODO: challenge 정보를 user 정보에 추가
-      dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
-      alert("생명체 생성을 성공하였습니다!");
+    const response = await api.post("/alien/create", createAlienData);
+    console.log("res", response);
+    if (response.data.result == "access_deny_full") {
+      alert("방의 정원이 가득 찼습니다.");
       navigate(`/challenge/${challengeId}/room`);
-    } else {
-      alert("생명체 생성에 실패했습니다.");
+      return;
     }
+    if (response.data.result == "fail_already_participant") {
+      alert("이미 참가중인 챌린지입니다.");
+      navigate(`/challenge/${challengeId}/room`);
+      return;
+    }
+    dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
+    alert("생명체 생성을 성공하였습니다!");
+
+    navigate(`/challenge/${challengeId}/room`);
+    // <Link to={`/challenge/${params.challengeId}/room`} />;
   };
+
+  useEffect(() => {
+    // cntOfWeek
+    try {
+      const getChalData = async () => {
+        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
+        if (res.data.cntOfWeek) {
+          setAuthCount(res.data.cntOfWeek);
+        }
+      };
+      getChalData();
+    } catch (err) {
+      console.error("fetchData fail", err);
+    }
+  });
 
   // console.log("checkDay", checkDay); // log 2번 찍힘
   return (
