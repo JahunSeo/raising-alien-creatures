@@ -105,14 +105,25 @@ ul span {
   display: flex;
   justify-content: center;
   text-align: left;
+  position:relative;
+  overflow:hidden;
 }
 .Content img {
-  
+  display: block;
+        width: 100%;
+        height: auto;
+        position: absolute;
+        transform: scaleY(0.1);
+        bottom: 0;
+  /* position:absolute; */
+  /* clip-path: inset(0px,498px, 327px, 0px)  ; */
+  /* top right bottom left */
+  /* clip-path: inset(0px,0px, 300px, 100px)  ; */
   /* object-fit: cover; */
-  overflow:hidden;
-  width: 5em;
-  height: 5em;
-  margin-right: 2rem;
+  /* overflow:hidden; */
+   /* width: 5em;
+  height: 5em; */
+  /* margin-right: 2rem; */
 }
 .Content > img:hover {
   transition: all 0.3s;
