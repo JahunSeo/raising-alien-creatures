@@ -121,18 +121,16 @@ const ChallengeItem = ({ challenge }) => {
       <div className={styles.challengeName}>{challenge.challengeName}</div>
       <img className={styles.challengeImg} alt="yammy" src={tigerIcon} />
       <div className={styles.participant}>
-        참여인원: {challenge.participantNumber}/{challenge.maxUserNumber}명
+        참여인원: {challenge.participant_number}/{challenge.maximum_number}명
       </div>
       <div className={styles.participant}>
-        주 인증횟수: {challenge.cntOfWeek}번
+        주 인증횟수: {challenge.times_per_week}번
       </div>
       <div className={styles.createDate}>
-        생성일: {challenge.createDate.split("T")[0]}
+        생성일: {challenge.created_date.split("T")[0]}
       </div>
-      <div className={styles.createUser}>
-        생성원: {challenge.createUserNickName}
-      </div>
-      <div className={styles.Details}>{challenge.challengeContent}</div>
+      <div className={styles.createUser}>생성원: {challenge.created_by}</div>
+      <div className={styles.Details}>{challenge.description}</div>
       <Link to={`/challenge/${challenge.id}/room`}>
         <button className={styles.challengeButton}>챌린지 방 가기</button>
       </Link>

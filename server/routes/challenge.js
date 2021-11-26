@@ -8,7 +8,7 @@ module.exports = function (pool) {
       // 1단계: challenge 정보 가져오기
       const { challengeId } = req.params;
       // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
-      let columns = `id, challenge_name, challenge_content,\
+      let columns = `id, challenge_name, description,\
                     maximum_number, participant_number,\
                     created_date, times_per_week`;
       let sql = `SELECT ${columns} FROM challenge WHERE challenge.id=${challengeId};`;
@@ -30,7 +30,7 @@ module.exports = function (pool) {
         let columns = `alien.id, challenge_id, created_date,\
                     alien_name, color, accumulated_count, image_url,\
                     practice_status, end_date, alien_status,\
-                    time_per_week, sun, mon, tue, wed, thu, fri, sat,\
+                    times_per_week, sun, mon, tue, wed, thu, fri, sat,\
                     user_info_id, email, nickname as user_nickname`;
         let sql = `SELECT ${columns} FROM alien LEFT JOIN user_info \
                 ON alien.user_info_id=user_info.id \
