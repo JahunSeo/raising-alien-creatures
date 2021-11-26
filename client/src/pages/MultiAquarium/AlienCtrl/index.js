@@ -40,7 +40,7 @@ export default function AlienCtrl(props) {
         <p>{`생명체  : ${alien.alien_name} (${alien.accured_auth_cnt}회 인증)`}</p>
         <div className={styles.btnRow}>
           {(!!userMatch || !!challengeMatch) &&
-            user &&
+            user.login &&
             user.id === parseInt(alien.user_info_id) && (
               <button className={cx("btn", "btn--request")}>인증하기</button>
             )}

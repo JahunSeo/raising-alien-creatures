@@ -6,7 +6,7 @@ import api from "../../apis/index.js";
 import "./index.module.css";
 import Background from "../../image/createChallenge.jpeg";
 
-export default function NewAlien(props) {
+export default function NewChallenge(props) {
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
   const { user } = useSelector(({ user }) => ({ user: user.user }));
@@ -127,10 +127,10 @@ export default function NewAlien(props) {
           />
         </div>
 
-        <div class="flex flex-col min-w-max relative py-2 px-3">
+        <div className="flex flex-col min-w-max relative py-2 px-3">
           <label className="mb-2 font-bold text-lg">챌린지 카테고리</label>
           <select
-            class="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+            className="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
             value={challengeCategory}
             onChange={handleCategory}
           >

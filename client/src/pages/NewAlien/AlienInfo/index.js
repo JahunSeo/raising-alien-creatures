@@ -21,7 +21,7 @@ export default function AlienInfo({
       <div className="px-3">
         <label
           className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2"
-          for="grid-first-name"
+          htmlFor="grid-first-name"
         >
           생명체 이름
         </label>

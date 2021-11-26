@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, Navigate } from "react-router-dom";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -27,19 +27,17 @@ export default function Title(props) {
     let { challengeId } = params;
     // 본 챌린지에 참가중인지 확인
     let participating;
-    if (user && user.challenges) {
+    if (user.login && user.challenges) {
       participating =
-        user.challenges.findIndex(
-          (e) => e.Challenge_id === Number(challengeId)
-        ) !== -1;
+        user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
     }
     return (
       <React.Fragment>
         <div className={styles.title}>{roomTitle}</div>
-        {!!user && participating && (
+        {user.login && participating && (
           <div className={cx("btn", "btn--ing")}>참가중</div>
         )}
-        {!!user && !participating && (
+        {user.login && !participating && (
           <Link to={`/challenge/${challengeId}/join`}>
             <button className={cx("btn", "btn--start")}>시작하기</button>
           </Link>
@@ -47,11 +45,23 @@ export default function Title(props) {
       </React.Fragment>
     );
   } else if (!!newchalMatch) {
+    if (!user.login) return <Navigate to="/" />;
     return <div className={styles.title}>{`New Challenge`}</div>;
   } else if (!!alienMatch) {
     let { params } = alienMatch;
+    let { challengeId } = params;
+    // 본 챌린지에 참가중인지 확인
+    let participating;
+    if (user.login && user.challenges) {
+      participating =
+        user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+    }
+    if (!user.login || participating) {
+      return <Navigate to={`/challenge/${challengeId}/room`} />;
+    }
     return <div className={styles.title}>{roomTitle}</div>;
   } else if (!!approvalMatch) {
+    if (!user.login) return <Navigate to="/" />;
     return <div className={styles.title}>{`Approval`}</div>;
   } else if (!!mainMatch) {
     return <div className={styles.title}>{roomTitle}</div>;

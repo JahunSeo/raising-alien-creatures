@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
 
 export default function Approval(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  console.log(111, user);
 
   const [authRequests, setAuthRequests] = useState([]);
-
   useEffect(() => {
+    if (!user.login) return;
     const loadAuthRequests = async () => {
       const res = await api.get("/user/approval/list");
       if (!res.data.data.length) {
