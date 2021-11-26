@@ -41,7 +41,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             <p>이름 : {alien.alien_name}</p>
             <p>
               출생년도 : <br />
-              {alien.create_date.split("T")[0]}
+              {alien.created_date.split("T")[0]}
             </p>
             <p>Commit 횟수 : {alien.accumulated_count}번</p>
           </div>
@@ -97,12 +97,12 @@ const PostList = React.memo(function PostList({ type }) {
   // functions for sort
   const recentCreate = useCallback((a, b) => {
     return (
-      new Date(b.create_date).getTime() - new Date(a.create_date).getTime()
+      new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
     );
   }, []);
   const leastRecentCreate = (a, b) => {
     return (
-      new Date(a.create_date).getTime() - new Date(b.create_date).getTime()
+      new Date(a.created_date).getTime() - new Date(b.created_date).getTime()
     );
   };
   const mostCommit = (a, b) => {
