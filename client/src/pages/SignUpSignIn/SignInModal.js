@@ -67,7 +67,7 @@ const SignInModal = () => {
         <div className="self-center mb-6 text-xl font-bold text-gray-600 sm:text-2xl dark:text-white">
           나만의 계정으로 로그인
         </div>
-        <div className="mt-8">
+        <div className="mt-4">
           <form action="#" autoComplete="off">
             <div className="flex flex-col mb-2">
               <div className="flex relative">
@@ -115,40 +115,19 @@ const SignInModal = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center mb-6 -mt-4">
-              <div className="flex ml-auto">
-                <a
-                  href="#"
-                  className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
-                >
-                  패스워드 찾기
-                </a>
-              </div>
-            </div>
-            <div className="text-red-600 animate-pulse">
+            <div className="text-red-600 animate-pulse pb-4">
               {signInMessage}
-              <br />
-              <br />
             </div>
-            <div className="flex w-full">
+            <div className="flex w-full my-2">
               <button
                 type="submit"
-                className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+                className="py-2 px-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
                 onClick={handleSubmit}
               >
                 로그인
               </button>
             </div>
           </form>
-        </div>
-        <div className="flex items-center justify-center mt-6">
-          <a
-            href="#"
-            target="_blank"
-            className="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white"
-          >
-            <span className="ml-2">회원가입</span>
-          </a>
         </div>
       </div>
     </div>

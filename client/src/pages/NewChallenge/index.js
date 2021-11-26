@@ -135,11 +135,11 @@ export default function NewAlien(props) {
             onChange={handleCategory}
           >
             <option>카테고리 선택</option>
-            <option>운동</option>
             <option>건강</option>
-            <option>자기개발</option>
+            <option>운동</option>
             <option>공부</option>
             <option>독서</option>
+            <option>자기개발</option>
             <option>취미</option>
             <option>기타</option>
           </select>

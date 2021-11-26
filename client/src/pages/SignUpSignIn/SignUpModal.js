@@ -48,18 +48,21 @@ const SignUpModal = () => {
       return false;
     }
 
-    if (userNickname.length < 2 || userNickname.length > 16) {
+    if (
+      userNickname !== "" &&
+      (userNickname.length < 2 || userNickname.length > 16)
+    ) {
       setSignUpMessage("닉네임은 2자 이상 16자 이하여야 합니다.");
       return false;
     }
 
-    if (pw.length < 8 || pw.length > 20) {
+    if (userPassword !== "" && (pw.length < 8 || pw.length > 20)) {
       setSignUpMessage("패스워드는 8자 이상 20자 이하여야 합니다.");
       return false;
-    } else if (pw.search(/\s/) != -1) {
+    } else if (userPassword !== "" && pw.search(/\s/) != -1) {
       setSignUpMessage("패스워드는 공백 없이 입력해야 합니다.");
       return false;
-    } else if (num < 0 || eng < 0) {
+    } else if (userPassword !== "" && (num < 0 || eng < 0)) {
       setSignUpMessage("패스워드는 영문과 숫자를 모두 포함해야 합니다.");
       return false;
     }
@@ -98,7 +101,7 @@ const SignUpModal = () => {
         <div className="self-center mb-2 text-2xl font-bold text-gray-800 sm:text-2xl dark:text-white">
           신나는 회원가입
         </div>
-        <div className="p-6 mt-8">
+        <div className="p-6 mt-2">
           <form action="#">
             <div className="flex flex-col mb-2">
               <div className="flex relative">
@@ -114,7 +117,7 @@ const SignUpModal = () => {
                 </span>
                 <input
                   type="email"
-                  className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="flex-1 w-full py-2 px-4 rounded-r-lg appearance-none border border-gray-300 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="santoryu1118@gmail.com"
                   value={userEmail}
                   onChange={(e) => {
@@ -125,7 +128,7 @@ const SignUpModal = () => {
             </div>
             <div className="flex flex-col mb-2">
               <div className="flex relative">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b border-gray-300 text-gray-500 shadow-sm text-sm">
                   <svg
                     className="h-3.5 w-3.5"
                     viewBox="0 0 24 24"
@@ -198,15 +201,13 @@ const SignUpModal = () => {
                 />
               </div>
             </div>
-            <div className="text-red-600 animate-pulse">
-              <br />
+            <div className="text-red-600 animate-pulse py-4 pb-2">
               {signUpMessage}
-              <br />
             </div>
-            <div className="flex w-full my-4">
+            <div className="flex w-full mt-4">
               <button
                 type="submit"
-                className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                className="py-2 px-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 onClick={handleSubmit}
               >
                 회원가입
