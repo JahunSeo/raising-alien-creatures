@@ -21,6 +21,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
     if (res.data.result === "success") dispatch(actions.graduate(alien.id));
   };
 
+  console.log(alien)
   return (
     <>
       <div className="PostItemBlock">
@@ -48,7 +49,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
         </div>
         <div className="buttons">
           {type === "personal" &&
-            alien.status === 0 &&
+            alien.alien_status === 0 &&
             alien.user_info_id === userId && (
               <button
                 className="StyledButton"
@@ -61,13 +62,13 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               </button>
             )}
           <SideBarModal2 alien={alien} />
-          {type !== "challenge" && alien.status === 0 && (
-            <Link to={`/challenge/${alien.Challenge_id}/room`}>
+          {type !== "challenge" && alien.alien_status === 0 && (
+            <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className="StyledButton"> 챌린지 어항</button>
             </Link>
           )}
           {type === "personal" &&
-            alien.status === 0 &&
+            alien.alien_status === 0 &&
             alien.user_info_id === userId && (
               <button className="StyledButton" onClick={onClickGraduate}>
                 {" "}
@@ -155,7 +156,7 @@ const PostList = React.memo(function PostList({ type }) {
           else return leastCommit(a, b);
         })
         .map((alien) =>
-          Boolean(alien.status) === category ? (
+          Boolean(alien.alien_status) === category ? (
             <PostItem
               key={alien.id}
               alien={alien}
