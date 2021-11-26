@@ -6,7 +6,7 @@ import api from "../../apis/index.js";
 import "./index.module.css";
 import Background from "../../image/createChallenge.jpeg";
 
-export default function NewAlien(props) {
+export default function NewChallenge(props) {
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
   const { user } = useSelector(({ user }) => ({ user: user.user }));
@@ -110,8 +110,8 @@ export default function NewAlien(props) {
   };
 
   return (
-    <div className="flex h-screen w-1/2 justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-green-900 hover:from-indigo-900 hover:via-transparent hover:to-green-900">
-      <div className="min-w-max m-auto w-2/3 rounded-xl bg-gray-100 rounded shadow-2xl p-10">
+    <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
+      <div className="min-w-max m-auto w-1/3 rounded-xl bg-gray-100 rounded shadow-2xl p-10">
         <h1 className="block w-full text-center text-2xl font-bold mb-6">
           새로운 챌린지 생성
         </h1>
@@ -127,19 +127,19 @@ export default function NewAlien(props) {
           />
         </div>
 
-        <div class="flex flex-col min-w-max relative py-2 px-3">
+        <div className="flex flex-col min-w-max relative py-2 px-3">
           <label className="mb-2 font-bold text-lg">챌린지 카테고리</label>
           <select
-            class="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+            className="border rounded-xl pl-5 mb-4 bg-white hover:border-gray-400 focus:outline-none appearance-none"
             value={challengeCategory}
             onChange={handleCategory}
           >
             <option>카테고리 선택</option>
-            <option>운동</option>
             <option>건강</option>
-            <option>자기개발</option>
+            <option>운동</option>
             <option>공부</option>
             <option>독서</option>
+            <option>자기개발</option>
             <option>취미</option>
             <option>기타</option>
           </select>
