@@ -28,7 +28,7 @@ class RoomClient {
         userId: mon.user_info_id,
         monId: mon.id,
         color: mon.color,
-        authCnt: mon.accured_auth_cnt,
+        authCnt: mon.accumulated_count,
         image_url: mon.image_url,
         wanderRange: 300 + 30 * monsters.length,
       });
