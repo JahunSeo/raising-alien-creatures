@@ -42,6 +42,7 @@ function App() {
 }
 
 function Layout() {
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
   }));
@@ -50,9 +51,7 @@ function Layout() {
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
-      <div className={styles.content}>
-        <Outlet />
-      </div>
+      <div className={styles.content}>{user !== null && <Outlet />}</div>
     </div>
   );
 }
