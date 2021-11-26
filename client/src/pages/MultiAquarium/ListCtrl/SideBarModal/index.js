@@ -26,13 +26,6 @@ export default function SideBarModal(props) {
             element={<PostList type="challenge" />}
           ></Route>
         </Routes>
-        {/* <button
-          onClick={() => {
-            dispatch(actions.showModal2(true));
-          }}
-        >
-          모달달2ㄱㄱ
-        </button> */}
         <SideBarModal2 />
       </div>
     </>
