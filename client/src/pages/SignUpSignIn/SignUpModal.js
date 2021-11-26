@@ -86,6 +86,15 @@ const SignUpModal = () => {
     return true;
   }
 
+  const handleCancel = () => {
+    setUserEmail("");
+    setUserNickname("");
+    setUserPassword("");
+    setUserConfirm("");
+    setSignUpMessage(null);
+    dispatch(actions.showSignUpModal(!showSignUpModal));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSignUpMessage(null);
@@ -97,7 +106,23 @@ const SignUpModal = () => {
 
   return (
     <div className={showSignUpModal ? "SignUpContainer" : "hidden"}>
-      <div className="flex flex-col m-auto max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+      <div className="flex flex-col m-auto max-w-md px-4 py-6 bg-white rounded-xl shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div className="flex self-end pt-2 text-gray-400 hover:text-gray-500">
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            onClick={handleCancel}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </div>
         <div className="self-center mb-2 text-2xl font-bold text-gray-800 sm:text-2xl dark:text-white">
           신나는 회원가입
         </div>
@@ -105,7 +130,7 @@ const SignUpModal = () => {
           <form action="#">
             <div className="flex flex-col mb-2">
               <div className="flex relative">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
                   <svg
                     width="15"
                     height="15"
