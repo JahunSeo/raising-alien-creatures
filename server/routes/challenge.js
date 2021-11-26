@@ -259,26 +259,6 @@ module.exports = function (pool) {
     });
   });
 
-  // router.get("/isAvailable/:challengeId", function (req, res) {
-  //   pool.getConnection(function (err, connection) {
-  //     sql = `SELECT if (maxUserNumber > participantNumber, "available","full") as result from Challenge where id=${req.params.challengeId};`;
-  //     connection.query(sql, function (error, result, fields) {
-  //       if (error) {
-  //         console.error(error);
-  //         res.json({
-  //           result: "fail",
-  //           msg: "[DB] Fail to confrim challenge information",
-  //         });
-  //         connection.release();
-  //         return;
-  //       }
-  //       res.json(result);
-  //       connection.release();
-  //       return;
-  //     });
-  //   });
-  // });
-
   router.use(function (req, res, next) {
     res.status(404).json({
       result: "fail",

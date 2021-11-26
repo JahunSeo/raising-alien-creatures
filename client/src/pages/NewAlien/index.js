@@ -68,8 +68,7 @@ export default function NewChallenge(props) {
       setCreAlienMessage("인증 요일을 선택해주세요!");
       return false;
     }
-    console.log(111, checkDay.length);
-    console.log(221, authCount);
+
     if (checkDay.length !== authCount) {
       console.log("hihi");
       setCreAlienMessage("인증 횟수를 확인해주세요!");
@@ -103,8 +102,18 @@ export default function NewChallenge(props) {
       fri: fri,
       sat: sat,
     };
-    await api.post("/alien/create", createAlienData);
-    // console.log("res", res);
+    const response = await api.post("/alien/create", createAlienData);
+    console.log("res", response);
+    if (response.data.result == "access_deny_full") {
+      alert("방의 정원이 가득 찼습니다.");
+      navigate(`/challenge/${params.challengeId}/room`);
+      return;
+    }
+    if (response.data.result == "fail_already_participant") {
+      alert("이미 참가중인 챌린지입니다.");
+      navigate(`/challenge/${params.challengeId}/room`);
+      return;
+    }
     alert("생명체 생성을 성공하였습니다!");
 
     navigate(`/challenge/${params.challengeId}/room`);
