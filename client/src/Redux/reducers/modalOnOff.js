@@ -8,13 +8,20 @@ export const CHAL_INFO_TYPE = {
 
 const initialState = {
   showModal2: false, // TODO: refactoring
-  showSignInModal:false,
-  showSignUpModal:false,
   chalInfoModal: null,
+  showSignUpModal: false,
+  showSignInModal: false,
+  showAuthRequest: false,
 };
 
 export default function modalOnOff(state = initialState, action) {
   switch (action.type) {
+    case types.CURRENT_ROOM:
+      return {
+        ...state,
+        chalInfoModal: null,
+      };
+
     case types.SHOW_MODAL2:
       return {
         ...state,
@@ -34,6 +41,11 @@ export default function modalOnOff(state = initialState, action) {
       return {
         ...state,
         showSignInModal: action.showSignInModal,
+      };
+    case types.SHOW_AUTH_REQUEST:
+      return {
+        ...state,
+        showAuthRequest: action.showAuthRequest,
       };
 
     default:

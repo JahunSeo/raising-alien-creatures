@@ -37,7 +37,7 @@ export default function AlienCtrl(props) {
       <div className={styles.body}>
         <p>{`챌린지  : ${alien.challenge_name}`}</p>
         <p>{`참가자  : ${alien.user_nickname}`}</p>
-        <p>{`생명체  : ${alien.alien_name} (${alien.accured_auth_cnt}회 인증)`}</p>
+        <p>{`생명체  : ${alien.alien_name} (${alien.accumulated_count}회 인증)`}</p>
         <div className={styles.btnRow}>
           {(!!userMatch || !!challengeMatch) &&
             user.login &&
@@ -49,7 +49,7 @@ export default function AlienCtrl(props) {
               <button className={cx("btn", "btn--room")}>개인 어항</button>
             </Link>
           ) : (
-            <Link to={`/challenge/${alien.Challenge_id}/room`}>
+            <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className={cx("btn", "btn--room")}>챌린지 어항</button>
             </Link>
           )}

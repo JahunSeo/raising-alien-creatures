@@ -86,6 +86,15 @@ const SignUpModal = () => {
     return true;
   }
 
+  const handleCancel = () => {
+    setUserEmail("");
+    setUserNickname("");
+    setUserPassword("");
+    setUserConfirm("");
+    setSignUpMessage(null);
+    dispatch(actions.showSignUpModal(!showSignUpModal));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSignUpMessage(null);
@@ -97,7 +106,24 @@ const SignUpModal = () => {
 
   return (
     <div className={showSignUpModal ? "SignUpContainer" : "hidden"}>
-      <div className="flex flex-col m-auto max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+      <div className="Overlay" />
+      <div className="flex flex-col min-h-0 min-w-max max-h-full m-auto px-10 py-10 pt-12 justify-center bg-white rounded-xl shadow dark:bg-gray-800 z-10">
+        <div className="flex justify-center items-center self-end text-gray-400 hover:text-gray-500">
+          <svg
+            className="fixed w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            onClick={handleCancel}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </div>
         <div className="self-center mb-2 text-2xl font-bold text-gray-800 sm:text-2xl dark:text-white">
           신나는 회원가입
         </div>
@@ -105,7 +131,7 @@ const SignUpModal = () => {
           <form action="#">
             <div className="flex flex-col mb-2">
               <div className="flex relative">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
                   <svg
                     width="15"
                     height="15"
@@ -156,7 +182,7 @@ const SignUpModal = () => {
               </div>
             </div>
             <div className="flex flex-col mb-2">
-              <div className="flex relative ">
+              <div className="flex relative">
                 <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
                   <svg
                     width="15"
@@ -180,7 +206,7 @@ const SignUpModal = () => {
             </div>
             <div className="flex flex-col mb-2">
               <div className="flex relative ">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
                   <svg
                     width="15"
                     height="15"
@@ -201,7 +227,7 @@ const SignUpModal = () => {
                 />
               </div>
             </div>
-            <div className="text-red-600 animate-pulse py-4 pb-2">
+            <div className="text-red-600 animate-pulse py-2 pb-1">
               {signUpMessage}
             </div>
             <div className="flex w-full mt-4">

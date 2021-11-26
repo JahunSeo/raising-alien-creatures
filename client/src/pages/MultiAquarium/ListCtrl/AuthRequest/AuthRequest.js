@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "./SideBarModal2.css";
+import "./AuthRequest.css";
 import { useSelector, useDispatch } from "react-redux";
 import api from "../../../../apis/index";
 import * as actions from "../../../../Redux/actions/index.js";
 
-export default function SideBarModal2() {
+export default function AuthRequest() {
   // console.log("alien밖: ", alien);
   const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   const alien = useSelector((state) => state.alien_auth_func.alien_auth);
@@ -12,40 +12,12 @@ export default function SideBarModal2() {
   const [authMessage, setAuthMessage] = useState("");
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
-    /* 예외 처리 Handling 1. */
-    let day = {
-      1: "mon",
-      2: "tue",
-      3: "wed",
-      4: "thu",
-      5: "fri",
-      6: "sat",
-      0: "sun",
-    };
-
-    let date = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
-    let today = day[date.getDay()];
-    if (alien.alien[today] === 0) {
-      console.log("인증 가능 요일이 아닙니다.");
-      return;
-    } else {
-    }
-
-    /* 예외 처리 Handling 2. */
-    if (alien.alien.practice_status > 0) {
-      /* 해당 날짜에 이미 요청된 Alien 인 경우 -> front에서 Error 문구 처리 부탁드립니다. */
-      console.log("이미 인증요청 완료된 건 입니다.");
-      return;
-    } else {
-      alien.alien.practice_status = 1;
-    }
-
+    console.log("alien안: ", alien);
+    // console.log("alien안_id: ", alien.alien.id);
     e.preventDefault();
     const res = await api.get("/main/s3Url");
-
     const { url } = res.data;
+
     // post the image direclty to the s3 bucket
     if (authImage) {
       await fetch(url, {
@@ -59,11 +31,21 @@ export default function SideBarModal2() {
     const imageUrl = url.split("?")[0];
     const resp = {
       user_info_id: alien.alien.user_info_id,
-      alien_id: alien.alien.id,
-      challenge_id: alien.alien.challenge_id,
+      Alien_id: alien.alien.id,
+      Challenge_id: alien.alien.Challenge_id,
       comments: authMessage,
       image_url: imageUrl,
     };
+
+    // // dummy test용
+    // const resp = {
+    //   user_info_id: 1,
+    //   Alien_id: 1,
+    //   Challenge_id: 1,
+    //   requestUserNickname: "John",
+    //   comment: authMessage,
+    //   imgURL: imageUrl,
+    // };
 
     // post requst to my server to store any extra data
     const result = await api.post("/challenge/auth", resp);
