@@ -110,8 +110,8 @@ export default function NewChallenge(props) {
   };
 
   return (
-    <div className="flex h-screen w-1/2 justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-green-900 hover:from-indigo-900 hover:via-transparent hover:to-green-900">
-      <div className="min-w-max m-auto w-2/3 rounded-xl bg-gray-100 rounded shadow-2xl p-10">
+    <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
+      <div className="min-w-max m-auto w-1/3 rounded-xl bg-gray-100 rounded shadow-2xl p-10">
         <h1 className="block w-full text-center text-2xl font-bold mb-6">
           새로운 챌린지 생성
         </h1>
@@ -135,11 +135,11 @@ export default function NewChallenge(props) {
             onChange={handleCategory}
           >
             <option>카테고리 선택</option>
-            <option>운동</option>
             <option>건강</option>
-            <option>자기개발</option>
+            <option>운동</option>
             <option>공부</option>
             <option>독서</option>
+            <option>자기개발</option>
             <option>취미</option>
             <option>기타</option>
           </select>
