@@ -131,8 +131,8 @@ module.exports = function (pool) {
   });
 
   // 챌린지 total_auth_cnt 보내주기
-  router.get("/totalAuthCnt/:challengeid", function (req, res) {
-    const challengeId = req.params.challengeid;
+  router.get("/totalAuthCnt/:challengeId", function (req, res) {
+    const challengeId = req.params.challengeId;
     pool.getConnection(function (err, connection) {
       if (err) {
         console.error(err);
@@ -157,7 +157,7 @@ module.exports = function (pool) {
           res.status(200).json({
             result: "success",
             msg: "do insert",
-            cntOfWeek: results[0].cntOfWeek,
+            times_per_week: results[0].times_per_week,
           });
           connection.release();
         }
