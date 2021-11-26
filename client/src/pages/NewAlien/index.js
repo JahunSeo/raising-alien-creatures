@@ -66,7 +66,7 @@ export default function NewAlien(props) {
         if (!user.login || participating) return;
         let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
         if (res.data.result === "success") {
-          setAuthCount(res.data.cntOfWeek);
+          setAuthCount(res.data.times_per_week);
         } else {
           // TODO: 실패 케이스 처리
         }
@@ -118,7 +118,7 @@ export default function NewAlien(props) {
       challenge_id: challengeId,
       alien_name: alienName,
       image_url: aNumber,
-      total_auth_cnt: authCount,
+      times_per_week: authCount,
       sun: sun,
       mon: mon,
       tue: tue,

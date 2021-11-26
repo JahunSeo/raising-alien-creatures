@@ -35,6 +35,7 @@ export const setRoom = ({ roomId, aliens, roomTitle, challenge = {} }) => ({
   payload: { roomId, aliens, roomTitle, challenge },
 });
 
+
 export const alienAuth = (alien_auth) => ({
   type: types.ALIEN_AUTH,
   alien_auth: alien_auth,
@@ -43,6 +44,11 @@ export const alienAuth = (alien_auth) => ({
 export const selectAlien = (selectedAlien) => ({
   type: types.SELECT_ALIEN,
   payload: selectedAlien,
+});
+
+export const graduate = (alienId) =>({
+  type: types.GRADUATE_ALIEN,
+  payload : alienId,
 });
 
 export const setMessage = (msgArray) => ({

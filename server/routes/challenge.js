@@ -8,10 +8,10 @@ module.exports = function (pool) {
       // 1단계: challenge 정보 가져오기
       const { challengeId } = req.params;
       // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
-      let columns = `id, challengeName as challenge_name, challengeContent as challenge_content,\
-                    maxUserNumber as max_user_number, participantNumber as participant_number,\
-                    createDate as create_date, cntOfWeek as cnt_of_week`;
-      let sql = `SELECT ${columns} FROM Challenge WHERE Challenge.id=${challengeId};`;
+      let columns = `id, challenge_name, challenge_content,\
+                    maximum_number, participant_number,\
+                    created_date, times_per_week`;
+      let sql = `SELECT ${columns} FROM challenge WHERE challenge.id=${challengeId};`;
       connection.query(sql, function (err, results) {
         if (err) throw err;
         const challenge = results[0];
@@ -27,14 +27,14 @@ module.exports = function (pool) {
         // 1안 (현재): alien table과 user_info table을 join
         // 2안: alien table과 user_info_has_challange table, user_info table 각각에서 쿼리 수행 후 병합
         // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
-        let columns = `Alien.id, Challenge_id, createDate as create_date,\
-                    alienName as alien_name, color, accuredAuthCnt as accured_auth_cnt, image_url,\
-                    practice_status, end_date, status,\
+        let columns = `alien.id, challenge_id, created_date,\
+                    alien_name, color, accumulated_count, image_url,\
+                    practice_status, end_date, alien_status,\
                     time_per_week, sun, mon, tue, wed, thu, fri, sat,\
                     user_info_id, email, nickname as user_nickname`;
-        let sql = `SELECT ${columns} FROM Alien LEFT JOIN user_info \
-                ON Alien.user_info_id=user_info.id \
-                WHERE Alien.Challenge_id=${challengeId} AND Alien.status=0;`;
+        let sql = `SELECT ${columns} FROM alien LEFT JOIN user_info \
+                ON alien.user_info_id=user_info.id \
+                WHERE alien.challenge_id=${challengeId} AND alien.alien_status=0;`;
 
         connection.query(sql, function (err, results) {
           if (err) throw err;
@@ -59,10 +59,9 @@ module.exports = function (pool) {
       if (err) throw err;
       // 1단계: challenge 정보 가져오기
       const { challengeId } = req.params;
-      let columns = `id, challengeName as challenge_name, challengeContent as challenge_content,\
-      maxUserNumber as max_user_number, participantNumber as participant_number,\
-      createDate as create_date, cntOfWeek as cnt_of_week`;
-      let sql = `SELECT ${columns} from Challenge WHERE Challenge.id=${challengeId};`;
+      let columns = `id, challenge_name, description,\
+                    maximum_number, participant_number, created_date, times_per_week`;
+      let sql = `SELECT ${columns} from challenge WHERE challenge.id=${challengeId};`;
       connection.query(sql, function (err, results) {
         if (err) throw err;
         const challenge = results[0];
@@ -93,7 +92,7 @@ module.exports = function (pool) {
     if (req.user) {
       pool.getConnection(function (err, connection) {
         connection.query(
-          "INSERT INTO Challenge (challengeName, challengeContent, createUserNickName, maxUserNumber, cntOfWeek, tag) VALUES (?, ?, ?, ?, ?, ?)",
+          "INSERT INTO challenge (challenge_name, description, created_by, maximum_number, times_per_week, tag) VALUES (?, ?, ?, ?, ?, ?)",
           [
             req.body.challenge_name,
             req.body.challenge_content,
@@ -132,8 +131,8 @@ module.exports = function (pool) {
   });
 
   // 챌린지 total_auth_cnt 보내주기
-  router.get("/totalAuthCnt/:challengeid", function (req, res) {
-    const challengeId = req.params.challengeid;
+  router.get("/totalAuthCnt/:challengeId", function (req, res) {
+    const challengeId = req.params.challengeId;
     pool.getConnection(function (err, connection) {
       if (err) {
         console.error(err);
@@ -144,7 +143,7 @@ module.exports = function (pool) {
         return;
       }
       connection.query(
-        "SELECT cntOfWeek FROM aliens.Challenge where id = ?;",
+        "SELECT times_per_week FROM challenge WHERE id=?;",
         [challengeId],
         function (error, results) {
           if (error) {
@@ -158,7 +157,7 @@ module.exports = function (pool) {
           res.status(200).json({
             result: "success",
             msg: "do insert",
-            cntOfWeek: results[0].cntOfWeek,
+            times_per_week: results[0].times_per_week,
           });
           connection.release();
         }
@@ -171,11 +170,13 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
+
+    // TODO
     const alien_id = req.body.Alien_id;
     data.request_user_nickname = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
-    var sql1 = `INSERT INTO Authentification SET ?;`;
+    var sql1 = `INSERT INTO practice_record SET ?;`;
     pool.getConnection(function (err, connection) {
       connection.query(sql1, data, function (error, results, fields) {
         if (error) {
@@ -188,7 +189,7 @@ module.exports = function (pool) {
           return;
         }
 
-        var sql2 = `UPDATE Alien SET practice_status = 1 where id = ${alien_id}`;
+        var sql2 = `UPDATE alien SET practice_status=1 where id=${alien_id}`;
         connection.query(sql2, function (err, results, fields) {
           if (err) {
             console.error(err);
@@ -215,7 +216,7 @@ module.exports = function (pool) {
     // console.log(data.keyword);
     pool.getConnection(function (err, connection) {
       connection.query(
-        `select * from Challenge where challengeName regexp '${data.keyword}'`,
+        `select * from challenge where challenge_name regexp '${data.keyword}'`,
         function (err, results, fields) {
           if (err) {
             console.log(err);
@@ -233,6 +234,31 @@ module.exports = function (pool) {
     });
   });
 
+  router.post("/searchCategory", function (req, res) {
+    var category = req.body.category;
+    let sql1;
+    if (category === "전체") {
+      sql1 = "select * from challenge";
+    } else {
+      sql1 = `select * from challenge where challenge_name = ${category}`;
+    }
+    pool.getConnection(function (err, connection) {
+      connection.query(sql1, function (err, results, fields) {
+        if (err) {
+          console.log(err);
+          res.json({
+            result: "fail",
+            msg: "Fail to search",
+          });
+          connection.release();
+          return;
+        }
+        res.json({ result: "success", challenge: results });
+        connection.release();
+      });
+    });
+  });
+
   // 챌린지 인증 수락
   // auth data 에 수락표시 is auth 수정
   // alien에 accured auth count / week_auth_cnt 1씩 증가
@@ -245,9 +271,12 @@ module.exports = function (pool) {
     //1. 날짜 지난지 check 지났으면 Client에 메시지 return
     const request_month = request_date[1];
     const request_day = request_date[2];
+    let today = new Date(
+      new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
     if (
-      new Date().getMonth() + 1 != request_month ||
-      new Date().getDate() > request_day
+      today.getMonth() + 1 != request_month ||
+      today.getDate() > request_day
     ) {
       res.json({
         result: "fail",
@@ -255,9 +284,9 @@ module.exports = function (pool) {
       });
       return;
     }
-    //2. Authentification id로 검색 후 수정 / 0 row changed -> Client notice.
-    sql2 = `update Alien set accuredAuthCnt = accuredAuthCnt+1, practice_status=2 where id = ${Alien_id}`;
-    sql1 = `update Authentification set isAuth = isAuth +1, response_date = NOW(), response_user_id = ${req.user.id}, response_user_nickname=${req.user.nickname} where id=${auth_id} and isAuth=0;`; // is Auth = 0 일때만 올리고 0 row 변하면 이미 완료된 요청입니다.
+    //2. practice_record id로 검색 후 수정 / 0 row changed -> Client notice.
+    sql2 = `update alien set accumulated_count = accumulated_count+1, practice_status=2 where id = ${Alien_id}`;
+    sql1 = `update practice_record set record_status = record_status +1, response_date = NOW(), response_user_id = ${req.user.id}, response_user=${req.user.nickname} where id=${auth_id} and record_status=0;`; // is Auth = 0 일때만 올리고 0 row 변하면 이미 완료된 요청입니다.
     pool.getConnection(function (err, connection) {
       connection.query(sql1, function (error, results, fields) {
         if (error) {

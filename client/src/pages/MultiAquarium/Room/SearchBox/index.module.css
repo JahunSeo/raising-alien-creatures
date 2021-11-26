@@ -46,6 +46,7 @@
   right: 15px;
   font-size: 18px;
   font-weight: bold;
+  text-decoration: underline;
 }
 .newChalBtn:hover {
   color: #18ffff;
