@@ -139,7 +139,6 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
-    data.request_date = new Date();
     data.request_user_nickname = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
