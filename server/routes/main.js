@@ -6,7 +6,7 @@ module.exports = function (pool) {
     // const sql1 = `(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.createDate, alienName, image_url, accuredAuthCnt, color, end_date FROM Alien JOIN Challenge ON Alien.Challenge_id = Challenge.id) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.createDate, alienName, image_url, accuredAuthCnt, color, graduated_date FROM Alien_graduated JOIN Challenge ON Alien_graduated.Challenge_id = Challenge.id) ORDER BY accuredAuthCnt DESC LIMIT 50;`;
     pool.getConnection(function (err, connection) {
       if (err) throw err;
-      let columns = `alien.id, challenge_id, alien.created_date as alien_created_date,\
+      let columns = `alien.id, challenge_id, alien.created_date as created_date,\
                   alien_name, color, accumulated_count, image_url,\
                   practice_status, end_date, alien_status,\
                   alien.times_per_week as times_per_week, sun, mon, tue, wed, thu, fri, sat,\

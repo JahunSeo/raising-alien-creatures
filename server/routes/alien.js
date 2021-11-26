@@ -25,10 +25,8 @@ module.exports = function (pool) {
       // user_info_has_challenge 테이블 row 추가
       const sql3 = `INSERT INTO user_info_has_challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
       const sql4 = `SELECT if (maximum_number > participant_number, "available","full") as result from challenge where id=${req.body.challenge_id};`;
-
       pool.getConnection(function (err, connection) {
         // validation check//
-
         connection.query(sql4, function (error, result, fields) {
           if (error) {
             console.error(error);
@@ -49,7 +47,6 @@ module.exports = function (pool) {
             connection.release();
             return;
           }
-
           if (err) {
             console.error(err);
             res.status(200).json({
@@ -82,14 +79,15 @@ module.exports = function (pool) {
       });
     }
   });
-
   //졸업 api
-
   router.get("/graduation", function (req, res) {
     // 필요한 데이터: challenge_id, ailen_id
     // 해야할 일 1: alien 테이블 변경
     const sql1 = "UPDATE alien SET status = 1, end_date = NOW() WHERE id = ?;";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 342fbea23d9840e5a6f3324b50df8f967f02c5ee
     // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
     pool.getConnection(function (err, connection) {
       if (err) {
@@ -109,7 +107,6 @@ module.exports = function (pool) {
           });
           return;
         }
-
         if (results.affectedRows === 0) {
           res.status(200).json({
             result: "fail",
@@ -118,7 +115,6 @@ module.exports = function (pool) {
           connection.release();
           return;
         }
-
         res.status(200).json({
           result: "success",
           msg: "do graduation",
