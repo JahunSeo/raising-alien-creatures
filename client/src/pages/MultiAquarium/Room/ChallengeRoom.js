@@ -14,24 +14,27 @@ export default function ChallengeRoom(props) {
   const challengeId = params.challengeId;
   const roomId = `challenge-${challengeId}`;
   const { rooms } = props;
-  console.log("ChallengeRoom 정보", params);
   if (!rooms.current) rooms.current = {};
   if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
 
   // user 정보 확인
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const userId = user && user.id;
-  const isChaIdIn = (challenges, cId) => {
-    return challenges.findIndex((c) => c.Challenge_id === cId) !== -1;
-  };
-  let participating = user && isChaIdIn(user.challenges, Number(challengeId));
+  const userId = user.login && user.id;
+
+  // 본 챌린지에 참가중인지 확인
+  let participating = false;
+  if (user.login && user.challenges) {
+    participating =
+      user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+  }
+
   // console.log("[ChallengeRoom] is participating?", participating);
 
   useEffect(() => {
     try {
       const fetchData = async () => {
         let res = await api.get(`/challenge/${challengeId}`);
-        console.log("fetch challenge data", res.data);
+        // console.log("fetch challenge data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.aliens;
@@ -44,7 +47,6 @@ export default function ChallengeRoom(props) {
         } else {
           return;
         }
-
         res = await api.get(`/chat/${challengeId}`);
         if (res.data.result === "success") {
           const messages = res.data.data;
