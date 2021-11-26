@@ -20,11 +20,15 @@ export default function ChallengeRoom(props) {
   // user 정보 확인
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const userId = user.login && user.id;
-  const isChaIdIn = (challenges, cId) => {
-    return challenges.findIndex((c) => c.id === cId) !== -1;
-  };
-  let participating = userId && isChaIdIn(user.challenges, Number(challengeId));
-  console.log("[ChallengeRoom] is participating?", participating);
+
+  // 본 챌린지에 참가중인지 확인
+  let participating = false;
+  if (user.login && user.challenges) {
+    participating =
+      user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+  }
+
+  // console.log("[ChallengeRoom] is participating?", participating);
 
   useEffect(() => {
     try {

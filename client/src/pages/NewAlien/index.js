@@ -56,7 +56,14 @@ export default function NewAlien(props) {
     // cntOfWeek
     try {
       const getChalData = async () => {
-        if (!user.login) return;
+        // 본 챌린지에 참가중인지 확인
+        let participating;
+        if (user.login && user.challenges) {
+          participating =
+            user.challenges.findIndex((c) => c.id === Number(challengeId)) !==
+            -1;
+        }
+        if (!user.login || participating) return;
         let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
         if (res.data.result === "success") {
           setAuthCount(res.data.cntOfWeek);

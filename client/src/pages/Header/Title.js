@@ -29,9 +29,8 @@ export default function Title(props) {
     let participating;
     if (user.login && user.challenges) {
       participating =
-        user.challenges.findIndex((e) => e.id === Number(challengeId)) !== -1;
+        user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
     }
-    // console.log(challengeId, participating, user.challenges);
     return (
       <React.Fragment>
         <div className={styles.title}>{roomTitle}</div>
@@ -50,9 +49,15 @@ export default function Title(props) {
     return <div className={styles.title}>{`New Challenge`}</div>;
   } else if (!!alienMatch) {
     let { params } = alienMatch;
-    if (!user.login) {
-      // TODO: 이미 참가중인 경우 처리
-      return <Navigate to={`/challenge/${params.challengeId}/room`} />;
+    let { challengeId } = params;
+    // 본 챌린지에 참가중인지 확인
+    let participating;
+    if (user.login && user.challenges) {
+      participating =
+        user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+    }
+    if (!user.login || participating) {
+      return <Navigate to={`/challenge/${challengeId}/room`} />;
     }
     return <div className={styles.title}>{roomTitle}</div>;
   } else if (!!approvalMatch) {
