@@ -13,27 +13,27 @@ exports.j = schedule.scheduleJob({ hour: 15, minute: 00 }, function () {
     let sql1;
     let sql2;
     if (day === 0) {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (sat = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (sat = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (sat = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (sat = 1 AND alien_status = 0 AND practice_status != 0);';
     } else if (day === 1) {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (sun = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (sun = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (sun = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (sun = 1 AND alien_status = 0 AND practice_status != 0);';
 
     } else if (day === 2) {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (mon = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (mon = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (mon = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (mon = 1 AND alien_status = 0 AND practice_status != 0);';
     } else if (day === 3) {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (tue = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (tue = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (tue = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (tue = 1 AND alien_status = 0 AND practice_status != 0);';
     } else if (day === 4) {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (wed = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (wed = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (wed = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (wed = 1 AND alien_status = 0 AND practice_status != 0);';
     } else if (day === 5) {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (thu = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (thu = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (thu = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (thu = 1 AND alien_status = 0 AND practice_status != 0);';
     } else {
-      sql1 = 'UPDATE Alien SET status = 2, end_date = NOW() WHERE (fri = 1 AND status = 0 AND practice_status = 0);';
-      sql2 = 'UPDATE Alien SET practice_status = 0 WHERE (fri = 1 AND status = 0 AND practice_status != 0);';
+      sql1 = 'UPDATE alien SET alien_status = 2, end_date = NOW() WHERE (fri = 1 AND alien_status = 0 AND practice_status = 0);';
+      sql2 = 'UPDATE alien SET practice_status = 0 WHERE (fri = 1 AND alien_status = 0 AND practice_status != 0);';
     }
   
     poll.getConnection(function(err, connection){
