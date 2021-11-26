@@ -19,14 +19,14 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const onClickGraduate = async() =>{
     let req = { alien_id: alien.id };
     let res = await api.post("/alien/graduation", req);
-    console.log(res);
+    if (res.data.result === 'success')
+      dispatch(actions.graduate(alien.id))
   }
 
-  console.log(userId)
   return (
     <>
       <div className="PostItemBlock">
-        <h2>챌린지 : "{alien.challengeName}"</h2>
+        <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
           <img
             alt="물고기"
@@ -49,7 +49,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           </div>
         </div>
         <div className="buttons">
-          {type !== "main" && (
+          {type === "personal" && alien.status === 0 && alien.user_info_id === userId && ( 
             <button
               className="StyledButton"
               onClick={() => {
@@ -61,12 +61,12 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             </button>
           )}
           <SideBarModal2 alien={alien} />
-          {type !== "challenge" && (
+          {type !== "challenge" && alien.status === 0 && (
             <Link to={`/challenge/${alien.Challenge_id}/room`}>
               <button className="StyledButton"> 챌린지 어항</button>
             </Link>
           )}
-          {type !== "main" && alien.status === 0 && alien.user_info_id === userId && (
+          {type === "personal" && alien.status === 0 && alien.user_info_id === userId && (
             <button className="StyledButton" onClick = {onClickGraduate}> 졸업 신청</button>
           )}
         </div>
@@ -76,6 +76,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
 });
 
 const PostList = React.memo(function PostList({ type }) {
+  console.log()
   const { aliens_list, selectedAlien } = useSelector(({ room }) => ({
     aliens_list: room.aliens,
     selectedAlien: room.selectedAlien,
@@ -101,8 +102,6 @@ const PostList = React.memo(function PostList({ type }) {
   const leastCommit = (a,b) =>{
     return a.accured_auth_cnt - b.accured_auth_cnt;
   }
-
-  // console.log(userId)
 
   return (
     <div className="PostListBlock">

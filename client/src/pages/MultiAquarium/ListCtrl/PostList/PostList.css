@@ -7,8 +7,8 @@
   border-radius: 12px;
   overflow: auto;
   background: linear-gradient(to top, #008aff, #ccf5f1);
-  background: linear-gradient(to top, #008aff, #ccf5f1);
-  font-family: "gulim";
+  /* background: indigo; */
+  font-family: inherit;
   font-weight: bold;
 }
 
@@ -93,8 +93,7 @@ ul span {
 }
 
 .PostItemBlock {
-  padding-top: 0.4rem;
-  padding-bottom: 0.4rem;
+  padding-top: 0.8rem;
   border-bottom: 1px solid #dee2e6;
 }
 
@@ -103,14 +102,14 @@ ul span {
 }
 
 .Content {
-  padding-left: 0.5rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-content: center;
   text-align: left;
 }
 .Content img {
-  object-fit: cover;
+  
+  /* object-fit: cover; */
+  overflow:hidden;
   width: 5em;
   height: 5em;
   margin-right: 2rem;
@@ -140,7 +139,7 @@ ul span {
 .StyledButton {
   border: none;
   margin: 1rem;
-  border-radius: 400px;
+  border-radius: 4px;
   font-size: 0.8rem;
   font-weight: bold;
   padding: 0.38rem;
@@ -148,29 +147,5 @@ ul span {
   outline: none;
   cursor: pointer;
   background: linear-gradient(to right, #008aff, grey);
+  /* background :#4f46e5; */
 }
-
-/* .StyledButton:active {
-  position: relative;
-  display: inline-block;
-  background: ghostwhite;
-  background: linear-gradient(to right, #008aff, grey);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  border-radius: 50%;
-  /* animation: animate 1s linear infinite; */
-/* overflow: hidden; 
-} */
-
-/* @keyframes animate {
-  0% {
-    width: 0px;
-    height: 0px;
-    opacity: 0.5;
-  }
-  100% {
-    width: 500px;
-    height: 500px;
-    opacity: 0;
-  }
-} */
