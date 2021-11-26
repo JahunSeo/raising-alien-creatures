@@ -16,8 +16,8 @@ const SignInModal = () => {
 
   const postSignIn = async () => {
     let signInData = { email: userEmail, pwd: userPassword };
+    // 1단계: 로그인 요청
     let res = await api.post("/user/login", signInData);
-    console.log("res", res);
     if (res.data.result !== "success") {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
       return;
@@ -26,9 +26,10 @@ const SignInModal = () => {
     delete user.result;
     user.login = true;
     user.challenges = [];
-    res = await api.get("/user/personalinfo");
+    // 2단계: 유저 관련 정보 확인 (참여중 챌린지 등)
+    res = await api.get("/user/challenges/ids");
     if (res.data.result === "success") {
-      user.challenges = res.data.Challenge;
+      user.challenges = res.data.challenges;
     }
     dispatch(actions.checkUser(user));
     dispatch(actions.showSignInModal(!showSignInModal));

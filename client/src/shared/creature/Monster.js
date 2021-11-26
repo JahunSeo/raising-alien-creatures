@@ -1,16 +1,15 @@
 import Vector2D from "../lib/Vector2D.js";
-
-const S3URL = "https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/";
+import { S3URL } from "../lib/Constants.js";
 
 class Monster {
   constructor(props) {
     this.userId = props.userId;
     this.monId = props.monId;
     this.isUserOnRoom = false;
-    this.authCnt = props.authCnt;
+    this.authCnt = props.authCnt || 0;
     this.wanderRange = props.wanderRange;
     this.color = props.color;
-    if (!!props.authCnt) this.size = 40 + props.authCnt * 2;
+    this.size = 40 + this.authCnt * 2;
 
     // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981
     //          0                      1                   2 3  4    5

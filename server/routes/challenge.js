@@ -53,6 +53,38 @@ module.exports = function (pool) {
     });
   });
 
+  router.get("/:challengeId/info", function (req, res) {
+    console.log("/challenge/:challengeId/info", req.params.challengeId);
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      // 1단계: challenge 정보 가져오기
+      const { challengeId } = req.params;
+      let columns = `id, challengeName as challenge_name, challengeContent as challenge_content,\
+      maxUserNumber as max_user_number, participantNumber as participant_number,\
+      createDate as create_date, cntOfWeek as cnt_of_week`;
+      let sql = `SELECT ${columns} from Challenge WHERE Challenge.id=${challengeId};`;
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        const challenge = results[0];
+        if (!challenge) {
+          res.status(400).json({
+            result: "fail",
+            msg: `challenge ${req.params.challengeId} not found`,
+          });
+          connection.release();
+          return;
+        }
+        res.status(200).json({
+          result: "success",
+          msg: `request challengeId info ${req.params.challengeId}`,
+          challenge: challenge,
+        });
+        connection.release();
+        return;
+      });
+    });
+  });
+
   // 챌린지 생성 api
   router.post("/create", function (req, res) {
     console.log(req.body);
@@ -139,33 +171,71 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
+
+    const alien_id = req.body.Alien_id;
     data.request_user_nickname = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
     var sql1 = `INSERT INTO Authentification SET ?;`;
     pool.getConnection(function (err, connection) {
       connection.query(sql1, data, function (error, results, fields) {
-        console.log("TESTTEST1");
         if (error) {
           console.error(error);
           res.json({
             result: "fail",
-            msg: "Fail to load Information from Database.",
+            msg: "Fail to upload Information to Database.",
           });
+          connection.release();
           return;
         }
 
-        // ++추가구현 필요++ 동일한 챌린지의 멤버들이 접속중일 때, 실시간으로 연락이 갈 것. ( 해당 소켓의 room member에게 'msg' )
-        console.log(results);
-        res.json({ result: "success" });
-        // res.redirect('/');
-        connection.release();
+        var sql2 = `UPDATE Alien SET practice_status = 1 where id = ${alien_id}`;
+        connection.query(sql2, function (err, results, fields) {
+          if (err) {
+            console.error(err);
+            res.json({
+              result: "fail",
+              msg: "Fail to update alien practice_status on Database.",
+            });
+            connection.release();
+            return;
+          }
+          res.json({
+            result: "success",
+            msg: "인증요청이 완료되었습니다.",
+          });
+          connection.release();
+          return;
+          // ++추가구현 필요++ 동일한 챌린지의 멤버들이 접속중일 때, 실시간으로 연락이 갈 것. ( 해당 소켓의 room member에게 'msg' )
+        });
       });
     });
   });
-
   router.post("/search", function (req, res) {
     var data = req.body;
+    // console.log(data.keyword);
+    pool.getConnection(function (err, connection) {
+      connection.query(
+        `select * from Challenge where challengeName regexp '${data.keyword}'`,
+        function (err, results, fields) {
+          if (err) {
+            console.log(err);
+            res.json({
+              result: "fail",
+              msg: "Fail to search",
+            });
+            connection.release();
+            return;
+          }
+          res.json({ result: "success", challenge: results });
+          connection.release();
+        }
+      );
+    });
+  });
+
+  router.post("/searchCategory", function (req, res) {
+    var category = req.body.category;
     // console.log(data.keyword);
     pool.getConnection(function (err, connection) {
       connection.query(
@@ -199,9 +269,10 @@ module.exports = function (pool) {
     //1. 날짜 지난지 check 지났으면 Client에 메시지 return
     const request_month = request_date[1];
     const request_day = request_date[2];
+    let today = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
     if (
-      new Date().getMonth() + 1 != request_month ||
-      new Date().getDate() > request_day
+      today.getMonth() + 1 != request_month ||
+      today.getDate() > request_day
     ) {
       res.json({
         result: "fail",
@@ -244,6 +315,26 @@ module.exports = function (pool) {
       });
     });
   });
+
+  // router.get("/isAvailable/:challengeId", function (req, res) {
+  //   pool.getConnection(function (err, connection) {
+  //     sql = `SELECT if (maxUserNumber > participantNumber, "available","full") as result from Challenge where id=${req.params.challengeId};`;
+  //     connection.query(sql, function (error, result, fields) {
+  //       if (error) {
+  //         console.error(error);
+  //         res.json({
+  //           result: "fail",
+  //           msg: "[DB] Fail to confrim challenge information",
+  //         });
+  //         connection.release();
+  //         return;
+  //       }
+  //       res.json(result);
+  //       connection.release();
+  //       return;
+  //     });
+  //   });
+  // });
 
   router.use(function (req, res, next) {
     res.status(404).json({

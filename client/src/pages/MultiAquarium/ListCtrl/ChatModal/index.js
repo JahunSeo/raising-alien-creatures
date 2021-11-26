@@ -89,6 +89,7 @@ const ChallengeModal = (props) => {
 
         <ScrollToBottom className="messages">
           {!!user &&
+            user.login &&
             messages.map((messageContent, index) => {
               return (
                 <div

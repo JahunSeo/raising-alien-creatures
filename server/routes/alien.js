@@ -58,10 +58,10 @@ module.exports = function (pool) {
   });
   
     //졸업 api
-    router.get('/graduation', function(req, res){
+    router.post('/graduation', function(req, res){
         // 필요한 데이터: challenge_id, ailen_id
         // 해야할 일 1: alien 테이블 변경
-        const sql1 = 'UPDATE Alien SET status = 1, end_date = NOW() WHERE id = ?;'
+        const sql1 = 'UPDATE Alien SET status = 1, end_date = NOW() WHERE id = ? AND status = 0;'
         // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
         pool.getConnection(function(err, connection) {
             if (err) {
@@ -82,6 +82,15 @@ module.exports = function (pool) {
                             msg: "cant graduation"
                         });
                         return;
+                    }
+
+                    if (results.affectedRows === 0) {
+                      res.status(200).json({
+                        result:"fail",
+                        msg:"already graduation"
+                      })
+                      connection.release();
+                      return;
                     }
                     res.status(200).json({
                     result: "success",

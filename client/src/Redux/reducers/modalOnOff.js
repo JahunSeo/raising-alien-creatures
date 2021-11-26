@@ -16,6 +16,12 @@ const initialState = {
 
 export default function modalOnOff(state = initialState, action) {
   switch (action.type) {
+    case types.CURRENT_ROOM:
+      return {
+        ...state,
+        chalInfoModal: null,
+      };
+
     case types.SHOW_MODAL2:
       return {
         ...state,
