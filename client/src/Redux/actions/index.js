@@ -12,7 +12,7 @@ export const setChalInfoModal = (chalInfoModal) => ({
 });
 
 export const setPopupModal = (popupModal, popupMessage) => ({
-  types: types.SET_POPUP_MODAL,
+  type: types.SET_POPUP_MODAL,
   popupModal,
   popupMessage,
 });
@@ -54,4 +54,9 @@ export const selectAlien = (selectedAlien) => ({
 export const setMessage = (msgArray) => ({
   type: types.MESSAGE_UPDATE,
   payload: msgArray,
+});
+
+export const joinChallenge = (challenge) => ({
+  type: types.JOIN_CHALLENGE,
+  payload: challenge,
 });

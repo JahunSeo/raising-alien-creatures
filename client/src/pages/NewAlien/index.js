@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../Redux/actions";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import styles from "./index.module.css";
 import api from "../../apis";
-import AlienSlide from "./AlienSlide/index.js";
-import AlienInfo from "./AlienInfo/index.js";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../Redux/actions/index.js";
+import AlienSlide from "./AlienSlide";
+import AlienInfo from "./AlienInfo";
 
-export default function NewChallenge(props) {
-  let params = useParams();
+export default function NewAlien(props) {
+  const { challengeId } = useParams();
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   // console.log("New Challenge params", params);
   const [authCount, setAuthCount] = useState("");
   // 생명체 정보
@@ -56,6 +57,31 @@ export default function NewChallenge(props) {
   }
   console.log("aNumber", aNumber);
 
+  useEffect(() => {
+    // cntOfWeek
+    try {
+      const getChalData = async () => {
+        // 본 챌린지에 참가중인지 확인
+        let participating;
+        if (user.login && user.challenges) {
+          participating =
+            user.challenges.findIndex((c) => c.id === Number(challengeId)) !==
+            -1;
+        }
+        if (!user.login || participating) return;
+        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
+        if (res.data.result === "success") {
+          setAuthCount(res.data.cntOfWeek);
+        } else {
+          // TODO: 실패 케이스 처리
+        }
+      };
+      getChalData();
+    } catch (err) {
+      console.error("fetchData fail", err);
+    }
+  }, [challengeId]);
+
   // 인증 요일
   useEffect(() => {
     if (checkDay.includes("sun")) setSun(1);
@@ -76,6 +102,8 @@ export default function NewChallenge(props) {
       setCreAlienMessage("인증 요일을 선택해주세요!");
       return false;
     }
+    // console.log(111, checkDay.length);
+    // console.log(221, authCount);
     if (checkDay.length !== authCount) {
       setCreAlienMessage("인증 횟수를 확인해주세요!");
       return false;
@@ -93,7 +121,7 @@ export default function NewChallenge(props) {
   // Alien 정보 api 보내기
   const postCreateAlien = async () => {
     let createAlienData = {
-      challenge_id: params.challengeId,
+      challenge_id: challengeId,
       alien_name: alienName,
       image_url: aNumber,
       total_auth_cnt: authCount,
@@ -105,12 +133,11 @@ export default function NewChallenge(props) {
       fri: fri,
       sat: sat,
     };
-    await api.post("/alien/create", createAlienData);
+    // const CREATE_ALIEN : "CREATE_ALIEN";
 
-    alert("생명체 생성을 성공하였습니다!");
     // function switchPopup(popupType)
     if (popupModal === "CREATE_ALIEN") {
-      dispatch(actions.setPopupModal(null, ""));
+      dispatch(actions.setPopupModal(false, ""));
     } else {
       dispatch(
         actions.setPopupModal("CREATE_ALIEN", "생명체가 생성되었습니다 !")
@@ -118,26 +145,17 @@ export default function NewChallenge(props) {
       console.log(3333, popupModal);
     }
 
-    // navigate(`/challenge/${params.challengeId}/room`);
-    // <Link to={`/challenge/${params.challengeId}/room`} />;
+    // const res = await api.post("/alien/create", createAlienData);
+    // if (res.data.result === "success") {
+    //   // console.log("/alien/create", res);
+    //   // TODO: challenge 정보를 user 정보에 추가
+    //   dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
+    //   alert("생명체 생성을 성공하였습니다!");
+    //   navigate(`/challenge/${challengeId}/room`);
+    // } else {
+    //   alert("생명체 생성에 실패했습니다.");
+    // }
   };
-  // console.log(55555, popupModal);
-  useEffect(() => {
-    // cntOfWeek
-    try {
-      const getChalData = async () => {
-        let res = await api.get(
-          `/challenge/totalAuthCnt/${params.challengeId}`
-        );
-        if (res.data.cntOfWeek) {
-          setAuthCount(res.data.cntOfWeek);
-        }
-      };
-      getChalData();
-    } catch (err) {
-      console.error("fetchData fail", err);
-    }
-  }, [params]);
 
   // console.log("checkDay", checkDay); // log 2번 찍힘
   return (

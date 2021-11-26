@@ -1,4 +1,19 @@
-export default function PopUp() {
+import { useDispatch } from "react-redux";
+import * as actions from "../../Redux/actions";
+
+export default function PopUp({ popupModal, popupMessage }) {
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    if (popupModal) {
+      dispatch(actions.setPopupModal(null, ""));
+      // } else {
+      //   dispatch(
+      //     actions.setPopupModal("CREATE_ALIEN", "생명체가 생성되었습니다 !")
+      //   );
+      // console.log(3333, popupModal);
+    }
+  };
   return (
     <>
       <link
@@ -18,19 +33,13 @@ export default function PopUp() {
             </span>
           </div>
           <div className="flex items-center">
-            <button>
+            <button onClick={handleSubmit}>
               <i className="fa fa-times-circle text-red-500 hover:text-red-600 text-xl"></i>
             </button>
           </div>
         </div>
         <div className="px-10 py-14 text-gray-600 text-lg flex justify-center">
-          생명체가 생성되었습니다 !
-        </div>
-
-        <div className="px-5 py-4 flex justify-end">
-          {/* <button className=" text-white rounded-lg py-2 px-3 bg-indigo-600 hover:bg-indigo-700 transition duration-150">
-              확인
-            </button> */}
+          {popupMessage}
         </div>
       </div>
     </>

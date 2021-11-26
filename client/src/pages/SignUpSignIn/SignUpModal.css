@@ -10,12 +10,11 @@
 
 .SignUpContainer {
   position: fixed;
-  top: 60%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   max-height: 100%;
   width: 30rem;
-  height: 70%;
   padding: 40px;
   border-radius: 10px;
   text-align: center;

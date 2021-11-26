@@ -44,22 +44,28 @@ function App() {
 }
 
 function Layout() {
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
   }));
-  const popupModal = false;
+  // const popupModal = false;
+  const popup = useSelector((state) => state.modalOnOff);
+  const popupModal = popup.popupModal;
+  const popupMessage = popup.popupMessage;
+
+  // console.log("popupModal111", popupModal);
+  // console.log("popupModal222", popupModal);
+  // console.log("popupModal333", popupMessage);
+
   return (
     <div className={styles.body}>
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
-
-      <div className={styles.content}>
-        <Outlet />
-      </div>
+      <div className={styles.content}>{user !== null && <Outlet />}</div>
       {popupModal ? (
         <div className={styles.popup}>
-          <PopUp />
+          <PopUp popupModal={popupModal} popupMessage={popupMessage} />
         </div>
       ) : null}
     </div>
