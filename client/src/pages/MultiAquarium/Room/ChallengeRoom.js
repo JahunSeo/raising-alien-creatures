@@ -30,7 +30,7 @@ export default function ChallengeRoom(props) {
     try {
       const fetchData = async () => {
         let res = await api.get(`/challenge/${challengeId}`);
-        console.log("fetch challenge data", res.data);
+        // console.log("fetch challenge data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.aliens;

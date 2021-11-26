@@ -129,7 +129,6 @@ export default function NewAlien(props) {
       // console.log("/alien/create", res);
       // TODO: challenge 정보를 user 정보에 추가
       console.log("challenge info", challenge);
-
       alert("생명체 생성을 성공하였습니다!");
       navigate(`/challenge/${challengeId}/room`);
     } else {

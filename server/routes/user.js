@@ -75,6 +75,33 @@ module.exports = function (passport, pool) {
     })(req, res, next);
   });
 
+  // TODO: 아래의 personalinfo api와 통합 가능 여부 체크
+  router.get("/challenges/ids", function (req, res) {
+    // 1단계: 로그인한 유저인지 확인
+    if (!req.user) {
+      res.status(401).json({
+        result: "fail",
+        msg: "Unauthorized",
+      });
+      return;
+    }
+    // 2단계: challenges 가져오기
+    let sql = `SELECT Challenge_id FROM user_info_has_Challenge \
+              WHERE user_info_id=${req.user.id};`;
+    pool.getConnection(function (err, connection) {
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        res.status(200).json({
+          result: "success",
+          msg: "request user's challenge ids",
+          challenges: results,
+        });
+        connection.release();
+        return;
+      });
+    });
+  });
+
   // 해당 유저 소유의 Alien / 참가중인 Challenge / 해당유저와 유관한 인증목록 중 인증되지 않은 것들 가져오기
   router.get("/personalinfo", function (req, res) {
     var user_info_id = req.user.id;
