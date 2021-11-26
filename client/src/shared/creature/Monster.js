@@ -1,6 +1,5 @@
 import Vector2D from "../lib/Vector2D.js";
-
-const S3URL = "https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/";
+import { S3URL } from "../lib/Constants.js";
 
 class Monster {
   constructor(props) {

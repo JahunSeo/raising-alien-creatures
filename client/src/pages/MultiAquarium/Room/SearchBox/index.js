@@ -69,8 +69,8 @@ export default function SearchBox(props) {
         ></img>
       )}
       {user.login ? (
-        <Link to={`/challenge/new`} className={styles.newChalBtn}>
-          <button>{"새로운 챌린지 생성"}</button>
+        <Link to={`/challenge/new`}>
+          <button className={styles.newChalBtn}>{"새로운 챌린지 생성"}</button>
         </Link>
       ) : (
         <button

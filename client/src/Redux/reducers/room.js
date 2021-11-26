@@ -31,6 +31,11 @@ const room = handleActions(
       selectedAlien: selectedAlien,
     }),
 
+    [types.GRADUATE_ALIEN]:(state, { payload: alienId }) => ({
+      ...state,
+      aliens: state.aliens.map(alien => alien.id === alienId ? {...alien, status:1} : alien),
+    }),
+
     [types.MESSAGE_UPDATE]: (state, { payload: msgArray }) => ({
       ...state,
       messages: [...state.messages, ...msgArray],
