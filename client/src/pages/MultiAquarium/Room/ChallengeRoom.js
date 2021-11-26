@@ -21,10 +21,10 @@ export default function ChallengeRoom(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const userId = user.login && user.id;
   const isChaIdIn = (challenges, cId) => {
-    return challenges.findIndex((c) => c.Challenge_id === cId) !== -1;
+    return challenges.findIndex((c) => c.id === cId) !== -1;
   };
   let participating = userId && isChaIdIn(user.challenges, Number(challengeId));
-  // console.log("[ChallengeRoom] is participating?", participating);
+  console.log("[ChallengeRoom] is participating?", participating);
 
   useEffect(() => {
     try {
