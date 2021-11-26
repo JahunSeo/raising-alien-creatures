@@ -14,6 +14,7 @@ export default function NewAlien(props) {
   const navigate = useNavigate();
 
   // console.log("New Challenge params", params);
+  const [challenge, setChallenge] = useState(null);
   const [authCount, setAuthCount] = useState("");
   // 생명체 정보
   const [alienName, setAlienName] = useState("");
@@ -56,9 +57,13 @@ export default function NewAlien(props) {
     try {
       const getChalData = async () => {
         if (!user.login) return;
-        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
-        if (res.data.cntOfWeek) {
-          setAuthCount(res.data.cntOfWeek);
+        let res = await api.get(`/challenge/${challengeId}/info`);
+        if (res.data.result === "success") {
+          let challenge = res.data.challenge;
+          setChallenge(challenge);
+          setAuthCount(challenge.cnt_of_week);
+        } else {
+          // TODO: 실패 케이스 처리
         }
       };
       getChalData();
@@ -123,6 +128,7 @@ export default function NewAlien(props) {
     if (res.data.result === "success") {
       // console.log("/alien/create", res);
       // TODO: challenge 정보를 user 정보에 추가
+      console.log("challenge info", challenge);
 
       alert("생명체 생성을 성공하였습니다!");
       navigate(`/challenge/${challengeId}/room`);
