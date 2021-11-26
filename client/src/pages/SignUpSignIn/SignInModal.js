@@ -70,10 +70,11 @@ const SignInModal = () => {
 
   return (
     <div className={showSignInModal ? "SignInContainer" : "hidden"}>
-      <div className="flex flex-col m-auto max-w-md px-6 py-8 sm:px-6 md:px-8 lg:px-10 bg-white rounded-xl shadow dark:bg-gray-800">
+      <div className="Overlay" />
+      <div className="flex flex-col min-h-0 min-w-max m-auto px-12 py-12 pt-12 justify-center items-center bg-white rounded-xl shadow dark:bg-gray-800 z-10">
         <div className="flex self-end text-gray-400 hover:text-gray-500">
           <svg
-            className="w-5 h-5"
+            className="fixed w-5 h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -82,7 +83,7 @@ const SignInModal = () => {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="3"
               d="M6 18L18 6M6 6l12 12"
             ></path>
           </svg>
