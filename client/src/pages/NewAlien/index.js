@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../Redux/actions";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import api from "../../apis";
@@ -9,12 +10,11 @@ import AlienInfo from "./AlienInfo";
 export default function NewAlien(props) {
   const { challengeId } = useParams();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  // let dispatch = useDispatch();
+  let dispatch = useDispatch();
   // 링크 이동
   const navigate = useNavigate();
 
   // console.log("New Challenge params", params);
-  const [challenge, setChallenge] = useState(null);
   const [authCount, setAuthCount] = useState("");
   // 생명체 정보
   const [alienName, setAlienName] = useState("");
@@ -57,11 +57,9 @@ export default function NewAlien(props) {
     try {
       const getChalData = async () => {
         if (!user.login) return;
-        let res = await api.get(`/challenge/${challengeId}/info`);
+        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
         if (res.data.result === "success") {
-          let challenge = res.data.challenge;
-          setChallenge(challenge);
-          setAuthCount(challenge.cnt_of_week);
+          setAuthCount(res.data.cntOfWeek);
         } else {
           // TODO: 실패 케이스 처리
         }
@@ -128,7 +126,7 @@ export default function NewAlien(props) {
     if (res.data.result === "success") {
       // console.log("/alien/create", res);
       // TODO: challenge 정보를 user 정보에 추가
-      console.log("challenge info", challenge);
+      dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
       alert("생명체 생성을 성공하였습니다!");
       navigate(`/challenge/${challengeId}/room`);
     } else {

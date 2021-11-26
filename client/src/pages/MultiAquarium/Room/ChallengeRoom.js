@@ -43,7 +43,6 @@ export default function ChallengeRoom(props) {
         } else {
           return;
         }
-
         res = await api.get(`/chat/${challengeId}`);
         if (res.data.result === "success") {
           const messages = res.data.data;

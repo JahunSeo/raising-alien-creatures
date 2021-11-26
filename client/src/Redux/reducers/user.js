@@ -18,6 +18,14 @@ const user = handleActions(
       ...state,
       user: { login: false },
     }),
+
+    [types.JOIN_CHALLENGE]: (state, { payload: challenge }) => ({
+      ...state,
+      user: {
+        ...state.user,
+        challenges: [...state.user.challenges, challenge],
+      },
+    }),
   },
   initialState
 );

@@ -29,10 +29,9 @@ export default function Title(props) {
     let participating;
     if (user.login && user.challenges) {
       participating =
-        user.challenges.findIndex(
-          (e) => e.Challenge_id === Number(challengeId)
-        ) !== -1;
+        user.challenges.findIndex((e) => e.id === Number(challengeId)) !== -1;
     }
+    // console.log(challengeId, participating, user.challenges);
     return (
       <React.Fragment>
         <div className={styles.title}>{roomTitle}</div>

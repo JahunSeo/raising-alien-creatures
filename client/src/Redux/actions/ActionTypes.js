@@ -7,6 +7,7 @@ export const SET_CHAL_INFO_MODAL = "SET_CHAL_INFO_MODAL";
 
 export const CHECK_USER = "CHECK_USER";
 export const LOGOUT = "USER_LOGOUT";
+export const JOIN_CHALLENGE = "JOIN_CHALLENGE";
 
 export const CURRENT_ROOM = "CURRENT_ROOM";
 

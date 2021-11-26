@@ -86,7 +86,7 @@ module.exports = function (passport, pool) {
       return;
     }
     // 2단계: challenges 가져오기
-    let sql = `SELECT Challenge_id FROM user_info_has_Challenge \
+    let sql = `SELECT Challenge_id as id FROM user_info_has_Challenge \
               WHERE user_info_id=${req.user.id};`;
     pool.getConnection(function (err, connection) {
       connection.query(sql, function (err, results) {
