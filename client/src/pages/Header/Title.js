@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useMatch } from "react-router-dom";
-
+import api from "../../apis";
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
@@ -9,8 +9,9 @@ const cx = classNames.bind(styles);
 export default function Title(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const { roomTitle } = useSelector(({ room }) => ({
+  const { roomTitle, challenge } = useSelector(({ room }) => ({
     roomTitle: room.roomTitle,
+    challenge: room.challenge,
   }));
   // url 확인하기
   const userMatch = useMatch("/user/:userId/room");
@@ -25,6 +26,9 @@ export default function Title(props) {
   } else if (!!challengeMatch) {
     let { params } = challengeMatch;
     let { challengeId } = params;
+
+    // 챌린지 풀방인지 확인
+
     // 본 챌린지에 참가중인지 확인
     let participating;
     if (user && user.challenges) {
@@ -39,11 +43,22 @@ export default function Title(props) {
         {!!user && participating && (
           <div className={cx("btn", "btn--ing")}>참가중</div>
         )}
-        {!!user && !participating && (
-          <Link to={`/challenge/${challengeId}/join`}>
-            <button className={cx("btn", "btn--start")}>시작하기</button>
-          </Link>
-        )}
+        {!!user &&
+          !participating &&
+          challenge.participant_number < challenge.max_user_number && (
+            <Link to={`/challenge/${challengeId}/join`}>
+              <button className={cx("btn", "btn--start")}>시작하기</button>
+            </Link>
+          )}
+        {!!user &&
+          !participating &&
+          !(challenge.participant_number < challenge.max_user_number) && (
+            <div className={cx("btn--full")}>
+              <div>
+                풀방 {challenge.participant_number}/{challenge.max_user_number}
+              </div>
+            </div>
+          )}
       </React.Fragment>
     );
   } else if (!!newchalMatch) {
