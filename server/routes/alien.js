@@ -23,8 +23,8 @@ module.exports = function (pool) {
       // challenge id 받아오기
       const sql2 = `UPDATE challenge set participant_number = participant_number + 1 where id = ${req.body.challenge_id};`;
       // user_info_has_challenge 테이블 row 추가
-      const sql3 = `INSERT INTO user_info_has_Challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
-      const sql4 = `SELECT if (maxUserNumber > participantNumber, "available","full") as result from Challenge where id=${req.body.challenge_id};`;
+      const sql3 = `INSERT INTO user_info_has_challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
+      const sql4 = `SELECT if (maximum_number > participant_number, "available","full") as result from challenge where id=${req.body.challenge_id};`;
 
       pool.getConnection(function (err, connection) {
         // validation check//
@@ -88,7 +88,7 @@ module.exports = function (pool) {
   router.get("/graduation", function (req, res) {
     // 필요한 데이터: challenge_id, ailen_id
     // 해야할 일 1: alien 테이블 변경
-    const sql1 = "UPDATE Alien SET status = 1, end_date = NOW() WHERE id = ?;";
+    const sql1 = "UPDATE alien SET status = 1, end_date = NOW() WHERE id = ?;";
 
     // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
     pool.getConnection(function (err, connection) {
