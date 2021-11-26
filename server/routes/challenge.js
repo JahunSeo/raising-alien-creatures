@@ -8,7 +8,7 @@ module.exports = function (pool) {
       // 1단계: challenge 정보 가져오기
       const { challengeId } = req.params;
       // TODO: 테이블 수정 전 임시로 column명 변경해둔 것 간결하게 구성하기
-      let columns = `id, challenge_name, challenge_content,\
+      let columns = `id, challenge_name, description,\
                     maximum_number, participant_number,\
                     created_date, times_per_week`;
       let sql = `SELECT ${columns} FROM challenge WHERE challenge.id=${challengeId};`;
@@ -30,7 +30,7 @@ module.exports = function (pool) {
         let columns = `alien.id, challenge_id, created_date,\
                     alien_name, color, accumulated_count, image_url,\
                     practice_status, end_date, alien_status,\
-                    time_per_week, sun, mon, tue, wed, thu, fri, sat,\
+                    times_per_week, sun, mon, tue, wed, thu, fri, sat,\
                     user_info_id, email, nickname as user_nickname`;
         let sql = `SELECT ${columns} FROM alien LEFT JOIN user_info \
                 ON alien.user_info_id=user_info.id \
@@ -131,8 +131,8 @@ module.exports = function (pool) {
   });
 
   // 챌린지 total_auth_cnt 보내주기
-  router.get("/totalAuthCnt/:challengeid", function (req, res) {
-    const challengeId = req.params.challengeid;
+  router.get("/totalAuthCnt/:challengeId", function (req, res) {
+    const challengeId = req.params.challengeId;
     pool.getConnection(function (err, connection) {
       if (err) {
         console.error(err);
@@ -157,7 +157,7 @@ module.exports = function (pool) {
           res.status(200).json({
             result: "success",
             msg: "do insert",
-            cntOfWeek: results[0].cntOfWeek,
+            times_per_week: results[0].times_per_week,
           });
           connection.release();
         }
@@ -170,10 +170,8 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
-
-    // TODO
-    const alien_id = req.body.Alien_id;
-    data.request_user_nickname = req.user.nickname;
+    const alien_id = req.body.alien_id;
+    data.request_user = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
     var sql1 = `INSERT INTO practice_record SET ?;`;
@@ -211,6 +209,7 @@ module.exports = function (pool) {
       });
     });
   });
+
   router.post("/search", function (req, res) {
     var data = req.body;
     // console.log(data.keyword);

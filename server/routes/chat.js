@@ -18,7 +18,7 @@ module.exports = function (pool) {
       // 2단계: 해당 챌린지의 메시지들을 시간순으로 정렬해 전송
       // - TODO: 최근 n일의 메시지만 1차 전송 후, 스크롤 시 요청 받아 추가 전송하는 방식으로 변경
       connection.query(
-        "SELECT * from chat_message where challenge_id=? ORDER BY create_date ASC",
+        "SELECT * from chat_message where challenge_id=? ORDER BY created_date ASC",
         [challenge_id],
         function (err, results) {
           if (err) throw err;

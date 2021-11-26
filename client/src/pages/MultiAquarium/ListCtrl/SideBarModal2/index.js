@@ -59,8 +59,8 @@ export default function SideBarModal2() {
     const imageUrl = url.split("?")[0];
     const resp = {
       user_info_id: alien.alien.user_info_id,
-      Alien_id: alien.alien.id,
-      Challenge_id: alien.alien.Challenge_id,
+      alien_id: alien.alien.id,
+      challenge_id: alien.alien.challenge_id,
       comments: authMessage,
       image_url: imageUrl,
     };
