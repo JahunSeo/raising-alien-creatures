@@ -49,3 +49,8 @@ export const setMessage = (msgArray) => ({
   type: types.MESSAGE_UPDATE,
   payload: msgArray,
 });
+
+export const joinChallenge = (challenge) => ({
+  type: types.JOIN_CHALLENGE,
+  payload: challenge,
+});

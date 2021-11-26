@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../Redux/actions";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import api from "../../apis";
-import AlienSlide from "./AlienSlide/index.js";
-import AlienInfo from "./AlienInfo/index.js";
+import AlienSlide from "./AlienSlide";
+import AlienInfo from "./AlienInfo";
 
-export default function NewChallenge(props) {
-  let params = useParams();
+export default function NewAlien(props) {
+  const { challengeId } = useParams();
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  let dispatch = useDispatch();
+  // 링크 이동
+  const navigate = useNavigate();
+
   // console.log("New Challenge params", params);
   const [authCount, setAuthCount] = useState("");
   // 생명체 정보
@@ -24,8 +30,6 @@ export default function NewChallenge(props) {
   const [sat, setSat] = useState(0);
   // validation
   const [creAlienMessage, setCreAlienMessage] = useState(null);
-  // 링크 이동
-  const navigate = useNavigate();
 
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
@@ -48,6 +52,31 @@ export default function NewChallenge(props) {
     }
   }
 
+  useEffect(() => {
+    // cntOfWeek
+    try {
+      const getChalData = async () => {
+        // 본 챌린지에 참가중인지 확인
+        let participating;
+        if (user.login && user.challenges) {
+          participating =
+            user.challenges.findIndex((c) => c.id === Number(challengeId)) !==
+            -1;
+        }
+        if (!user.login || participating) return;
+        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
+        if (res.data.result === "success") {
+          setAuthCount(res.data.cntOfWeek);
+        } else {
+          // TODO: 실패 케이스 처리
+        }
+      };
+      getChalData();
+    } catch (err) {
+      console.error("fetchData fail", err);
+    }
+  }, [challengeId]);
+
   // 인증 요일
   useEffect(() => {
     if (checkDay.includes("sun")) setSun(1);
@@ -68,29 +97,25 @@ export default function NewChallenge(props) {
       setCreAlienMessage("인증 요일을 선택해주세요!");
       return false;
     }
-
     if (checkDay.length !== authCount) {
-      console.log("hihi");
       setCreAlienMessage("인증 횟수를 확인해주세요!");
       return false;
     }
     setCreAlienMessage(null);
     return true;
   }
-  console.log("dfdf", authCount);
+
   // 생명체 생성 event
   const handleSubmit = (e) => {
     // e.preventDefault();
-
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
     // console.log("alienNumber:", alienNumber);
-    console.log("aNumber:", aNumber);
     postCreateAlien();
   };
 
   const postCreateAlien = async () => {
     let createAlienData = {
-      challenge_id: params.challengeId,
+      challenge_id: challengeId,
       alien_name: alienName,
       image_url: aNumber,
       total_auth_cnt: authCount,
@@ -114,6 +139,7 @@ export default function NewChallenge(props) {
       navigate(`/challenge/${params.challengeId}/room`);
       return;
     }
+    dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
     alert("생명체 생성을 성공하였습니다!");
 
     navigate(`/challenge/${params.challengeId}/room`);
@@ -135,7 +161,7 @@ export default function NewChallenge(props) {
     } catch (err) {
       console.error("fetchData fail", err);
     }
-  }, [params]);
+  });
 
   // console.log("checkDay", checkDay); // log 2번 찍힘
   return (

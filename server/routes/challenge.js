@@ -53,6 +53,38 @@ module.exports = function (pool) {
     });
   });
 
+  router.get("/:challengeId/info", function (req, res) {
+    console.log("/challenge/:challengeId/info", req.params.challengeId);
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      // 1단계: challenge 정보 가져오기
+      const { challengeId } = req.params;
+      let columns = `id, challengeName as challenge_name, challengeContent as challenge_content,\
+      maxUserNumber as max_user_number, participantNumber as participant_number,\
+      createDate as create_date, cntOfWeek as cnt_of_week`;
+      let sql = `SELECT ${columns} from Challenge WHERE Challenge.id=${challengeId};`;
+      connection.query(sql, function (err, results) {
+        if (err) throw err;
+        const challenge = results[0];
+        if (!challenge) {
+          res.status(400).json({
+            result: "fail",
+            msg: `challenge ${req.params.challengeId} not found`,
+          });
+          connection.release();
+          return;
+        }
+        res.status(200).json({
+          result: "success",
+          msg: `request challengeId info ${req.params.challengeId}`,
+          challenge: challenge,
+        });
+        connection.release();
+        return;
+      });
+    });
+  });
+
   // 챌린지 생성 api
   router.post("/create", function (req, res) {
     console.log(req.body);

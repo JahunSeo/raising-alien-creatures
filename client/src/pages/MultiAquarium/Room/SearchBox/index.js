@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../../apis";
 
-import searchIcon from "../../image/search-icon.png";
-import backIcon from "../../image/goback-icon.png";
-import tigerIcon from "../../image/무케.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../../../Redux/actions";
+
+import searchIcon from "../../../../image/search-icon.png";
+import backIcon from "../../../../image/goback-icon.png";
+import tigerIcon from "../../../../image/무케.jpg";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -16,6 +19,18 @@ export default function SearchBox(props) {
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [message, setMessage] = useState("");
+
+  const dispatch = useDispatch();
+
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const showSignInModal = useSelector(
+    (state) => state.modalOnOff.showSignInModal
+  );
+
+  const switchSignInModal = () => {
+    dispatch(actions.showSignUpModal(false));
+    dispatch(actions.showSignInModal(!showSignInModal));
+  };
 
   const backClick = () => {
     setLonger(false);
@@ -53,9 +68,18 @@ export default function SearchBox(props) {
           src={backIcon}
         ></img>
       )}
-      <Link to={`/challenge/new`} className={styles.newChalBtn}>
-        <button>{"새로운 챌린지 생성"}</button>
-      </Link>
+      {user.login ? (
+        <Link to={`/challenge/new`} className={styles.newChalBtn}>
+          <button>{"새로운 챌린지 생성"}</button>
+        </Link>
+      ) : (
+        <button
+          className={styles.newChalBtn}
+          onClick={() => switchSignInModal()}
+        >
+          {"새로운 챌린지 생성"}
+        </button>
+      )}
       <div className={styles.header}>
         <form className={styles.searchForm} onSubmit={onSubmit}>
           <div className={styles.double}>
