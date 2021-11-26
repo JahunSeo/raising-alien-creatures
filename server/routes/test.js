@@ -4,19 +4,22 @@ const router = express.Router();
 module.exports = function (pool) {
   // GET test
   router.get("/", (req, res) => {
-    pool.getConnection(function(err, connection){
-      connection.query("SELECT * FROM Alien", function (error, results, fields) {
-        if (error) {
-          console.log(error);
+    pool.getConnection(function (err, connection) {
+      connection.query(
+        "SELECT * FROM alien",
+        function (error, results, fields) {
+          if (error) {
+            console.log(error);
+          }
+          res.status(200).json({
+            msg: "(API TEST GET) Hello, Alien!",
+            body: Math.random(),
+            data: results,
+            user: req.user,
+          });
+          connection.release();
         }
-        res.status(200).json({
-          msg: "(API TEST GET) Hello, Alien!",
-          body: Math.random(),
-          data: results,
-          user: req.user,
-        });
-        connection.release();
-      });
+      );
     });
   });
 
