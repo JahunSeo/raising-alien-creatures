@@ -119,7 +119,11 @@ const ChallengeItem = ({ challenge }) => {
   return (
     <div className={cx("challengeItem")}>
       <div className={styles.challengeName}>{challenge.challengeName}</div>
-      <img className={styles.challengeImg} alt="yammy" src={tigerIcon} />
+      <img
+        className={styles.challengeImg}
+        alt="yammy"
+        src={challenge.img_url}
+      />
       <div className={styles.participant}>
         참여인원: {challenge.participant_number}/{challenge.maximum_number}명
       </div>
