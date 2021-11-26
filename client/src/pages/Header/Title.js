@@ -43,17 +43,17 @@ export default function Title(props) {
         )}
         {user.login &&
           !participating &&
-          challenge.participant_number < challenge.max_user_number && (
+          challenge.participant_number < challenge.maximum_number && (
             <Link to={`/challenge/${challengeId}/join`}>
               <button className={cx("btn", "btn--start")}>시작하기</button>
             </Link>
           )}
         {user.login &&
           !participating &&
-          !(challenge.participant_number < challenge.max_user_number) && (
+          !(challenge.participant_number < challenge.maximum_number) && (
             <div className={cx("btn--full")}>
               <div>
-                풀방 {challenge.participant_number}/{challenge.max_user_number}
+                풀방 {challenge.participant_number}/{challenge.maximum_number}
               </div>
             </div>
           )}

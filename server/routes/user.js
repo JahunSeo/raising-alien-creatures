@@ -129,14 +129,14 @@ module.exports = function (passport, pool) {
           return;
         }
         // 2단계: user에 포함된 alien들 가져오기
-        let columns = `alien.id, challenge_id, alien.created_date as create_date,\
+        let columns = `alien.id, challenge_id, alien.created_date as created_date,\
                   alien_name as alien_name, color, accumulated_count as accumulated_count, image_url,\
                   practice_status, end_date, alien_status,\
-                  times_per_week, sun, mon, tue, wed, thu, fri, sat,\
+                  alien.times_per_week as times_per_week, sun, mon, tue, wed, thu, fri, sat,\
                   user_info_id,\
                   challenge_name as challenge_name, description as description,\
                   maximum_number as maximum_number, participant_number as participant_number,\
-                  challenge.created_date as challenge_create_date, times_per_week`;
+                  challenge.created_date as challenge_created_date`;
         let sql = `SELECT ${columns} FROM alien LEFT JOIN challenge \
               ON alien.challenge_id=challenge.id \
               WHERE alien.user_info_id=${userId} AND (alien.alien_status=0 OR alien.alien_status=1);`;

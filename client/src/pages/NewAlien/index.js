@@ -151,8 +151,8 @@ export default function NewAlien(props) {
     try {
       const getChalData = async () => {
         let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
-        if (res.data.cntOfWeek) {
-          setAuthCount(res.data.cntOfWeek);
+        if (res.data.times_per_week) {
+          setAuthCount(res.data.times_per_week);
         }
       };
       getChalData();
