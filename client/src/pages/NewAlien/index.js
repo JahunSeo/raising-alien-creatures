@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import styles from "./index.module.css";
 import api from "../../apis";
 import AlienSlide from "./AlienSlide/index.js";
 import AlienInfo from "./AlienInfo/index.js";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../Redux/actions/index.js";
 
 export default function NewChallenge(props) {
   let params = useParams();
@@ -26,27 +28,33 @@ export default function NewChallenge(props) {
   const [creAlienMessage, setCreAlienMessage] = useState(null);
   // 링크 이동
   const navigate = useNavigate();
-
+  // 팝업
+  const dispatch = useDispatch();
+  const { popupModal } = useSelector(({ modalOnOff }) => ({
+    popupModal: modalOnOff.popupModal,
+  }));
+  // console.log(1234123);
+  // console.log("popupModal", popupModal);
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
 
   // 기본 생명체 번호 계산
   let aNumber = alienNumber;
   if (aNumber >= 0) {
-    aNumber = -aNumber % 8;
+    aNumber = aNumber % 8;
+    while (aNumber < 0) {
+      aNumber += 8;
+    }
+  } else {
+    aNumber %= 8;
     while (aNumber < 0) {
       aNumber += 8;
     }
     if (aNumber === -0) {
       aNumber = 0;
     }
-  } else {
-    aNumber = -aNumber;
-    aNumber %= 8;
-    while (aNumber < 0) {
-      aNumber += 8;
-    }
   }
+  console.log("aNumber", aNumber);
 
   // 인증 요일
   useEffect(() => {
@@ -68,27 +76,21 @@ export default function NewChallenge(props) {
       setCreAlienMessage("인증 요일을 선택해주세요!");
       return false;
     }
-    console.log(111, checkDay.length);
-    console.log(221, authCount);
     if (checkDay.length !== authCount) {
-      console.log("hihi");
       setCreAlienMessage("인증 횟수를 확인해주세요!");
       return false;
     }
     setCreAlienMessage(null);
     return true;
   }
-  console.log("dfdf", authCount);
   // 생명체 생성 event
   const handleSubmit = (e) => {
     // e.preventDefault();
-
+    // validation check
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
-    // console.log("alienNumber:", alienNumber);
-    console.log("aNumber:", aNumber);
     postCreateAlien();
   };
-
+  // Alien 정보 api 보내기
   const postCreateAlien = async () => {
     let createAlienData = {
       challenge_id: params.challengeId,
@@ -104,13 +106,22 @@ export default function NewChallenge(props) {
       sat: sat,
     };
     await api.post("/alien/create", createAlienData);
-    // console.log("res", res);
-    alert("생명체 생성을 성공하였습니다!");
 
-    navigate(`/challenge/${params.challengeId}/room`);
+    alert("생명체 생성을 성공하였습니다!");
+    // function switchPopup(popupType)
+    if (popupModal === "CREATE_ALIEN") {
+      dispatch(actions.setPopupModal(null, ""));
+    } else {
+      dispatch(
+        actions.setPopupModal("CREATE_ALIEN", "생명체가 생성되었습니다 !")
+      );
+      console.log(3333, popupModal);
+    }
+
+    // navigate(`/challenge/${params.challengeId}/room`);
     // <Link to={`/challenge/${params.challengeId}/room`} />;
   };
-
+  // console.log(55555, popupModal);
   useEffect(() => {
     // cntOfWeek
     try {
@@ -164,7 +175,7 @@ export default function NewChallenge(props) {
         </div>
         <div className="flex justify-center pb-5">
           <button
-            className="border py-1 px-3 rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 font-semibold"
+            className="border py-1 px-3 rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 text-font-semibold"
             onClick={handleSubmit}
           >
             생명체 생성

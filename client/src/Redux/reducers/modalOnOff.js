@@ -6,11 +6,18 @@ export const CHAL_INFO_TYPE = {
   CHAT: "CHAL_INFO_CHAT",
 };
 
+export const POPUP_TYPE = {
+  SUCC: "POPUP_SUCC",
+  FAIL: "POPUP_FAIL",
+};
+
+// export const POPUP_MODAL_TYPE = {};
+
 const initialState = {
   showModal2: false, // TODO: refactoring
-  showSignInModal:false,
-  showSignUpModal:false,
   chalInfoModal: null,
+  popupModal: null,
+  popupMessage: "",
 };
 
 export default function modalOnOff(state = initialState, action) {
@@ -34,6 +41,12 @@ export default function modalOnOff(state = initialState, action) {
       return {
         ...state,
         showSignInModal: action.showSignInModal,
+      };
+    case types.SET_POPUP_MODAL:
+      return {
+        ...state,
+        popupModal: action.popupModal,
+        popupMessage: action.popupMessage,
       };
 
     default:

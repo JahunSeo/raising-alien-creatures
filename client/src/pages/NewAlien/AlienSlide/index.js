@@ -9,7 +9,7 @@ function AlienSlide({ alienNumber, setAlienNumber }) {
     if (!sign) {
       // angle = angle + 45;
       setAlienNumber(alienNumber + 1);
-      console.log("alienNumber", alienNumber);
+      // console.log("alienNumber", alienNumber);
     } else {
       // angle = angle - 45;
       setAlienNumber(alienNumber - 1);

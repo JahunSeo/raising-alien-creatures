@@ -5,6 +5,8 @@ export const SHOW_MODAL2 = "SHOW_MODAL2";
 
 export const SET_CHAL_INFO_MODAL = "SET_CHAL_INFO_MODAL";
 
+export const SET_POPUP_MODAL = "SET_POPUP_MODAL";
+
 export const CHECK_USER = "CHECK_USER";
 export const LOGOUT = "USER_LOGOUT";
 
