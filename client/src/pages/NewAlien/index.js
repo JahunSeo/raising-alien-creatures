@@ -131,18 +131,18 @@ export default function NewAlien(props) {
     console.log("res", response);
     if (response.data.result == "access_deny_full") {
       alert("방의 정원이 가득 찼습니다.");
-      navigate(`/challenge/${params.challengeId}/room`);
+      navigate(`/challenge/${challengeId}/room`);
       return;
     }
     if (response.data.result == "fail_already_participant") {
       alert("이미 참가중인 챌린지입니다.");
-      navigate(`/challenge/${params.challengeId}/room`);
+      navigate(`/challenge/${challengeId}/room`);
       return;
     }
     dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
     alert("생명체 생성을 성공하였습니다!");
 
-    navigate(`/challenge/${params.challengeId}/room`);
+    navigate(`/challenge/${challengeId}/room`);
     // <Link to={`/challenge/${params.challengeId}/room`} />;
   };
 
@@ -150,9 +150,7 @@ export default function NewAlien(props) {
     // cntOfWeek
     try {
       const getChalData = async () => {
-        let res = await api.get(
-          `/challenge/totalAuthCnt/${params.challengeId}`
-        );
+        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
         if (res.data.cntOfWeek) {
           setAuthCount(res.data.cntOfWeek);
         }
