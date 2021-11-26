@@ -170,10 +170,8 @@ module.exports = function (pool) {
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
   router.post("/auth", function (req, res) {
     var data = req.body;
-
-    // TODO
-    const alien_id = req.body.Alien_id;
-    data.request_user_nickname = req.user.nickname;
+    const alien_id = req.body.alien_id;
+    data.request_user = req.user.nickname;
     console.log(req.user.nickname);
     console.log("서버 유저아이디 확인 :", data.user_info_id);
     var sql1 = `INSERT INTO practice_record SET ?;`;
@@ -211,6 +209,7 @@ module.exports = function (pool) {
       });
     });
   });
+
   router.post("/search", function (req, res) {
     var data = req.body;
     // console.log(data.keyword);

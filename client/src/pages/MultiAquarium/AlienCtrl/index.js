@@ -49,7 +49,7 @@ export default function AlienCtrl(props) {
               <button className={cx("btn", "btn--room")}>개인 어항</button>
             </Link>
           ) : (
-            <Link to={`/challenge/${alien.Challenge_id}/room`}>
+            <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className={cx("btn", "btn--room")}>챌린지 어항</button>
             </Link>
           )}
