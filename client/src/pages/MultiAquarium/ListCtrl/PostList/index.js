@@ -1,30 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import SideBarModal2 from "../SideBarModal2";
 import { Link } from "react-router-dom";
 import api from '../../../../apis/index'
-import DummyImage from "../../../../image/babyshark.png";
 import HamburgerBtnImage from "../../../../image/toggledown.png";
+import { S3URL } from "../../../../shared/lib/Constants";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
-  console.log(alien)
+  const {userId, showModal2} = useSelector((state) => ({
+    userId : state.user.user.id,
+    showModal2 : state.modalOnOff.showModal2,
+  }));
+  
+
   const onClickGraduate = async() =>{
     let req = { alien_id: alien.id };
     let res = await api.post("/alien/graduation", req);
     console.log(res);
   }
+
+  console.log(userId)
   return (
     <>
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challengeName}"</h2>
         <div className="Content">
           <img
-            alt="logo192.png"
-            src={DummyImage}
+            alt="물고기"
+            src={S3URL + alien.image_url.split("-")[0]}
             onClick={() => {
               if (selectedAlien === alien.id) {
                 dispatch(actions.selectAlien(null));
@@ -48,7 +54,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               className="StyledButton"
               onClick={() => {
                 dispatch(actions.alienAuth({ alien }));
-
                 dispatch(actions.showModal2(!showModal2));
               }}
             >
@@ -61,7 +66,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               <button className="StyledButton"> 챌린지 어항</button>
             </Link>
           )}
-          {type !== "main" && (
+          {type !== "main" && alien.status === 0 && alien.user_info_id === userId && (
             <button className="StyledButton" onClick = {onClickGraduate}> 졸업 신청</button>
           )}
         </div>
@@ -70,10 +75,13 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   );
 });
 
-const PostList = ({ type }) => {
+const PostList = React.memo(function PostList({ type }) {
   const { aliens_list, selectedAlien } = useSelector(({ room }) => ({
     aliens_list: room.aliens,
     selectedAlien: room.selectedAlien,
+  }));
+  const {userId} = useSelector(({user}) => ({
+    userId : user.user,
   }));
 
   const [category, setCategory] = useState(false);
@@ -81,9 +89,9 @@ const PostList = ({ type }) => {
   const [sort, setSort] = useState("a");
 
   // functions for sort
-  const recentCreate = (a,b) =>{
+  const recentCreate = useCallback((a,b) =>{
     return new Date(b.create_date).getTime() - new Date(a.create_date).getTime();
-  }
+  },  [],)
   const leastRecentCreate = (a,b) =>{
     return new Date(a.create_date).getTime() - new Date(b.create_date).getTime();
   }
@@ -93,6 +101,8 @@ const PostList = ({ type }) => {
   const leastCommit = (a,b) =>{
     return a.accured_auth_cnt - b.accured_auth_cnt;
   }
+
+  // console.log(userId)
 
   return (
     <div className="PostListBlock">
@@ -136,11 +146,12 @@ const PostList = ({ type }) => {
             }
           )
           .map((alien) =>
-            Boolean(alien.graduate_toggle) === category ? (
+            Boolean(alien.status) === category ? (
               <PostItem
                 key={alien.id}
                 alien={alien}
                 type={type}
+                userId = {userId}
                 selectedAlien={selectedAlien}
               />
             ) : null
@@ -148,6 +159,6 @@ const PostList = ({ type }) => {
         }
     </div>
   );
-};
+});
 
 export default PostList;
