@@ -40,8 +40,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           <div className="SubInfo">
             <p>이름 : {alien.alien_name}</p>
             <p>
-              출생년도 : <br />
-              {alien.created_date.split("T")[0]}
+              출생년도 : {alien.created_date.split("T")[0]}
             </p>
             <p>Commit 횟수 : {alien.accumulated_count}번</p>
           </div>
