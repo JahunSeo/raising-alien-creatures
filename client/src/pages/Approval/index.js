@@ -28,7 +28,7 @@ export default function Approval(props) {
 
   if (authRequests.length) {
     return (
-      <div className="authRequests">
+      <div className="authRequests" style={{ paddingTop: "75px" }}>
         {authRequests.map((authRequest) => (
           <AuthRequest
             key={authRequest.practice_record_id}
