@@ -21,7 +21,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
     if (res.data.result === "success") dispatch(actions.graduate(alien.id));
   };
 
-  console.log(alien);
   return (
     <>
       <div className="PostItemBlock">
