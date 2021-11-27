@@ -28,6 +28,7 @@ export default function AlienCtrl(props) {
   }));
 
   let alien = aliens.find((a) => a.id === selectedAlien);
+
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const userMatch = useMatch("/user/:userId/room");
   // const mainMatch = useMatch("/");
@@ -97,7 +98,7 @@ export default function AlienCtrl(props) {
               />
             )}
         </div>
-        <AuthRequestModal alien={alien} />
+        <AuthRequestModal />
       </div>
     );
   }

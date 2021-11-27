@@ -46,6 +46,11 @@ export default function modalOnOff(state = initialState, action) {
         ...state,
         showAuthRequest: action.showAuthRequest,
       };
+    case types.REQUEST_AUTH:
+      return {
+        ...state,
+        showAuthRequest: false,
+      };
 
     default:
       return state;

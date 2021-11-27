@@ -55,6 +55,11 @@ export const graduate = (alienId) => ({
   payload: alienId,
 });
 
+export const requestAuth = (alienId) => ({
+  type: types.REQUEST_AUTH,
+  payload: alienId,
+});
+
 export const setMessage = (msgArray) => ({
   type: types.MESSAGE_UPDATE,
   payload: msgArray,

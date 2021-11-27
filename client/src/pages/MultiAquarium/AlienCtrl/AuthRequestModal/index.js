@@ -72,16 +72,14 @@ export default function AuthRequestModal(props) {
     // post requst to my server to store any extra data
     res = await api.post("/challenge/auth", resp);
     if (res.data.result === "success") {
-      // TODO: 승인 대기 상태로 변경
-      alien.practice_status = 1; // WARNING!
-      dispatch(actions.showAuthRequest(!showAuthRequest));
+      dispatch(actions.requestAuth(alien.id));
     } else {
       // TODO: 실패 처리
     }
   };
 
   const handleCancel = () => {
-    dispatch(actions.showAuthRequest(!showAuthRequest));
+    dispatch(actions.showAuthRequest(false));
   };
 
   if (!showAuthRequest) {
