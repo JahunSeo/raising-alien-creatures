@@ -18,13 +18,7 @@ export default function NewAlien(props) {
   const [alienNumber, setAlienNumber] = useState(0);
   // 인증 요일
   const [checkDay, setCheckDay] = useState([]);
-  const [sun, setSun] = useState(0);
-  const [mon, setMon] = useState(0);
-  const [tue, setTue] = useState(0);
-  const [wed, setWed] = useState(0);
-  const [thu, setThu] = useState(0);
-  const [fri, setFri] = useState(0);
-  const [sat, setSat] = useState(0);
+
   // validation
   const [creAlienMessage, setCreAlienMessage] = useState(null);
   // 링크 이동
@@ -74,16 +68,6 @@ export default function NewAlien(props) {
     }
   }, [challengeId]);
 
-  // 인증 요일
-  useEffect(() => {
-    if (checkDay.includes("sun")) setSun(1);
-    if (checkDay.includes("mon")) setMon(1);
-    if (checkDay.includes("tue")) setTue(1);
-    if (checkDay.includes("wed")) setWed(1);
-    if (checkDay.includes("thu")) setThu(1);
-    if (checkDay.includes("fri")) setFri(1);
-    if (checkDay.includes("sat")) setSat(1);
-  }, [checkDay]);
   // validation
   function validateCreAlien(alienName, checkDay, authCount) {
     if (!alienName) {
@@ -115,17 +99,17 @@ export default function NewAlien(props) {
       alien_name: alienName,
       image_url: aNumber,
       times_per_week: authCount,
-      sun: sun,
-      mon: mon,
-      tue: tue,
-      wed: wed,
-      thu: thu,
-      fri: fri,
-      sat: sat,
+      sun: Number(checkDay.includes("sun")),
+      mon: Number(checkDay.includes("mon")),
+      tue: Number(checkDay.includes("tue")),
+      wed: Number(checkDay.includes("wed")),
+      thu: Number(checkDay.includes("thu")),
+      fri: Number(checkDay.includes("fri")),
+      sat: Number(checkDay.includes("sat")),
     };
 
     const response = await api.post("/alien/create", createAlienData);
-    console.log("res", response);
+    // console.log("res", response);
     if (response.data.result === "access_deny_full") {
       // 1) 종류 2) 메세지 문구 3) SUCC or FAIL에 따른 아이콘 변경 4) callback함수(사실 여기선 별 효과 없음)
       dispatch(
@@ -168,7 +152,7 @@ export default function NewAlien(props) {
     dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
   };
 
-  // console.log("checkDay", checkDay); // log 2번 찍힘
+  // console.log("checkDay", checkDay);
   return (
     <div className={styles.body}>
       <div className="container w-2/5 min-w-max">
