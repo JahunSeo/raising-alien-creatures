@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Title from "./Title";
-import SignInModal from "../SignUpSignIn/SignInModal";
-import SignUpModal from "../SignUpSignIn/SignUpModal";
+import SignInModal from "./SignInModal";
+import SignUpModal from "./SignUpModal";
+import AuthRequestModal from "./AuthRequestModal";
 import * as actions from "../../Redux/actions";
 import api from "../../apis/index";
 import styles from "./index.module.css";
@@ -132,6 +133,7 @@ export default function Header(props) {
       </div>
       <SignUpModal />
       <SignInModal />
+      <AuthRequestModal />
     </div>
   );
 }
