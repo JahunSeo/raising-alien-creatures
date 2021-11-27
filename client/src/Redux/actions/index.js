@@ -11,6 +11,19 @@ export const setChalInfoModal = (chalInfoModal) => ({
   chalInfoModal,
 });
 
+export const setPopupModal = (
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback
+) => ({
+  type: types.SET_POPUP_MODAL,
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback,
+});
+
 export const showSignUpModal = (onoff) => ({
   type: types.SHOW_SIGNUP,
   showSignUpModal: onoff,
