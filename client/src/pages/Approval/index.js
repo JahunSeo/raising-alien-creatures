@@ -73,7 +73,7 @@ const AuthRequest = ({ authRequest }) => {
       return;
     }
     if (req.data.result === "success") {
-      alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
+      alert(`${authRequest.request_user} 님의 인증을 수락하였습니다.`);
       SetApprovalStatus(true);
     }
   };
