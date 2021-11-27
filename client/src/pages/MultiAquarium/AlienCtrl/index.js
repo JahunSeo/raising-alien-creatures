@@ -91,9 +91,7 @@ export default function AlienCtrl(props) {
               <PracticeBtn
                 alien={alien}
                 isPracticeDay={isPracticeDay}
-                handleClick={() =>
-                  dispatch(actions.showAuthRequest(!showAuthRequest))
-                }
+                handleClick={() => dispatch(actions.showAuthRequest(true))}
               />
             )}
         </div>
