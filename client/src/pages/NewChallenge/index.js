@@ -109,7 +109,7 @@ export default function NewChallenge(props) {
   };
 
   return (
-    <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
+    <div className="flex h-screen w-full animate-bounce justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
       <div className="min-w-max m-auto w-1/3 rounded-xl bg-gray-100 rounded shadow-2xl p-8">
         <h1 className="block w-full text-center text-2xl font-bold mb-6">
           새로운 챌린지 생성

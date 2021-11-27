@@ -3,6 +3,7 @@ import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import SideBarModal2 from "../SideBarModal2";
+import AuthRequestModal from "../AuthRequestModal";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
 import HamburgerBtnImage from "../../../../image/toggledown.png";
@@ -10,9 +11,10 @@ import { S3URL } from "../../../../shared/lib/Constants";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  const { userId, showModal2 } = useSelector((state) => ({
+  const { userId, showModal2, showAuthRequest } = useSelector((state) => ({
     userId: state.user.user.id,
     showModal2: state.modalOnOff.showModal2,
+    showAuthRequest: state.modalOnOff.showAuthRequest,
   }));
 
   const onClickGraduate = async () => {
@@ -21,7 +23,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
     if (res.data.result === "success") dispatch(actions.graduate(alien.id));
   };
 
-  console.log(alien)
+  console.log(alien);
   return (
     <>
       <div className="PostItemBlock">
@@ -56,12 +58,14 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
                 onClick={() => {
                   dispatch(actions.alienAuth({ alien }));
                   dispatch(actions.showModal2(!showModal2));
+                  dispatch(actions.showAuthRequest(!showAuthRequest));
                 }}
               >
                 인증하기
               </button>
             )}
           <SideBarModal2 alien={alien} />
+          <AuthRequestModal alien={alien} />
           {type !== "challenge" && alien.alien_status === 0 && (
             <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className="StyledButton"> 챌린지 어항</button>
