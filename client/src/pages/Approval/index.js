@@ -87,7 +87,7 @@ const AuthRequest = ({ authRequest }) => {
   };
 
   const ApprovalButton = () => {
-    if (!approvalStatus & !authRequest.isAuth) {
+    if (!approvalStatus & !authRequest.record_status) {
       return (
         <button
           type="button"
