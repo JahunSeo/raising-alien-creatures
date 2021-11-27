@@ -69,11 +69,11 @@
   display: block;
   position: absolute;
   z-index: 5;
-  bottom: -38px;
+  bottom: -70px;
   left: 0;
   right: 0;
   margin: auto;
-  color: #18ffff;
+  color: red;
   font-size: 20px;
 }
 
@@ -109,6 +109,7 @@
   color: white;
   background: none;
   width: 100%;
+  border:2px;
   padding-left: 30px;
   padding-right: 50px;
   outline: none;
@@ -148,13 +149,22 @@
   font-size: 0.8em;
 }
 
-/********/
-
+.tags{
+  display:flex;
+  margin-top: 10px;
+}
+.tag{
+  font-size: 18px;
+  margin-right: 10px;
+  cursor:pointer;
+}
+.tag:hover{
+  color:#18ffff;
+}
 .findChallenge {
   height: 65vh;
   overflow-y: auto;
   margin: 0 15px 0 25px;
-  /* font-family: "gulim"; */
 }
 .findChallenge::-webkit-scrollbar {
   width: 10px;

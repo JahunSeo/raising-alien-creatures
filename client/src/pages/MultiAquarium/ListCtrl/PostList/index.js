@@ -26,7 +26,18 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
-          <img
+          <div 
+            className = 'images'
+            style = {{backgroundImage: `url("${S3URL + alien.image_url.split("-")[0]}")`}}
+            onClick={() => {
+              if (selectedAlien === alien.id) {
+                dispatch(actions.selectAlien(null));
+              } else {
+                dispatch(actions.selectAlien(alien.id));
+              }
+            }}
+          />
+          {/* <img
             alt="물고기"
             src={S3URL + alien.image_url.split("-")[0]}
             onClick={() => {
@@ -36,12 +47,11 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
                 dispatch(actions.selectAlien(alien.id));
               }
             }}
-          />
+          /> */}
           <div className="SubInfo">
             <p>이름 : {alien.alien_name}</p>
             <p>
-              출생년도 : <br />
-              {alien.created_date.split("T")[0]}
+              출생일 : {alien.created_date.split("T")[0]}
             </p>
             <p>Commit 횟수 : {alien.accumulated_count}번</p>
           </div>
@@ -70,7 +80,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             alien.alien_status === 0 &&
             alien.user_info_id === userId && (
               <button className="StyledButton" onClick={onClickGraduate}>
-                {" "}
                 졸업 신청
               </button>
             )}
