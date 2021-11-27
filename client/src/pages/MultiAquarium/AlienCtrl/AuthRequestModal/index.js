@@ -71,62 +71,85 @@ export default function AuthRequestModal() {
     console.log(result);
   };
 
+  const handleCancel = () => {
+    dispatch(actions.showAuthRequest(!showAuthRequest));
+  };
+
   return (
-    <div className={showAuthRequest ? "AuthRequestModal" : "hidden"}>
-      {/* <div className="Overlay" /> */}
-      <div className="flex flex-col fixed min-h-0 min-w-max max-h-full m-auto px-10 py-10 pt-12 justify-center bg-white rounded-xl shadow dark:bg-gray-800 z-10">
-        <div className="md:flex">
-          <div className="w-full px-4 py-6">
-            <div className="mb-1">
-              <span>인증 사진 첨부</span>
-              <div className="Attachments">
-                <div className="absolute">
-                  <div className="flex flex-col items-center">
-                    <i className="fa fa-folder-open fa-3x text-blue-700"></i>
-                    <span className="block text-gray-400 font-normal">
-                      클릭 또는 드래그하여 인증 사진을 올려주세요.
-                    </span>
-                  </div>
-                </div>
-                <input
-                  type="file"
-                  className="h-full w-full opacity-0"
-                  name=""
-                  accept="image/*"
-                  id="imageInput"
-                  onChange={(e) => {
-                    setAuthImage(e.target.files);
-                    // processImage(e);
-                  }}
-                />
+    <div>
+      <div className={showAuthRequest ? "Overlay" : null} />
+      <div className={showAuthRequest ? "AuthRequestModal" : "hidden"}>
+        <div className="flex flex-col fixed min-w-max px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10">
+          <div className="flex justify-center items-center self-end text-gray-400 hover:text-gray-500">
+            <svg
+              className="fixed w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              onClick={handleCancel}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="3"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </div>
+          <div className="w-full px-4 py-4 text-lg">
+            <div className="pb-4">
+              <label className="text-xl font-bold">인증 사진 첨부</label>
+            </div>
+            <div className="Attachments">
+              <div className="flex flex-col fixed min-h-0 min-w-max items-center">
+                <i className="fa fa-folder-open fa-3x text-blue-700" />
+                <span className="block text-gray-400 font-normal">
+                  클릭 또는 드래그하여 인증 사진을 올려주세요.
+                </span>
               </div>
-              <div className="mb-1">
-                <span className="text-sm">코멘트</span>
-                <textarea
-                  type="text"
-                  className="Comment"
-                  placeholder="인증 사진과 실천 내용을 간단히 설명해주세요."
-                  onChange={(e) => {
-                    setAuthMessage(e.target.value);
-                  }}
-                ></textarea>
+              <input
+                type="file"
+                className="h-full w-full opacity-0"
+                name=""
+                accept="image/*"
+                id="imageInput"
+                onChange={(e) => {
+                  setAuthImage(e.target.files);
+                }}
+              />
+            </div>
+            <div className="justify-center items-center">
+              <div className="py-4">
+                <label className="text-xl font-bold">간단 코멘트</label>
               </div>
+              <textarea
+                type="text"
+                className="Comment"
+                placeholder="인증 사진과 실천 내용을 간단히 설명해주세요."
+                onChange={(e) => {
+                  setAuthMessage(e.target.value);
+                }}
+              ></textarea>
             </div>
             {authImage && authImage[0] ? (
-              <img src={URL.createObjectURL(authImage[0])}></img>
+              <div className="max-w-md py-6">
+                <img src={URL.createObjectURL(authImage[0])} />
+              </div>
             ) : (
               <div></div>
             )}
-            <div className="mt-3 text-right">
+            <div className="mt-6">
               <button
+                type="button"
                 className="ml-2 h-8 w-20 bg-gray-400 rounded text-white hover:bg-blue-700"
                 onClick={() => {
-                  dispatch(actions.showAuthRequest(false));
+                  setAuthImage(null);
                 }}
               >
-                뒤로 가기
+                첨부 취소
               </button>
               <button
+                type="button"
                 className="ml-2 h-8 w-20 bg-blue-600 rounded text-white hover:bg-blue-700"
                 onClick={handleSubmit}
               >

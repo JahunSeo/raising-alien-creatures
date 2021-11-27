@@ -7,7 +7,7 @@ export const CHAL_INFO_TYPE = {
 };
 
 const initialState = {
-  showModal2: false, // TODO: refactoring
+  // showModal2: false, // TODO: refactoring
   chalInfoModal: null,
   showSignUpModal: false,
   showSignInModal: false,
@@ -21,12 +21,11 @@ export default function modalOnOff(state = initialState, action) {
         ...state,
         chalInfoModal: null,
       };
-
-    case types.SHOW_MODAL2:
-      return {
-        ...state,
-        showModal2: action.showModal2,
-      };
+    // case types.SHOW_MODAL2:
+    //   return {
+    //     ...state,
+    //     showModal2: action.showModal2,
+    //   };
     case types.SET_CHAL_INFO_MODAL:
       return {
         ...state,

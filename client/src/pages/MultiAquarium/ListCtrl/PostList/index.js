@@ -2,19 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
-import SideBarModal2 from "../SideBarModal2";
-import AuthRequestModal from "../AuthRequestModal";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
-import HamburgerBtnImage from "../../../../image/toggledown.png";
 import { S3URL } from "../../../../shared/lib/Constants";
+// import AuthRequestModal from "../../ListCtrl/AuthRequestModal";
+import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  const { userId, showModal2, showAuthRequest } = useSelector((state) => ({
+  const { userId, showAuthRequest } = useSelector((state) => ({
     userId: state.user.user.id,
-    showModal2: state.modalOnOff.showModal2,
-    showAuthRequest: state.modalOnOff.showAuthRequest,
+    // showAuthRequest: state.modalOnOff.showAuthRequest,
   }));
 
   const onClickGraduate = async () => {
@@ -57,15 +55,13 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
                 className="StyledButton"
                 onClick={() => {
                   dispatch(actions.alienAuth({ alien }));
-                  dispatch(actions.showModal2(!showModal2));
-                  dispatch(actions.showAuthRequest(!showAuthRequest));
+                  // dispatch(actions.showAuthRequest(!showAuthRequest));
                 }}
               >
                 인증하기
               </button>
             )}
-          <SideBarModal2 alien={alien} />
-          <AuthRequestModal alien={alien} />
+          {/* <AuthRequestModal alien={alien} /> */}
           {type !== "challenge" && alien.alien_status === 0 && (
             <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className="StyledButton"> 챌린지 어항</button>
