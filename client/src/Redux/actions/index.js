@@ -11,10 +11,17 @@ export const setChalInfoModal = (chalInfoModal) => ({
   chalInfoModal,
 });
 
-export const setPopupModal = (popupModal, popupMessage) => ({
+export const setPopupModal = (
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback
+) => ({
   type: types.SET_POPUP_MODAL,
   popupModal,
   popupMessage,
+  popupKind,
+  popupCallback,
 });
 
 export const showSignUpModal = (onoff) => ({
@@ -49,6 +56,11 @@ export const alienAuth = (alien_auth) => ({
 export const selectAlien = (selectedAlien) => ({
   type: types.SELECT_ALIEN,
   payload: selectedAlien,
+});
+
+export const graduate = (alienId) => ({
+  type: types.GRADUATE_ALIEN,
+  payload: alienId,
 });
 
 export const setMessage = (msgArray) => ({

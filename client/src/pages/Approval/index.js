@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
+import * as actions from "../../Redux/actions";
 
 export default function Approval(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
@@ -47,6 +48,7 @@ export default function Approval(props) {
 
 const AuthRequest = ({ authRequest }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let request_date = authRequest.request_date.toLocaleStringS;
   const authYear = authRequest.request_date.slice(0, 4);
   const authMonth = authRequest.request_date.slice(5, 7);
@@ -65,15 +67,37 @@ const AuthRequest = ({ authRequest }) => {
     console.log("req", req);
 
     if (req.data.msg === "인증 수락 가능한 날짜가 만료되었습니다.") {
-      alert("기간이 만료된 인증 요청입니다.");
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_DATE_OUT",
+          "기간이 만료된 인증 요청입니다 !",
+          "FAIL",
+          () => {}
+        )
+      );
       return;
     }
-    if (req.data.msg == "이미 인증이 완료된 건 입니다.") {
-      alert("이미 수락이 완료된 인증 요청입니다.");
+    if (req.data.msg === "이미 인증이 완료된 건 입니다.") {
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_EXIST",
+          "이미 수락이 완료된 인증 요청입니다 !",
+          "FAIL",
+          () => {}
+        )
+      );
       return;
     }
     if (req.data.result === "success") {
-      alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
+      // alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_APPROVAL",
+          `${authRequest.request_user_nickname} 님의 인증을 수락하였습니다 !`,
+          "SUCC",
+          () => {}
+        )
+      );
       SetApprovalStatus(true);
     }
   };

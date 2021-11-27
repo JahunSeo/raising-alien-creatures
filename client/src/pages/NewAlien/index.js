@@ -31,13 +31,6 @@ export default function NewAlien(props) {
   const navigate = useNavigate();
   // 팝업
   const dispatch = useDispatch();
-  const { popupModal } = useSelector(({ modalOnOff }) => ({
-    popupModal: modalOnOff.popupModal,
-  }));
-  // console.log(1234123);
-  // console.log("popupModal", popupModal);
-  // TODO: login 상태일 때만 접근할 수 있음
-  // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
 
   // 기본 생명체 번호 계산
   let aNumber = alienNumber;
@@ -55,7 +48,6 @@ export default function NewAlien(props) {
       aNumber = 0;
     }
   }
-  console.log("aNumber", aNumber);
 
   useEffect(() => {
     // cntOfWeek
@@ -71,9 +63,9 @@ export default function NewAlien(props) {
         if (!user.login || participating) return;
         let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
         if (res.data.result === "success") {
-          setAuthCount(res.data.cntOfWeek);
+          setAuthCount(res.data.times_per_week);
         } else {
-          // TODO: 실패 케이스 처리
+          // TODO: error handling 필요한가?
         }
       };
       getChalData();
@@ -92,7 +84,7 @@ export default function NewAlien(props) {
     if (checkDay.includes("fri")) setFri(1);
     if (checkDay.includes("sat")) setSat(1);
   }, [checkDay]);
-
+  // validation
   function validateCreAlien(alienName, checkDay, authCount) {
     if (!alienName) {
       setCreAlienMessage("생명체 이름을 지어주세요!");
@@ -102,8 +94,6 @@ export default function NewAlien(props) {
       setCreAlienMessage("인증 요일을 선택해주세요!");
       return false;
     }
-    // console.log(111, checkDay.length);
-    // console.log(221, authCount);
     if (checkDay.length !== authCount) {
       setCreAlienMessage("인증 횟수를 확인해주세요!");
       return false;
@@ -124,7 +114,7 @@ export default function NewAlien(props) {
       challenge_id: challengeId,
       alien_name: alienName,
       image_url: aNumber,
-      total_auth_cnt: authCount,
+      times_per_week: authCount,
       sun: sun,
       mon: mon,
       tue: tue,
@@ -133,28 +123,49 @@ export default function NewAlien(props) {
       fri: fri,
       sat: sat,
     };
-    // const CREATE_ALIEN : "CREATE_ALIEN";
 
-    // function switchPopup(popupType)
-    if (popupModal === "CREATE_ALIEN") {
-      dispatch(actions.setPopupModal(false, ""));
-    } else {
+    const response = await api.post("/alien/create", createAlienData);
+    console.log("res", response);
+    if (response.data.result === "access_deny_full") {
+      // 1) 종류 2) 메세지 문구 3) SUCC or FAIL에 따른 아이콘 변경 4) callback함수(사실 여기선 별 효과 없음)
       dispatch(
-        actions.setPopupModal("CREATE_ALIEN", "생명체가 생성되었습니다 !")
+        actions.setPopupModal(
+          "CREATE_ALIEN",
+          "방의 정원이 가득 찼습니다 !",
+          "FAIL",
+          () => {
+            navigate(`/challenge/${challengeId}/room`);
+          }
+        )
       );
-      console.log(3333, popupModal);
+      return;
     }
 
-    // const res = await api.post("/alien/create", createAlienData);
-    // if (res.data.result === "success") {
-    //   // console.log("/alien/create", res);
-    //   // TODO: challenge 정보를 user 정보에 추가
-    //   dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
-    //   alert("생명체 생성을 성공하였습니다!");
-    //   navigate(`/challenge/${challengeId}/room`);
-    // } else {
-    //   alert("생명체 생성에 실패했습니다.");
-    // }
+    if (response.data.result === "fail_already_participant") {
+      dispatch(
+        actions.setPopupModal(
+          "CREATE_ALIEN",
+          "이미 참가중인 챌린지입니다 !",
+          "FAIL",
+          () => {
+            navigate(`/challenge/${challengeId}/room`);
+          }
+        )
+      );
+      return;
+    }
+
+    dispatch(
+      actions.setPopupModal(
+        "CREATE_ALIEN",
+        "생명체가 생성되었습니다 !",
+        "SUCC",
+        () => {
+          navigate(`/challenge/${challengeId}/room`);
+        }
+      )
+    );
+    dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
   };
 
   // console.log("checkDay", checkDay); // log 2번 찍힘

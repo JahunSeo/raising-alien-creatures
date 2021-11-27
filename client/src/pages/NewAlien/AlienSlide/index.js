@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import styles from "./index.module.css";
-import DeanImage from "../../../image/dean.png";
-import babyshark from "../../../image/babyshark.png";
 
 function AlienSlide({ alienNumber, setAlienNumber }) {
   // var angle = 0;

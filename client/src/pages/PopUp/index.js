@@ -1,19 +1,21 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../Redux/actions";
 
-export default function PopUp({ popupModal, popupMessage }) {
+export default function PopUp({
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback,
+}) {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
     if (popupModal) {
       dispatch(actions.setPopupModal(null, ""));
-      // } else {
-      //   dispatch(
-      //     actions.setPopupModal("CREATE_ALIEN", "생명체가 생성되었습니다 !")
-      //   );
-      // console.log(3333, popupModal);
+      if (popupCallback) popupCallback();
     }
   };
+  const toggle = popupKind && popupKind === "SUCC";
   return (
     <>
       <link
@@ -26,10 +28,16 @@ export default function PopUp({ popupModal, popupMessage }) {
       <div className="absolute md:w-1/3 rounded-lg shadow-lg bg-white my-3 z-10">
         <div className="rounded-t-lg flex justify-between border-b bg-indigo-200 border-gray-100 px-5 py-4">
           <div>
-            <i className="fas fa-exclamation-circle text-indigo-600 text-xl"></i>
+            <i
+              className={
+                toggle
+                  ? "fas fa-exclamation-circle text-indigo-600 text-xl"
+                  : "fa fa-exclamation-triangle text-red-500"
+              }
+            ></i>
             <span className="font-bold text-gray-700 text-xl px-2">
               {" "}
-              Success
+              {toggle ? "Success" : "Fail"}
             </span>
           </div>
           <div className="flex items-center">

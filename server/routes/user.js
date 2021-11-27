@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-
 var isOwner = (req, res) => {
   if (req.user) {
     return true;
@@ -9,7 +8,6 @@ var isOwner = (req, res) => {
     return false;
   }
 };
-
 module.exports = function (passport, pool) {
   router.post("/register", (req, res, next) => {
     const data = req.body;
@@ -42,7 +40,6 @@ module.exports = function (passport, pool) {
       );
     });
   });
-
   router.get("/login/confirm", (req, res) => {
     if (req.user) {
       req.user.login = true;
@@ -54,7 +51,6 @@ module.exports = function (passport, pool) {
       res.json(msg);
     }
   });
-
   // TODO: refactor response
   router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
@@ -74,7 +70,6 @@ module.exports = function (passport, pool) {
       }
     })(req, res, next);
   });
-
   // TODO: 아래의 personalinfo api와 통합 가능 여부 체크
   router.get("/challenges/ids", function (req, res) {
     // 1단계: 로그인한 유저인지 확인
@@ -86,7 +81,7 @@ module.exports = function (passport, pool) {
       return;
     }
     // 2단계: challenges 가져오기
-    let sql = `SELECT Challenge_id as id FROM user_info_has_Challenge \
+    let sql = `SELECT challenge_id as id FROM user_info_has_challenge \
               WHERE user_info_id=${req.user.id};`;
     pool.getConnection(function (err, connection) {
       connection.query(sql, function (err, results) {
@@ -101,95 +96,19 @@ module.exports = function (passport, pool) {
       });
     });
   });
-
-  // 해당 유저 소유의 Alien / 참가중인 Challenge / 해당유저와 유관한 인증목록 중 인증되지 않은 것들 가져오기
-  router.get("/personalinfo", function (req, res) {
-    var user_info_id = req.user.id;
-    var sql1 = `select * from Alien where Alien.user_info_id=${user_info_id};`;
-    var sql2 = `select * from Alien_dead where Alien_dead.user_info_id=${user_info_id};`;
-    var sql3 = `select * from Alien_graduated where Alien_graduated.user_info_id=${user_info_id};`;
-    var sql4 = `select challengeName, challengeContent, createDate, createUserNickName, maxUserNumber, participantNumber, cntOfWeek, Challenge_id from Challenge inner join user_info_has_Challenge on Challenge.id = user_info_has_Challenge.Challenge_id  inner join user_info on user_info_has_Challenge.user_info_id = user_info.id  where user_info.id = ${user_info_id};`;
-    var sql5 = `select * from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id where user_info_has_Challenge.user_info_id = ${user_info_id} and isAuth = 0;`;
-    pool.getConnection(function (err, connection) {
-      connection.query(
-        sql1 + sql2 + sql3 + sql4 + sql5,
-        function (error, results, fields) {
-          if (error) {
-            console.error(error);
-            res.json({
-              result: "fail",
-              msg: "Fail to load Information from Database.",
-            });
-            return;
-          }
-          var result = {
-            result: "success",
-            Alien: results[0],
-            Alien_dead: results[1],
-            Alien_graduated: results[2],
-            Challenge: results[3],
-            notice: results[4],
-          };
-          res.json(result);
-        }
-      );
-      connection.release();
-    });
-  });
-
-  //챌린지 어장가기
-  router.post("/aquarium/challenge", function (req, res) {
-    var get = req.body;
-    var challenge_id = get.challenge_id;
-    console.log("1212", get);
-    let user_id, user_nickname;
-    if (req.user) {
-      user_id = req.user.id;
-      user_nickname = req.user_nickname;
-    }
-    var sql1 = `select * from Alien where Alien.Challenge_id = ${challenge_id};`;
-    var sql2 = `select * from Alien_dead where Alien_dead.Challenge_id = ${challenge_id};`;
-    var sql3 = `select * from Alien_graduated where Alien_graduated.Challenge_id=${challenge_id};`;
-    pool.getConnection(function (err, connection) {
-      connection.query(sql1 + sql2 + sql3, function (error, results, fields) {
-        if (error) {
-          console.error(error);
-          res.json({
-            result: "fail",
-            msg: "Fail to load Information from Database.",
-          });
-          return;
-        }
-        var result = {
-          result: "success",
-          user: user_id,
-          nickname: user_nickname,
-          Alien: results[0],
-          Alien_dead: results[1],
-          Alien_graduated: results[2],
-        };
-        res.json(result);
-        connection.release();
-      });
-    });
-  });
-
   router.get("/logout", function (req, res) {
     req.logout();
     req.session.save(function () {
       res.json({ result: "success", msg: "logout success" });
     });
   });
-
   // router.post('/info_change', function (req, res){
   //     var data = req.body;
   //     var id = data.;
   //     var password = data.;
   //     var nickname = data.;
   //     connection.query()
-
   // });
-
   router.get("/:userId", (req, res) => {
     pool.getConnection(function (err, connection) {
       if (err) throw err;
@@ -210,18 +129,17 @@ module.exports = function (passport, pool) {
           return;
         }
         // 2단계: user에 포함된 alien들 가져오기
-        let columns = `Alien.id, Challenge_id, Alien.createDate as create_date,\
-                  alienName as alien_name, color, accuredAuthCnt as accured_auth_cnt, image_url,\
-                  practice_status, end_date, status,\
-                  time_per_week, sun, mon, tue, wed, thu, fri, sat,\
+        let columns = `alien.id, challenge_id, alien.created_date as created_date,\
+                  alien_name as alien_name, color, accumulated_count as accumulated_count, image_url,\
+                  practice_status, end_date, alien_status,\
+                  alien.times_per_week as times_per_week, sun, mon, tue, wed, thu, fri, sat,\
                   user_info_id,\
-                  challengeName as challenge_name, challengeContent as challenge_content,\
-                  maxUserNumber as max_user_number, participantNumber as participant_number,\
-                  Challenge.createDate as challenge_create_date, cntOfWeek as cnt_of_week`;
-        let sql = `SELECT ${columns} FROM Alien LEFT JOIN Challenge \
-              ON Alien.Challenge_id=Challenge.id \
-              WHERE Alien.user_info_id=${userId} AND (Alien.status=0 OR Alien.status=1);`;
-
+                  challenge_name as challenge_name, description as description,\
+                  maximum_number as maximum_number, participant_number as participant_number,\
+                  challenge.created_date as challenge_created_date`;
+        let sql = `SELECT ${columns} FROM alien LEFT JOIN challenge \
+              ON alien.challenge_id=challenge.id \
+              WHERE alien.user_info_id=${userId} AND (alien.alien_status=0 OR alien.alien_status=1);`;
         connection.query(sql, function (err, results) {
           if (err) throw err;
           results.forEach((alien) => {
@@ -238,12 +156,12 @@ module.exports = function (passport, pool) {
       });
     });
   });
-
+  //확인완료
   router.get("/approval/list", (req, res) => {
     const user_id = req.user.id;
     pool.getConnection(function (err, connection) {
       connection.query(
-        "SELECT Authentification.id AS authentification_id, alien_id, Authentification.challenge_id, Authentification.user_info_id AS request_user_id, Challenge.challengeName AS challenge_name, request_user_nickname, request_date, response_user_id, response_user_nickname, response_date, isAuth, image_url, comments from Authentification inner join user_info_has_Challenge on user_info_has_Challenge.Challenge_id = Authentification.Challenge_id INNER JOIN Challenge ON user_info_has_Challenge.Challenge_id = Challenge.id where user_info_has_Challenge.user_info_id = ? AND Authentification.user_info_id != ? AND isAuth=0 ORDER BY Authentification.request_date DESC",
+        "SELECT practice_record.id AS practice_record_id, alien_id, practice_record.challenge_id, practice_record.user_info_id AS request_user_id, challenge.challenge_name AS challenge_name, request_user, request_date, response_user_id, response_user, response_date, record_status, image_url, comments from practice_record inner join user_info_has_challenge on user_info_has_challenge.challenge_id = practice_record.challenge_id INNER JOIN challenge ON user_info_has_challenge.challenge_id = challenge.id where user_info_has_challenge.user_info_id = ? AND practice_record.user_info_id != ? AND record_status=0 ORDER BY practice_record.request_date DESC",
         [user_id, user_id],
         function (err, result) {
           if (err) {
@@ -254,7 +172,6 @@ module.exports = function (passport, pool) {
             });
             return;
           }
-
           res.status(200).json({
             result: "success",
             data: result,
@@ -264,15 +181,12 @@ module.exports = function (passport, pool) {
       connection.release();
     });
   });
-
   router.use(function (req, res, next) {
     res.status(404).send("Sorry cant find that!");
   });
-
   router.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send("Something broke!");
   });
-
   return router;
 };
