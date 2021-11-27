@@ -239,7 +239,7 @@ module.exports = function (pool) {
     if (category === "전체") {
       sql1 = "select * from challenge";
     } else {
-      sql1 = `select * from challenge where challenge_name = ${category}`;
+      sql1 = `select * from challenge where tag = "${category}"`;
     }
     pool.getConnection(function (err, connection) {
       connection.query(sql1, function (err, results, fields) {
