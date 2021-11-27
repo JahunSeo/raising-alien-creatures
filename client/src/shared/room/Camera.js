@@ -16,7 +16,9 @@ class Camera {
     this.level = 7; //this.levelDefault;
     this.ratioMax = 2;
     this.ratioMin = 0.5;
+    this.planetRatioMin = 1.5;
     this.ratioRange = this.ratioMax - this.ratioMin;
+    this.planetRatioRange = this.ratioMax - this.planetRatioMin;
 
     this.isClicked = false;
     this.isDragging = false;
@@ -140,6 +142,15 @@ class Camera {
       size *
       (this.ratioMin +
         this.ratioRange * ((this.level - this.levelMin) / this.levelRange))
+    );
+  };
+
+  getCanvasPlanetSize = (size) => {
+    return (
+      size *
+      (this.planetRatioMin +
+        this.planetRatioRange *
+          ((this.level - this.levelMin) / this.levelRange))
     );
   };
 
