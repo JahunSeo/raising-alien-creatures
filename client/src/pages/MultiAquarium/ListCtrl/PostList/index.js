@@ -2,17 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
-import SideBarModal2 from "../SideBarModal2";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
-import HamburgerBtnImage from "../../../../image/toggledown.png";
 import { S3URL } from "../../../../shared/lib/Constants";
+// import AuthRequestModal from "../../ListCtrl/AuthRequestModal";
+import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  const { userId, showModal2 } = useSelector((state) => ({
+  const { userId, showAuthRequest } = useSelector((state) => ({
     userId: state.user.user.id,
-    showModal2: state.modalOnOff.showModal2,
+    // showAuthRequest: state.modalOnOff.showAuthRequest,
   }));
 
   const onClickGraduate = async () => {
@@ -26,7 +26,18 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
-          <img
+          <div 
+            className = 'images'
+            style = {{backgroundImage: `url("${S3URL + alien.image_url.split("-")[0]}")`}}
+            onClick={() => {
+              if (selectedAlien === alien.id) {
+                dispatch(actions.selectAlien(null));
+              } else {
+                dispatch(actions.selectAlien(alien.id));
+              }
+            }}
+          />
+          {/* <img
             alt="물고기"
             src={S3URL + alien.image_url.split("-")[0]}
             onClick={() => {
@@ -36,41 +47,39 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
                 dispatch(actions.selectAlien(alien.id));
               }
             }}
-          />
+          /> */}
           <div className="SubInfo">
             <p>이름 : {alien.alien_name}</p>
             <p>
-              출생년도 : <br />
-              {alien.created_date.split("T")[0]}
+              출생일 : {alien.created_date.split("T")[0]}
             </p>
             <p>Commit 횟수 : {alien.accumulated_count}번</p>
           </div>
         </div>
         <div className="buttons">
           {type === "personal" &&
-            alien.status === 0 &&
+            alien.alien_status === 0 &&
             alien.user_info_id === userId && (
               <button
                 className="StyledButton"
                 onClick={() => {
                   dispatch(actions.alienAuth({ alien }));
-                  dispatch(actions.showModal2(!showModal2));
+                  // dispatch(actions.showAuthRequest(!showAuthRequest));
                 }}
               >
                 인증하기
               </button>
             )}
-          <SideBarModal2 alien={alien} />
-          {type !== "challenge" && alien.status === 0 && (
-            <Link to={`/challenge/${alien.Challenge_id}/room`}>
+          {/* <AuthRequestModal alien={alien} /> */}
+          {type !== "challenge" && alien.alien_status === 0 && (
+            <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className="StyledButton"> 챌린지 어항</button>
             </Link>
           )}
           {type === "personal" &&
-            alien.status === 0 &&
+            alien.alien_status === 0 &&
             alien.user_info_id === userId && (
               <button className="StyledButton" onClick={onClickGraduate}>
-                {" "}
                 졸업 신청
               </button>
             )}
@@ -155,7 +164,7 @@ const PostList = React.memo(function PostList({ type }) {
           else return leastCommit(a, b);
         })
         .map((alien) =>
-          Boolean(alien.status) === category ? (
+          Boolean(alien.alien_status) === category ? (
             <PostItem
               key={alien.id}
               alien={alien}

@@ -1,7 +1,8 @@
 export const SHOW_SIGNUP = "SHOW_SIGNUP";
 export const SHOW_SIGNIN = "SHOW_SIGNIN";
+export const SHOW_AUTH_REQUEST = "SHOW_AUTH_REQUEST";
 
-export const SHOW_MODAL2 = "SHOW_MODAL2";
+// export const SHOW_MODAL2 = "SHOW_MODAL2";
 
 export const SET_CHAL_INFO_MODAL = "SET_CHAL_INFO_MODAL";
 

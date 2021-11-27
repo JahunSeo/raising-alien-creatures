@@ -102,7 +102,6 @@ export default function NewChallenge(props) {
       console.log(res.data.data);
       const challengeId = res.data.data.challenge_id;
       // 고민: 방장이 챌린지 생성 후 생명체를 만들지 않고 나가버리면 추후에 어떻게 챌린지방을 찾을 수 있는가?
-      // alert("챌린지 생성에 성공하였습니다.");
       dispatch(
         actions.setPopupModal(
           "CREATE_ALIEN",
