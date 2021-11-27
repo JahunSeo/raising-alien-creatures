@@ -5,17 +5,21 @@ import api from "../../../../apis/index";
 import * as actions from "../../../../Redux/actions/index.js";
 
 export default function AuthRequestModal(props) {
-  const showAuthRequest = useSelector(
-    (state) => state.modalOnOff.showAuthRequest
-  );
-  const { alien } = useSelector(({ room }) => ({
-    alien: room.selectedAlien,
-  }));
-  // const alien = useSelector((state) => state.alien_auth_func.alien_auth);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
   const dispatch = useDispatch();
+
+  const showAuthRequest = useSelector(
+    (state) => state.modalOnOff.showAuthRequest
+  );
+  const { aliens, selectedAlien } = useSelector(({ room }) => ({
+    aliens: room.aliens,
+    selectedAlien: room.selectedAlien,
+  }));
+  const alien = aliens.find((a) => a.id === selectedAlien);
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
     /* 예외 처리 Handling 1. */
     let day = {
       1: "mon",
@@ -42,13 +46,9 @@ export default function AuthRequestModal(props) {
       /* 해당 날짜에 이미 요청된 Alien 인 경우 -> front에서 Error 문구 처리 부탁드립니다. */
       console.log("이미 인증요청 완료된 건 입니다.");
       return;
-    } else {
-      alien.practice_status = 1;
     }
 
-    e.preventDefault();
-    const res = await api.get("/main/s3Url");
-
+    let res = await api.get("/main/s3Url");
     const { url } = res.data;
     // post the image direclty to the s3 bucket
     if (authImage) {
@@ -70,8 +70,14 @@ export default function AuthRequestModal(props) {
     };
 
     // post requst to my server to store any extra data
-    const result = await api.post("/challenge/auth", resp);
-    console.log(result);
+    res = await api.post("/challenge/auth", resp);
+    if (res.data.result === "success") {
+      // TODO: 승인 대기 상태로 변경
+      alien.practice_status = 1; // WARNING!
+      dispatch(actions.showAuthRequest(!showAuthRequest));
+    } else {
+      // TODO: 실패 처리
+    }
   };
 
   const handleCancel = () => {
@@ -80,6 +86,11 @@ export default function AuthRequestModal(props) {
 
   if (!showAuthRequest) {
     return <div />;
+  }
+
+  if (!alien) {
+    // TODO: handle error
+    return <div></div>;
   }
 
   return (
