@@ -118,7 +118,7 @@ export default function SearchBox(props) {
 const ChallengeItem = ({ challenge }) => {
   return (
     <div className={cx("challengeItem")}>
-      <div className={styles.challengeName}>{challenge.challengeName}</div>
+      <div className={styles.challengeName}>{challenge.challenge_name}</div>
       <img
         className={styles.challengeImg}
         alt="yammy"

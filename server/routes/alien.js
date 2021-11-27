@@ -80,7 +80,7 @@ module.exports = function (pool) {
     }
   });
   //졸업 api
-  router.get("/graduation", function (req, res) {
+  router.post("/graduation", function (req, res) {
     // 필요한 데이터: challenge_id, ailen_id
     // 해야할 일 1: alien 테이블 변경
     const sql1 =
