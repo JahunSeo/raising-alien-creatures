@@ -30,7 +30,7 @@ export default function Approval(props) {
       <div className="authRequests">
         {authRequests.map((authRequest) => (
           <AuthRequest
-            key={authRequest.authentification_id}
+            key={authRequest.practice_record_id}
             authRequest={authRequest}
           />
         ))}
@@ -58,7 +58,7 @@ const AuthRequest = ({ authRequest }) => {
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
-      auth_id: authRequest.authentification_id,
+      auth_id: authRequest.practice_record_id,
       Alien_id: authRequest.alien_id,
       request_date: authRequest.request_date,
     });
@@ -154,7 +154,7 @@ const AuthRequest = ({ authRequest }) => {
         <div className="flex flex-col items-center mb-2 space-x-4">
           <div className="mb-2 space-x-4">
             <div className="justify-center items-center mt-6 mb-4 text-2xl font-bold text-black">
-              "{authRequest.request_user_nickname}" 님의 [
+              "{authRequest.request_user}" 님의 [
               {authRequest.challenge_name}] 인증 요청
             </div>
             <div className="flex flex-col justify-center items-center text-xl font-semibold text-gray-600 mt-2 mb-2">
