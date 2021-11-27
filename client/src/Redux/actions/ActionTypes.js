@@ -6,6 +6,8 @@ export const SHOW_AUTH_REQUEST = "SHOW_AUTH_REQUEST";
 
 export const SET_CHAL_INFO_MODAL = "SET_CHAL_INFO_MODAL";
 
+export const SET_POPUP_MODAL = "SET_POPUP_MODAL";
+
 export const CHECK_USER = "CHECK_USER";
 export const LOGOUT = "USER_LOGOUT";
 export const JOIN_CHALLENGE = "JOIN_CHALLENGE";

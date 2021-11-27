@@ -21,7 +21,14 @@ const SignUpModal = () => {
     const res = await api.post("/user/register", signUpData);
     console.log("res", res);
     if (res.data.result === "success") {
-      alert("회원가입에 성공하였습니다.");
+      dispatch(
+        actions.setPopupModal(
+          "USER_REGISTER",
+          "회원가입에 성공하였습니다 !",
+          "SUCC",
+          () => {}
+        )
+      );
       setUserEmail("");
       setUserNickname("");
       setUserPassword("");

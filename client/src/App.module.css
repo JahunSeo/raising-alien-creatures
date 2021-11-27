@@ -27,3 +27,15 @@
   align-items: center;
   justify-content: center;
 }
+
+.popup {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
