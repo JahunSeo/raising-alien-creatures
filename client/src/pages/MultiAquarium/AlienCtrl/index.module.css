@@ -50,12 +50,12 @@
   @apply opacity-50 cursor-not-allowed;
 }
 
-.btn--ready {
-  @apply bg-gray-100;
+.btn--complete {
+  @apply bg-gray-500;
 }
 
 .btn--graduated {
-  @apply bg-gray-500;
+  @apply bg-gray-500 hover:bg-gray-500 focus:bg-gray-500;
 }
 
 .challengeName {
@@ -74,6 +74,7 @@
 
 .day {
   padding: 2px 4px;
+  margin: 0 1px;
   border: 1px solid transparent;
   border-radius: 3px;
 }

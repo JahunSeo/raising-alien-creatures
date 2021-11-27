@@ -21,10 +21,8 @@ const DAY_TEXT = {
 };
 
 export default function AlienCtrl(props) {
-  const { user } = useSelector(({ user }) => ({
+  const { user, aliens, selectedAlien } = useSelector(({ user, room }) => ({
     user: user.user,
-  }));
-  const { aliens, selectedAlien } = useSelector(({ room }) => ({
     aliens: room.aliens,
     selectedAlien: room.selectedAlien,
   }));
