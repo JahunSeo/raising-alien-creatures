@@ -29,7 +29,7 @@
 }
 
 #other .message-content {
-  @apply px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600 text-sm flex items-end;
+  @apply px-4 py-2 rounded-lg inline-block bg-pink-300 text-black text-sm flex items-end;
 }
 
 #other .message-meta {
@@ -61,7 +61,7 @@
 }
 
 .chat-input {
-  @apply w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-8 bg-blue-400 bg-opacity-30  rounded-full py-1;
+  @apply w-full focus:outline-none focus:placeholder-gray-400 text-white placeholder-gray-400 pl-8 bg-blue-400 bg-opacity-30  rounded-full py-1;
 }
 /* max-w-xs */
 #you .message-align {
