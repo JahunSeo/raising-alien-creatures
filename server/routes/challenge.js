@@ -92,7 +92,7 @@ module.exports = function (pool) {
     if (req.user) {
       pool.getConnection(function (err, connection) {
         connection.query(
-          "INSERT INTO challenge (challenge_name, description, created_by, maximum_number, times_per_week, tag) VALUES (?, ?, ?, ?, ?, ?)",
+          "INSERT INTO challenge (challenge_name, description, created_by, maximum_number, times_per_week, tag, img_url) VALUES (?, ?, ?, ?, ?, ?,?)",
           [
             req.body.challenge_name,
             req.body.challenge_content,
@@ -100,6 +100,7 @@ module.exports = function (pool) {
             max_user,
             cnt_of_week,
             req.body.tag,
+            req.body.image_url,
           ],
           function (err1, results1) {
             if (err1) {
