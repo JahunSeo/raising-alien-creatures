@@ -5,10 +5,13 @@ import api from "../../../../apis/index";
 import * as actions from "../../../../Redux/actions/index.js";
 
 export default function AuthRequestModal(props) {
-  const { alien } = props;
   const showAuthRequest = useSelector(
     (state) => state.modalOnOff.showAuthRequest
   );
+  const { alien } = useSelector(({ room }) => ({
+    alien: room.selectedAlien,
+  }));
+  // const alien = useSelector((state) => state.alien_auth_func.alien_auth);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
   const dispatch = useDispatch();
