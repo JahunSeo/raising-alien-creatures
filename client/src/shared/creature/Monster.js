@@ -48,6 +48,9 @@ class Monster {
       this.fishLeft.src = S3URL + this.image_url[0];
       this.fishRight = new Image();
       this.fishRight.src = S3URL + this.image_url[1];
+      this.bubble = new Image();
+      this.bubble.src = require('../../image/bubble-512px-red.png').default;
+      // this.bubble.src = require('../../image/bubble-512px.png').default;
     }
   }
 
@@ -125,6 +128,7 @@ class Monster {
           size
         );
       }
+      ctx.drawImage(this.bubble,-size / 2,-size / 2, size, size);
       ctx.restore();
     }
   }
