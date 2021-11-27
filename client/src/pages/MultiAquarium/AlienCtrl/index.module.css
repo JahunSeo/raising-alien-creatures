@@ -4,12 +4,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
-  border: 2px solid #ffffff;
-  border-radius: 10px;
   padding: 10px 20px;
+  border-radius: 5px;
+  background-color: rgba(3, 33, 66, 0.35);
+  box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
+}
 
-  background-color: rgba(0, 0, 0, 0.2);
+.body--selected {
+  /* border: 1px solid rgba(79, 70, 229, 1); */
+  padding: 20px 20px;
 }
 
 .body > p {
@@ -33,28 +38,33 @@
 }
 
 .btn {
-  border: 1px solid #ffffff;
+  /* border: 1px solid #ffffff; */
+  @apply bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white py-2 px-4 rounded transition ease-in duration-200 text-center text-base shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2;
   border-radius: 2px;
-  padding: 3px 5px;
+  padding: 3px 8px;
   margin: 0 5px;
+  cursor: pointer;
+}
+
+.btn--disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.btn--ready {
+  @apply bg-gray-100;
+}
+
+.btn--graduated {
+  @apply bg-gray-500;
 }
 
 .challengeName {
   font-size: 22px;
   /* border-bottom: 2px solid #ffffff; */
 }
-.challengeName:hover,
-.challengeName:focus {
-  color: turquoise;
-}
 
 .userName {
   font-size: 17px;
-}
-
-.userName:hover,
-.userName:focus {
-  color: turquoise;
 }
 
 .daylist {
@@ -74,5 +84,5 @@
 
 .day--today {
   background-color: #ffffff;
-  color: #000000;
+  color: rgba(3, 33, 66, 1);
 }

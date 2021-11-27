@@ -1,14 +1,13 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
 
-import {
-  // useDispatch,
-  useSelector,
-} from "react-redux";
-// import * as actions from "../../../Redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../../Redux/actions";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
+
+import AuthRequestModal from "./AuthRequestModal";
 const cx = classNames.bind(styles);
 
 const DAY_TEXT = {
@@ -34,44 +33,41 @@ export default function AlienCtrl(props) {
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const userMatch = useMatch("/user/:userId/room");
   // const mainMatch = useMatch("/");
-  const todayValue = new Date().getDay();
-  console.log(1212, todayValue, alien);
+
+  const dispatch = useDispatch();
+  const { showAuthRequest } = useSelector((state) => ({
+    showAuthRequest: state.modalOnOff.showAuthRequest,
+  }));
 
   // todo 조건 강화!
   if (!alien) {
     return (
-      <div className={styles.body}>
+      <div className={cx("body")}>
         <p>생명체를 선택해주세요.</p>
       </div>
     );
   } else {
+    const todayValue = new Date().getDay();
+    const isPracticeDay = !!alien[DAY_TEXT[todayValue].en];
+
     return (
-      <div className={styles.body}>
+      <div className={cx("body", "body--selected")}>
         <div className={cx("row")}>
-          <Link to={`/challenge/${alien.challenge_id}/room`}>
-            <h3
-              className={styles.challengeName}
-            >{`${alien.challenge_name}`}</h3>
-          </Link>
+          <h3 className={styles.challengeName}>{`${alien.challenge_name}`}</h3>
         </div>
         <div className={cx("row")}>
-          <Link to={`/user/${alien.user_info_id}/room`}>
-            <p className={styles.userName}>
-              {`${alien.user_nickname}`}
-              <span className={styles.authCnt}>
-                {` (${alien.accumulated_count}회 인증)`}
-              </span>
-            </p>
-          </Link>
+          <p className={styles.userName}>
+            {`${alien.user_nickname}`}
+            <span className={styles.authCnt}>
+              {` (${alien.accumulated_count}회 인증)`}
+            </span>
+          </p>
         </div>
         <ul className={styles.daylist}>
           {[0, 1, 2, 3, 4, 5, 6].map((day) => {
             let dayType = "default";
-            console.log(111, alien[DAY_TEXT[day].en]);
-
             if (!!alien[DAY_TEXT[day].en]) dayType = "selected";
-            if (!!alien[DAY_TEXT[day].en] && day === todayValue)
-              dayType = "today";
+            if (day === todayValue && isPracticeDay) dayType = "today";
             // if (!!alien[day] && (new Date()).getDay() = )
             return (
               <li key={day} className={cx("day", `day--${dayType}`)}>
@@ -81,24 +77,55 @@ export default function AlienCtrl(props) {
           })}
         </ul>
         <div className={styles.btnRow}>
-          <button className={cx("btn", "btn--request")}>챌린지 어항</button>
-          <button className={cx("btn", "btn--request")}>참가자 어항</button>
-          {(!!userMatch || !!challengeMatch) &&
+          {!challengeMatch && (
+            <Link to={`/challenge/${alien.challenge_id}/room`}>
+              <p className={cx("btn")}>챌린지 어항</p>
+            </Link>
+          )}
+          {!userMatch && (
+            <Link to={`/user/${alien.user_info_id}/room`}>
+              <p className={cx("btn")}>참가자 어항</p>
+            </Link>
+          )}
+          {!!userMatch &&
             user.login &&
             user.id === parseInt(alien.user_info_id) && (
-              <button className={cx("btn", "btn--request")}>인증</button>
+              <PracticeBtn
+                alien={alien}
+                isPracticeDay={isPracticeDay}
+                handleClick={() =>
+                  dispatch(actions.showAuthRequest(!showAuthRequest))
+                }
+              />
             )}
-          {/* {!!challengeMatch ? (
-            <Link to={`/user/${alien.user_info_id}/room`}>
-              <button className={cx("btn", "btn--room")}>개인 어항</button>
-            </Link>
-          ) : (
-            <Link to={`/challenge/${alien.challenge_id}/room`}>
-              <button className={cx("btn", "btn--room")}>챌린지 어항</button>
-            </Link>
-          )} */}
         </div>
+        <AuthRequestModal alien={alien} />
       </div>
+    );
+  }
+}
+
+function PracticeBtn(props) {
+  const { alien, handleClick, isPracticeDay } = props;
+  if (alien.alien_status === 1) {
+    // 졸업
+    return <p className={cx("btn", "btn--graduated", "btn--disabled")}>졸업</p>;
+  } else if (alien.practice_status === 1) {
+    // 승인 대기
+    return (
+      <p className={cx("btn", "btn--ready", "btn--disabled")}>승인 대기</p>
+    );
+  } else if (alien.practice_status === 2 || !isPracticeDay) {
+    // 인증 완료
+    return (
+      <p className={cx("btn", "btn--complete", "btn--disabled")}>인증 완료</p>
+    );
+  } else {
+    // 인증하기
+    return (
+      <p className={cx("btn")} onClick={handleClick}>
+        인증하기
+      </p>
     );
   }
 }
