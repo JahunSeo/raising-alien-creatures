@@ -1,10 +1,27 @@
 .body {
   color: #ffffff;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  padding: 10px 20px;
+
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .body > p {
   white-space: nowrap;
+}
+
+.row {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .btnRow {
@@ -20,4 +37,42 @@
   border-radius: 2px;
   padding: 3px 5px;
   margin: 0 5px;
+}
+
+.challengeName {
+  font-size: 22px;
+  /* border-bottom: 2px solid #ffffff; */
+}
+.challengeName:hover,
+.challengeName:focus {
+  color: turquoise;
+}
+
+.userName {
+  font-size: 17px;
+}
+
+.userName:hover,
+.userName:focus {
+  color: turquoise;
+}
+
+.daylist {
+  margin-top: 6px;
+  background-color: transparent;
+}
+
+.day {
+  padding: 2px 4px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.day--selected {
+  border: 1px solid #ffffff;
+}
+
+.day--today {
+  background-color: #ffffff;
+  color: #000000;
 }
