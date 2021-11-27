@@ -72,6 +72,7 @@ export default function AuthRequestModal() {
   };
 
   const handleCancel = () => {
+    setAuthImage(null);
     dispatch(actions.showAuthRequest(!showAuthRequest));
   };
 

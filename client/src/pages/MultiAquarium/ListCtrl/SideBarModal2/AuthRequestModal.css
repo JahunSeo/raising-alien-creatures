@@ -1,14 +1,34 @@
 .Background {
   position: fixed;
-  top: 0;
+  /* top: 0%; */
   left: 0%;
-  bottom: 0;
+  bottom: -10rem;
   right: 0;
+  width: 150rem;
+  height: 100rem;
+  /* height: 100rem; */
   /* background-color: rgba(231, 24, 24, 0.5); */
-  z-index: 1;
+  /* z-index: 10;     */
 }
 
 .AuthRequestModal {
+  position: fixed;
+  left: 528px;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  max-height: 70%;
+  width: 20rem;
+  height: 95%;
+  padding: 16px;
+  /* background: rgb(25, 31, 44); */
+  background: transparent;
+  border-radius: 10px;
+  text-align: center;
+  /* transition: all 1s; */
+  z-index: 1;
+}
+
+.SignInContainer {
   display: flex;
   position: fixed;
   align-items: center;
@@ -26,20 +46,6 @@
   z-index: 10;
 }
 
-.hidden {
-  position: fixed;
-  left: -450px;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  max-height: 80%;
-  width: 20rem;
-  height: 70%;
-  padding: 16px;
-  border-radius: 10px;
-  text-align: center;
-  transition: all 1s;
-}
-
 .Overlay {
   position: fixed;
   top: 0;
@@ -51,6 +57,22 @@
   background-color: gray;
   opacity: 50%;
   z-index: 1;
+}
+
+.hidden {
+  position: fixed;
+  left: -150px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 80%;
+  width: 20rem;
+  height: 80%;
+  padding: 16px;
+  /* background: rgb(25, 31, 44); */
+  background: lightblue;
+  border-radius: 10px;
+  text-align: center;
+  /* transition: all 1s; */
 }
 
 .Comment {

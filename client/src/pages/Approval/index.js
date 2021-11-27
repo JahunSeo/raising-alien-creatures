@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  LazyLoadImage,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
 import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
 
@@ -146,6 +150,11 @@ const AuthRequest = ({ authRequest }) => {
   return (
     <div className="flex items-center justify-center min-w-min min-h-0 p-12  bg-gray-100">
       <div className="w-2/5 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+        {/* <img
+          className="m-auto mt-6"
+          src={authRequest.image_url}
+          alt="authImage"
+        /> */}
         <img
           className="m-auto mt-6"
           src={authRequest.image_url}
