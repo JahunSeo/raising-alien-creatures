@@ -1,14 +1,13 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
 
-import {
-  // useDispatch,
-  useSelector,
-} from "react-redux";
-// import * as actions from "../../../Redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../../Redux/actions";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
+
+import AuthRequestModal from "./AuthRequestModal";
 const cx = classNames.bind(styles);
 
 export default function AlienCtrl(props) {
@@ -24,6 +23,11 @@ export default function AlienCtrl(props) {
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const userMatch = useMatch("/user/:userId/room");
   // const mainMatch = useMatch("/");
+
+  const dispatch = useDispatch();
+  const { showAuthRequest } = useSelector((state) => ({
+    showAuthRequest: state.modalOnOff.showAuthRequest,
+  }));
 
   // todo 조건 강화!
   if (!alien) {
@@ -42,7 +46,14 @@ export default function AlienCtrl(props) {
           {(!!userMatch || !!challengeMatch) &&
             user.login &&
             user.id === parseInt(alien.user_info_id) && (
-              <button className={cx("btn", "btn--request")}>인증하기</button>
+              <button
+                className={cx("btn", "btn--request")}
+                onClick={() =>
+                  dispatch(actions.showAuthRequest(!showAuthRequest))
+                }
+              >
+                인증하기
+              </button>
             )}
           {!!challengeMatch ? (
             <Link to={`/user/${alien.user_info_id}/room`}>
@@ -54,6 +65,7 @@ export default function AlienCtrl(props) {
             </Link>
           )}
         </div>
+        <AuthRequestModal alien={alien} />
       </div>
     );
   }

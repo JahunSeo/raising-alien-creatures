@@ -6,7 +6,7 @@ import * as actions from "../../../../Redux/actions/index.js";
 
 export default function SideBarModal2() {
   // console.log("alien밖: ", alien);
-  const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
+  // const showModal2 = useSelector((state) => state.modalOnOff.showModal2);
   const alien = useSelector((state) => state.alien_auth_func.alien_auth);
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
@@ -73,78 +73,65 @@ export default function SideBarModal2() {
   return (
     <>
       <div>
-        <div className={showModal2 ? "ModalContainer2" : "hidden2"}>
-          <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
-            <div className="md:flex">
-              <div className="w-full px-4 py-6">
+        {/* <div className={showModal2 ? "ModalContainer2" : "hidden2"}> */}
+        <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
+          <div className="md:flex">
+            <div className="w-full px-4 py-6">
+              <div className="mb-1">
+                <span>인증 사진 첨부</span>
+                <div className="Attachments">
+                  <div className="absolute">
+                    <div className="flex flex-col items-center">
+                      <i className="fa fa-folder-open fa-3x text-blue-700"></i>
+                      <span className="block text-gray-400 font-normal">
+                        클릭 또는 드래그하여 인증 사진을 올려주세요.
+                      </span>
+                    </div>
+                  </div>
+                  <input
+                    type="file"
+                    className="h-full w-full opacity-0"
+                    name=""
+                    accept="image/*"
+                    id="imageInput"
+                    onChange={(e) => {
+                      setAuthImage(e.target.files);
+                      // processImage(e);
+                    }}
+                  />
+                </div>
                 <div className="mb-1">
-                  <span className="text-sm"> Comment </span>
+                  <span className="text-sm">코멘트</span>
                   <textarea
                     type="text"
                     className="Comment"
+                    placeholder="인증 사진과 실천 내용을 간단히 설명해주세요."
                     onChange={(e) => {
                       setAuthMessage(e.target.value);
                     }}
                   ></textarea>
                 </div>
-                <div className="mb-1">
-                  <span className="text-sm text-gray-400">
-                    인증 사진과 실천 내용을 간단히 설명해주세요.
-                  </span>
-                </div>
-                <div className="mb-1">
-                  <span>Attachments</span>
-                  <div className="Attachments">
-                    <div className="absolute">
-                      <div className="flex flex-col items-center">
-                        <i className="fa fa-folder-open fa-3x text-blue-700"></i>
-                        <span className="block text-gray-400 font-normal">
-                          Drag or Attach your files here
-                        </span>
-                      </div>
-                    </div>
-
-                    <input
-                      type="file"
-                      className="h-full w-full opacity-0"
-                      name=""
-                      accept="image/*"
-                      id="imageInput"
-                      onChange={(e) => {
-                        setAuthImage(e.target.files);
-                        // processImage(e);
-                      }}
-                    />
-                  </div>
-                </div>
-                {authImage && authImage[0] ? (
-                  <img src={URL.createObjectURL(authImage[0])}></img>
-                ) : (
-                  <div></div>
-                )}
-                <div className="mt-3 text-right">
-                  <button
-                    onClick={() => {
-                      dispatch(actions.showModal2(false));
-                    }}
-                  >
-                    뒤로 가기
-                  </button>
-                  <button
-                    onClick={handleSubmit}
-                    className="
-                ml-2
-                h-8
-                w-20
-                bg-blue-600
-                rounded
-                text-white
-                hover:bg-blue-700
-              "
-                  >
-                    인증하기
-                  </button>
-                </div>
+              </div>
+              {authImage && authImage[0] ? (
+                <img src={URL.createObjectURL(authImage[0])}></img>
+              ) : (
+                <div></div>
+              )}
+              <div className="mt-3 text-right">
+                <button
+                  className="ml-2 h-8 w-20 bg-gray-400 rounded text-white hover:bg-blue-700"
+                  onClick={() => {
+                    // dispatch(actions.showModal2(false));
+                  }}
+                >
+                  뒤로 가기
+                </button>
+                <button
+                  className="ml-2 h-8 w-20 bg-blue-600 rounded text-white hover:bg-blue-700"
+                  onClick={handleSubmit}
+                >
+                  인증하기
+                </button>
               </div>
             </div>
           </div>
