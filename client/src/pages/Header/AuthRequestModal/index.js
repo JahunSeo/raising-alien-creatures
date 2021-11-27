@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./AuthRequestModal.css";
 import { useSelector, useDispatch } from "react-redux";
-import api from "../../../../apis/index";
-import * as actions from "../../../../Redux/actions/index.js";
+import api from "../../../apis/index";
+import * as actions from "../../../Redux/actions/index.js";
 
 export default function AuthRequestModal(props) {
   const [authImage, setAuthImage] = useState(null);
@@ -152,7 +152,14 @@ export default function AuthRequestModal(props) {
             </div>
             {authImage && authImage[0] ? (
               <div className="max-w-md py-6">
-                <img src={URL.createObjectURL(authImage[0])} />
+                <img
+                  style={{
+                    maxHeight: "200px",
+                    maxWidth: "100%",
+                    margin: "auto",
+                  }}
+                  src={URL.createObjectURL(authImage[0])}
+                />
               </div>
             ) : (
               <div></div>

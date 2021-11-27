@@ -7,7 +7,6 @@ import * as actions from "../../../Redux/actions";
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
 
-import AuthRequestModal from "./AuthRequestModal";
 const cx = classNames.bind(styles);
 
 const DAY_TEXT = {
@@ -98,7 +97,6 @@ export default function AlienCtrl(props) {
               />
             )}
         </div>
-        <AuthRequestModal />
       </div>
     );
   }
