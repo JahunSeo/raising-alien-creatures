@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
+import LazyLoad from "react-lazyload";
+// import {
+//   LazyLoadImage,
+//   trackWindowScroll,
+// } from "react-lazy-load-image-component";
+// import "react-lazy-load-image-component/src/effects/blur.css";
+import "./index.css";
 import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
 
@@ -82,6 +85,42 @@ const AuthRequest = ({ authRequest }) => {
     }
   };
 
+  // const AuthImage = ({ authRequests, scrollPosition }) => (
+  //   <div>
+  //     {authRequests.map((authRequest.image_url) => (
+  //       <LazyLoadImage
+  //         className="m-auto mt-6"
+  //         alt="authImage"
+  //         src={authRequest.image_url}
+  //         scrollPosition={scrollPosition}
+  //         effect="blur"
+  //       />
+  //     ))}
+  //   </div>
+  // );
+
+  // const LazyImage = ({ src, alt }) => {
+  const refPlaceholder = React.useRef();
+  const removePlaceholder = () => {
+    refPlaceholder.current.remove();
+  };
+
+  //   return (
+  //     <div className="ImageWrapper">
+  //       <div className="Placeholder" />
+  //       <LazyLoad>
+  //         <img
+  //           className="m-auto mt-6"
+  //           onLoad={removePlaceholder}
+  //           onError={removePlaceholder}
+  //           src={src}
+  //           alt={alt}
+  //         />
+  //       </LazyLoad>
+  //     </div>
+  //   );
+  // };
+
   const handleSubmit = () => {
     postApproval();
   };
@@ -149,22 +188,29 @@ const AuthRequest = ({ authRequest }) => {
 
   return (
     <div className="flex items-center justify-center min-w-min min-h-0 p-12  bg-gray-100">
-      <div className="w-2/5 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+      <div className="w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
         {/* <img
           className="m-auto mt-6"
           src={authRequest.image_url}
           alt="authImage"
         /> */}
-        <img
-          className="m-auto mt-6"
-          src={authRequest.image_url}
-          alt="authImage"
-        />
+        <div className="ImageWrapper">
+          <div className="Placeholder" />
+          <LazyLoad>
+            <img
+              className="m-auto mt-6"
+              // onLoad={removePlaceholder}
+              // onError={removePlaceholder}
+              src={authRequest.image_url}
+              alt="authImage"
+            />
+          </LazyLoad>
+        </div>
         <div className="flex flex-col items-center mb-2 space-x-4">
           <div className="mb-2 space-x-4">
             <div className="justify-center items-center mt-6 mb-4 text-2xl font-bold text-black">
-              "{authRequest.request_user}" 님의 [
-              {authRequest.challenge_name}] 인증 요청
+              "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
+              인증 요청
             </div>
             <div className="flex flex-col justify-center items-center text-xl font-semibold text-gray-600 mt-2 mb-2">
               {authYear}년 {authMonth}월 {authDate}일 {authHour}시 {authMinute}
