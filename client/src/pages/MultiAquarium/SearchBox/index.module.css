@@ -2,15 +2,16 @@
   position: absolute;
   margin: auto;
   bottom: 70px;
-  width: 550px;
-  min-width: 300px;
-  max-width: 700px;
+  /* width: 550px; */
+  min-width: 240px;
+  max-width: 550px;
   height: 200px;
   background-color: rgba(3, 33, 66, 0.35);
   box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
-  border-radius: 20px;
+  border-radius: 15px;
   z-index: 10;
   transition: height 300ms ease-in, width 300ms ease-out;
+  margin: 0 20px;
 }
 
 .SearchBox:hover,
@@ -22,18 +23,17 @@
   background-color: rgba(4, 30, 66, 0.95);
   height: 85vh;
   width: 100%;
+  max-width: 700px;
   transition-duration: 500ms;
 }
 
 .header {
   position: relative;
   z-index: 3;
-  padding-top: 80px;
-  padding-bottom: 50px;
+  padding: 80px 30px 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 1.8rem;
   color: #ffffff;
 }
 
@@ -78,7 +78,8 @@
 }
 
 .searchForm {
-  width: 480px;
+  min-width: 480px;
+  width: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,14 +103,15 @@
   border-radius: 5px;
   width: 100%;
   max-width: 600px;
-  height: 48px;
+  height: 45px;
+  font-size: 25px;
 }
 
 .double input {
   color: white;
   background: none;
   width: 100%;
-  border:2px;
+  border: 2px;
   padding-left: 30px;
   padding-right: 50px;
   outline: none;
@@ -149,17 +151,17 @@
   font-size: 0.8em;
 }
 
-.tags{
-  display:flex;
+.tags {
+  display: flex;
   margin-top: 10px;
 }
-.tag{
+.tag {
   font-size: 18px;
   margin-right: 10px;
-  cursor:pointer;
+  cursor: pointer;
 }
-.tag:hover{
-  color:#18ffff;
+.tag:hover {
+  color: #18ffff;
 }
 .findChallenge {
   height: 65vh;
@@ -230,4 +232,63 @@
   color: rgb(255, 254, 254);
   cursor: pointer;
   background: linear-gradient(to right, #008aff, grey);
+}
+
+@media only screen and (max-width: 800px) {
+  .SearchBox {
+    height: 160px;
+    bottom: 30px;
+    border-radius: 10px;
+  }
+
+  .SearchBox.longer {
+    height: 85vh;
+    width: 100%;
+    max-width: 700px;
+    transition-duration: 500ms;
+  }
+
+  .searchForm {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .double {
+    border-radius: 5px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .double label {
+    position: absolute;
+    left: 20px;
+    top: -30px;
+    margin: auto;
+    /* font-size: 0.6em; */
+  }
+  /* sibling selector ~ */
+  .double input:focus ~ label {
+    left: 20px;
+    top: -30px;
+    /* font-size: 0.6em; */
+  }
+  .double input:not(:placeholder-shown) {
+    border: 3px solid #18ffff;
+  }
+  .double input:not(:placeholder-shown) ~ label {
+    left: 20px;
+    top: -30px;
+    /* font-size: 0.6em; */
+  }
+
+  .tags {
+    display: none;
+  }
+
+  .errMsg {
+    bottom: -35px;
+    font-size: 18px;
+  }
 }
