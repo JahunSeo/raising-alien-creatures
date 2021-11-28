@@ -13,6 +13,8 @@ import PlazaRoom from "./pages/MultiAquarium/Room/PlazaRoom";
 import UserRoom from "./pages/MultiAquarium/Room/UserRoom";
 import ChallengeRoom from "./pages/MultiAquarium/Room/ChallengeRoom";
 
+import PopUp from "./pages/PopUp";
+
 import styles from "./App.module.css";
 
 function App() {
@@ -46,12 +48,33 @@ function Layout() {
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
   }));
+  // const popupModal = false;
+  const popup = useSelector((state) => state.modalOnOff);
+  const popupModal = popup.popupModal;
+  const popupMessage = popup.popupMessage;
+  const popupKind = popup.popupKind;
+  const popupCallback = popup.popupCallback;
+
+  // console.log("popupModal111", popupModal);
+  // console.log("popupModal222", popupModal);
+  // console.log("popupModal333", popupMessage);
+
   return (
     <div className={styles.body}>
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
       <div className={styles.content}>{user !== null && <Outlet />}</div>
+      {popupModal ? (
+        <div className={styles.popup}>
+          <PopUp
+            popupModal={popupModal}
+            popupMessage={popupMessage}
+            popupKind={popupKind}
+            popupCallback={popupCallback}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

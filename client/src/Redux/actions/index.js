@@ -1,14 +1,27 @@
 // 액션 생성 함수들
 import * as types from "./ActionTypes";
 
-export const showModal2 = (onoff) => ({
-  type: types.SHOW_MODAL2,
-  showModal2: onoff,
-});
+// export const showModal2 = (onoff) => ({
+//   type: types.SHOW_MODAL2,
+//   showModal2: onoff,
+// });
 
 export const setChalInfoModal = (chalInfoModal) => ({
   type: types.SET_CHAL_INFO_MODAL,
   chalInfoModal,
+});
+
+export const setPopupModal = (
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback
+) => ({
+  type: types.SET_POPUP_MODAL,
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback,
 });
 
 export const showSignUpModal = (onoff) => ({
@@ -19,6 +32,11 @@ export const showSignUpModal = (onoff) => ({
 export const showSignInModal = (onoff) => ({
   type: types.SHOW_SIGNIN,
   showSignInModal: onoff,
+});
+
+export const showAuthRequest = (onoff) => ({
+  type: types.SHOW_AUTH_REQUEST,
+  showAuthRequest: onoff,
 });
 
 export const checkUser = (res) => ({
@@ -35,20 +53,19 @@ export const setRoom = ({ roomId, aliens, roomTitle, challenge = {} }) => ({
   payload: { roomId, aliens, roomTitle, challenge },
 });
 
-
-export const alienAuth = (alien_auth) => ({
-  type: types.ALIEN_AUTH,
-  alien_auth: alien_auth,
-});
-
 export const selectAlien = (selectedAlien) => ({
   type: types.SELECT_ALIEN,
   payload: selectedAlien,
 });
 
-export const graduate = (alienId) =>({
+export const graduate = (alienId) => ({
   type: types.GRADUATE_ALIEN,
-  payload : alienId,
+  payload: alienId,
+});
+
+export const requestAuth = (alienId) => ({
+  type: types.REQUEST_AUTH,
+  payload: alienId,
 });
 
 export const setMessage = (msgArray) => ({
