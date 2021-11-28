@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { Link } from "react-router-dom";
 import api from "../../../../apis";
@@ -8,7 +8,6 @@ import * as actions from "../../../../Redux/actions";
 
 import searchIcon from "../../../../image/search-icon.png";
 import backIcon from "../../../../image/goback-icon.png";
-import tigerIcon from "../../../../image/무케.jpg";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -19,6 +18,7 @@ export default function SearchBox(props) {
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [message, setMessage] = useState("");
+  const tags = ['전체', '건강', '운동', '공부', '독서', '취미'];
 
   const dispatch = useDispatch();
 
@@ -57,6 +57,26 @@ export default function SearchBox(props) {
       return;
     }
   };
+
+  const clickTag = useCallback( async (tag) =>{
+    setSearchKeyword(tag);
+    let keyword = { category: tag }
+    let res = await api.post("/challenge/searchCategory", keyword);
+    if (res.data.result !== "success") {
+      console.log("안받아와짐");
+      return;
+    }
+    if (res.data.result === "success") {
+      if (res.data.challenge.length === 0) {
+        setMessage("검색된 챌린지가 없습니다");
+      } else {
+        setChallengeList(res.data.challenge);
+        setLonger(true);
+        setMessage("");
+      }
+      return;
+    }
+  },[])
 
   return (
     <div className={cx("SearchBox", { longer })}>
@@ -100,6 +120,13 @@ export default function SearchBox(props) {
             {message && <p className={styles.errMsg}>{message}</p>}
           </div>
         </form>
+        <div className = {styles.tags}>
+          {tags.map(tag=>(
+            <div key = {tag} className={styles.tag} onClick = {()=>clickTag(tag)}> 
+              #{tag}
+            </div> 
+           ))}
+        </div>
       </div>
       {longer && (
         <div className={styles.findChallenge}>
@@ -118,8 +145,12 @@ export default function SearchBox(props) {
 const ChallengeItem = ({ challenge }) => {
   return (
     <div className={cx("challengeItem")}>
-      <div className={styles.challengeName}>{challenge.challengeName}</div>
-      <img className={styles.challengeImg} alt="yammy" src={tigerIcon} />
+      <div className={styles.challengeName}>{challenge.challenge_name}</div>
+      <img
+        className={styles.challengeImg}
+        alt="yammy"
+        src={challenge.img_url}
+      />
       <div className={styles.participant}>
         참여인원: {challenge.participant_number}/{challenge.maximum_number}명
       </div>

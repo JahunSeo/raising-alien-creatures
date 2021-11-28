@@ -76,7 +76,12 @@ const ChallengeModal = ({ setChallengeModalOn }) => {
       setChallengeDescription("");
       setChallengeCapacity(SELECT_DEFAULT);
       setChallengeFrequency(SELECT_DEFAULT);
-      alert("챌린지 생성에 성공하였습니다.");
+      actions.setPopupModal(
+        "CREATE_CHALLENGE",
+        "챌린지 생성에 성공하였습니다 !",
+        "SUCC",
+        () => {}
+      );
       dispatch(actions.showModal3(!showModal3));
       return;
     } else {

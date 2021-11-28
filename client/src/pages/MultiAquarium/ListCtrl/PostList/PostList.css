@@ -103,31 +103,41 @@ ul span {
 
 .Content {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   text-align: left;
+  position: relative;
+  overflow: hidden;
 }
-.Content img {
-  
-  /* object-fit: cover; */
-  overflow:hidden;
-  width: 5em;
-  height: 5em;
-  margin-right: 2rem;
+
+/* .Content .images {
+  background-size: 3em;
+  width: 5.5em;
+  height: 5.5em;
+  background-position: -10px;
+} */
+.Content .images {
+  background-size: 45em;
+  width: 7em;
+  height: 7em;
+  background-position: 0px;
 }
-.Content > img:hover {
+.Content .images:hover {
   transition: all 0.3s;
-  transform: scale(1.4);
+  transform: scale(1.2);
 }
+
 .Content:first-child {
   padding-top: 0;
 }
 .SubInfo {
-  justify-content: left;
   padding-top: 0.5rem;
   color: #212529;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 .SubInfo p {
-  line-height: 30px;
+  line-height: 25px;
   font-weight: 550;
 }
 

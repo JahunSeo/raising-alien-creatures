@@ -80,14 +80,19 @@ module.exports = function (pool) {
     }
   });
   //졸업 api
-  router.get("/graduation", function (req, res) {
+  router.post("/graduation", function (req, res) {
     // 필요한 데이터: challenge_id, ailen_id
     // 해야할 일 1: alien 테이블 변경
+<<<<<<< HEAD
     const sql1 = "UPDATE alien SET status = 1, end_date = NOW() WHERE id = ?;";
 <<<<<<< HEAD
 
 =======
 >>>>>>> 342fbea23d9840e5a6f3324b50df8f967f02c5ee
+=======
+    const sql1 =
+      "UPDATE alien SET alien_status = 1, end_date = NOW() WHERE id = ?;";
+>>>>>>> 23cd8c22f9385e01b8aabd51191d1561ef0d1003
     // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
     pool.getConnection(function (err, connection) {
       if (err) {

@@ -7,10 +7,17 @@ export const CHAL_INFO_TYPE = {
 };
 
 const initialState = {
-  showModal2: false, // TODO: refactoring
-  showSignInModal: false,
-  showSignUpModal: false,
+  // showModal2: false, // TODO: refactoring
   chalInfoModal: null,
+  // popup
+  popupModal: null,
+  popupMessage: "",
+  popupKind: "SUCC",
+  popupCallback: undefined,
+
+  showSignUpModal: false,
+  showSignInModal: false,
+  showAuthRequest: false,
 };
 
 export default function modalOnOff(state = initialState, action) {
@@ -20,12 +27,11 @@ export default function modalOnOff(state = initialState, action) {
         ...state,
         chalInfoModal: null,
       };
-
-    case types.SHOW_MODAL2:
-      return {
-        ...state,
-        showModal2: action.showModal2,
-      };
+    // case types.SHOW_MODAL2:
+    //   return {
+    //     ...state,
+    //     showModal2: action.showModal2,
+    //   };
     case types.SET_CHAL_INFO_MODAL:
       return {
         ...state,
@@ -40,6 +46,24 @@ export default function modalOnOff(state = initialState, action) {
       return {
         ...state,
         showSignInModal: action.showSignInModal,
+      };
+    case types.SET_POPUP_MODAL:
+      return {
+        ...state,
+        popupModal: action.popupModal,
+        popupMessage: action.popupMessage,
+        popupKind: action.popupKind,
+        popupCallback: action.popupCallback,
+      };
+    case types.SHOW_AUTH_REQUEST:
+      return {
+        ...state,
+        showAuthRequest: action.showAuthRequest,
+      };
+    case types.REQUEST_AUTH:
+      return {
+        ...state,
+        showAuthRequest: false,
       };
 
     default:

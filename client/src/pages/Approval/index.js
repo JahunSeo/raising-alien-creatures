@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
+import * as actions from "../../Redux/actions";
 
 export default function Approval(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
@@ -27,10 +28,10 @@ export default function Approval(props) {
 
   if (authRequests.length) {
     return (
-      <div className="authRequests">
+      <div className="authRequests" style={{ paddingTop: "75px" }}>
         {authRequests.map((authRequest) => (
           <AuthRequest
-            key={authRequest.authentification_id}
+            key={authRequest.practice_record_id}
             authRequest={authRequest}
           />
         ))}
@@ -47,6 +48,7 @@ export default function Approval(props) {
 
 const AuthRequest = ({ authRequest }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let request_date = authRequest.request_date.toLocaleStringS;
   const authYear = authRequest.request_date.slice(0, 4);
   const authMonth = authRequest.request_date.slice(5, 7);
@@ -58,22 +60,44 @@ const AuthRequest = ({ authRequest }) => {
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
-      auth_id: authRequest.authentification_id,
+      auth_id: authRequest.practice_record_id,
       Alien_id: authRequest.alien_id,
       request_date: authRequest.request_date,
     });
     console.log("req", req);
 
     if (req.data.msg === "인증 수락 가능한 날짜가 만료되었습니다.") {
-      alert("기간이 만료된 인증 요청입니다.");
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_DATE_OUT",
+          "기간이 만료된 인증 요청입니다 !",
+          "FAIL",
+          () => {}
+        )
+      );
       return;
     }
-    if (req.data.msg == "이미 인증이 완료된 건 입니다.") {
-      alert("이미 수락이 완료된 인증 요청입니다.");
+    if (req.data.msg === "이미 인증이 완료된 건 입니다.") {
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_EXIST",
+          "이미 수락이 완료된 인증 요청입니다 !",
+          "FAIL",
+          () => {}
+        )
+      );
       return;
     }
     if (req.data.result === "success") {
-      alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
+      // alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_APPROVAL",
+          `${authRequest.request_user} 님의 인증을 수락하였습니다 !`,
+          "SUCC",
+          () => {}
+        )
+      );
       SetApprovalStatus(true);
     }
   };
@@ -87,7 +111,7 @@ const AuthRequest = ({ authRequest }) => {
   };
 
   const ApprovalButton = () => {
-    if (!approvalStatus & !authRequest.isAuth) {
+    if (!approvalStatus & !authRequest.record_status) {
       return (
         <button
           type="button"
@@ -154,8 +178,8 @@ const AuthRequest = ({ authRequest }) => {
         <div className="flex flex-col items-center mb-2 space-x-4">
           <div className="mb-2 space-x-4">
             <div className="justify-center items-center mt-6 mb-4 text-2xl font-bold text-black">
-              "{authRequest.request_user_nickname}" 님의 [
-              {authRequest.challenge_name}] 인증 요청
+              "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
+              인증 요청
             </div>
             <div className="flex flex-col justify-center items-center text-xl font-semibold text-gray-600 mt-2 mb-2">
               {authYear}년 {authMonth}월 {authDate}일 {authHour}시 {authMinute}

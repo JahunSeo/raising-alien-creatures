@@ -1,10 +1,24 @@
 const schedule = require("node-schedule");
+const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config({ path: path.join(__dirname, "../../.env") });
+const mysql = require("mysql");
+
 
 // 생명체 사망 api
 exports.j = schedule.scheduleJob({ hour: 15, minute: 00 }, function () {
-  //UTC를 위한 dirty code
+    const pool = mysql.createPool({
+      connectionLimit: 10,
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      multipleStatements: true,
+    });
+    // UTC를 위한 dirty code
     let today = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
     let day = today.getDay();
+    console.log(day);
     // 일요일에 스케줄러가 돌면 토요일날 인증완료 여부를 파악하기 위해 한 칸씩 뒤로 된 것임.
     // 인증요청조차 하지 않은 생명체 죽음상태(status = 2)로 변경
     // 트리거를 통해 participant - 1
@@ -36,7 +50,7 @@ exports.j = schedule.scheduleJob({ hour: 15, minute: 00 }, function () {
       sql2 = 'UPDATE alien SET practice_status = 0 WHERE (fri = 1 AND alien_status = 0 AND practice_status != 0);';
     }
   
-    poll.getConnection(function(err, connection){
+    pool.getConnection(function(err, connection){
       if (err) {
         console.error(err);
         return;
@@ -44,12 +58,12 @@ exports.j = schedule.scheduleJob({ hour: 15, minute: 00 }, function () {
       
       connection.query(
         sql1 + sql2, 
-        [trans_num_to_str[day], trans_num_to_str[day]],
         function (error, results) {
           if (error) {
             console.error('at the scheduler api', error);
             return;
           }
+          console.log(results);
           connection.release();
         }
       )

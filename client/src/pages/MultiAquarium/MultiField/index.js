@@ -55,8 +55,24 @@ export default class Field extends Component {
       let mouseY = mouseObj.deltaYfromCenter + transY;
       let selectedMonster = null;
 
-      // draw monster
+      // draw central planet
+      ctx.beginPath();
+      ctx.arc(
+        0,
+        room.camera.getCanvasPlanetSize(400),
+        room.camera.getCanvasPlanetSize(400),
+        0,
+        Math.PI * 2
+      );
+      var grd = ctx.createRadialGradient(100, 50, 0, 90, 60, 1000);
+      grd.addColorStop(0, "#f0c0ff");
+      grd.addColorStop(0.25, "#9048f0");
+      grd.addColorStop(0.5, "#6018c0");
+      grd.addColorStop(1, "black");
+      ctx.fillStyle = grd;
+      ctx.fill();
 
+      // draw monster
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
       for (const monId in monsters) {
         let { location, size, color, isUserOnRoom } = monsters[monId];
@@ -74,8 +90,8 @@ export default class Field extends Component {
           this.props.handleSelectAlien(monsters[monId]);
         }
 
-        monsters[monId].display(ctx, frameCnt, room)
-        
+        monsters[monId].display(ctx, frameCnt, room);
+
         // if (isUserOnRoom) {
         //   ctx.beginPath();
         //   ctx.arc(x, y, 8, 0, Math.PI * 2);
@@ -83,7 +99,6 @@ export default class Field extends Component {
         //   ctx.fill();
         // }
       }
-      
 
       if (mouseObj.clicked) {
         // let destination = {
