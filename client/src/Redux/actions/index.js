@@ -11,6 +11,19 @@ export const setChalInfoModal = (chalInfoModal) => ({
   chalInfoModal,
 });
 
+export const setPopupModal = (
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback
+) => ({
+  type: types.SET_POPUP_MODAL,
+  popupModal,
+  popupMessage,
+  popupKind,
+  popupCallback,
+});
+
 export const showSignUpModal = (onoff) => ({
   type: types.SHOW_SIGNUP,
   showSignUpModal: onoff,
@@ -40,11 +53,6 @@ export const setRoom = ({ roomId, aliens, roomTitle, challenge = {} }) => ({
   payload: { roomId, aliens, roomTitle, challenge },
 });
 
-export const alienAuth = (alien_auth) => ({
-  type: types.ALIEN_AUTH,
-  alien_auth: alien_auth,
-});
-
 export const selectAlien = (selectedAlien) => ({
   type: types.SELECT_ALIEN,
   payload: selectedAlien,
@@ -52,6 +60,11 @@ export const selectAlien = (selectedAlien) => ({
 
 export const graduate = (alienId) => ({
   type: types.GRADUATE_ALIEN,
+  payload: alienId,
+});
+
+export const requestAuth = (alienId) => ({
+  type: types.REQUEST_AUTH,
   payload: alienId,
 });
 

@@ -10,7 +10,6 @@ export default function AlienInfo({
     if (!checked) {
       setCheckDay([...checkDay, id]);
     } else {
-      // console.log("checkDay 내부 :", checkDay);
       setCheckDay(checkDay.filter((e) => e !== id));
     }
   };

@@ -1,18 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./PostList.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
 import { S3URL } from "../../../../shared/lib/Constants";
-// import AuthRequestModal from "../../ListCtrl/AuthRequestModal";
 import HamburgerBtnImage from "../../../../image/toggledown.png";
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
-  const { userId, showAuthRequest } = useSelector((state) => ({
+  const { userId } = useSelector((state) => ({
     userId: state.user.user.id,
-    // showAuthRequest: state.modalOnOff.showAuthRequest,
   }));
 
   const onClickGraduate = async () => {
@@ -26,9 +24,13 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
       <div className="PostItemBlock">
         <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
-          <div 
-            className = 'images'
-            style = {{backgroundImage: `url("${S3URL + alien.image_url.split("-")[0]}")`}}
+          <div
+            className="images"
+            style={{
+              backgroundImage: `url("${
+                S3URL + alien.image_url.split("-")[0]
+              }")`,
+            }}
             onClick={() => {
               if (selectedAlien === alien.id) {
                 dispatch(actions.selectAlien(null));
@@ -49,31 +51,36 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             }}
           /> */}
           <div className="SubInfo">
-            <p>이름 : {alien.alien_name}</p>
-            <p>
-              출생일 : {alien.created_date.split("T")[0]}
-            </p>
-            <p>Commit 횟수 : {alien.accumulated_count}번</p>
+            <p>참가자 : {alien.user_nickname}</p>
+            <p>별명 : {alien.alien_name}</p>
+            <p>출생일 : {alien.created_date.split("T")[0]}</p>
+            <p>인증 횟수 : {alien.accumulated_count}번</p>
           </div>
         </div>
         <div className="buttons">
+          {/* // TODO: 인증 가능 여부에 맞게 버튼 처리하기! 
           {type === "personal" &&
             alien.alien_status === 0 &&
             alien.user_info_id === userId && (
               <button
                 className="StyledButton"
                 onClick={() => {
-                  dispatch(actions.alienAuth({ alien }));
-                  // dispatch(actions.showAuthRequest(!showAuthRequest));
+                  // TODO: 통합하기
+                  dispatch(actions.selectAlien(alien.id));
+                  dispatch(actions.showAuthRequest(true));
                 }}
               >
                 인증하기
               </button>
-            )}
-          {/* <AuthRequestModal alien={alien} /> */}
+            )} */}
           {type !== "challenge" && alien.alien_status === 0 && (
             <Link to={`/challenge/${alien.challenge_id}/room`}>
-              <button className="StyledButton"> 챌린지 어항</button>
+              <button className="StyledButton">챌린지 어항</button>
+            </Link>
+          )}
+          {type === "challenge" && (
+            <Link to={`/user/${alien.user_info_id}/room`}>
+              <button className="StyledButton">참가자 어항</button>
             </Link>
           )}
           {type === "personal" &&

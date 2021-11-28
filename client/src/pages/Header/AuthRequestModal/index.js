@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 import "./AuthRequestModal.css";
 import { useSelector, useDispatch } from "react-redux";
-import api from "../../../../apis/index";
-import * as actions from "../../../../Redux/actions/index.js";
+import api from "../../../apis/index";
+import * as actions from "../../../Redux/actions/index.js";
 
-export default function AuthRequestModal() {
-  const showAuthRequest = useSelector(
-    (state) => state.modalOnOff.showAuthRequest
-  );
-  const alien = useSelector((state) => state.alien_auth_func.alien_auth);
+export default function AuthRequestModal(props) {
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
   const dispatch = useDispatch();
+
+  const showAuthRequest = useSelector(
+    (state) => state.modalOnOff.showAuthRequest
+  );
+  const { aliens, selectedAlien } = useSelector(({ room }) => ({
+    aliens: room.aliens,
+    selectedAlien: room.selectedAlien,
+  }));
+  const alien = aliens.find((a) => a.id === selectedAlien);
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
     /* 예외 처리 Handling 1. */
     let day = {
       1: "mon",
@@ -28,24 +35,20 @@ export default function AuthRequestModal() {
       new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
     );
     let today = day[date.getDay()];
-    if (alien.alien[today] === 0) {
+    if (alien[today] === 0) {
       console.log("인증 가능 요일이 아닙니다.");
       return;
     } else {
     }
 
     /* 예외 처리 Handling 2. */
-    if (alien.alien.practice_status > 0) {
+    if (alien.practice_status > 0) {
       /* 해당 날짜에 이미 요청된 Alien 인 경우 -> front에서 Error 문구 처리 부탁드립니다. */
       console.log("이미 인증요청 완료된 건 입니다.");
       return;
-    } else {
-      alien.alien.practice_status = 1;
     }
 
-    e.preventDefault();
-    const res = await api.get("/main/s3Url");
-
+    let res = await api.get("/main/s3Url");
     const { url } = res.data;
     // post the image direclty to the s3 bucket
     if (authImage) {
@@ -59,28 +62,40 @@ export default function AuthRequestModal() {
     }
     const imageUrl = url.split("?")[0];
     const resp = {
-      user_info_id: alien.alien.user_info_id,
-      alien_id: alien.alien.id,
-      challenge_id: alien.alien.challenge_id,
+      user_info_id: alien.user_info_id,
+      alien_id: alien.id,
+      challenge_id: alien.challenge_id,
       comments: authMessage,
       image_url: imageUrl,
     };
 
     // post requst to my server to store any extra data
-    const result = await api.post("/challenge/auth", resp);
-    console.log(result);
+    res = await api.post("/challenge/auth", resp);
+    if (res.data.result === "success") {
+      dispatch(actions.requestAuth(alien.id));
+    } else {
+      // TODO: 실패 처리
+    }
   };
 
   const handleCancel = () => {
-    setAuthImage(null);
-    dispatch(actions.showAuthRequest(!showAuthRequest));
+    dispatch(actions.showAuthRequest(false));
   };
+
+  if (!showAuthRequest) {
+    return <div />;
+  }
+
+  if (!alien) {
+    // TODO: handle error
+    return <div></div>;
+  }
 
   return (
     <div>
-      <div className={showAuthRequest ? "Overlay" : null} />
-      <div className={showAuthRequest ? "AuthRequestModal" : "hidden"}>
-        <div className="flex flex-col fixed min-w-max px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10">
+      <div className={"Overlay"} />
+      <div className={"AuthRequestModal"}>
+        <div className="flex flex-col fixed min-w-max px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10 overflow-y-scroll">
           <div className="flex justify-center items-center self-end text-gray-400 hover:text-gray-500">
             <svg
               className="fixed w-5 h-5"
@@ -98,6 +113,9 @@ export default function AuthRequestModal() {
             </svg>
           </div>
           <div className="w-full px-4 py-4 text-lg">
+            <div className="pb-8">
+              <h2 className="text-3xl font-bold">{alien.challenge_name}</h2>
+            </div>
             <div className="pb-4">
               <label className="text-xl font-bold">인증 사진 첨부</label>
             </div>
@@ -134,7 +152,15 @@ export default function AuthRequestModal() {
             </div>
             {authImage && authImage[0] ? (
               <div className="max-w-md py-6">
-                <img src={URL.createObjectURL(authImage[0])} />
+                <img
+                  style={{
+                    maxHeight: "200px",
+                    maxWidth: "100%",
+                    margin: "auto",
+                  }}
+                  src={URL.createObjectURL(authImage[0])}
+                  alt="auth"
+                />
               </div>
             ) : (
               <div></div>

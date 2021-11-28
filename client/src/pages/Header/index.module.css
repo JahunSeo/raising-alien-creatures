@@ -15,7 +15,32 @@
   padding: 5px 10px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
+  position: relative;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.block--btn {
+  justify-content: flex-end;
+}
+
+.btnRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+
+  justify-content: flex-end;
+}
+
+.btnRow--user {
+  margin-left: 30px;
 }
 
 .title {
@@ -35,6 +60,7 @@
   padding: 5px 10px;
   border: 1px solid #ffffff;
   font-size: 16px;
+  text-align: center;
 }
 
 .btn--ing {
@@ -51,24 +77,110 @@
   text-align: center;
 }
 
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.itemRoom {
-  justify-content: flex-end;
-}
-
-.itemUser {
-  justify-content: flex-end;
-}
-
 .username {
-  width: 80px;
-  font-size: 20px;
+  width: 120px;
+  font-size: 18px;
   font-weight: bold;
   color: #ffffff;
   margin-right: 5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.UserBtn {
+  @apply py-1.5 w-24 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg;
+}
+
+.UserBtn--register {
+  margin-right: 10px;
+}
+
+.toggleBtn {
+  display: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .bodyInner {
+    /* border: 5px solid red; */
+
+    width: 100%;
+    max-width: 1000px;
+    padding: 5px 10px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .toggleBtn {
+    display: block;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    cursor: pointer;
+
+    /* width: 160px; */
+    /* background-color: rgba(3, 33, 66, 0.35); */
+    text-align: center;
+
+    z-index: 20;
+  }
+
+  .block--btn {
+    position: absolute;
+    z-index: 10;
+    /* top: 45px; */
+    right: 10px;
+    padding: 20px 20px 30px;
+    min-width: 160px;
+
+    background-color: rgba(3, 33, 66, 0.85);
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column-reverse;
+    transition: top 400ms ease-in-out;
+  }
+
+  .block--on {
+    top: 45px;
+  }
+
+  .block--off {
+    top: -300px;
+  }
+
+  .btnRow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btnRow--user {
+    margin: 0;
+    margin-bottom: 20px;
+    /* padding: 20px 0 10px; */
+  }
+
+  .username {
+    margin: 5px 0;
+  }
+
+  .btnRow--basic {
+    margin: 0;
+    /* padding: 10px 0 20px; */
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .UserBtn {
+    margin: 5px 0;
+  }
+
+  .UserBtn--register {
+    margin: 0;
+  }
 }

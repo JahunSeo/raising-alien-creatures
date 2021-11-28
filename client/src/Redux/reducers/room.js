@@ -31,9 +31,18 @@ const room = handleActions(
       selectedAlien: selectedAlien,
     }),
 
-    [types.GRADUATE_ALIEN]:(state, { payload: alienId }) => ({
+    [types.GRADUATE_ALIEN]: (state, { payload: alienId }) => ({
       ...state,
-      aliens: state.aliens.map(alien => alien.id === alienId ? {...alien, alien_status:1} : alien),
+      aliens: state.aliens.map((alien) =>
+        alien.id === alienId ? { ...alien, alien_status: 1 } : alien
+      ),
+    }),
+
+    [types.REQUEST_AUTH]: (state, { payload: alienId }) => ({
+      ...state,
+      aliens: state.aliens.map((alien) =>
+        alien.id === alienId ? { ...alien, practice_status: 1 } : alien
+      ),
     }),
 
     [types.MESSAGE_UPDATE]: (state, { payload: msgArray }) => ({

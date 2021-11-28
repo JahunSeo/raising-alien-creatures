@@ -75,7 +75,7 @@ export default class Field extends Component {
       // draw monster
       // TODO: monster들의 순서 (누가 위에 놓일 것인지 여부) 처리 필요
       for (const monId in monsters) {
-        let { location, size, color, isUserOnRoom } = monsters[monId];
+        let { location, size } = monsters[monId];
         let x = room.camera.getCanvasSize(location.x);
         let y = room.camera.getCanvasSize(location.y);
         size = room.camera.getCanvasSize(size) / 2;

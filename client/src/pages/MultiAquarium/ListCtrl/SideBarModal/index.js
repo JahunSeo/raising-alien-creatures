@@ -2,7 +2,6 @@ import React from "react";
 import "./SideBarModal.css";
 import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import SideBarModal2 from "../SideBarModal2";
 import PostList from "../PostList";
 
 export default function SideBarModal(props) {
@@ -26,7 +25,6 @@ export default function SideBarModal(props) {
             element={<PostList type="challenge" />}
           ></Route>
         </Routes>
-        <SideBarModal2 />
       </div>
     </>
   );
