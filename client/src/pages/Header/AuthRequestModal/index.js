@@ -159,6 +159,7 @@ export default function AuthRequestModal(props) {
                     margin: "auto",
                   }}
                   src={URL.createObjectURL(authImage[0])}
+                  alt="auth"
                 />
               </div>
             ) : (

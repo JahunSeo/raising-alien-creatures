@@ -33,9 +33,6 @@ export default function AlienCtrl(props) {
   // const mainMatch = useMatch("/");
 
   const dispatch = useDispatch();
-  const { showAuthRequest } = useSelector((state) => ({
-    showAuthRequest: state.modalOnOff.showAuthRequest,
-  }));
 
   // todo 조건 강화!
   if (!alien) {
