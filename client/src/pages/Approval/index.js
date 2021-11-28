@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import LazyLoad from "react-lazyload";
-// import {
-//   LazyLoadImage,
-//   trackWindowScroll,
-// } from "react-lazy-load-image-component";
-// import "react-lazy-load-image-component/src/effects/blur.css";
+import {
+  LazyLoadImage,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import "./index.css";
 import api from "../../apis/index.js";
 import NoAuthRequest from "./NoAuthRequest.js";
@@ -52,7 +51,7 @@ export default function Approval(props) {
   }
 }
 
-const AuthRequest = ({ authRequest }) => {
+const AuthRequest = ({ authRequest, scrollPosition }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // let request_date = authRequest.request_date.toLocaleStringS;
@@ -107,42 +106,6 @@ const AuthRequest = ({ authRequest }) => {
       SetApprovalStatus(true);
     }
   };
-
-  // const AuthImage = ({ authRequests, scrollPosition }) => (
-  //   <div>
-  //     {authRequests.map((authRequest.image_url) => (
-  //       <LazyLoadImage
-  //         className="m-auto mt-6"
-  //         alt="authImage"
-  //         src={authRequest.image_url}
-  //         scrollPosition={scrollPosition}
-  //         effect="blur"
-  //       />
-  //     ))}
-  //   </div>
-  // );
-
-  // const LazyImage = ({ src, alt }) => {
-  const refPlaceholder = React.useRef();
-  const removePlaceholder = () => {
-    refPlaceholder.current.remove();
-  };
-
-  //   return (
-  //     <div className="ImageWrapper">
-  //       <div className="Placeholder" />
-  //       <LazyLoad>
-  //         <img
-  //           className="m-auto mt-6"
-  //           onLoad={removePlaceholder}
-  //           onError={removePlaceholder}
-  //           src={src}
-  //           alt={alt}
-  //         />
-  //       </LazyLoad>
-  //     </div>
-  //   );
-  // };
 
   const handleSubmit = () => {
     postApproval();
@@ -217,21 +180,19 @@ const AuthRequest = ({ authRequest }) => {
           src={authRequest.image_url}
           alt="authImage"
         /> */}
-        <div className="ImageWrapper">
-          <div className="Placeholder" />
-          <LazyLoad>
-            <img
-              className="m-auto mt-6"
-              // onLoad={removePlaceholder}
-              // onError={removePlaceholder}
-              src={authRequest.image_url}
-              alt="authImage"
-            />
-          </LazyLoad>
-        </div>
+
+        {/* react-lazy-load-image-component */}
+        <LazyLoadImage
+          className="self-center m-auto mt-6"
+          src={authRequest.image_url}
+          alt="authImage"
+          scrollPosition={scrollPosition}
+          threshold="500"
+          effect="blur"
+        />
         <div className="flex flex-col items-center mb-2 space-x-4">
           <div className="mb-2 space-x-4">
-            <div className="justify-center items-center mt-6 mb-4 text-2xl font-bold text-black">
+            <div className="mt-6 mb-4 text-2xl font-bold text-black">
               "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
               인증 요청
             </div>
