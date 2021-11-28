@@ -20,7 +20,6 @@ export default function SearchBox(props) {
   const [message, setMessage] = useState("");
   const tags = ["전체", "건강", "운동", "공부", "독서", "취미"];
 
-  console.log(challengeList)
   const dispatch = useDispatch();
 
   const { user } = useSelector(({ user }) => ({ user: user.user }));
