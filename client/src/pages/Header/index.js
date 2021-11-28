@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Title from "./Title";
@@ -22,6 +22,8 @@ export default function Header(props) {
   const showSignInModal = useSelector(
     (state) => state.modalOnOff.showSignInModal
   );
+  // menu toggle
+  const [isMenuOn, setIsMenuOn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -74,10 +76,17 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={styles.bodyInner}>
+        <ToggleBtn isMenuOn={isMenuOn} setIsMenuOn={setIsMenuOn} />
         <div className={cx("block", "block--title")}>
           <Title />
         </div>
-        <div className={cx("block", "block--btn")}>
+        <div
+          className={cx(
+            "block",
+            "block--btn",
+            isMenuOn ? "block--on" : "block--off"
+          )}
+        >
           <div className={cx("btnRow", "btnRow--basic")}>
             <Link to={"/"} className={cx("btn")}>
               {"챌린지 검색"}
@@ -138,5 +147,41 @@ export default function Header(props) {
       <SignInModal />
       <AuthRequestModal />
     </div>
+  );
+}
+
+function ToggleBtn(props) {
+  const { isMenuOn, setIsMenuOn } = props;
+  return (
+    <nav className={styles.toggleBtn}>
+      <button
+        className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
+        onClick={() => setIsMenuOn(!isMenuOn)}
+      >
+        <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "rotate-45" : "-translate-y-1.5"
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "opacity-0" : ""
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "-rotate-45" : "translate-y-1.5"
+            )}
+          ></span>
+        </div>
+      </button>
+    </nav>
   );
 }

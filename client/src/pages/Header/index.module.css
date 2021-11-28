@@ -97,6 +97,10 @@
   margin-right: 10px;
 }
 
+.toggleBtn {
+  display: none;
+}
+
 @media only screen and (max-width: 800px) {
   .bodyInner {
     /* border: 5px solid red; */
@@ -109,13 +113,27 @@
     grid-template-columns: 1fr;
   }
 
+  .toggleBtn {
+    display: block;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    cursor: pointer;
+
+    /* width: 160px; */
+    /* background-color: rgba(3, 33, 66, 0.35); */
+    text-align: center;
+
+    z-index: 20;
+  }
+
   .block--btn {
     position: absolute;
     z-index: 10;
-    top: 45px;
-    right: 5px;
-    /* width: 100%; */
-    padding: 10px 20px 30px;
+    /* top: 45px; */
+    right: 10px;
+    padding: 30px 20px 30px;
     min-width: 160px;
 
     background-color: rgba(3, 33, 66, 0.85);
@@ -123,6 +141,15 @@
 
     display: flex;
     flex-direction: column-reverse;
+    transition: top 400ms ease-in-out;
+  }
+
+  .block--on {
+    top: 45px;
+  }
+
+  .block--off {
+    top: -300px;
   }
 
   .btnRow {
