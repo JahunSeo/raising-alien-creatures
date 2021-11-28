@@ -173,8 +173,8 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-w-min min-h-0 p-12  bg-gray-100">
-      <div className="w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+    <div className="flex min-w-min min-h-0 p-12 justify-center items-center  bg-gray-100">
+      <div className="justify-center items-center w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
         {/* <img
           className="m-auto mt-6"
           src={authRequest.image_url}
@@ -187,7 +187,7 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
           src={authRequest.image_url}
           alt="authImage"
           scrollPosition={scrollPosition}
-          threshold="500"
+          threshold="10"
           effect="blur"
         />
         <div className="flex flex-col items-center mb-2 space-x-4">
