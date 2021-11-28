@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 
 import { Link } from "react-router-dom";
-import api from "../../../../apis";
+import api from "../../../apis";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../../Redux/actions";
+import * as actions from "../../../Redux/actions";
 
-import searchIcon from "../../../../image/search-icon.png";
-import backIcon from "../../../../image/goback-icon.png";
+import searchIcon from "../../../image/search-icon.png";
+import backIcon from "../../../image/goback-icon.png";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -18,7 +18,7 @@ export default function SearchBox(props) {
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [message, setMessage] = useState("");
-  const tags = ['전체', '건강', '운동', '공부', '독서', '취미'];
+  const tags = ["전체", "건강", "운동", "공부", "독서", "취미"];
 
   const dispatch = useDispatch();
 
@@ -58,9 +58,9 @@ export default function SearchBox(props) {
     }
   };
 
-  const clickTag = useCallback( async (tag) =>{
+  const clickTag = useCallback(async (tag) => {
     setSearchKeyword(tag);
-    let keyword = { category: tag }
+    let keyword = { category: tag };
     let res = await api.post("/challenge/searchCategory", keyword);
     if (res.data.result !== "success") {
       console.log("안받아와짐");
@@ -76,7 +76,7 @@ export default function SearchBox(props) {
       }
       return;
     }
-  },[])
+  }, []);
 
   return (
     <div className={cx("SearchBox", { longer })}>
@@ -120,12 +120,12 @@ export default function SearchBox(props) {
             {message && <p className={styles.errMsg}>{message}</p>}
           </div>
         </form>
-        <div className = {styles.tags}>
-          {tags.map(tag=>(
-            <div key = {tag} className={styles.tag} onClick = {()=>clickTag(tag)}> 
+        <div className={styles.tags}>
+          {tags.map((tag) => (
+            <div key={tag} className={styles.tag} onClick={() => clickTag(tag)}>
               #{tag}
-            </div> 
-           ))}
+            </div>
+          ))}
         </div>
       </div>
       {longer && (

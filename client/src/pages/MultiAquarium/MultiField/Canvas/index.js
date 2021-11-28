@@ -65,6 +65,7 @@ export default class Canvas extends Component {
   };
 
   onMouseDown = (e) => {
+    this.setMouseLocal(e);
     this.mouseObj.clicked = true;
     this.mouseObj.clickedFrame = this._frameCnt;
     if (this.props.onMouseDown) this.props.onMouseDown(e);
@@ -81,6 +82,9 @@ export default class Canvas extends Component {
   };
 
   onTouchStart = (e) => {
+    this.setTouchLocal(e);
+    this.mouseObj.clicked = true;
+    this.mouseObj.clickedFrame = this._frameCnt;
     if (this.props.onTouchStart) this.props.onTouchStart(e);
   };
 
@@ -89,6 +93,8 @@ export default class Canvas extends Component {
   };
 
   onTouchMove = (e) => {
+    this.setTouchLocal(e);
+    this.mouseObj.isMouseMoving = true;
     if (this.props.onTouchMove) this.props.onTouchMove(e);
   };
 
@@ -132,6 +138,14 @@ export default class Canvas extends Component {
       mouseY,
       isMouseOverCanvas,
     };
+  };
+
+  setTouchLocal = (e) => {
+    if (e.touches.length <= 1) {
+      this.setMouseLocal(e.touches[0]);
+    } else if (e.type === "touchmove" && e.touches.length === 2) {
+      // TODO: touch가 2개 이상일 때에 대한 처리
+    }
   };
 
   loop = () => {

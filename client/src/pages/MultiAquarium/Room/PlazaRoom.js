@@ -5,7 +5,7 @@ import * as actions from "../../../Redux/actions";
 
 import api from "../../../apis";
 
-import SearchBox from "./SearchBox";
+import SearchBox from "../SearchBox";
 
 export default function PlazaRoom(props) {
   const dispatch = useDispatch();
