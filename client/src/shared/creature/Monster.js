@@ -128,7 +128,7 @@ class Monster {
           size
         );
       }
-      ctx.drawImage(this.bubble,-size / 2,-size / 2, size, size);
+      // ctx.drawImage(this.bubble,-size / 2,-size / 2, size, size);
       ctx.restore();
     }
   }
