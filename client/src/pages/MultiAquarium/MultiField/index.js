@@ -99,15 +99,6 @@ export default class Field extends Component {
         //   ctx.fill();
         // }
       }
-
-      if (mouseObj.clicked) {
-        // let destination = {
-        //   x: mouseObj.deltaXfromCenter,
-        //   y: mouseObj.deltaYfromCenter,
-        // };
-        // destination = room.camera.getLocalFromMouse(destination);
-        // socket.changeDestination(room.roomId, destination);
-      }
     }
     ctx.restore();
   };
