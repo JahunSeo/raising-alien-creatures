@@ -6,8 +6,8 @@
   padding: 0.1rem;
   border-radius: 12px;
   overflow: auto;
-  background: linear-gradient(to top, #008aff, #ccf5f1);
-  /* background: indigo; */
+  /* background: linear-gradient(to top, #008aff, #ccf5f1); */
+  border: 0.05rem solid #fff;
   font-family: inherit;
   font-weight: bold;
 }
@@ -59,6 +59,7 @@ ul {
   padding: 0px 5px;
   display: flex;
   justify-content: space-around;
+  /* border-bottom: 1px solid #dee2e6; */
 }
 
 ul span {
@@ -71,6 +72,8 @@ ul span {
   border: 0.1rem solid #fff;
   border-radius: 1rem;
   padding: 0.4em;
+  margin-top: 0.5em;
+  width: 5em;
 }
 
 .selected {
@@ -81,7 +84,7 @@ ul span {
     0 0 0.8rem #5271ff, 0 0 2.8rem #5271ff, inset 0 0 1.3rem #5271ff;
 }
 
-@keyframes pulsate {
+/* @keyframes pulsate {
   100% {
     text-shadow: 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #5271ff,
       0 0 80px #5271ff, 0 0 90px #5271ff, 0 0 100px #5271ff, 0 0 150px #5271ff;
@@ -90,15 +93,22 @@ ul span {
     text-shadow: 0 0 15px #fff, 0 0 23px #fff, 0 0 42px #5271ff,
       0 0 73px #5271ff, 0 0 80px #5271ff, 0 0 94px #5271ff, 0 0 140px #5271ff;
   }
-}
+} */
 
 .PostItemBlock {
   padding-top: 0.8rem;
-  border-bottom: 1px solid #dee2e6;
 }
 
 .PostItemBlock h2 {
   font-size: 1em;
+  color: white;
+  background-color: #5271ff;
+  border-radius: 4px;
+  opacity: 0.8;
+  padding: 0.1em;
+
+  margin: 0.4em;
+  margin-bottom: 1em;
 }
 
 .Content {
@@ -131,7 +141,7 @@ ul span {
 }
 .SubInfo {
   padding-top: 0.5rem;
-  color: #212529;
+  color: whitesmoke;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -143,7 +153,7 @@ ul span {
 
 .buttons {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .StyledButton {
@@ -156,6 +166,12 @@ ul span {
   color: white;
   outline: none;
   cursor: pointer;
-  background: linear-gradient(to right, #008aff, grey);
+  /* background: linear-gradient(to right, #008aff, grey); */
+  opacity: 90%;
+  border-color: blue;
+  border: 0.15rem solid skyblue;
+  border-radius: 8px;
+  width: 6em;
+
   /* background :#4f46e5; */
 }
