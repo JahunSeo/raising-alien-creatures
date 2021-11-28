@@ -56,10 +56,6 @@ function Layout() {
   const popupKind = popup.popupKind;
   const popupCallback = popup.popupCallback;
 
-  // console.log("popupModal111", popupModal);
-  // console.log("popupModal222", popupModal);
-  // console.log("popupModal333", popupMessage);
-
   return (
     <div className={styles.body}>
       <nav className={styles.nav}>

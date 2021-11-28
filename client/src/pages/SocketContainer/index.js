@@ -12,7 +12,7 @@ export default function SocketContainer(props) {
     // 1단계: 로그인 상태면 새로 연결
     if (user.login) {
       console.log("[socket container] step1. login");
-      // 참여중인 방 전체에
+      socket.init(user);
     }
 
     // 2단계: 기존 연결된 것이 있으면 연결을 끊는다.
