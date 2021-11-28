@@ -15,28 +15,14 @@ export default function Header(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
+
   const dispatch = useDispatch();
-  const showSignUpModal = useSelector(
-    (state) => state.modalOnOff.showSignUpModal
+  const { showSignUpModal, showSignInModal } = useSelector(
+    ({ modalOnOff }) => ({
+      showSignUpModal: modalOnOff.showSignUpModal,
+      showSignInModal: modalOnOff.showSignInModal,
+    })
   );
-  const showSignInModal = useSelector(
-    (state) => state.modalOnOff.showSignInModal
-  );
-  // menu toggle
-  const [isMenuOn, setIsMenuOn] = useState(false);
-
-  const navigate = useNavigate();
-
-  const postSignOut = async () => {
-    await api.get("/user/logout");
-    dispatch(actions.logout());
-  };
-
-  const handleLogout = (e) => {
-    postSignOut();
-    navigate("/");
-  };
-
   function switchSignUpModal() {
     dispatch(actions.showSignInModal(false));
     dispatch(actions.showSignUpModal(!showSignUpModal));
@@ -46,6 +32,16 @@ export default function Header(props) {
     dispatch(actions.showSignUpModal(false));
     dispatch(actions.showSignInModal(!showSignInModal));
   }
+
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await api.get("/user/logout");
+    dispatch(actions.logout());
+    navigate("/");
+  };
+
+  // menu toggle
+  const [isMenuOn, setIsMenuOn] = useState(false);
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -117,7 +113,7 @@ export default function Header(props) {
                 <button
                   type="button"
                   className={cx("UserBtn", "UserBtn--logout")}
-                  onClick={handleLogout}
+                  onClick={() => handleLogout()}
                 >
                   로그아웃
                 </button>
