@@ -8,7 +8,6 @@ import AuthRequestModal from "./AuthRequestModal";
 import * as actions from "../../Redux/actions";
 import api from "../../apis/index";
 import styles from "./index.module.css";
-import "./UserBtn.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -75,61 +74,65 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={styles.bodyInner}>
-        <div className={cx("item", "itemTitle")}>
+        <div className={cx("block", "block--title")}>
           <Title />
         </div>
-        <div className={cx("item", "itemRoom")}>
-          <Link to={"/"}>
-            <button className={cx("btn")}>{"챌린지 검색"}</button>
-          </Link>
-          {user.login ? (
-            <Link to={`/user/${user.id}/room`}>
-              <button className={cx("btn")}>{"나의 어항"}</button>
+        <div className={cx("block", "block--btn")}>
+          <div className={cx("btnRow", "btnRow--basic")}>
+            <Link to={"/"} className={cx("btn")}>
+              {"챌린지 검색"}
             </Link>
-          ) : (
-            <button className={cx("btn")} onClick={() => switchSignInModal()}>
-              {"나의 어항"}
-            </button>
-          )}
-          {user.login ? (
-            <Link to={`/approval`}>
-              <button className={cx("btn")}>{"승인하기"}</button>
-            </Link>
-          ) : (
-            <button className={cx("btn")} onClick={() => switchSignInModal()}>
-              {"승인하기"}
-            </button>
-          )}
+            {user.login ? (
+              <Link to={`/user/${user.id}/room`} className={cx("btn")}>
+                {"나의 어항"}
+              </Link>
+            ) : (
+              <p className={cx("btn")} onClick={() => switchSignInModal()}>
+                {"나의 어항"}
+              </p>
+            )}
+            {user.login ? (
+              <Link to={`/approval`} className={cx("btn")}>
+                {"승인하기"}
+              </Link>
+            ) : (
+              <p className={cx("btn")} onClick={() => switchSignInModal()}>
+                {"승인하기"}
+              </p>
+            )}
+          </div>
+          <div className={cx("btnRow", "btnRow--user")}>
+            {user.login ? (
+              <React.Fragment>
+                <div className={styles.username}>{user.nickname}</div>
+                <button
+                  type="button"
+                  className={cx("UserBtn", "UserBtn--logout")}
+                  onClick={handleLogout}
+                >
+                  로그아웃
+                </button>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <button
+                  type="button"
+                  className={cx("UserBtn", "UserBtn--register")}
+                  onClick={() => switchSignUpModal()}
+                >
+                  회원가입
+                </button>
+                <button
+                  type="button"
+                  className={cx("UserBtn", "UserBtn--login")}
+                  onClick={() => switchSignInModal()}
+                >
+                  로그인
+                </button>
+              </React.Fragment>
+            )}
+          </div>
         </div>
-        {user.login ? (
-          <div className={cx("item", "itemUser")}>
-            <div className={styles.username}>{user.nickname}</div>
-            <button
-              type="button"
-              className="UserBtn UserBtn--logout"
-              onClick={handleLogout}
-            >
-              로그아웃
-            </button>
-          </div>
-        ) : (
-          <div className={cx("item", "itemUser")}>
-            <button
-              type="button"
-              className="UserBtn UserBtn--register"
-              onClick={() => switchSignUpModal()}
-            >
-              회원가입
-            </button>
-            <button
-              type="button"
-              className="UserBtn UserBtn--login"
-              onClick={() => switchSignInModal()}
-            >
-              로그인
-            </button>
-          </div>
-        )}
       </div>
       <SignUpModal />
       <SignInModal />
