@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Title from "./Title";
@@ -8,7 +8,6 @@ import AuthRequestModal from "./AuthRequestModal";
 import * as actions from "../../Redux/actions";
 import api from "../../apis/index";
 import styles from "./index.module.css";
-import "./UserBtn.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -23,6 +22,8 @@ export default function Header(props) {
   const showSignInModal = useSelector(
     (state) => state.modalOnOff.showSignInModal
   );
+  // menu toggle
+  const [isMenuOn, setIsMenuOn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -75,65 +76,112 @@ export default function Header(props) {
   return (
     <div className={styles.body}>
       <div className={styles.bodyInner}>
-        <div className={cx("item", "itemTitle")}>
+        <ToggleBtn isMenuOn={isMenuOn} setIsMenuOn={setIsMenuOn} />
+        <div className={cx("block", "block--title")}>
           <Title />
         </div>
-        <div className={cx("item", "itemRoom")}>
-          <Link to={"/"}>
-            <button className={cx("btn")}>{"챌린지 검색"}</button>
-          </Link>
-          {user.login ? (
-            <Link to={`/user/${user.id}/room`}>
-              <button className={cx("btn")}>{"나의 어항"}</button>
-            </Link>
-          ) : (
-            <button className={cx("btn")} onClick={() => switchSignInModal()}>
-              {"나의 어항"}
-            </button>
+        <div
+          className={cx(
+            "block",
+            "block--btn",
+            isMenuOn ? "block--on" : "block--off"
           )}
-          {user.login ? (
-            <Link to={`/approval`}>
-              <button className={cx("btn")}>{"승인하기"}</button>
+        >
+          <div className={cx("btnRow", "btnRow--basic")}>
+            <Link to={"/"} className={cx("btn")}>
+              {"챌린지 검색"}
             </Link>
-          ) : (
-            <button className={cx("btn")} onClick={() => switchSignInModal()}>
-              {"승인하기"}
-            </button>
-          )}
+            {user.login ? (
+              <Link to={`/user/${user.id}/room`} className={cx("btn")}>
+                {"나의 어항"}
+              </Link>
+            ) : (
+              <p className={cx("btn")} onClick={() => switchSignInModal()}>
+                {"나의 어항"}
+              </p>
+            )}
+            {user.login ? (
+              <Link to={`/approval`} className={cx("btn")}>
+                {"승인하기"}
+              </Link>
+            ) : (
+              <p className={cx("btn")} onClick={() => switchSignInModal()}>
+                {"승인하기"}
+              </p>
+            )}
+          </div>
+          <div className={cx("btnRow", "btnRow--user")}>
+            {user.login ? (
+              <React.Fragment>
+                <div className={styles.username}>{user.nickname}</div>
+                <button
+                  type="button"
+                  className={cx("UserBtn", "UserBtn--logout")}
+                  onClick={handleLogout}
+                >
+                  로그아웃
+                </button>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <button
+                  type="button"
+                  className={cx("UserBtn", "UserBtn--register")}
+                  onClick={() => switchSignUpModal()}
+                >
+                  회원가입
+                </button>
+                <button
+                  type="button"
+                  className={cx("UserBtn", "UserBtn--login")}
+                  onClick={() => switchSignInModal()}
+                >
+                  로그인
+                </button>
+              </React.Fragment>
+            )}
+          </div>
         </div>
-        {user.login ? (
-          <div className={cx("item", "itemUser")}>
-            <div className={styles.username}>{user.nickname}</div>
-            <button
-              type="button"
-              className="UserBtn UserBtn--logout"
-              onClick={handleLogout}
-            >
-              로그아웃
-            </button>
-          </div>
-        ) : (
-          <div className={cx("item", "itemUser")}>
-            <button
-              type="button"
-              className="UserBtn UserBtn--register"
-              onClick={() => switchSignUpModal()}
-            >
-              회원가입
-            </button>
-            <button
-              type="button"
-              className="UserBtn UserBtn--login"
-              onClick={() => switchSignInModal()}
-            >
-              로그인
-            </button>
-          </div>
-        )}
       </div>
       <SignUpModal />
       <SignInModal />
       <AuthRequestModal />
     </div>
+  );
+}
+
+function ToggleBtn(props) {
+  const { isMenuOn, setIsMenuOn } = props;
+  return (
+    <nav className={styles.toggleBtn}>
+      <button
+        className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
+        onClick={() => setIsMenuOn(!isMenuOn)}
+      >
+        <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "rotate-45" : "-translate-y-1.5"
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "opacity-0" : ""
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "-rotate-45" : "translate-y-1.5"
+            )}
+          ></span>
+        </div>
+      </button>
+    </nav>
   );
 }
