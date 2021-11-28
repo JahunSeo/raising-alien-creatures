@@ -14,23 +14,21 @@
   margin: 0 20px;
 }
 
-.SearchBox:hover,
-.SearchBox:focus {
+.SearchBox:hover, .SearchBox:focus {
   background-color: rgba(3, 33, 66, 0.95);
 }
 
 .SearchBox.longer {
   background-color: rgba(4, 30, 66, 0.95);
-  height: 85vh;
+  height: calc(100% - 130px);
   width: 100%;
-  max-width: 700px;
-  transition-duration: 500ms;
+  max-width: 625px;
 }
 
 .header {
   position: relative;
   z-index: 3;
-  padding: 80px 30px 50px;
+  padding: 80px 30px 33px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,11 +97,10 @@
 
 .double {
   position: relative;
-  border: 2px solid rgb(179, 174, 174);
   border-radius: 5px;
   width: 100%;
   max-width: 600px;
-  height: 45px;
+  height: 43px;
   font-size: 25px;
 }
 
@@ -111,7 +108,7 @@
   color: white;
   background: none;
   width: 100%;
-  border: 2px;
+  border: 2px solid rgb(179, 174, 174);
   padding-left: 30px;
   padding-right: 50px;
   outline: none;
@@ -134,7 +131,6 @@
   font-size: 1em;
   cursor: text;
   transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
-  /* transition-duration: 300ms; */
 }
 /* sibling selector ~ */
 .double input:focus ~ label {
@@ -144,6 +140,7 @@
 }
 .double input:not(:placeholder-shown) {
   border: 3px solid #18ffff;
+  border-radius: 3px;
 }
 .double input:not(:placeholder-shown) ~ label {
   left: 30px;
@@ -164,9 +161,10 @@
   color: #18ffff;
 }
 .findChallenge {
-  height: 65vh;
+  height: calc(100% - 200px);
   overflow-y: auto;
-  margin: 0 15px 0 25px;
+  margin: 0 15px 0 25px; 
+  border-radius: 5px;
 }
 .findChallenge::-webkit-scrollbar {
   width: 10px;
@@ -184,54 +182,67 @@
 }
 
 .challengeItem {
-  height: 200px;
   margin-right: 10px;
   background: rgb(238, 238, 232);
-  /* border: 1.5px solid #1f8b17; */
   border-radius: 5px;
   margin-left: 8px;
   margin-bottom: 1vh;
-  padding: 15px;
+  padding: 5px;
   display: grid;
   color: black;
-  font-size: 1.3rem;
-  /* align-items: center; */
-  /* justify-content: space-between; */
+  font-size: 1.1rem;
+  text-align:left;
   grid-column: 1/3;
   grid-template-columns: 150px auto auto;
+  /* width: 580px; */
   height: auto;
 }
 .challengeItem .challengeName {
-  grid-column: 1/2;
-  /* color: blue; */
+  grid-column: 1/4;
+  text-align: center;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  padding-bottom: 10px;
 }
 .challengeItem .challengeImg {
   grid-row: 2/4;
   object-fit: cover;
-
   justify-self: center;
-
   width: 8rem;
   height: 8rem;
 }
+.challengeItem .participant{
+  margin-left:9px;
+}
 
 .challengeItem .Details {
-  grid-row: span 2;
-  grid-column: span 2;
-  padding: 0 20px;
+  grid-row: 3/5;
+  grid-column: 2/4;
+  margin:10px;
+  margin-left:5px;
+  padding:10px 12px;
+  font-size:1.0rem;
+  background: #d0ddec;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
 }
+
+.challengeItem .challengeButton{
+  justify-self: center;
+}
+
 .challengeItem button {
-  margin-top: 10px;
+  margin-top: 7px;
+  margin-bottom: 3px;
   border: none;
-  border-radius: 400px;
+  border-radius: 8px;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 0.5rem;
+  padding: 0.35rem;
   color: rgb(255, 254, 254);
   cursor: pointer;
-  background: linear-gradient(to right, #008aff, grey);
+  background: #4f46e5;
 }
 
 @media only screen and (max-width: 800px) {
@@ -272,7 +283,6 @@
   .double input:focus ~ label {
     left: 20px;
     top: -30px;
-    /* font-size: 0.6em; */
   }
   .double input:not(:placeholder-shown) {
     border: 3px solid #18ffff;
@@ -280,7 +290,6 @@
   .double input:not(:placeholder-shown) ~ label {
     left: 20px;
     top: -30px;
-    /* font-size: 0.6em; */
   }
 
   .tags {
