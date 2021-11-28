@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import SocketContainer from "./pages/SocketContainer";
 import Header from "./pages/Header";
 import Approval from "./pages/Approval";
 import NewChallenge from "./pages/NewChallenge";
@@ -65,6 +66,7 @@ function Layout() {
         <Header roomId={roomId} />
       </nav>
       <div className={styles.content}>{user !== null && <Outlet />}</div>
+      {user !== null && <SocketContainer />}
       {popupModal ? (
         <div className={styles.popup}>
           <PopUp
