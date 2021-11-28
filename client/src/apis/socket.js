@@ -11,7 +11,7 @@ export function init(userinfo) {
     console.log("[socket] connect");
   });
   if (socket && userinfo.id && userinfo.challenges) {
-    console.log("[socket] join", userinfo);
+    console.log("[socket] join", userinfo.id);
     socket.emit("join", userinfo);
   }
 }

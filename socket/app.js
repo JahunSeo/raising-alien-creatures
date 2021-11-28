@@ -6,6 +6,8 @@ import { Server } from "socket.io";
 import Room from "../client/src/shared/room/RoomSocket.mjs";
 import Client from "../client/src/shared/room/Client.mjs";
 
+import * as handler from "./handler.js";
+
 const app = express();
 const httpServer = createServer(app);
 // https://socket.io/docs/v3/handling-cors/
@@ -21,7 +23,7 @@ const rooms = {};
 const clients = {};
 
 io.on("connection", (socket) => {
-  console.log(`[socket server] connection with ${socket.id}`);
+  console.log(`[connection] (clientId) ${socket.id}`);
   const clientId = socket.id;
 
   const handleJoin = (info) => {
@@ -101,9 +103,11 @@ io.on("connection", (socket) => {
     );
   };
 
-  socket.on("join", handleJoin);
+  socket.on("join", (data) => handler.join(socket, data));
+  socket.on("disconnect", (data) => handler.disconnect(socket, data));
+  // socket.on("on", handleJoin)
+  // socket.on("disconnect", handleDisconnect);
   socket.on("changeDestination", handleChangeDestination);
-  socket.on("disconnect", handleDisconnect);
   socket.on("send_message", (data) => {
     console.log("Server", data);
     socket.to(data.room).emit("receive_message", data);
