@@ -26,11 +26,11 @@ module.exports = function (pool) {
       const sql3 = `INSERT INTO user_info_has_challenge VALUES (${req.user.id}, ${req.body.challenge_id});`;
       const sql4 = `SELECT if (maximum_number > participant_number, "available","full") as result from challenge where id=${req.body.challenge_id};`;
       pool.getConnection(function (err, connection) {
-        // validation check//
+        if (err) throw err;
         connection.query(sql4, function (error, result, fields) {
           if (error) {
             console.error(error);
-            res.json({
+            res.status(500).json({
               result: "fail",
               msg: "[DB] Fail to confrim challenge information",
             });
@@ -47,14 +47,7 @@ module.exports = function (pool) {
             connection.release();
             return;
           }
-          if (err) {
-            console.error(err);
-            res.status(200).json({
-              result: "fail",
-              msg: "cant connection mysql",
-            });
-            return;
-          }
+
           connection.query(sql3 + sql1 + sql2, function (error, results) {
             if (error) {
               console.log("at the alien create api", error);
@@ -87,14 +80,7 @@ module.exports = function (pool) {
       "UPDATE alien SET alien_status = 1, end_date = NOW() WHERE id = ?;";
     // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
     pool.getConnection(function (err, connection) {
-      if (err) {
-        console.error(err);
-        res.status(200).json({
-          result: "fail",
-          msg: "cant connection mysql",
-        });
-        return;
-      }
+      if (err) throw err;
       connection.query(sql1, [req.body.alien_id], function (error, results) {
         if (error) {
           console.log("at the alien create api", error);

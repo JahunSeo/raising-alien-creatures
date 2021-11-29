@@ -15,21 +15,24 @@ module.exports = function (app, pool) {
         passwordField: "pwd",
       },
       function (username, password, done) {
+        if (err) throw err;
         console.log(username, password);
         pool.getConnection(function(err, connection) {
           connection.query(
             "select * from user_info where email=?",
             [username],
             function (error, results, fields) {
+              if (error) {
+                console.error(error);
+                return;
+              }
+
               if (results[0] === undefined) {
                 return done(null, false, {
                   message: "Incorrect username.",
                 });
               }
-              if (error) {
-                console.error(error);
-                return;
-              }
+              
               if (username == results[0].email) {
                 console.log("username confirmed.");
                 if (bcrypt.compareSync(password, results[0].password)) {
