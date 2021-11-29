@@ -1,26 +1,3 @@
-.ImageWrapper {
-  /* position: relative; */
-  width: 100%;
-  /* height: 50vw; */
-}
-
-.Loading {
-  0% {
-    background-color: #ffffff;
-  }
-  50% {
-    background-color: #cccccc;
-  }
-  100% {
-    background-color: #ffffff;
-  }
-}
-
-.Placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  animation: 1s infinite;
+.LazyLoadImage {
+  @apply mt-6 ml-auto mr-auto;
 }
