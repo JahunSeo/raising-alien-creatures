@@ -1,8 +1,10 @@
 import { handleActions } from "redux-actions";
 import * as types from "../actions/ActionTypes";
 
+// TODO: user에서 어떤 정보를 관리하는지 드러나도록 변경
 const initialState = {
   user: null,
+  isSocketOn: null,
 };
 
 const user = handleActions(
@@ -25,6 +27,11 @@ const user = handleActions(
         ...state.user,
         challenges: [...state.user.challenges, challenge],
       },
+    }),
+
+    [types.TOGGLE_SOCKET]: (state, { payload: toggle }) => ({
+      ...state,
+      isSocketOn: toggle,
     }),
   },
   initialState

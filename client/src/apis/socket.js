@@ -1,21 +1,18 @@
 import io from "socket.io-client";
 let socket = null;
 
-// temp
 const SOCKET_URL =
   process.env.NODE_ENV === "production" ? "/" : "http://localhost:5001";
 
-export function initAndJoin(info) {
-  // https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error/64805972
-  // socket = io(SOCKET_URL, { transports: ["websocket"] });
+export function init(userinfo) {
   socket = io(SOCKET_URL);
   console.log("[socket] init", SOCKET_URL);
   socket.on("connect", () => {
     console.log("[socket] connect");
   });
-  if (socket && info.roomId) {
-    console.log("[socket] join", info);
-    socket.emit("join", info);
+  if (socket && userinfo.id && userinfo.challenges) {
+    console.log("[socket] join", userinfo.id, userinfo.challenges);
+    socket.emit("join", userinfo);
   }
 }
 
@@ -25,38 +22,28 @@ export function disconnect(roomId) {
   socket.disconnect();
 }
 
-export function messageSend(message) {
+export function sendMessage(message) {
   if (!socket) return;
-
-  socket.emit("send_message", message, (response) => {
-    console.log(response);
-    console.log("HI");
-  });
+  socket.emit("send_message", message);
 }
 
-export function messageReceive(handler) {
+export function receiveMessage(handler) {
+  console.log("[socket] receiveMessage");
   if (!socket) return;
   socket.on("receive_message", handler);
 }
 
-// export function subscribe(handler) {
-//   if (!socket) return;
-//   console.log("[socket] fieldState");
-//   socket.on("fieldState", handler);
-// }
+export function blockMessage() {
+  if (!socket) return;
+  console.log("[socket] blockMessage");
+  socket.off("receive_message");
+}
+
+// // // // // // // // // // // // // // // // // // // //
+// // // // // // // to update // // // // // // // // // //
+
 export function usersOnRoom(handler) {
   if (!socket) return;
   console.log("[socket] usersOnRoom");
   socket.on("usersOnRoom", handler);
-}
-
-export function changeDestination(roomId, destination) {
-  if (!socket) return;
-  console.log("[socket] changeDestination");
-  let monster = {
-    destination,
-    // temp
-    // location: destination,
-  };
-  socket.emit("changeDestination", { roomId, monster });
 }
