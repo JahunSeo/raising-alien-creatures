@@ -6,7 +6,6 @@
   padding: 0.1rem;
   border-radius: 12px;
   overflow: auto;
-  /* background: linear-gradient(to top, #008aff, #ccf5f1); */
   border: 0.05rem solid #fff;
   font-family: inherit;
   font-weight: bold;
@@ -37,10 +36,11 @@
 .dropContent {
   display: flex;
   flex-direction: column;
-  position: relative;
+  /* position: relative; */
+  position: absolute;
   max-width: 200px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  margin-top: 8px;
+  z-index:2;
 }
 .dropContent option {
   font-size: 15px;
@@ -59,7 +59,6 @@ ul {
   padding: 0px 5px;
   display: flex;
   justify-content: space-around;
-  /* border-bottom: 1px solid #dee2e6; */
 }
 
 ul span {
@@ -72,16 +71,17 @@ ul span {
   border: 0.1rem solid #fff;
   border-radius: 1rem;
   padding: 0.4em;
-  margin-top: 0.5em;
   width: 5em;
 }
 
 .selected {
   color: white;
-  animation: pulsate 0.1s ease-in-out infinite alternate;
   padding: 0.4em;
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #5271ff,
-    0 0 0.8rem #5271ff, 0 0 2.8rem #5271ff, inset 0 0 1.3rem #5271ff;
+  color: #18ffff;
+  border: 0.15rem solid #18ffff;
+  /* box-shadow: 0 0 0.1rem #fff,  0 0 2rem #5271ff,
+  0 0 0.8rem #5271ff, 0 0 2.8rem #5271ff, inset 0 0 1.3rem #5271ff; */
+  /* animation: pulsate 0.1s ease-in-out infinite alternate; */
 }
 
 /* @keyframes pulsate {
@@ -119,12 +119,6 @@ ul span {
   overflow: hidden;
 }
 
-/* .Content .images {
-  background-size: 3em;
-  width: 5.5em;
-  height: 5.5em;
-  background-position: -10px;
-} */
 .Content .images {
   background-size: 45em;
   width: 7em;
@@ -158,20 +152,23 @@ ul span {
 
 .StyledButton {
   border: none;
-  margin: 1rem;
-  border-radius: 4px;
+  margin: 1rem 0.1rem;
+  margin-bottom: 0.4rem;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 0.38rem;
+  padding: 0.28rem;
   color: white;
   outline: none;
   cursor: pointer;
-  /* background: linear-gradient(to right, #008aff, grey); */
   opacity: 90%;
-  border-color: blue;
   border: 0.15rem solid skyblue;
   border-radius: 8px;
-  width: 6em;
+  width: 6.6em;
+  height: 3em;
+}
 
-  /* background :#4f46e5; */
+.toggleBtn {
+  /* display: inline; */
+  position: relative;
+  display:flex;
 }
