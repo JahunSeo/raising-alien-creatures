@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as socket from "../../apis/socket";
 import * as actions from "../../Redux/actions";
+import { toast } from "react-toastify";
 
 export default function SocketContainer(props) {
   const { user } = useSelector(({ user }) => ({
@@ -19,7 +20,7 @@ export default function SocketContainer(props) {
       // initiate socket
       socket.init(user);
       // auth request가 왔을 때 처리
-      socket.onAuthRequest((authinfo) => console.log("authinfo", authinfo));
+      socket.onAuthRequest((authinfo) => toast(authinfo.msg));
       dispatch(actions.toggleSocket(true));
     }
 

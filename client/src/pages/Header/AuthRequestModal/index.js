@@ -18,6 +18,7 @@ export default function AuthRequestModal(props) {
     selectedAlien: room.selectedAlien,
   }));
   const alien = aliens.find((a) => a.id === selectedAlien);
+  console.log(1212, alien);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +79,7 @@ export default function AuthRequestModal(props) {
         userId: alien.user_info_id,
         challengeId: alien.challenge_id,
         alienId: alien.id,
-        msg: `"~~" 챌린지에서 "~~"님이 승인을 요청했습니다.`,
+        msg: `"${alien.challenge_name}" 챌린지에서 "${alien.user_nickname}"님이 승인을 요청했습니다.`,
       };
       socket.emitAuthRequest(authinfo);
     } else {
