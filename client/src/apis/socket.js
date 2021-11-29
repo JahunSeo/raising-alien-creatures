@@ -39,6 +39,18 @@ export function blockMessage() {
   socket.off("receive_message");
 }
 
+export function emitAuthRequest(authinfo) {
+  if (!socket) return;
+  console.log("[socket] emitAuthRequest");
+  socket.emit("auth_request", authinfo);
+}
+
+export function onAuthRequest(handler) {
+  if (!socket) return;
+  console.log("[socket] onAuthRequest");
+  socket.on("auth_request", handler);
+}
+
 // TODO: 새로운 챌린지 참가, 졸업, 타이머에 의해 죽었을 때 처리
 export function emitJoin(userinfo) {
   if (!socket) return;
