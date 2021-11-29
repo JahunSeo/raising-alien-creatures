@@ -66,3 +66,11 @@ export const sendMessage = (socket, data) => {
   );
   socket.to(data.challengeId).emit("receive_message", data);
 };
+
+export const authRequest = (socket, data) => {
+  const clientId = socket.id;
+  console.log(
+    `[auth_request] (clientId) ${clientId}, (msg) ${data.challengeId}`
+  );
+  socket.to(data.challengeId).emit("auth_request", data);
+};
