@@ -5,7 +5,8 @@ import * as actions from "../../../../Redux/actions/index.js";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
 import { S3URL } from "../../../../shared/lib/Constants";
-import HamburgerBtnImage from "../../../../image/toggledown.png";
+import classNames from "classnames/bind";
+const cx = classNames.bind();
 
 const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const dispatch = useDispatch();
@@ -22,10 +23,11 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           "GRADUATE_ALIEN",
           `${alien.alien_name} 졸업했습니다`,
           "SUCC",
-          () => {}
+          () => {
+            dispatch(actions.graduate(alien.id));
+          }
         )
       );
-      dispatch(actions.graduate(alien.id));
   };
 
   return (
@@ -49,7 +51,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
             }}
           />
           <div className="SubInfo">
-            <p>참가자 : {alien.user_nickname}</p>
+            {type === "challenge" && <p>참가자 : {alien.user_nickname}</p>}
             <p>별명 : {alien.alien_name}</p>
             <p>출생일 : {alien.created_date.split("T")[0]}</p>
             <p>인증 횟수 : {alien.accumulated_count}번</p>
@@ -105,8 +107,8 @@ const PostList = React.memo(function PostList({ type }) {
   }));
 
   const [category, setCategory] = useState(false);
-  const [drop, setDrop] = useState(false);
   const [sort, setSort] = useState("a");
+  const [isMenuOn, setIsMenuOn] = useState(false);
 
   // functions for sort
   const recentCreate = useCallback((a, b) => {
@@ -126,24 +128,20 @@ const PostList = React.memo(function PostList({ type }) {
     return a.accumulated_count - b.accumulated_count;
   };
 
+  const sortClick = (e) =>{
+    setSort(e.target.value)
+    setIsMenuOn(false)
+  }
+
   return (
     <div className="PostListBlock">
-      <button className="dropdown" onClick={() => setDrop((drop) => !drop)}>
-        <img
-          style={{ width: "1.7em", height: "1.7em" }}
-          alt="toggledown.png"
-          src={HamburgerBtnImage}
-        />
-      </button>
-      {drop ? (
+      <ToggleBtn isMenuOn={isMenuOn} setIsMenuOn={setIsMenuOn}/>
+      {isMenuOn ? (
         <div className="dropContent">
-          <option onClick={() => setSort("a")}> 추가된 날짜 (최신 순) </option>
-          <option onClick={() => setSort("b")}> 추가된 날짜 (오래된 순)</option>
-          <option onClick={() => setSort("c")}> 커밋 횟수(가장 많은 순)</option>
-          <option onClick={() => setSort("d")}>
-            {" "}
-            커밋 횟수(가장 낮은 순){" "}
-          </option>
+          <option value = "a" onClick={sortClick}> 추가된 날짜 (최신 순)</option>
+          <option value = "b" onClick={sortClick}> 추가된 날짜 (오래된 순)</option>
+          <option value = "c" onClick={sortClick}> 커밋 횟수(가장 많은 순)</option>
+          <option value = "d" onClick={sortClick}> 커밋 횟수(가장 낮은 순)</option>
         </div>
       ) : null}
       <ul>
@@ -184,3 +182,39 @@ const PostList = React.memo(function PostList({ type }) {
 });
 
 export default PostList;
+
+function ToggleBtn(props) {
+  const { isMenuOn, setIsMenuOn } = props;
+  return (
+    <nav className="toggleBtn">
+      <button
+        className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
+        onClick={() => setIsMenuOn(!isMenuOn)}
+      >
+        <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "" : "-translate-y-1.5"
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "" : ""
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "" : "translate-y-1.5"
+            )}
+          ></span>
+        </div>
+      </button>
+    </nav>
+  );
+}
