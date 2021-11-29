@@ -15,9 +15,9 @@ module.exports = function (app, pool) {
         passwordField: "pwd",
       },
       function (username, password, done) {
-        if (err) throw err;
         console.log(username, password);
         pool.getConnection(function(err, connection) {
+          if (err) throw err;
           connection.query(
             "select * from user_info where email=?",
             [username],
