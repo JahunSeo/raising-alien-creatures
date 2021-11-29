@@ -52,7 +52,6 @@ export default function Approval(props) {
 }
 
 const AuthRequest = ({ authRequest, scrollPosition }) => {
-  console.log(1212, scrollPosition);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // let request_date = authRequest.request_date.toLocaleStringS;
