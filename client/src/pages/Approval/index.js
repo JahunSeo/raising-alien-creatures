@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   LazyLoadImage,
-  trackWindowScroll,
+  // trackWindowScroll,
 } from "react-lazy-load-image-component";
 import NoAuthRequest from "./NoAuthRequest.js";
 import "./index.css";
@@ -181,7 +181,7 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
             className="LazyLoadImage"
             src={authRequest.image_url}
             alt="authImage"
-            scrollPosition={scrollPosition}
+            // scrollPosition={scrollPosition}
             threshold="10"
             effect="blur"
           />

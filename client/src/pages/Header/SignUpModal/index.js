@@ -15,6 +15,7 @@ const SignUpModal = () => {
   const [userPassword, setUserPassword] = useState("");
   const [userConfirm, setUserConfirm] = useState("");
   const [signUpMessage, setSignUpMessage] = useState(null);
+  const [signUpClicked, setSignUpClicked] = useState(false);
 
   const postSignUp = async () => {
     let signUpData = { userEmail, userNickname, userPassword, userConfirm };
@@ -34,10 +35,12 @@ const SignUpModal = () => {
       setUserPassword("");
       setUserConfirm("");
       setSignUpMessage(null);
+      setSignUpClicked(false);
       dispatch(actions.showSignUpModal(!showSignUpModal));
     } else {
       if (res.data.result === "fail") {
         setSignUpMessage("이미 존재하는 이메일 주소입니다.");
+        setSignUpClicked(false);
       }
     }
   };
@@ -99,6 +102,7 @@ const SignUpModal = () => {
     setUserPassword("");
     setUserConfirm("");
     setSignUpMessage(null);
+    setSignUpClicked(false);
     dispatch(actions.showSignUpModal(!showSignUpModal));
   };
 
@@ -107,7 +111,9 @@ const SignUpModal = () => {
     setSignUpMessage(null);
     if (!validateSignUp(userEmail, userNickname, userPassword, userConfirm))
       return;
+    if (signUpClicked) return;
     setSignUpMessage(null);
+    setSignUpClicked(true);
     postSignUp();
   };
 
