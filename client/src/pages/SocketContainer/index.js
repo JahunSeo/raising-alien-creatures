@@ -16,7 +16,10 @@ export default function SocketContainer(props) {
     // 1단계: 로그인 상태면 새로 연결
     if (user.login) {
       console.log("[socket container] step1. login");
+      // initiate socket
       socket.init(user);
+      // auth request가 왔을 때 처리
+      socket.onAuthRequest((authinfo) => console.log("authinfo", authinfo));
       dispatch(actions.toggleSocket(true));
     }
 
