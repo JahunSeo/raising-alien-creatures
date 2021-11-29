@@ -24,7 +24,9 @@ module.exports = function (app, pool) {
             function (error, results, fields) {
               if (error) {
                 console.error(error);
-                return;
+                return done(null, false, {
+                  message: "can't connect",
+                });
               }
 
               if (results[0] === undefined) {
