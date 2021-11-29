@@ -20,13 +20,7 @@ io.on("connection", (socket) => {
   console.log(`[connection] (clientId) ${socket.id}`);
   socket.on("join", (data) => handler.join(socket, data));
   socket.on("disconnect", (data) => handler.disconnect(socket, data));
-
-  // // // // // // // // // // // // // // // // // // // //
-  // // // // // // // to update // // // // // // // // // //
-  socket.on("send_message", (data) => {
-    console.log("Server", data);
-    socket.to(data.room).emit("receive_message", data);
-  });
+  socket.on("send_message", (data) => handler.sendMessage(socket, data));
 });
 
 const port = process.env.SOCKET_PORT || 5001;

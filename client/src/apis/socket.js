@@ -11,7 +11,7 @@ export function init(userinfo) {
     console.log("[socket] connect");
   });
   if (socket && userinfo.id && userinfo.challenges) {
-    console.log("[socket] join", userinfo.id);
+    console.log("[socket] join", userinfo.id, userinfo.challenges);
     socket.emit("join", userinfo);
   }
 }
@@ -22,28 +22,26 @@ export function disconnect(roomId) {
   socket.disconnect();
 }
 
-// // // // // // // // // // // // // // // // // // // //
-// // // // // // // to update // // // // // // // // // //
-
-export function messageSend(message) {
+export function sendMessage(message) {
   if (!socket) return;
-
-  socket.emit("send_message", message, (response) => {
-    console.log(response);
-    console.log("HI");
-  });
+  socket.emit("send_message", message);
 }
 
-export function messageReceive(handler) {
+export function receiveMessage(handler) {
+  console.log("[socket] receiveMessage");
   if (!socket) return;
   socket.on("receive_message", handler);
 }
 
-// export function subscribe(handler) {
-//   if (!socket) return;
-//   console.log("[socket] fieldState");
-//   socket.on("fieldState", handler);
-// }
+export function blockMessage() {
+  if (!socket) return;
+  console.log("[socket] blockMessage");
+  socket.off("receive_message");
+}
+
+// // // // // // // // // // // // // // // // // // // //
+// // // // // // // to update // // // // // // // // // //
+
 export function usersOnRoom(handler) {
   if (!socket) return;
   console.log("[socket] usersOnRoom");

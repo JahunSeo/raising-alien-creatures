@@ -58,3 +58,11 @@ export const disconnect = (socket) => {
   // clientToUser에서 client 제거
   delete clientToUser[clientId];
 };
+
+export const sendMessage = (socket, data) => {
+  const clientId = socket.id;
+  console.log(
+    `[send_message] (clientId) ${clientId}, (msg) ${data.challengeId}`
+  );
+  socket.to(data.challengeId).emit("receive_message", data);
+};

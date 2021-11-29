@@ -61,8 +61,8 @@ function Layout() {
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
-      <div className={styles.content}>{user !== null && <Outlet />}</div>
       {user !== null && <SocketContainer />}
+      <div className={styles.content}>{user !== null && <Outlet />}</div>
       {popupModal ? (
         <div className={styles.popup}>
           <PopUp

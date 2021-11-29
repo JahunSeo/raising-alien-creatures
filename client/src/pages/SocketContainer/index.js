@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as socket from "../../apis/socket";
 
 export default function SocketContainer(props) {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
+  // const dispatch = useDispatch()
 
   // user 정보 중 login, challenges에 변동이 생겼을 때,
   // 기존 socket을 disconnect하고 새로 생성
