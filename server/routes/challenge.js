@@ -91,6 +91,7 @@ module.exports = function (pool) {
     const cnt_of_week = parseInt(req.body.cnt_of_week);
     if (req.user) {
       pool.getConnection(function (err, connection) {
+        if (err) throw err;
         connection.query(
           "INSERT INTO challenge (challenge_name, description, created_by, maximum_number, times_per_week, tag, img_url) VALUES (?, ?, ?, ?, ?, ?,?)",
           [
@@ -104,7 +105,7 @@ module.exports = function (pool) {
           ],
           function (err1, results1) {
             if (err1) {
-              console.error(err);
+              console.error(err1);
               res.status(200).json({
                 result: "fail",
                 msg: "cant insert",
@@ -135,14 +136,7 @@ module.exports = function (pool) {
   router.get("/totalAuthCnt/:challengeId", function (req, res) {
     const challengeId = req.params.challengeId;
     pool.getConnection(function (err, connection) {
-      if (err) {
-        console.error(err);
-        res.status(500).json({
-          result: "fail",
-          msg: "cant connection",
-        });
-        return;
-      }
+      if (err) throw err;
       connection.query(
         "SELECT times_per_week FROM challenge WHERE id=?;",
         [challengeId],
@@ -177,6 +171,7 @@ module.exports = function (pool) {
     console.log("서버 유저아이디 확인 :", data.user_info_id);
     var sql1 = `INSERT INTO practice_record SET ?;`;
     pool.getConnection(function (err, connection) {
+      if (err) throw err;
       connection.query(sql1, data, function (error, results, fields) {
         if (error) {
           console.error(error);
@@ -215,6 +210,7 @@ module.exports = function (pool) {
     var data = req.body;
     // console.log(data.keyword);
     pool.getConnection(function (err, connection) {
+      if (err) throw err;
       connection.query(
         `select * from challenge where challenge_name regexp '${data.keyword}'`,
         function (err, results, fields) {
@@ -243,6 +239,7 @@ module.exports = function (pool) {
       sql1 = `select * from challenge where tag = "${category}"`;
     }
     pool.getConnection(function (err, connection) {
+      if (err) throw err;
       connection.query(sql1, function (err, results, fields) {
         if (err) {
           console.log(err);
@@ -288,6 +285,7 @@ module.exports = function (pool) {
     sql2 = `update alien set accumulated_count = accumulated_count+1, practice_status=2 where id = ${Alien_id}`;
     sql1 = `update practice_record set record_status = record_status +1, response_date = NOW(), response_user_id = ${req.user.id}, response_user="${req.user.nickname}" where id=${auth_id} and record_status=0;`; // is Auth = 0 일때만 올리고 0 row 변하면 이미 완료된 요청입니다.
     pool.getConnection(function (err, connection) {
+      if (err) throw err;
       connection.query(sql1, function (error, results, fields) {
         if (error) {
           console.error(error);

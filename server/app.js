@@ -19,6 +19,7 @@ const schedule = require("./routes/scheduler");
 
 const pool = mysql.createPool({
   connectionLimit: 10,
+  timezone: 'Z',
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
