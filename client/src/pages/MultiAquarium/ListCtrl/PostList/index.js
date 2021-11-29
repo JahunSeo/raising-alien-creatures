@@ -16,7 +16,16 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const onClickGraduate = async () => {
     let req = { alien_id: alien.id };
     let res = await api.post("/alien/graduation", req);
-    if (res.data.result === "success") dispatch(actions.graduate(alien.id));
+    if (res.data.result === "success")
+      dispatch(
+        actions.setPopupModal(
+          "GRADUATE_ALIEN",
+          `${alien.alien_name} 졸업했습니다`,
+          "SUCC",
+          () => {}
+        )
+      );
+      dispatch(actions.graduate(alien.id));
   };
 
   return (
@@ -39,17 +48,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               }
             }}
           />
-          {/* <img
-            alt="물고기"
-            src={S3URL + alien.image_url.split("-")[0]}
-            onClick={() => {
-              if (selectedAlien === alien.id) {
-                dispatch(actions.selectAlien(null));
-              } else {
-                dispatch(actions.selectAlien(alien.id));
-              }
-            }}
-          /> */}
           <div className="SubInfo">
             <p>참가자 : {alien.user_nickname}</p>
             <p>별명 : {alien.alien_name}</p>
