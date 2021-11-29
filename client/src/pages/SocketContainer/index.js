@@ -19,8 +19,9 @@ export default function SocketContainer(props) {
       console.log("[socket container] step1. login");
       // initiate socket
       socket.init(user);
-      // auth request가 왔을 때 처리
+      // auth 관련
       socket.onAuthRequest((authinfo) => toast(authinfo.msg));
+      socket.onAuthApproval((apprinfo) => toast(apprinfo.msg));
       dispatch(actions.toggleSocket(true));
     }
 
