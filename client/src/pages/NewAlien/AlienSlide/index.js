@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
+import { S3URL } from "../../../shared/lib/Constants";
+import Fish from "./alienTap/fish";
+import Seal from "./alienTap/seal";
 
-function AlienSlide({ alienNumber, setAlienNumber }) {
-  // var angle = 0;
+function AlienSlide({ alienNumber, setAlienNumber, alienCategory }) {
+  // console.log(2222222, alienCategory);
   function galleryspin(sign) {
     if (!sign) {
-      // angle = angle + 45;
       setAlienNumber(alienNumber + 1);
-      // console.log("alienNumber", alienNumber);
     } else {
-      // angle = angle - 45;
       setAlienNumber(alienNumber - 1);
     }
   }
 
   function spin(angle) {
-    const spinner = document.querySelector("#spinner");
+    const spinner = document.querySelector(`#${alienCategory.type}`);
     if (spinner) {
       spinner.setAttribute(
         "style",
@@ -30,49 +30,25 @@ function AlienSlide({ alienNumber, setAlienNumber }) {
     }
   }
 
-  useEffect(() => {
-    let angle = alienNumber * 45;
+  useEffect(
+    () => {
+      let angle = alienNumber * alienCategory.angle;
 
-    // console.log(alienNumber);
-    // console.log(Math.abs(-18 % 8));
-    spin(angle);
-  }, [alienNumber]);
+      spin(angle);
+    },
+    [alienNumber],
+    [alienCategory.angle]
+  );
 
   return (
     <>
       <div className={styles.carousel} id="carousel">
-        <figure id="spinner">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          {/* <img
-            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_1.png"
-            alt="이미지 로딩 실패"
-          />
-          <img
-            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_2.png"
-            alt="이미지 로딩 실패"
-          />
-          <img
-            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_3.png"
-            alt="이미지 로딩 실패"
-          />
-          <img
-            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_4.png"
-            alt="이미지 로딩 실패"
-          />
-          <img
-            src="https://namu-alien-s3.s3.ap-northeast-2.amazonaws.com/Alien_base/fish_5.png"
-            alt="이미지 로딩 실패"
-          />
-          <img src={DeanImage} alt="이미지 로딩 실패" />
-          <img src={babyshark} alt="이미지 로딩 실패" /> */}
-        </figure>
+        {
+          {
+            fish: <Fish S3URL={S3URL} />,
+            seal: <Seal S3URL={S3URL} />,
+          }[alienCategory.type]
+        }
       </div>
       <span
         style={{ float: "left" }}

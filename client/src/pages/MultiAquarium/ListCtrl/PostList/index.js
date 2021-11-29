@@ -18,7 +18,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
     let res = await api.post("/alien/graduation", req);
     if (res.data.result === "success") dispatch(actions.graduate(alien.id));
   };
-
   return (
     <>
       <div className="PostItemBlock">
@@ -127,7 +126,6 @@ const PostList = React.memo(function PostList({ type }) {
   const leastCommit = (a, b) => {
     return a.accumulated_count - b.accumulated_count;
   };
-
   return (
     <div className="PostListBlock">
       <button className="dropdown" onClick={() => setDrop((drop) => !drop)}>

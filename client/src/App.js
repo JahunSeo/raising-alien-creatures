@@ -48,16 +48,11 @@ function Layout() {
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
   }));
-  // const popupModal = false;
   const popup = useSelector((state) => state.modalOnOff);
   const popupModal = popup.popupModal;
   const popupMessage = popup.popupMessage;
   const popupKind = popup.popupKind;
   const popupCallback = popup.popupCallback;
-
-  // console.log("popupModal111", popupModal);
-  // console.log("popupModal222", popupModal);
-  // console.log("popupModal333", popupMessage);
 
   return (
     <div className={styles.body}>
