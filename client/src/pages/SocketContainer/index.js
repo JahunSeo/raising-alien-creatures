@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as socket from "../../apis/socket";
 import * as actions from "../../Redux/actions";
+import { toast } from "react-toastify";
 
 export default function SocketContainer(props) {
   const { user } = useSelector(({ user }) => ({
@@ -16,7 +17,11 @@ export default function SocketContainer(props) {
     // 1단계: 로그인 상태면 새로 연결
     if (user.login) {
       console.log("[socket container] step1. login");
+      // initiate socket
       socket.init(user);
+      // auth 관련
+      socket.onAuthRequest((authinfo) => toast(authinfo.msg));
+      socket.onAuthApproval((apprinfo) => toast(apprinfo.msg));
       dispatch(actions.toggleSocket(true));
     }
 
