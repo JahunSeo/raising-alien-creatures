@@ -51,10 +51,7 @@ exports.j = schedule.scheduleJob({ hour: 15, minute: 00 }, function () {
     }
   
     pool.getConnection(function(err, connection){
-      if (err) {
-        console.error(err);
-        return;
-      }
+      if (err) throw err;
       
       connection.query(
         sql1 + sql2, 

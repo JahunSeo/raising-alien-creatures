@@ -1,0 +1,98 @@
+.Background {
+  position: fixed;
+  /* top: 0%; */
+  left: 0%;
+  bottom: -10rem;
+  right: 0;
+  width: 150rem;
+  height: 100rem;
+  /* height: 100rem; */
+  /* background-color: rgba(231, 24, 24, 0.5); */
+  /* z-index: 10;     */
+}
+
+.AuthRequestModal {
+  position: fixed;
+  left: 528px;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  max-height: 70%;
+  width: 20rem;
+  height: 95%;
+  padding: 16px;
+  /* background: rgb(25, 31, 44); */
+  background: transparent;
+  border-radius: 10px;
+  text-align: center;
+  /* transition: all 1s; */
+  z-index: 1;
+}
+
+.SignInContainer {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 100%;
+  min-width: 100%;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 1s;
+  z-index: 10;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: gray;
+  opacity: 50%;
+  z-index: 1;
+}
+
+.hidden {
+  position: fixed;
+  left: -150px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 80%;
+  width: 20rem;
+  height: 80%;
+  padding: 16px;
+  /* background: rgb(25, 31, 44); */
+  background: lightblue;
+  border-radius: 10px;
+  text-align: center;
+  /* transition: all 1s; */
+}
+
+.Comment {
+  @apply h-24
+  py-1
+  px-3
+  w-full
+  border-2 border-blue-400
+  rounded
+  focus:outline-none focus:border-blue-600
+  resize-none;
+}
+
+.Attachments {
+  @apply relative
+  h-20
+  rounded-lg
+  border-dashed border-2 border-blue-700
+  bg-gray-100
+  flex
+  justify-center
+  items-center;
+}

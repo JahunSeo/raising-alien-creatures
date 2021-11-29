@@ -66,7 +66,7 @@ export default function NewAlien(props) {
     } catch (err) {
       console.error("fetchData fail", err);
     }
-  }, [challengeId]);
+  }, [challengeId, user.login, user.challenges]);
 
   // validation
   function validateCreAlien(alienName, checkDay, authCount) {
@@ -166,9 +166,9 @@ export default function NewAlien(props) {
         <div className=" container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
           <ul className="relative px-1 py-1 inline-flex min-w-max">
             <li className=" mr-1 inline-block ">
-              <a className="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold">
+              <p className="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold">
                 캐릭터 선택
-              </a>
+              </p>
             </li>
             {/* <li className="mr-1 inline-block">
               <a className="bg-white inline-block py-2 px-4 text-blue-500  font-semibold">

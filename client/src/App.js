@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import SocketContainer from "./pages/SocketContainer";
 import Header from "./pages/Header";
 import Approval from "./pages/Approval";
 import NewChallenge from "./pages/NewChallenge";
@@ -55,15 +56,12 @@ function Layout() {
   const popupKind = popup.popupKind;
   const popupCallback = popup.popupCallback;
 
-  // console.log("popupModal111", popupModal);
-  // console.log("popupModal222", popupModal);
-  // console.log("popupModal333", popupMessage);
-
   return (
     <div className={styles.body}>
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
+      {user !== null && <SocketContainer />}
       <div className={styles.content}>{user !== null && <Outlet />}</div>
       {popupModal ? (
         <div className={styles.popup}>

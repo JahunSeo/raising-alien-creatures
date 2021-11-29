@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import ReactSlider from "react-slider";
 import api from "../../apis/index.js";
 import "./index.module.css";
-import Background from "../../image/createChallenge.jpeg";
+// import Background from "../../image/createChallenge.jpeg";
 import * as actions from "../../Redux/actions";
 
 export default function NewChallenge(props) {
   // TODO: login 상태일 때만 접근할 수 있음
   // TODO: 챌린지에 접근 가능한 유저인지 확인해주어야 함
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
 
   const dispatch = useDispatch();
 
@@ -127,8 +126,8 @@ export default function NewChallenge(props) {
       // alert("챌린지 생성에 성공하였습니다.");
       dispatch(
         actions.setPopupModal(
-          "CREATE_ALIEN",
-          "생명체가 생성되었습니다 !",
+          "CREATE_CHALLENGE",
+          "챌린지가 생성되었습니다 !",
           "SUCC",
           () => {
             navigate(`/challenge/${challengeId}/room`);

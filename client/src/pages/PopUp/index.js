@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as actions from "../../Redux/actions";
 
 export default function PopUp({

@@ -66,7 +66,7 @@ const SignUpModal = () => {
     if (userPassword !== "" && (pw.length < 8 || pw.length > 20)) {
       setSignUpMessage("패스워드는 8자 이상 20자 이하여야 합니다.");
       return false;
-    } else if (userPassword !== "" && pw.search(/\s/) != -1) {
+    } else if (userPassword !== "" && pw.search(/\s/) !== -1) {
       setSignUpMessage("패스워드는 공백 없이 입력해야 합니다.");
       return false;
     } else if (userPassword !== "" && (num < 0 || eng < 0)) {
