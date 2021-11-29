@@ -9,6 +9,7 @@ export const SET_POPUP_MODAL = "SET_POPUP_MODAL";
 export const CHECK_USER = "CHECK_USER";
 export const LOGOUT = "USER_LOGOUT";
 export const JOIN_CHALLENGE = "JOIN_CHALLENGE";
+export const TOGGLE_SOCKET = "TOGGLE_SOCKET";
 
 export const CURRENT_ROOM = "CURRENT_ROOM";
 export const ALIEN_AUTH = "ALIEN_AUTH";

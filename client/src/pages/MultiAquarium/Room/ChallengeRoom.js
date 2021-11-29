@@ -18,7 +18,10 @@ export default function ChallengeRoom(props) {
   if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
 
   // user 정보 확인
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const { user, isSocketOn } = useSelector(({ user }) => ({
+    user: user.user,
+    isSocketOn: user.isSocketOn,
+  }));
   // const userId = user.login && user.id;
 
   // 본 챌린지에 참가중인지 확인
@@ -66,14 +69,14 @@ export default function ChallengeRoom(props) {
 
   // TODO: 더 효율적으로 수정
   useEffect(() => {
-    if (participating && rooms.current[roomId]) {
+    if (isSocketOn && participating && rooms.current[roomId]) {
       socket.receiveMessage((msg) => dispatch(actions.setMessage([msg])));
       //     socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
     }
     return () => {
       socket.blockMessage();
     };
-  }, [challengeId, participating, rooms, roomId]);
+  }, [isSocketOn, challengeId, participating, rooms, roomId, dispatch]);
 
   return <div></div>;
 }

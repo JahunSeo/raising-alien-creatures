@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as socket from "../../apis/socket";
+import * as actions from "../../Redux/actions";
 
 export default function SocketContainer(props) {
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
-  // const dispatch = useDispatch()
+  const { user } = useSelector(({ user }) => ({
+    user: user.user,
+  }));
+  const dispatch = useDispatch();
 
   // user 정보 중 login, challenges에 변동이 생겼을 때,
   // 기존 socket을 disconnect하고 새로 생성
@@ -14,6 +17,7 @@ export default function SocketContainer(props) {
     if (user.login) {
       console.log("[socket container] step1. login");
       socket.init(user);
+      dispatch(actions.toggleSocket(true));
     }
 
     // 2단계: 기존 연결된 것이 있으면 연결을 끊는다.
@@ -22,7 +26,7 @@ export default function SocketContainer(props) {
       console.log("[socket container] step2. disconnect");
       socket.disconnect();
     };
-  }, [user]);
+  }, [user, dispatch]);
 
   return <React.Fragment />;
 }
