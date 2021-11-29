@@ -95,7 +95,7 @@ export default function AuthRequestModal(props) {
     <div>
       <div className={"Overlay"} />
       <div className={"AuthRequestModal"}>
-        <div className="flex flex-col fixed min-w-max px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10 overflow-y-scroll">
+        <div className="flex flex-col fixed min-w-max px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10">
           <div className="flex justify-center items-center self-end text-gray-400 hover:text-gray-500">
             <svg
               className="fixed w-5 h-5"
