@@ -126,8 +126,8 @@ export default function NewChallenge(props) {
       // alert("챌린지 생성에 성공하였습니다.");
       dispatch(
         actions.setPopupModal(
-          "CREATE_ALIEN",
-          "생명체가 생성되었습니다 !",
+          "CREATE_CHALLENGE",
+          "챌린지가 생성되었습니다 !",
           "SUCC",
           () => {
             navigate(`/challenge/${challengeId}/room`);

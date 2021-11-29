@@ -56,7 +56,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           </div>
         </div>
         <div className="buttons">
-          {/* // TODO: 인증 가능 여부에 맞게 버튼 처리하기! 
+          {/* // TODO: 인증 가능 여부에 맞게 버튼 처리하기!  */}
           {type === "personal" &&
             alien.alien_status === 0 &&
             alien.user_info_id === userId && (
@@ -70,7 +70,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               >
                 인증하기
               </button>
-            )} */}
+            )}
           {type !== "challenge" && alien.alien_status === 0 && (
             <Link to={`/challenge/${alien.challenge_id}/room`}>
               <button className="StyledButton">챌린지 어항</button>
