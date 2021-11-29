@@ -24,3 +24,7 @@
   right: 0;
   animation: 1s infinite;
 }
+
+.LazyLoadImage {
+  @apply m-auto mt-6;
+}

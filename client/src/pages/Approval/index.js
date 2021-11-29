@@ -175,15 +175,16 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
   return (
     <div className="flex min-w-min min-h-0 p-12 justify-center items-center  bg-gray-100">
       <div className="justify-center items-center w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
-        {/* <img
+        <img
           className="m-auto mt-6"
           src={authRequest.image_url}
           alt="authImage"
-        /> */}
+        />
 
         {/* react-lazy-load-image-component */}
+        {/* 가운데 정렬 */}
         <LazyLoadImage
-          className="self-center m-auto mt-6"
+          className="LazyLoadImage"
           src={authRequest.image_url}
           alt="authImage"
           scrollPosition={scrollPosition}
