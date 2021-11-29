@@ -51,6 +51,18 @@ export function onAuthRequest(handler) {
   socket.on("auth_request", handler);
 }
 
+export function emitAuthApproval(apprinfo) {
+  if (!socket) return;
+  console.log("[socket] emitAuthApproval");
+  socket.emit("auth_approval", apprinfo);
+}
+
+export function onAuthApproval(handler) {
+  if (!socket) return;
+  console.log("[socket] AuthApproval");
+  socket.on("auth_approval", handler);
+}
+
 // TODO: 새로운 챌린지 참가, 졸업, 타이머에 의해 죽었을 때 처리
 export function emitJoin(userinfo) {
   if (!socket) return;
