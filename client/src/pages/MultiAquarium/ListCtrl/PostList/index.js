@@ -22,10 +22,10 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           "GRADUATE_ALIEN",
           `${alien.alien_name} 졸업했습니다`,
           "SUCC",
-          () => {}
+          () => {dispatch(actions.graduate(alien.id));}
         )
       );
-      dispatch(actions.graduate(alien.id));
+      // dispatch(actions.graduate(alien.id));
   };
 
   return (
