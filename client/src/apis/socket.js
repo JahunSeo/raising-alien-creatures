@@ -39,10 +39,10 @@ export function blockMessage() {
   socket.off("receive_message");
 }
 
-export function emitAuthRequest(authinfo) {
+export function emitAuthRequest(info) {
   if (!socket) return;
   console.log("[socket] emitAuthRequest");
-  socket.emit("auth_request", authinfo);
+  socket.emit("auth_request", info);
 }
 
 export function onAuthRequest(handler) {
@@ -51,10 +51,10 @@ export function onAuthRequest(handler) {
   socket.on("auth_request", handler);
 }
 
-export function emitAuthApproval(apprinfo) {
+export function emitAuthApproval(info) {
   if (!socket) return;
   console.log("[socket] emitAuthApproval");
-  socket.emit("auth_approval", apprinfo);
+  socket.emit("auth_approval", info);
 }
 
 export function onAuthApproval(handler) {
