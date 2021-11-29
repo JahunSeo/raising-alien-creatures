@@ -87,13 +87,14 @@ module.exports = function (pool) {
   // 챌린지 생성 api
   router.post("/create", function (req, res) {
     console.log(req.body);
+    console.log(req.user);
     const max_user = parseInt(req.body.max_user);
     const cnt_of_week = parseInt(req.body.cnt_of_week);
     if (req.user) {
       pool.getConnection(function (err, connection) {
         if (err) throw err;
         connection.query(
-          "INSERT INTO challenge (challenge_name, description, created_by, maximum_number, times_per_week, tag, img_url) VALUES (?, ?, ?, ?, ?, ?,?)",
+          "INSERT INTO challenge (challenge_name, description, created_by, maximum_number, times_per_week, tag, img_url, user_nickname) VALUES (?, ?, ?, ?, ?, ?,?,?)",
           [
             req.body.challenge_name,
             req.body.challenge_content,
@@ -102,6 +103,7 @@ module.exports = function (pool) {
             cnt_of_week,
             req.body.tag,
             req.body.image_url,
+            req.user.nickname,
           ],
           function (err1, results1) {
             if (err1) {
