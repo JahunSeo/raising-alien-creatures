@@ -39,6 +39,24 @@ export function blockMessage() {
   socket.off("receive_message");
 }
 
+// TODO: 새로운 챌린지 참가, 졸업, 타이머에 의해 죽었을 때 처리
+export function emitJoin(userinfo) {
+  if (!socket) return;
+  socket.emit("join_challenge", userinfo);
+}
+export function onJoin(handler) {
+  if (!socket) return;
+  socket.on("join_challenge", handler);
+}
+export function emitGraduate(userinfo) {
+  if (!socket) return;
+  socket.emit("graduate_challenge", userinfo);
+}
+export function onGraduate(handler) {
+  if (!socket) return;
+  socket.on("graduate_challenge", handler);
+}
+
 // // // // // // // // // // // // // // // // // // // //
 // // // // // // // to update // // // // // // // // // //
 
