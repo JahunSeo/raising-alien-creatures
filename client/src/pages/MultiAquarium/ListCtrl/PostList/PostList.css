@@ -26,13 +26,6 @@
   background: #727171;
 }
 
-.dropdown {
-  position: relative;
-  left: -125px;
-  top: 10px;
-  background: transparent;
-  border: none;
-}
 .dropContent {
   display: flex;
   flex-direction: column;
@@ -49,10 +42,16 @@
   color: black;
   background-color: #f1f1f1;
   cursor: pointer;
+  outline: none;
+  border:none;
 }
-.dropContent span:hover {
-  background-color: #ddd;
+.dropContent option:hover {
+  background-color: rgb(115, 208, 245);
 }
+.dropContent option:focus {
+  background-color: rgb(115, 208, 245);
+}
+
 
 ul {
   position: inherit;
@@ -106,7 +105,6 @@ ul span {
   border-radius: 4px;
   opacity: 0.8;
   padding: 0.1em;
-
   margin: 0.4em;
   margin-bottom: 1em;
 }
