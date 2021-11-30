@@ -1,6 +1,6 @@
 import Camera from "./Camera";
 import Wanderer from "../creature/Wanderer";
-import { FRAME_PER_SEC } from "../lib/Constants";
+import { FRAME_PER_SEC, DAY_TEXT } from "../lib/Constants";
 
 class RoomClient {
   constructor(roomId) {
@@ -31,6 +31,11 @@ class RoomClient {
         authCnt: mon.accumulated_count,
         image_url: mon.image_url,
         wanderRange: 300 + 30 * monsters.length,
+      });
+      monster.overwrite({
+        showBubble: mon.showBubble || false,
+        practiceStatus: mon.practice_status || 0,
+        practiceDays: mon.practiceDays || [],
       });
       monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
       // console.log(monster.monId, monster.isUserOnRoom);
