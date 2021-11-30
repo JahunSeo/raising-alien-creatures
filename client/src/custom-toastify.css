@@ -1,0 +1,14 @@
+/** Used to define container behavior: width, position: fixed etc... **/
+.Toast {
+  background-color: rgba(3, 33, 66, 0.35);
+  color: #ffffff;
+}
+
+.Toast__body {
+  /* border: orange; */
+}
+
+.Toast__progress {
+  /* background: rgba(79, 70, 229, 1) !important; */
+  background: #ffffff;
+}

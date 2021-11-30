@@ -21,6 +21,8 @@ io.on("connection", (socket) => {
   socket.on("join", (data) => handler.join(socket, data));
   socket.on("disconnect", (data) => handler.disconnect(socket, data));
   socket.on("send_message", (data) => handler.sendMessage(socket, data));
+  socket.on("auth_request", (data) => handler.authRequest(socket, data));
+  socket.on("auth_approval", (data) => handler.authApproval(socket, data));
 });
 
 const port = process.env.SOCKET_PORT || 5001;

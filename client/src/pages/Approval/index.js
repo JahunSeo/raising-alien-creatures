@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
 import api from "../../apis/index.js";
+import * as socket from "../../apis/socket";
 import * as actions from "../../Redux/actions";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  LazyLoadImage,
-  // trackWindowScroll,
-} from "react-lazy-load-image-component";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import NoAuthRequest from "./NoAuthRequest.js";
 import "./index.css";
 import "./blur.css";
 
 export default function Approval(props) {
-  // const { user } = useSelector(({ user }) => ({ user: user.user }));
-
   const [authRequests, setAuthRequests] = useState([]);
   useEffect(() => {
     const loadAuthRequests = async () => {
@@ -29,7 +25,7 @@ export default function Approval(props) {
     loadAuthRequests();
   }, []);
 
-  console.log("authRequests", authRequests);
+  // console.log("authRequests", authRequests);
 
   if (authRequests.length) {
     return (
@@ -52,6 +48,7 @@ export default function Approval(props) {
 }
 
 const AuthRequest = ({ authRequest, scrollPosition }) => {
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // let request_date = authRequest.request_date.toLocaleStringS;
@@ -104,6 +101,15 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
         )
       );
       SetApprovalStatus(true);
+      // socket에 전달
+      let info = {
+        senderId: user.id,
+        receiverId: authRequest.request_user_id,
+        challengeId: authRequest.challenge_id,
+        alienId: authRequest.alien_id,
+        msg: `"${authRequest.challenge_name}" 챌린지에서 "${user.nickname}"님이 인증 요청을 승인했습니다.`,
+      };
+      socket.emitAuthRequest(info);
     }
   };
 

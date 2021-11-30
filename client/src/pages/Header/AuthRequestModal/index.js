@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./AuthRequestModal.css";
 import { useSelector, useDispatch } from "react-redux";
 import api from "../../../apis/index";
+import * as socket from "../../../apis/socket";
 import * as actions from "../../../Redux/actions/index.js";
 
 export default function AuthRequestModal(props) {
@@ -82,9 +83,16 @@ export default function AuthRequestModal(props) {
     setAuthRequestClicked(true);
 
     if (res.data.result === "success") {
-      dispatch(actions.requestAuth(alien.id));
       setAuthImage(null);
       setAuthRequestClicked(false);
+      dispatch(actions.requestAuth(alien.id));
+      let info = {
+        userId: alien.user_info_id,
+        challengeId: alien.challenge_id,
+        alienId: alien.id,
+        msg: `"${alien.challenge_name}" 챌린지에서 "${alien.user_nickname}"님이 승인을 요청했습니다.`,
+      };
+      socket.emitAuthRequest(info);
     } else {
       // TODO: 실패 처리
       setAuthRequestClicked(false);

@@ -11,6 +11,10 @@ class Monster {
     this.color = props.color;
     this.size = 40 + this.authCnt * 2;
 
+    this.showBubble = false;
+    this.practiceStatus = 0;
+    this.practiceDays = [];
+
     // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981
     //          0                      1                   2 3  4    5
     // TODO: 임시처리된 코드 개선
@@ -48,9 +52,11 @@ class Monster {
       this.fishLeft.src = S3URL + this.image_url[0];
       this.fishRight = new Image();
       this.fishRight.src = S3URL + this.image_url[1];
-      this.bubble = new Image();
-      this.bubble.src = require('../../image/bubble-512px-red.png').default;
-      // this.bubble.src = require('../../image/bubble-512px.png').default;
+
+      this.bubbleR = new Image();
+      this.bubbleR.src = require("../../image/bubble-512px-red.png").default;
+      this.bubbleW = new Image();
+      this.bubbleW.src = require("../../image/bubble-512px.png").default;
     }
   }
 
@@ -128,7 +134,19 @@ class Monster {
           size
         );
       }
-      // ctx.drawImage(this.bubble,-size / 2,-size / 2, size, size);
+
+      if (this.showBubble) {
+        const todayValue = new Date().getDay();
+        const isPracticeDay = this.practiceDays[todayValue];
+
+        if (this.practiceStatus === 1) {
+          ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
+        } else if (isPracticeDay && this.practiceStatus === 0) {
+          // TODO: 오늘이 인증이 필요한 날인지 확인
+          ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
+        }
+      }
+
       ctx.restore();
     }
   }
