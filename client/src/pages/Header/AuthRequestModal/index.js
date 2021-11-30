@@ -52,12 +52,9 @@ export default function AuthRequestModal(props) {
       return;
     }
 
-    if (authRequestClicked) return;
-
     let res = await api.get("/main/s3Url");
     const { url } = res.data;
     console.log("res", res);
-    console.log("url", url);
     // post the image direclty to the s3 bucket
     if (authImage) {
       await fetch(url, {
@@ -69,7 +66,6 @@ export default function AuthRequestModal(props) {
       });
     }
     const imageUrl = url.split("?")[0];
-    console.log("imgurl", imageUrl);
     const resp = {
       user_info_id: alien.user_info_id,
       alien_id: alien.id,
@@ -81,6 +77,8 @@ export default function AuthRequestModal(props) {
     // post requst to my server to store any extra data
     res = await api.post("/challenge/auth", resp);
     console.log("res", res);
+
+    if (authRequestClicked) return;
     setAuthRequestClicked(true);
 
     if (res.data.result === "success") {
@@ -107,7 +105,7 @@ export default function AuthRequestModal(props) {
     return <div />;
   }
 
-  console.log("authRequestClicked", authRequestClicked);
+  // console.log("authRequestClicked", authRequestClicked);
 
   return (
     <div>

@@ -124,7 +124,7 @@ export default function NewChallenge(props) {
 
     if (res.data.result === "success") {
       console.log("challengeData", challengeData);
-      console.log(res.data.data);
+      console.log("res", res.data.data);
       const challengeId = res.data.data.challenge_id;
       // 고민: 방장이 챌린지 생성 후 생명체를 만들지 않고 나가버리면 추후에 어떻게 챌린지방을 찾을 수 있는가?
       // alert("챌린지 생성에 성공하였습니다.");
@@ -148,7 +148,7 @@ export default function NewChallenge(props) {
 
   return (
     <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
-      <div className="min-w-max h-2/3 md:min-h-2/3 w-1/2 rounded-xl bg-gray-100 rounded shadow-2xl overflow-y-auto p-4  md:p-8">
+      <div className="min-w-max h-2/3 md:min-h-2/3 w-1/2 rounded-xl bg-gray-100 shadow-2xl overflow-y-auto p-4  md:p-8">
         <h1 className="block w-full text-center md:text-2xl text-lg font-bold mb-6">
           새로운 챌린지 생성
         </h1>

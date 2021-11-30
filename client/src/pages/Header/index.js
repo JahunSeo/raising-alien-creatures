@@ -74,7 +74,7 @@ export default function Header(props) {
     return <div></div>;
   }
 
-  console.log("signOutClicked", signOutClicked);
+  // console.log("signOutClicked", signOutClicked);
 
   return (
     <div className={styles.body}>
