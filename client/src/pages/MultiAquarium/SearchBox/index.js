@@ -13,7 +13,7 @@ import styles from "./index.module.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-export default function SearchBox(props) {
+export default function SearchBox() {
   const [longer, setLonger] = useState(false);
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");

@@ -14,7 +14,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
     userId: state.user.user.id,
   }));
 
-  const onClickGraduate = async () => {
+  const onClickGraduate = (async () => {
     let req = { alien_id: alien.id };
     let res = await api.post("/alien/graduation", req);
     if (res.data.result === "success")
@@ -28,7 +28,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
           }
         )
       );
-  };
+  });
 
   return (
     <>
