@@ -7,6 +7,7 @@ const users = {};
 const clientToUser = {};
 
 export const join = (socket, userinfo) => {
+  console.log(userinfo);
   const clientId = socket.id;
   const userId = userinfo.id;
   console.log(`[join] (clientId) ${clientId}, (userId) ${userId}`);
@@ -61,6 +62,7 @@ export const disconnect = (socket) => {
 
 export const sendMessage = (socket, data) => {
   const clientId = socket.id;
+  // console.log("(data)", data);
   console.log(
     `[send_message] (clientId) ${clientId}, (msg) ${data.challengeId}`
   );
