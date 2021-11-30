@@ -17,7 +17,7 @@ const options = {
 const io = new Server(httpServer, options);
 
 io.on("connection", (socket) => {
-  console.log(`[connection] (clientId) ${socket.id}`);
+  // console.log(`[connection] (clientId) ${socket.id}`);
   socket.on("join", (data) => handler.join(socket, data));
   socket.on("disconnect", (data) => handler.disconnect(socket, data));
   socket.on("send_message", (data) => handler.sendMessage(socket, data));

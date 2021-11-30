@@ -1,0 +1,137 @@
+config:
+  target: "http://localhost:5001"
+  phases:
+    - duration: 20
+      arrivalRate: 5
+      maxVusers: 50
+      name: 8 users in a challenge42
+  payload:
+    path: "test_file2.csv"
+    fields:
+      - "id"
+      - "email"
+      - "password"
+      - "nickname"
+      - "id1"
+      - "id2"
+      - "id3"
+      - "id4"
+      - "id5"
+      - "id6"
+      - "id7"
+scenarios:
+  - name: "Test_case_2"
+    engine: "socketio"
+    flow:
+      - log: "{{email}} socket connection 시도"
+      - log: "{{email}}  login 시도"
+      - post:
+          url: "http://localhost:5000/api/user/login"
+          json:
+            email: "{{email}}"
+            pwd: "{{password}}"
+      - think: 1
+      - get:
+          url: "http://localhost:5000/api/user/challenges/ids"
+      # - log: "{{email}} Challenge-42 페이지 접근"
+      - get:
+          url: "http://localhost:5000/api/challenge/42"
+      - get:
+          url: "http://localhost:5000/api/chat/42"
+      # - log: "test"
+      - emit:
+          channel: "join"
+          data:
+            id: "{{id}}"
+            "challenges":
+              [
+                id: "{{id1}}",
+                id: "{{id2}}",
+                id: "{{id3}}",
+                id: "{{id4}}",
+                id: "{{id5}}",
+                id: "{{id6}}",
+                id: "{{id7}}",
+              ]
+      - log: "{{email}} Challenge room 입장"
+      - loop:
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id1}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id2}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id3}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id4}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id5}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id6}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id7}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+        count: 50
