@@ -34,7 +34,6 @@ const PostItem = React.memo(function PostItem({
         )
       );
   };
-
   return (
     <>
       <div
