@@ -79,10 +79,9 @@ export default function SearchBox() {
     }
   }, []);
 
-  const currentChallenges = [];
-  for (let i = 0; i < user.challenges.length; i++){
-    currentChallenges.push(user.challenges[i].id)
-  }
+  let currentChallenges = user.challenges
+    ? user.challenges.map((c) => c.id)
+    : [];
 
   return (
     <div className={cx("SearchBox", { longer })}>
@@ -140,7 +139,7 @@ export default function SearchBox() {
             <ChallengeItem
               key={challenge.id}
               challenge={challenge}
-              participating = {currentChallenges.includes(challenge.id)}
+              participating={currentChallenges.includes(challenge.id)}
             ></ChallengeItem>
           ))}
         </div>
@@ -150,10 +149,12 @@ export default function SearchBox() {
 }
 
 const ChallengeItem = (props) => {
-  const {challenge, participating} = props;
+  const { challenge, participating } = props;
   return (
     <div className={cx("challengeItem")}>
-      <div className={styles.challengeName}>{challenge.challenge_name} {participating && '(참가중)'}</div>
+      <div className={styles.challengeName}>
+        {challenge.challenge_name} {participating && "(참가중)"}
+      </div>
       <img
         className={styles.challengeImg}
         alt="yammy"
