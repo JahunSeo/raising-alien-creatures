@@ -134,18 +134,38 @@ class Monster {
           size
         );
       }
-
       if (this.showBubble) {
         const todayValue = new Date().getDay();
         const isPracticeDay = this.practiceDays[todayValue];
 
-        if (this.practiceStatus === 1) {
-          ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
-        } else if (isPracticeDay && this.practiceStatus === 0) {
-          // TODO: 오늘이 인증이 필요한 날인지 확인
-          ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
+        // 물개를 위한 특단의 조치
+        if(this.image_url[0].includes('seal')){
+          if (this.practiceStatus === 1) {
+            if (direction > 0){
+              ctx.drawImage(this.bubbleW, -size/2, -size/4, size, size);
+            }
+            else{
+              ctx.drawImage(this.bubbleW, -size/2, -size/1.5, size, size);
+            }
+          } else if (isPracticeDay && this.practiceStatus === 0) {
+            if (direction > 0){
+              ctx.drawImage(this.bubbleR, -size/2, -size/4, size, size);
+            }
+            else{
+              ctx.drawImage(this.bubbleR, -size/2, -size/1.5, size, size);
+            }
+          }
         }
-      }
+      
+        else{
+          if (this.practiceStatus === 1) {
+            ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
+          } else if (isPracticeDay && this.practiceStatus === 0) {
+            // TODO: 오늘이 인증이 필요한 날인지 확인
+            ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
+          }
+        }
+      } 
 
       ctx.restore();
     }

@@ -43,6 +43,10 @@ class RoomClient {
     });
   };
 
+  getMonster = (monId) => {
+    return this.fieldState.monsters[monId];
+  };
+
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
     console.log("[socket] syncFieldState:", socketState);

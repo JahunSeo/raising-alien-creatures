@@ -78,10 +78,12 @@ export const authRequest = (socket, data) => {
 export const authApproval = (socket, data) => {
   const clientId = socket.id;
   console.log(
-    `[auth_approval] (clientId) ${clientId}, (msg) ${data.challengeId}`
+    `[auth_approval] (clientId) ${clientId}, (msg) ${data.challengeId} ${data.senderId} ${data.receiverId}`
   );
-  // 타겟 유저의 모든 socketId로 개인 메시지 전송
-  for (const socketId in users[data.receiverId].clients) {
-    socket.to(socketId).emit("auth_approval", data);
-  }
+  socket.to(data.challengeId).emit("auth_approval", data);
+
+  // // 타겟 유저의 모든 socketId로 개인 메시지 전송
+  // for (const socketId in users[data.receiverId].clients) {
+  //   socket.to(socketId).emit("auth_approval", data);
+  // }
 };

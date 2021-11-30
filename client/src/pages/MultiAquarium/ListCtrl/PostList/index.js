@@ -8,7 +8,12 @@ import { S3URL } from "../../../../shared/lib/Constants";
 import classNames from "classnames/bind";
 const cx = classNames.bind();
 
-const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
+const PostItem = React.memo(function PostItem({
+  alien,
+  type,
+  selectedAlien,
+  handleSelectAlien,
+}) {
   const dispatch = useDispatch();
   const { userId } = useSelector((state) => ({
     userId: state.user.user.id,
@@ -32,7 +37,10 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
 
   return (
     <>
-      <div className="PostItemBlock">
+      <div
+        className="PostItemBlock"
+        onClick={() => handleSelectAlien(alien.id)}
+      >
         <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
           <div
@@ -41,13 +49,6 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
               backgroundImage: `url("${
                 S3URL + alien.image_url.split("-")[0]
               }")`,
-            }}
-            onClick={() => {
-              if (selectedAlien === alien.id) {
-                dispatch(actions.selectAlien(null));
-              } else {
-                dispatch(actions.selectAlien(alien.id));
-              }
             }}
           />
           <div className="SubInfo">
@@ -96,8 +97,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   );
 });
 
-const PostList = React.memo(function PostList({ type }) {
-  console.log();
+function PostList({ type, handleSelectAlien }) {
   const { aliens_list, selectedAlien } = useSelector(({ room }) => ({
     aliens_list: room.aliens,
     selectedAlien: room.selectedAlien,
@@ -128,20 +128,32 @@ const PostList = React.memo(function PostList({ type }) {
     return a.accumulated_count - b.accumulated_count;
   };
 
-  const sortClick = (e) =>{
-    setSort(e.target.value)
-    setIsMenuOn(false)
-  }
+  const sortClick = (e) => {
+    setSort(e.target.value);
+    setIsMenuOn(false);
+  };
 
   return (
     <div className="PostListBlock">
-      <ToggleBtn isMenuOn={isMenuOn} setIsMenuOn={setIsMenuOn}/>
+      <ToggleBtn isMenuOn={isMenuOn} setIsMenuOn={setIsMenuOn} />
       {isMenuOn ? (
         <div className="dropContent">
-          <option value = "a" onClick={sortClick}> 추가된 날짜 (최신 순)</option>
-          <option value = "b" onClick={sortClick}> 추가된 날짜 (오래된 순)</option>
-          <option value = "c" onClick={sortClick}> 커밋 횟수(가장 많은 순)</option>
-          <option value = "d" onClick={sortClick}> 커밋 횟수(가장 낮은 순)</option>
+          <option value="a" onClick={sortClick}>
+            {" "}
+            추가된 날짜 (최신 순)
+          </option>
+          <option value="b" onClick={sortClick}>
+            {" "}
+            추가된 날짜 (오래된 순)
+          </option>
+          <option value="c" onClick={sortClick}>
+            {" "}
+            커밋 횟수(가장 많은 순)
+          </option>
+          <option value="d" onClick={sortClick}>
+            {" "}
+            커밋 횟수(가장 낮은 순)
+          </option>
         </div>
       ) : null}
       <ul>
@@ -174,12 +186,13 @@ const PostList = React.memo(function PostList({ type }) {
               type={type}
               userId={userId}
               selectedAlien={selectedAlien}
+              handleSelectAlien={handleSelectAlien}
             />
           ) : null
         )}
     </div>
   );
-});
+}
 
 export default PostList;
 

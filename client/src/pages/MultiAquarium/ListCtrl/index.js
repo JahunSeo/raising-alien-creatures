@@ -49,7 +49,10 @@ export default function ListCtrl(props) {
           C
         </div>
       )}
-      <SideBarModal modalType={CHAL_INFO_TYPE.ALIEN} />
+      <SideBarModal
+        modalType={CHAL_INFO_TYPE.ALIEN}
+        handleSelectAlien={props.handleSelectAlien}
+      />
       <ChatModal modalType={CHAL_INFO_TYPE.CHAT} />
     </div>
   );

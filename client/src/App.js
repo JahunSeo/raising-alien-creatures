@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -9,7 +9,6 @@ import NewChallenge from "./pages/NewChallenge";
 import NewAlien from "./pages/NewAlien";
 
 import MultiAquarium from "./pages/MultiAquarium";
-
 import PlazaRoom from "./pages/MultiAquarium/Room/PlazaRoom";
 import UserRoom from "./pages/MultiAquarium/Room/UserRoom";
 import ChallengeRoom from "./pages/MultiAquarium/Room/ChallengeRoom";
@@ -22,23 +21,19 @@ import PopUp from "./pages/PopUp";
 import styles from "./App.module.css";
 
 function App() {
-  const rooms = useRef();
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout rooms={rooms} />}>
+        <Route path="/" element={<Layout />}>
           <Route path="approval" element={<Approval />} />
           <Route path="challenge/new" element={<NewChallenge />} />
           <Route path="challenge/:challengeId/join" element={<NewAlien />} />
-          <Route path="/" element={<MultiAquarium rooms={rooms} />}>
-            <Route path="" element={<PlazaRoom rooms={rooms} />} />
-            <Route
-              path="user/:userId/room"
-              element={<UserRoom rooms={rooms} />}
-            />
+          <Route path="/" element={<MultiAquarium />}>
+            <Route path="" element={<PlazaRoom />} />
+            <Route path="user/:userId/room" element={<UserRoom />} />
             <Route
               path="challenge/:challengeId/room"
-              element={<ChallengeRoom rooms={rooms} />}
+              element={<ChallengeRoom />}
             />
           </Route>
         </Route>
@@ -47,8 +42,7 @@ function App() {
   );
 }
 
-function Layout(props) {
-  const { rooms } = props;
+function Layout() {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
@@ -65,7 +59,7 @@ function Layout(props) {
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
-      {user !== null && <SocketContainer rooms={rooms} />}
+      {user !== null && <SocketContainer />}
       <div className={styles.content}>{user !== null && <Outlet />}</div>
       {popupModal ? (
         <div className={styles.popup}>
