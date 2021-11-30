@@ -22,7 +22,7 @@ export default function PopUp({
         rel="stylesheet"
         href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-        crossorigin="anonymous"
+        crossOrigin="anonymous"
       />
       <div className="absolute bg-gray-500 w-full h-full flex justify-center opacity-50 z-10" />
       <div className="absolute md:w-1/3 rounded-lg shadow-lg bg-white my-3 z-10">
