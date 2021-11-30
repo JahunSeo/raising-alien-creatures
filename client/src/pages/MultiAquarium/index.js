@@ -13,7 +13,7 @@ import aquarium from "../../shared";
 export default function MultiAquarium(props) {
   // redux에서 현재 roomId 받아오기
   const dispatch = useDispatch();
-  const { roomId, selectedAlien } = useSelector(({ room }) => ({
+  const { selectedAlien } = useSelector(({ room }) => ({
     roomId: room.roomId,
     selectedAlien: room.selectedAlien,
   }));
@@ -30,7 +30,7 @@ export default function MultiAquarium(props) {
     });
   };
 
-  // console.log("[MultiAquarium]", roomId, aliens);
+  // console.log("[MultiAquarium]", aliens);
   // console.log("selectedAlien", selectedAlien);
 
   return (

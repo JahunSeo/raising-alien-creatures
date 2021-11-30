@@ -59,7 +59,7 @@ export function emitAuthApproval(info) {
 
 export function onAuthApproval(handler) {
   if (!socket) return;
-  console.log("[socket] AuthApproval");
+  console.log("[socket] onAuthApproval");
   socket.on("auth_approval", handler);
 }
 

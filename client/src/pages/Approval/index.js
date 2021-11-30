@@ -109,7 +109,7 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
         alienId: authRequest.alien_id,
         msg: `"${authRequest.challenge_name}" 챌린지에서 "${user.nickname}"님이 인증 요청을 승인했습니다.`,
       };
-      socket.emitAuthRequest(info);
+      socket.emitAuthApproval(info);
     }
   };
 

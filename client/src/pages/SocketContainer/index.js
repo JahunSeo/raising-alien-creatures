@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as socket from "../../apis/socket";
 import * as actions from "../../Redux/actions";
+import aquarium from "../../shared";
 import { toast } from "react-toastify";
 
 export default function SocketContainer(props) {
@@ -22,9 +23,16 @@ export default function SocketContainer(props) {
       // auth 관련
       socket.onAuthRequest((info) => toast(info.msg));
       socket.onAuthApproval((info) => {
-        // TODO: 본인의 생명체에 대한 알림인지 체크
-        toast(info.msg);
-        // TODO: 생명체의 상태 변경 info.alienId
+        console.log("onAuthApproval", info);
+        // 본인 생명체에 대한 정보인 경우 toast
+        if (info.receiverId === user.id) {
+          toast(info.msg);
+        }
+        // 생명체의 상태 변경 info.alienId
+        const alien = aquarium.getCurrentRoom().getMonster(info.alienId);
+        if (alien) alien.overwrite({ practiceStatus: 2 });
+        // redux
+        dispatch(actions.approveAuth(info.alienId));
       });
       dispatch(actions.toggleSocket(true));
     }
