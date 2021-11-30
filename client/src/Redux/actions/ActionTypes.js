@@ -12,9 +12,9 @@ export const JOIN_CHALLENGE = "JOIN_CHALLENGE";
 export const TOGGLE_SOCKET = "TOGGLE_SOCKET";
 
 export const CURRENT_ROOM = "CURRENT_ROOM";
-export const ALIEN_AUTH = "ALIEN_AUTH";
 export const SELECT_ALIEN = "SELECT_ALIEN";
 export const GRADUATE_ALIEN = "GRADUATE_ALIEN";
 export const REQUEST_AUTH = "REQUEST_AUTH";
+export const APPROVE_AUTH = "APPROVE_AUTH";
 
 export const MESSAGE_UPDATE = "MESSAGE_UPDATE";

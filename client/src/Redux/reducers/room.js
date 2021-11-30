@@ -45,6 +45,13 @@ const room = handleActions(
       ),
     }),
 
+    [types.APPROVE_AUTH]: (state, { payload: alienId }) => ({
+      ...state,
+      aliens: state.aliens.map((alien) =>
+        alien.id === alienId ? { ...alien, practice_status: 0 } : alien
+      ),
+    }),
+
     [types.MESSAGE_UPDATE]: (state, { payload: msgArray }) => ({
       ...state,
       messages: [...state.messages, ...msgArray],
