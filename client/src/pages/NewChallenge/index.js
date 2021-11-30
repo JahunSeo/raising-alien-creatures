@@ -49,6 +49,8 @@ export default function NewChallenge(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (challengeClicked) return;
+
     if (
       !validateChallenge(
         challengeTitle,
@@ -60,8 +62,9 @@ export default function NewChallenge(props) {
       )
     )
       return;
-    if (challengeClicked) return;
 
+    setChallengeMessage(null);
+    setChallengeClicked(true);
     // post the image direclty to the s3 bucket
     if (challengeImage) {
       const res = await api.get("/main/s3Url");
@@ -75,12 +78,8 @@ export default function NewChallenge(props) {
       });
       const imageUrl = url.split("?")[0];
 
-      setChallengeMessage(null);
-      setChallengeClicked(true);
       postChallenge(imageUrl);
     } else {
-      setChallengeMessage(null);
-      setChallengeClicked(true);
       postChallenge();
     }
   };
