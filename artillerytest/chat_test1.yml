@@ -6,12 +6,19 @@ config:
       maxVusers: 50
       name: 8 users in a challenge42
   payload:
-    path: "test_file1.csv"
+    path: "test_file2.csv"
     fields:
+      - "id"
       - "email"
       - "password"
       - "nickname"
-    # order: sequence
+      - "id1"
+      - "id2"
+      - "id3"
+      - "id4"
+      - "id5"
+      - "id6"
+      - "id7"
 scenarios:
   - name: "Test_case_2"
     engine: "socketio"
@@ -35,14 +42,23 @@ scenarios:
       - emit:
           channel: "join"
           data:
-            id: 1
-            "challenges": [id: 42, id: 1, id: 2, id: 3, id: 4]
+            id: "{{id}}"
+            "challenges":
+              [
+                id: "{{id1}}",
+                id: "{{id2}}",
+                id: "{{id3}}",
+                id: "{{id4}}",
+                id: "{{id5}}",
+                id: "{{id6}}",
+                id: "{{id7}}",
+              ]
       - log: "{{email}} Challenge room 입장"
       - loop:
           - emit:
               channel: "send_message"
               data:
-                challengeId: 42
+                challengeId: "{{id1}}"
                 "user_nickname": "{{nickname}}"
                 "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
                 "time": "11월 29일 Test"
@@ -54,7 +70,7 @@ scenarios:
           - emit:
               channel: "send_message"
               data:
-                challengeId: 1
+                challengeId: "{{id2}}"
                 "user_nickname": "{{nickname}}"
                 "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
                 "time": "11월 29일 Test"
@@ -66,7 +82,7 @@ scenarios:
           - emit:
               channel: "send_message"
               data:
-                challengeId: 2
+                challengeId: "{{id3}}"
                 "user_nickname": "{{nickname}}"
                 "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
                 "time": "11월 29일 Test"
@@ -77,7 +93,7 @@ scenarios:
           - emit:
               channel: "send_message"
               data:
-                challengeId: 3
+                challengeId: "{{id4}}"
                 "user_nickname": "{{nickname}}"
                 "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
                 "time": "11월 29일 Test"
@@ -88,7 +104,7 @@ scenarios:
           - emit:
               channel: "send_message"
               data:
-                challengeId: 4
+                challengeId: "{{id5}}"
                 "user_nickname": "{{nickname}}"
                 "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
                 "time": "11월 29일 Test"
@@ -96,4 +112,26 @@ scenarios:
                 match:
                   json: "response"
           - think: 0.2
-        count: 200
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id6}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: "{{id7}}"
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다. {{$loopCount}}"
+                "time": "11월 29일 Test"
+              acknowledge:
+                match:
+                  json: "response"
+          - think: 0.2
+        count: 50
