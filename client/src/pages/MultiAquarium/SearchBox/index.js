@@ -8,6 +8,7 @@ import * as actions from "../../../Redux/actions";
 
 import searchIcon from "../../../image/search-icon.png";
 import backIcon from "../../../image/goback-icon.png";
+import mooke from "../../../image/무케.jpg";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -149,7 +150,8 @@ const ChallengeItem = ({ challenge }) => {
       <img
         className={styles.challengeImg}
         alt="yammy"
-        src={challenge.img_url}
+        src={challenge.img_url ? challenge.img_url : mooke}
+        // src={mooke}
       />
       <div className={styles.participant}>
         참여인원: {challenge.participant_number}/{challenge.maximum_number}명{" "}
