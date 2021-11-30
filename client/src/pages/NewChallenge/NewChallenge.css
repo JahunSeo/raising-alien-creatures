@@ -1,5 +1,6 @@
 .Attachments {
-  @apply flex
+  @apply relative
+  flex
   flex-col
   min-h-0
   min-w-max

@@ -1,3 +1,9 @@
 .LazyLoadImage {
   @apply mt-6 ml-auto mr-auto;
 }
+
+.ToggleBtn {
+  /* display: inline; */
+  position: relative;
+  display: flex;
+}

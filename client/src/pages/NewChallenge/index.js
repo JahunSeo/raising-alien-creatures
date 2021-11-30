@@ -237,27 +237,17 @@ export default function NewChallenge(props) {
             </select>
           </div>
 
-          {/* <div>
-            <input
-              className="p-4"
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImage}
-            ></input>
-          </div> */}
-
           <div className="flex flex-col min-h-0 min-w-max p-3">
             <label className="text-lg font-bold mb-2">챌린지 이미지</label>
             <div className="Attachments">
-              <i className="fa fa-folder-open fa-3x text-blue-700" />
-              <span className="block  text-gray-400 font-normal">
-                <br />
-                챌린지를 간단하게 표현하는 이미지를 첨부해주세요.
-              </span>
+              <div className="flex flex-col absolute min-h-0 min-w-max items-center">
+                <span className="block text-gray-400 font-normal">
+                  챌린지를 간단하게 표현하는 이미지를 첨부해주세요.
+                </span>
+              </div>
               <input
                 type="file"
-                className="flex flex-col opacity-0"
+                className="h-full w-full m-auto opacity-0"
                 accept="image/*"
                 onChange={handleImage}
               />
