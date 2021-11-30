@@ -8,17 +8,18 @@ import MultiField from "./MultiField";
 import styles from "./index.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../Redux/actions/index.js";
+import aquarium from "../../shared";
 
 export default function MultiAquarium(props) {
-  const { rooms } = props;
   // redux에서 현재 roomId 받아오기
   const dispatch = useDispatch();
   const { roomId, selectedAlien } = useSelector(({ room }) => ({
     roomId: room.roomId,
     selectedAlien: room.selectedAlien,
   }));
+
   const handleSelectAlien = (alien) => {
-    const room = rooms.current && rooms.current[roomId];
+    const room = aquarium.setCurrentRoom(roomId);
     if (!room) return;
     dispatch(actions.selectAlien(alien.monId));
     room.camera.setChasingTarget(alien, () => {
@@ -28,6 +29,7 @@ export default function MultiAquarium(props) {
 
   // console.log("[MultiAquarium]", roomId, aliens);
   // console.log("selectedAlien", selectedAlien);
+
   return (
     <div className={styles.body}>
       <Outlet />
@@ -35,7 +37,10 @@ export default function MultiAquarium(props) {
         <AlienCtrl />
       </section>
       <section className={styles.SecListCtrl}>
-        <ListCtrl />
+        <ListCtrl
+          selectedAlien={selectedAlien}
+          handleSelectAlien={handleSelectAlien}
+        />
       </section>
       <section className={styles.SecFieldCtrl}>
         <FieldCtrl />

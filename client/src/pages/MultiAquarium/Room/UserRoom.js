@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis";
+import aquarium from "../../../shared";
 
 export default function UserRoom(props) {
   const dispatch = useDispatch();
@@ -11,9 +11,7 @@ export default function UserRoom(props) {
   let params = useParams();
   const userId = params.userId;
   const roomId = `user-${userId}`;
-  const { rooms } = props;
-  if (!rooms.current) rooms.current = {};
-  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
+  const room = aquarium.setCurrentRoom(roomId);
 
   useEffect(() => {
     try {
@@ -37,8 +35,8 @@ export default function UserRoom(props) {
             ];
             alien.showBubble = true;
           });
-          rooms.current[roomId].initMonsters(aliens);
-          rooms.current[roomId].start();
+          room.initMonsters(aliens);
+          room.start();
           // update redux room info
           dispatch(actions.setRoom({ roomId, aliens, roomTitle }));
         } else {
@@ -49,10 +47,10 @@ export default function UserRoom(props) {
       console.error("fetchData fail", err);
     }
     return () => {
-      rooms.current[roomId].close();
+      room.close();
     };
     // }, []);
-  }, [rooms, roomId, userId, dispatch]);
+  }, [room, roomId, userId, dispatch]);
 
   return <div></div>;
 }

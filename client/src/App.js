@@ -31,13 +31,10 @@ function App() {
           <Route path="challenge/:challengeId/join" element={<NewAlien />} />
           <Route path="/" element={<MultiAquarium />}>
             <Route path="" element={<PlazaRoom />} />
+            <Route path="user/:userId/room" element={<UserRoom />} />
             {/* <Route
-              path="user/:userId/room"
-              element={<UserRoom rooms={rooms} />}
-            />
-            <Route
               path="challenge/:challengeId/room"
-              element={<ChallengeRoom rooms={rooms} />}
+              element={<ChallengeRoom />}
             /> */}
           </Route>
         </Route>
