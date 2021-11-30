@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import ReactSlider from "react-slider";
 import api from "../../apis/index.js";
 import "./index.module.css";
-// import Background from "../../image/createChallenge.jpeg";
+import "./NewChallenge.css";
 import * as actions from "../../Redux/actions";
 
 export default function NewChallenge(props) {
@@ -21,6 +21,7 @@ export default function NewChallenge(props) {
   const [challengeCategory, setChallengeCategory] = useState(SELECT_DEFAULT);
   const [challengeMessage, setChallengeMessage] = useState(null);
   const [challengeImage, setChallengeImage] = useState(null);
+  const [challengeClicked, setChallengeClicked] = useState(false);
 
   function handleImage(e) {
     setChallengeImage(e.target.files);
@@ -59,6 +60,7 @@ export default function NewChallenge(props) {
       )
     )
       return;
+    if (challengeClicked) return;
 
     // post the image direclty to the s3 bucket
     if (challengeImage) {
@@ -74,9 +76,11 @@ export default function NewChallenge(props) {
       const imageUrl = url.split("?")[0];
 
       setChallengeMessage(null);
+      setChallengeClicked(true);
       postChallenge(imageUrl);
     } else {
       setChallengeMessage(null);
+      setChallengeClicked(true);
       postChallenge();
     }
   };
@@ -124,8 +128,9 @@ export default function NewChallenge(props) {
 
     if (res.data.result === "success") {
       console.log("challengeData", challengeData);
-      console.log(res.data.data);
+      console.log("res", res.data.data);
       const challengeId = res.data.data.challenge_id;
+      setChallengeClicked(false);
       // 고민: 방장이 챌린지 생성 후 생명체를 만들지 않고 나가버리면 추후에 어떻게 챌린지방을 찾을 수 있는가?
       // alert("챌린지 생성에 성공하였습니다.");
       dispatch(
@@ -142,18 +147,21 @@ export default function NewChallenge(props) {
     } else {
       console.log("challengeData", challengeData);
       setChallengeMessage("입력하지 않은 챌린지 정보가 있습니다.");
+      setChallengeClicked(false);
       return;
     }
   };
 
+  // console.log("challengeClicked", challengeClicked);
+
   return (
     <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
-      <div className="min-w-max h-2/3 md:min-h-2/3 w-1/2 rounded-xl bg-gray-100 rounded shadow-2xl overflow-y-auto p-4  md:p-8">
+      <div className="min-w-max h-2/3 md:min-h-2/3 w-1/2 rounded-xl bg-gray-100 shadow-2xl overflow-y-auto p-4  md:p-8">
         <h1 className="block w-full text-center md:text-2xl text-lg font-bold mb-6">
           새로운 챌린지 생성
         </h1>
         <div className="text-sm md:text-lg ">
-          <div className="flex flex-col px-4">
+          <div className="flex flex-col p-3">
             <label className="mb-2 font-bold">챌린지 이름</label>
             <input
               className="border rounded-xl py-2 px-3"
@@ -165,7 +173,7 @@ export default function NewChallenge(props) {
             />
           </div>
 
-          <div className="flex flex-col min-w-max relative py-2 px-3">
+          <div className="flex flex-col min-w-max relative p-3">
             <label className="mb-1 font-bold">챌린지 카테고리</label>
             <select
               className="text-sm md:text-lg border rounded-xl pl-5 bg-white hover:border-gray-400 focus:outline-none appearance-none"
@@ -183,7 +191,7 @@ export default function NewChallenge(props) {
             </select>
           </div>
 
-          <div className="flex flex-col px-3">
+          <div className="flex flex-col p-3">
             <label className="mb-1 font-bold ">챌린지 설명</label>
             <textarea
               className="border rounded-xl py-2 "
@@ -193,7 +201,7 @@ export default function NewChallenge(props) {
             ></textarea>
           </div>
 
-          <div className="flex flex-col px-3 py-2">
+          <div className="flex flex-col p-3">
             <label className=" font-bold ">최대 참여 인원</label>
             <ReactSlider
               step={5}
@@ -209,7 +217,7 @@ export default function NewChallenge(props) {
           </div>
 
           <div className="flex flex-col p-3">
-            <label className="mb-2 rounded-xl font-bold ">
+            <label className="mb-2 rounded-xl font-bold">
               챌린지 참여 빈도
             </label>
             <select
@@ -228,14 +236,21 @@ export default function NewChallenge(props) {
             </select>
           </div>
 
-          <div>
-            <input
-              className="p-4"
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImage}
-            ></input>
+          <div className="flex flex-col min-h-0 min-w-max p-3">
+            <label className="text-lg font-bold mb-2">챌린지 이미지</label>
+            <div className="Attachments">
+              <div className="flex flex-col absolute min-h-0 min-w-max items-center">
+                <span className="block text-gray-400 font-normal">
+                  챌린지를 간단하게 표현하는 이미지를 첨부해주세요.
+                </span>
+              </div>
+              <input
+                type="file"
+                className="h-full w-full m-auto opacity-0"
+                accept="image/*"
+                onChange={handleImage}
+              />
+            </div>
           </div>
 
           <div className="flex-col min-w-max justify-center items-center px-3">

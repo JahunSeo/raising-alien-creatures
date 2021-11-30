@@ -1,0 +1,12 @@
+.Attachments {
+  @apply relative
+  flex
+  flex-col
+  min-h-0
+  min-w-max
+  justify-center
+  items-center
+  rounded-lg
+  border-dashed border-2 border-blue-700
+  bg-gray-200;
+}
