@@ -78,6 +78,9 @@ export default function SearchBox(props) {
     }
   }, []);
 
+  console.log(user.challenges)
+  console.log(challengeList)
+
   return (
     <div className={cx("SearchBox", { longer })}>
       {longer && (
