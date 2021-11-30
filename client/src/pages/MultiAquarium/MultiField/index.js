@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Canvas from "./Canvas";
 
+import aquarium from "../../../shared";
+
 // import * as socket from "../../../apis/socket";
 
 export default class Field extends Component {
@@ -28,11 +30,10 @@ export default class Field extends Component {
     ctx.save();
     ctx.clearRect(0, 0, cvsWidth, cvsHeight);
 
-    if (this.props.room && this.props.room.fieldState) {
-      const room = this.props.room;
+    const room = aquarium.getCurrentRoom();
+    if (room && room.fieldState) {
       const { monsters } = room.fieldState;
-      // console.log(111, this.props.room.usersOnRoom);
-
+      // console.log(111, room.usersOnRoom);
       // draw background
       let lingrad = ctx.createLinearGradient(0, 0, 0, cvsHeight);
       let colorset = this.BG_COLORSET["space"];
@@ -87,7 +88,7 @@ export default class Field extends Component {
         ) {
           // console.log(monId);
           selectedMonster = monId;
-          this.props.handleSelectAlien(monsters[monId]);
+          this.props.handleSelectAlien(monId);
         }
 
         monsters[monId].display(ctx, frameCnt, room);
@@ -104,19 +105,19 @@ export default class Field extends Component {
   };
 
   render() {
-    if (this.props.room) {
-      const camera = this.props.room.camera;
+    const room = aquarium.getCurrentRoom();
+    if (!!room) {
       return (
         <Canvas
           draw={this.draw}
-          onMouseDown={camera.onMouseDown}
-          onMouseMove={camera.onMouseMove}
-          onMouseUp={camera.onMouseUp}
-          onTouchStart={camera.onTouchStart}
-          onTouchMove={camera.onTouchMove}
-          onTouchEnd={camera.onTouchEnd}
-          onWheel={camera.onWheel}
-          onResize={camera.onResize}
+          onMouseDown={room.camera.onMouseDown}
+          onMouseMove={room.camera.onMouseMove}
+          onMouseUp={room.camera.onMouseUp}
+          onTouchStart={room.camera.onTouchStart}
+          onTouchMove={room.camera.onTouchMove}
+          onTouchEnd={room.camera.onTouchEnd}
+          onWheel={room.camera.onWheel}
+          onResize={room.camera.onResize}
         />
       );
     } else {
