@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import api from "../../../apis/index";
 import * as socket from "../../../apis/socket";
 import * as actions from "../../../Redux/actions/index.js";
+import aquarium from "../../../shared";
 
 export default function AuthRequestModal(props) {
   const [authImage, setAuthImage] = useState(null);
@@ -70,10 +71,9 @@ export default function AuthRequestModal(props) {
       image_url: imageUrl,
     };
 
-    // post requst to my server to store any extra data
     res = await api.post("/challenge/auth", resp);
     if (res.data.result === "success") {
-      dispatch(actions.requestAuth(alien.id));
+      // socket
       let info = {
         userId: alien.user_info_id,
         challengeId: alien.challenge_id,
@@ -81,6 +81,13 @@ export default function AuthRequestModal(props) {
         msg: `"${alien.challenge_name}" 챌린지에서 "${alien.user_nickname}"님이 승인을 요청했습니다.`,
       };
       socket.emitAuthRequest(info);
+      // canvas
+      aquarium
+        .getCurrentRoom()
+        .getMonster(alien.id)
+        .overwrite({ practiceStatus: 1 });
+      // redux
+      dispatch(actions.requestAuth(alien.id));
     } else {
       // TODO: 실패 처리
     }
