@@ -32,10 +32,10 @@ function App() {
           <Route path="/" element={<MultiAquarium />}>
             <Route path="" element={<PlazaRoom />} />
             <Route path="user/:userId/room" element={<UserRoom />} />
-            {/* <Route
+            <Route
               path="challenge/:challengeId/room"
               element={<ChallengeRoom />}
-            /> */}
+            />
           </Route>
         </Route>
       </Routes>
