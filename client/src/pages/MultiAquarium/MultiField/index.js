@@ -88,7 +88,7 @@ export default class Field extends Component {
         ) {
           // console.log(monId);
           selectedMonster = monId;
-          this.props.handleSelectAlien(monsters[monId]);
+          this.props.handleSelectAlien(monId);
         }
 
         monsters[monId].display(ctx, frameCnt, room);

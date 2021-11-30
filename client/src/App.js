@@ -9,7 +9,6 @@ import NewChallenge from "./pages/NewChallenge";
 import NewAlien from "./pages/NewAlien";
 
 import MultiAquarium from "./pages/MultiAquarium";
-
 import PlazaRoom from "./pages/MultiAquarium/Room/PlazaRoom";
 import UserRoom from "./pages/MultiAquarium/Room/UserRoom";
 import ChallengeRoom from "./pages/MultiAquarium/Room/ChallengeRoom";
