@@ -32,17 +32,16 @@ export default function MultiAquarium(props) {
     <div className={styles.body}>
       <Outlet />
       <section className={styles.SecAlienCtrl}>
-        <AlienCtrl room={rooms.current && rooms.current[roomId]} />
+        <AlienCtrl />
       </section>
       <section className={styles.SecListCtrl}>
-        <ListCtrl room={rooms.current && rooms.current[roomId]} />
+        <ListCtrl />
       </section>
       <section className={styles.SecFieldCtrl}>
-        <FieldCtrl room={rooms.current && rooms.current[roomId]} />
+        <FieldCtrl />
       </section>
       <section className={styles.SecField}>
         <MultiField
-          room={rooms.current && rooms.current[roomId]}
           selectedAlien={selectedAlien}
           handleSelectAlien={handleSelectAlien}
         />
