@@ -19,7 +19,7 @@ export default function MultiAquarium(props) {
   }));
 
   const handleSelectAlien = (monId) => {
-    const room = aquarium.setCurrentRoom(roomId);
+    const room = aquarium.getCurrentRoom();
     if (!room) return;
 
     monId = Number(monId);
