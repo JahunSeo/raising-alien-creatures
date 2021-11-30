@@ -25,6 +25,18 @@ export default function UserRoom(props) {
           const aliens = res.data.aliens;
           const user = res.data.user;
           const roomTitle = `${user.nickname}의 어항`;
+          aliens.forEach((alien) => {
+            alien.practiceDays = [
+              alien.sun,
+              alien.mon,
+              alien.tue,
+              alien.wed,
+              alien.thu,
+              alien.fri,
+              alien.sat,
+            ];
+            alien.showBubble = true;
+          });
           rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // update redux room info

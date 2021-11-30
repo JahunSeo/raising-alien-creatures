@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout rooms={rooms} />}>
           <Route path="approval" element={<Approval />} />
           <Route path="challenge/new" element={<NewChallenge />} />
           <Route path="challenge/:challengeId/join" element={<NewAlien />} />
@@ -47,7 +47,8 @@ function App() {
   );
 }
 
-function Layout() {
+function Layout(props) {
+  const { rooms } = props;
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
@@ -64,7 +65,7 @@ function Layout() {
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
-      {user !== null && <SocketContainer />}
+      {user !== null && <SocketContainer rooms={rooms} />}
       <div className={styles.content}>{user !== null && <Outlet />}</div>
       {popupModal ? (
         <div className={styles.popup}>

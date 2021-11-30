@@ -20,8 +20,12 @@ export default function SocketContainer(props) {
       // initiate socket
       socket.init(user);
       // auth 관련
-      socket.onAuthRequest((authinfo) => toast(authinfo.msg));
-      socket.onAuthApproval((apprinfo) => toast(apprinfo.msg));
+      socket.onAuthRequest((info) => toast(info.msg));
+      socket.onAuthApproval((info) => {
+        // TODO: 본인의 생명체에 대한 알림인지 체크
+        toast(info.msg);
+        // TODO: 생명체의 상태 변경 info.alienId
+      });
       dispatch(actions.toggleSocket(true));
     }
 
