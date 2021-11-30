@@ -5,7 +5,7 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   padding: 0.1rem;
   border-radius: 12px;
-  overflow: auto;
+  overflow:auto;
   border: 0.05rem solid #fff;
   font-family: inherit;
   font-weight: bold;
@@ -121,7 +121,8 @@ ul span {
   background-size: 45em;
   width: 7em;
   height: 7em;
-  background-position: 0px;
+  /* background-position: 0px; */
+  background-position: 0px 126px;
 }
 .Content .images:hover {
   transition: all 0.3s;

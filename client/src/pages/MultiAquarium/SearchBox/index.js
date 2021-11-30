@@ -14,7 +14,7 @@ import styles from "./index.module.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-export default function SearchBox(props) {
+export default function SearchBox() {
   const [longer, setLonger] = useState(false);
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -79,6 +79,11 @@ export default function SearchBox(props) {
     }
   }, []);
 
+  const currentChallenges = [];
+  for (let i = 0; i < user.challenges.length; i++){
+    currentChallenges.push(user.challenges[i].id)
+  }
+
   return (
     <div className={cx("SearchBox", { longer })}>
       {longer && (
@@ -135,6 +140,7 @@ export default function SearchBox(props) {
             <ChallengeItem
               key={challenge.id}
               challenge={challenge}
+              participating = {currentChallenges.includes(challenge.id)}
             ></ChallengeItem>
           ))}
         </div>
@@ -143,10 +149,11 @@ export default function SearchBox(props) {
   );
 }
 
-const ChallengeItem = ({ challenge }) => {
+const ChallengeItem = (props) => {
+  const {challenge, participating} = props;
   return (
     <div className={cx("challengeItem")}>
-      <div className={styles.challengeName}>{challenge.challenge_name}</div>
+      <div className={styles.challengeName}>{challenge.challenge_name} {participating && '(참가중)'}</div>
       <img
         className={styles.challengeImg}
         alt="yammy"
