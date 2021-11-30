@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as socket from "../../apis/socket";
 import * as actions from "../../Redux/actions";
+import { toast } from "react-toastify";
 
 export default function SocketContainer(props) {
   const { user } = useSelector(({ user }) => ({
@@ -16,7 +17,15 @@ export default function SocketContainer(props) {
     // 1단계: 로그인 상태면 새로 연결
     if (user.login) {
       console.log("[socket container] step1. login");
+      // initiate socket
       socket.init(user);
+      // auth 관련
+      socket.onAuthRequest((info) => toast(info.msg));
+      socket.onAuthApproval((info) => {
+        // TODO: 본인의 생명체에 대한 알림인지 체크
+        toast(info.msg);
+        // TODO: 생명체의 상태 변경 info.alienId
+      });
       dispatch(actions.toggleSocket(true));
     }
 

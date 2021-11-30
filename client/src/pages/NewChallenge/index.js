@@ -60,10 +60,10 @@ export default function NewChallenge(props) {
     )
       return;
 
-    const res = await api.get("/main/s3Url");
-    const { url } = res.data;
     // post the image direclty to the s3 bucket
     if (challengeImage) {
+      const res = await api.get("/main/s3Url");
+      const { url } = res.data;
       await fetch(url, {
         method: "PUT",
         headers: {
@@ -71,12 +71,16 @@ export default function NewChallenge(props) {
         },
         body: challengeImage[0],
       });
-    }
-    const imageUrl = url.split("?")[0];
+      const imageUrl = url.split("?")[0];
 
-    setChallengeMessage(null);
-    postChallenge(imageUrl);
+      setChallengeMessage(null);
+      postChallenge(imageUrl);
+    } else {
+      setChallengeMessage(null);
+      postChallenge();
+    }
   };
+
   const navigate = useNavigate();
   const handleCancel = () => {
     navigate("/");

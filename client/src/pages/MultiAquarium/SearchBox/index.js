@@ -155,22 +155,20 @@ const ChallengeItem = ({ challenge }) => {
         src={challenge.img_url}
       />
       <div className={styles.participant}>
-        참여인원: {challenge.participant_number}/{challenge.maximum_number}명 <br/>
-        주 인증횟수: {challenge.times_per_week}번
+        참여인원: {challenge.participant_number}/{challenge.maximum_number}명{" "}
+        <br />주 인증횟수: {challenge.times_per_week}번
       </div>
-      <div >
-        생성일: {challenge.created_date.split("T")[0]} <br/>
-       생성원: {challenge.created_by}
+      <div>
+        생성일: {challenge.created_date.split("T")[0]} <br />
+        생성원: {challenge.user_nickname}
       </div>
       <div className={styles.Details}>
-        <div>
-          {challenge.description}
-        </div>
+        <div>{challenge.description}</div>
       </div>
-      <div className = {styles.challengeButton}>
-      <Link to={`/challenge/${challenge.id}/room`}>
-        <button className={styles.challengeButton}>챌린지 방 가기</button>
-      </Link>
+      <div className={styles.challengeButton}>
+        <Link to={`/challenge/${challenge.id}/room`}>
+          <button className={styles.challengeButton}>챌린지 방 가기</button>
+        </Link>
       </div>
     </div>
   );

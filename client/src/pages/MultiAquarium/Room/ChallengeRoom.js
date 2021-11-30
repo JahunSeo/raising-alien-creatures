@@ -43,6 +43,18 @@ export default function ChallengeRoom(props) {
           const aliens = res.data.aliens;
           const challenge = res.data.challenge;
           const roomTitle = `${challenge.challenge_name}`;
+          aliens.forEach((alien) => {
+            alien.practiceDays = [
+              alien.sun,
+              alien.mon,
+              alien.tue,
+              alien.wed,
+              alien.thu,
+              alien.fri,
+              alien.sat,
+            ];
+            alien.showBubble = true;
+          });
           rooms.current[roomId].initMonsters(aliens);
           rooms.current[roomId].start();
           // update redux room info
