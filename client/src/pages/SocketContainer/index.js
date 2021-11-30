@@ -30,7 +30,7 @@ export default function SocketContainer(props) {
         }
         // 생명체의 상태 변경 info.alienId
         const alien = aquarium.getCurrentRoom().getMonster(info.alienId);
-        if (alien) alien.overwrite({ practiceStatus: 0 });
+        if (alien) alien.overwrite({ practiceStatus: 2 });
         // redux
         dispatch(actions.approveAuth(info.alienId));
       });
