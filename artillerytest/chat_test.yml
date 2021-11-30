@@ -1,0 +1,50 @@
+config:
+  target: "http://localhost:5001"
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      maxVusers: 8
+      name: Ramp up load
+  payload:
+    path: "test_file1.csv"
+    fields:
+      - "email"
+      - "password"
+      - "nickname"
+
+scenarios:
+  - name: "Test_case_2"
+    engine: "socketio"
+    flow:
+      - log: "{{email}} socket connection 시도"
+      - think: 1
+      - log: "{{email}}  login 시도"
+      - post:
+          url: "http://localhost:5000/api/user/login"
+          json:
+            email: "{{email}}"
+            pwd: "{{password}}"
+      - get:
+          url: "http://localhost:5000/api/user/challenges/ids"
+      - log: "{{email}} Challenge-42 페이지 접근"
+      - get:
+          url: "http://localhost:5000/api/challenge/42"
+      - get:
+          url: "http://localhost:5000/api/chat/42"
+      - log: "test"
+      - emit:
+          channel: "join"
+          data:
+            id: 1
+            "challenges": [id: 42]
+      - log: "Challenge room 입장"
+      - loop:
+          - emit:
+              channel: "send_message"
+              data:
+                challengeId: 42
+                "user_nickname": "{{nickname}}"
+                "message": "소켓 채팅테스트 중입니다."
+                "time": "11월 29일 Test"
+
+          - think: 1

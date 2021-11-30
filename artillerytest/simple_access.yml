@@ -1,0 +1,32 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: Ramp up load
+  payload:
+    path: "test_file.csv"
+    fields:
+      - "email"
+      - "password"
+
+scenarios:
+  - name: "Test_case_1"
+  - flow:
+      - log: "{{email}}  login 시도"
+      - post:
+          url: "/api/user/login"
+          json:
+            email: "{{email}}"
+            pwd: "{{password}}"
+      - think: 1
+      - get:
+          url: "/api/user/challenges/ids"
+      - log: "{{email}} Challenge-42 페이지 접근"
+      - get:
+          url: "/api/challenge/42"
+      - get:
+          url: "/api/chat/42"
+      - get:
+          url: "/api/user/approval/list" #승인페이지 접근 /
+
