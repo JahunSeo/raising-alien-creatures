@@ -1,6 +1,6 @@
 import Camera from "./Camera";
 import Wanderer from "../creature/Wanderer";
-import { FRAME_PER_SEC, DAY_TEXT } from "../lib/Constants";
+import { FRAME_PER_SEC } from "../lib/Constants";
 
 class RoomClient {
   constructor(roomId) {
