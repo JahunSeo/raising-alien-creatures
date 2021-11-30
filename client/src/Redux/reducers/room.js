@@ -48,7 +48,7 @@ const room = handleActions(
     [types.APPROVE_AUTH]: (state, { payload: alienId }) => ({
       ...state,
       aliens: state.aliens.map((alien) =>
-        alien.id === alienId ? { ...alien, practice_status: 0 } : alien
+        alien.id === alienId ? { ...alien, practice_status: 2 } : alien
       ),
     }),
 

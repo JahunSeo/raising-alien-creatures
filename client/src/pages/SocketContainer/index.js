@@ -23,6 +23,7 @@ export default function SocketContainer(props) {
       // auth 관련
       socket.onAuthRequest((info) => toast(info.msg));
       socket.onAuthApproval((info) => {
+        console.log("onAuthApproval", info);
         // 본인 생명체에 대한 정보인 경우 toast
         if (info.receiverId === user.id) {
           toast(info.msg);
