@@ -23,6 +23,8 @@ export default function AuthRequestModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (authRequestClicked) return;
+
     /* 예외 처리 Handling 1. */
     let day = {
       1: "mon",
@@ -40,7 +42,6 @@ export default function AuthRequestModal(props) {
     let today = day[date.getDay()];
     if (alien[today] === 0) {
       console.log("인증 가능 요일이 아닙니다.");
-      setAuthRequestClicked(false);
       return;
     } else {
     }
@@ -50,7 +51,6 @@ export default function AuthRequestModal(props) {
       /* 해당 날짜에 이미 요청된 Alien 인 경우 -> front에서 Error 문구 처리 부탁드립니다. */
       console.log("이미 인증요청 완료된 건 입니다.");
       // alert("이미 인증 요청이 완료되었습니다.")
-      setAuthRequestClicked(false);
       return;
     }
 
@@ -76,11 +76,9 @@ export default function AuthRequestModal(props) {
       image_url: imageUrl,
     };
 
+    setAuthRequestClicked(true);
     res = await api.post("/challenge/auth", resp);
     console.log("res", res);
-
-    if (authRequestClicked) return;
-    setAuthRequestClicked(true);
 
     if (res.data.result === "success") {
       setAuthImage(null);

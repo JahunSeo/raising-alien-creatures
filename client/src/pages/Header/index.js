@@ -15,7 +15,6 @@ export default function Header(props) {
   // redux에서 user정보 받아오기
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // const roomId = useSelector(({room}) =>({ roomId : room.roomId.roomId }))
-  const [signOutClicked, setSignOutClicked] = useState(false);
 
   const dispatch = useDispatch();
   const { showSignUpModal, showSignInModal } = useSelector(
@@ -36,10 +35,7 @@ export default function Header(props) {
 
   const navigate = useNavigate();
   const handleLogout = async () => {
-    if (signOutClicked) return;
-
     await api.get("/user/logout");
-    setSignOutClicked(true);
     dispatch(actions.logout());
     navigate("/");
   };
@@ -70,11 +66,8 @@ export default function Header(props) {
 
   // login 여부 확인 완료된 시점에 접근하도록 구분
   if (user === null) {
-    // setSignOutClicked(false);
     return <div></div>;
   }
-
-  // console.log("signOutClicked", signOutClicked);
 
   return (
     <div className={styles.body}>

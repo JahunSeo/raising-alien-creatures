@@ -22,6 +22,7 @@ const SignInModal = () => {
     console.log("res", res);
     if (res.data.result !== "success") {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
+      setSignInClicked(false);
       return;
     }
     let user = res.data;
@@ -68,8 +69,8 @@ const SignInModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateSignIn(userEmail, userPassword)) return;
     if (signInClicked) return;
+    if (!validateSignIn(userEmail, userPassword)) return;
     setSignInMessage(null);
     setSignInClicked(true);
     postSignIn();
