@@ -1,8 +1,8 @@
-import "./seal.css";
+import "./puffish.css";
 
-const Seal = ({ S3URL, alienCategory }) => {
+const Puffish = ({ S3URL, alienCategory }) => {
   return (
-    <figure id="seal">
+    <figure id="puffish">
       <div
         style={{
           backgroundImage: `url("${S3URL}Alien_base/${alienCategory.type}_0.png")`,
@@ -18,13 +18,8 @@ const Seal = ({ S3URL, alienCategory }) => {
           backgroundImage: `url("${S3URL}Alien_base/${alienCategory.type}_2.png")`,
         }}
       />
-      <div
-        style={{
-          backgroundImage: `url("${S3URL}Alien_base/${alienCategory.type}_3.png")`,
-        }}
-      />
     </figure>
   );
 };
 
-export default Seal;
+export default Puffish;

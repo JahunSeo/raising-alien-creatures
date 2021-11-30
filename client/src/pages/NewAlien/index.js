@@ -18,8 +18,8 @@ export default function NewAlien(props) {
   const [alienNumber, setAlienNumber] = useState(0);
   const [alienCategory, setAlienCategory] = useState({
     type: "fish",
-    angle: 45,
-    divider: 8,
+    angle: 60,
+    divider: 6,
   });
   // 인증 요일
   const [checkDay, setCheckDay] = useState([]);
@@ -100,9 +100,11 @@ export default function NewAlien(props) {
   const handleTap = (e) => {
     setAlienNumber(0);
     if (e === "fish") {
-      setAlienCategory({ type: "fish", angle: 45, divider: 8 });
+      setAlienCategory({ type: "fish", angle: 60, divider: 6 });
     } else if (e === "seal") {
-      setAlienCategory({ type: "seal", angle: 60, divider: 6 });
+      setAlienCategory({ type: "seal", angle: 90, divider: 4 });
+    } else if (e === "puffish") {
+      setAlienCategory({ type: "puffish", angle: 120, divider: 3 });
     } else return;
   };
 
@@ -201,6 +203,18 @@ export default function NewAlien(props) {
                 onClick={() => handleTap("seal")}
               >
                 물개
+              </button>
+            </li>
+            <li className="mr-1 inline-block">
+              <button
+                className={
+                  alienCategory.type === "puffish"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                }
+                onClick={() => handleTap("puffish")}
+              >
+                복어
               </button>
             </li>
           </ul>

@@ -4,96 +4,20 @@
   transform-origin: 50% 50% -400px;
   transition: 1s;
 }
+/* #seal div:nth-child(1) { */
+#fish div {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  background-size: 80vw;
+  animation: animate1 800ms steps(4) infinite;
+}
 
-#fish div:nth-child(1) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(2) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(3) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(4) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(5) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(6) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(7) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-#fish div:nth-child(8) {
-  width: calc(80vw / 4);
-  height: calc(40vw / 3);
-  max-width: 500px;
-  position: absolute;
-  left: 30%;
-  transform-origin: 50% 50% -400px;
-  outline: 1px solid transparent;
-  background-size: 80vw;
-  animation: animate 800ms steps(4) infinite;
-}
-@keyframes animate {
+@keyframes animate1 {
   from {
     background-position: 0;
   }
@@ -106,23 +30,17 @@
   transform: rotateY(0deg);
 }
 #fish div:nth-child(2) {
-  transform: rotateY(-45deg);
+  transform: rotateY(-60deg);
 }
 #fish div:nth-child(3) {
-  transform: rotateY(-90deg);
+  transform: rotateY(-120deg);
 }
 #fish div:nth-child(4) {
-  transform: rotateY(-135deg);
-}
-#fish div:nth-child(5) {
   transform: rotateY(-180deg);
 }
+#fish div:nth-child(5) {
+  transform: rotateY(-240deg);
+}
 #fish div:nth-child(6) {
-  transform: rotateY(-225deg);
-}
-#fish div:nth-child(7) {
-  transform: rotateY(-270deg);
-}
-#fish div:nth-child(8) {
-  transform: rotateY(-315deg);
+  transform: rotateY(-300deg);
 }

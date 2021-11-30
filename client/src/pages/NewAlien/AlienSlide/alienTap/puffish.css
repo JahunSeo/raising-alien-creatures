@@ -1,0 +1,41 @@
+#puffish {
+  transform-style: preserve-3d;
+  /* height: 50px; */
+  transform-origin: 50% 50% -400px;
+  transition: 1s;
+}
+#puffish div {
+  width: calc(80vw / 4);
+  height: calc(200px / 3);
+  /* height: 100px; */
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  top: 0%;
+  /* bottom: 30%; */
+  /* background-position: 5px 30px; */
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  background-size: 35vw;
+  /* background-position: 50px, 10em; */
+  animation: animate3 800ms steps(4) infinite;
+}
+
+@keyframes animate3 {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -80vw;
+    /* background-position: px; */
+  }
+}
+*/ #puffish div:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#puffish div:nth-child(2) {
+  transform: rotateY(-120deg);
+}
+#puffish div:nth-child(3) {
+  transform: rotateY(-240deg);
+}
