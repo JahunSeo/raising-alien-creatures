@@ -8,16 +8,31 @@ module.exports = function (pool) {
     if (req.user) {
       const alien_name = '"' + req.body.alien_name + '"';
       const image_url_obj = {
-        0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
-        1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
-        2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
-        3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981",
-        4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
-        5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
-        6: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
-        7: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
+        '0':{
+        '0': "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
+        '1': "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
+        '2': "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
+        '3': "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981",
+        '4': "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
+        '5': "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
+        },
+        '1':{
+          '0': "Alien_base/seal_0.png-Alien_base/seal_0_reverse.png-3-3-747-664",
+          '1': "Alien_base/seal_1.png-Alien_base/seal_1_reverse.png-3-3-747-664",
+          '2': "Alien_base/seal_2.png-Alien_base/seal_2_reverse.png-3-3-747-664",
+          '3': "Alien_base/seal_3.png-Alien_base/seal_3_reverse.png-3-3-747-664",
+        },
+        '2':{
+          '0': "Alien_base/puffish_0.png-Alien_base/puffish_0_reverse.png-4-4-727-691",
+          '1': "Alien_base/puffish_1.png-Alien_base/puffish_1_reverse.png-4-4-727-691",
+          '2': "Alien_base/puffish_2.png-Alien_base/puffish_2_reverse.png-4-4-727-691",
+          '3': "Alien_base/puffish_3.png-Alien_base/puffish_3_reverse.png-4-4-727-691",
+        },
       };
-      const image_url = '"' + image_url_obj[req.body.image_url] + '"';
+      const image_url_value = String(req.body.image_url);
+      const first_value = image_url_value[0];
+      const second_value = image_url_value[1];
+      const image_url = '"' + image_url_obj[first_value][second_value] + '"';
       //body 변수 추가하기
       const sql1 = `INSERT INTO alien (user_info_id, challenge_id, alien_name, image_url, times_per_week, sun, mon, tue, wed, thu, fri, sat) VALUES (${req.user.id}, ${req.body.challenge_id}, ${alien_name}, ${image_url}, ${req.body.times_per_week}, ${req.body.sun}, ${req.body.mon}, ${req.body.tue}, ${req.body.wed}, ${req.body.thu}, ${req.body.fri}, ${req.body.sat});`;
       // challenge id 받아오기
