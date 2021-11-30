@@ -21,17 +21,24 @@ export default function SocketContainer(props) {
       // initiate socket
       socket.init(user);
       // auth 관련
-      socket.onAuthRequest((info) => toast(info.msg));
+      socket.onAuthRequest((info) => {
+        toast(info.msg);
+        // 생명체 상태 변경: aquarium
+        const alien = aquarium.getCurrentRoom().getMonster(info.alienId);
+        if (alien) alien.overwrite({ practiceStatus: 1 });
+        // 생명체 상태 변경: redux
+        // TODO: 창 닫는 것 없애야 함
+        dispatch(actions.requestAuth(info.alienId));
+      });
       socket.onAuthApproval((info) => {
-        console.log("onAuthApproval", info);
         // 본인 생명체에 대한 정보인 경우 toast
         if (info.receiverId === user.id) {
           toast(info.msg);
         }
-        // 생명체의 상태 변경 info.alienId
+        // 생명체 상태 변경: aquarium
         const alien = aquarium.getCurrentRoom().getMonster(info.alienId);
         if (alien) alien.overwrite({ practiceStatus: 2 });
-        // redux
+        // 생명체 상태 변경: redux
         dispatch(actions.approveAuth(info.alienId));
       });
       dispatch(actions.toggleSocket(true));

@@ -88,6 +88,7 @@ export default function AuthRequestModal(props) {
         .overwrite({ practiceStatus: 1 });
       // redux
       dispatch(actions.requestAuth(alien.id));
+      dispatch(actions.showAuthRequest(false));
     } else {
       // TODO: 실패 처리
     }
