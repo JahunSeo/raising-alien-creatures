@@ -37,7 +37,10 @@ const PostItem = React.memo(function PostItem({
 
   return (
     <>
-      <div className="PostItemBlock">
+      <div
+        className="PostItemBlock"
+        onClick={() => handleSelectAlien(alien.id)}
+      >
         <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
           <div
@@ -47,7 +50,6 @@ const PostItem = React.memo(function PostItem({
                 S3URL + alien.image_url.split("-")[0]
               }")`,
             }}
-            onClick={() => handleSelectAlien(alien.id)}
           />
           <div className="SubInfo">
             {type === "challenge" && <p>참가자 : {alien.user_nickname}</p>}
