@@ -71,3 +71,14 @@
 #other .message-align {
   @apply flex flex-col text-xs  mx-2 order-2 items-start;
 }
+
+.emojis {
+  height:25px;
+  width:240px;
+  margin-bottom: 5px;
+  display:flex;
+  justify-content: space-around;
+}
+.emojis span{
+  cursor:pointer;
+}

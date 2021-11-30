@@ -80,8 +80,10 @@ export default function SearchBox() {
   }, []);
 
   const currentChallenges = [];
-  for (let i = 0; i < user.challenges.length; i++){
-    currentChallenges.push(user.challenges[i].id)
+  if(user.challenges){
+    for (let i = 0; i < user.challenges.length; i++){
+      currentChallenges.push(user.challenges[i].id)
+    }
   }
 
   return (

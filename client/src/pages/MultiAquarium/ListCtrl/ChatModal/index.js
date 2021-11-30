@@ -59,6 +59,30 @@ const ChatModal = (props) => {
     }
   };
 
+  const sendEmojis = async(emoji)=>{
+    if (!user) return;
+      const messageData = {
+        challengeId: Number(challengeId),
+        user_nickname: user.nickname,
+        message: emoji,
+        time:
+          new Date(Date.now()).getMonth() +
+          1 +
+          "월" +
+          " " +
+          new Date(Date.now()).getDate() +
+          "일" +
+          " " +
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };
+      // console.log("sendMsg", messageData);
+      saveChat(messageData);
+      socket.sendMessage(messageData);
+      dispatch(actions.setMessage([messageData]));
+  }
+
   return (
     <div className={toggle ? "ChallengeContainer" : "hidden"}>
       <div className="boxborder  px-1 mx-auto py-1 my-auto h-full">
@@ -75,13 +99,13 @@ const ChatModal = (props) => {
             messages.map((messageContent, index) => {
               return (
                 <div
-                  className="message"
+                className="message"
                   key={index}
                   id={
                     user.nickname === messageContent.user_nickname
                       ? "you"
                       : "other"
-                  } // css 파일에서 구분
+                    } // css 파일에서 구분
                 >
                   <div className="message-align">
                     <div className="message-content">
@@ -99,6 +123,18 @@ const ChatModal = (props) => {
         </ScrollToBottom>
 
         <div className="chat-footer">
+          <div className = 'emojis'>
+            <span onClick={()=>sendEmojis('😊')} >😊</span>
+            <span onClick={()=>sendEmojis('😎')} >😎</span>
+            <span onClick={()=>sendEmojis('🤣')} >🤣</span>
+            <span onClick={()=>sendEmojis('😍')} >😍</span>
+            <span onClick={()=>sendEmojis('👍')} >👍</span>
+            <span onClick={()=>sendEmojis('😝')} >😝</span>
+            <span onClick={()=>sendEmojis('❤️')} >❤️</span>
+            <span onClick={()=>sendEmojis('😉')} >😉</span>
+            {/* <span onClick={()=>setCurrentMessage('😊')} >😊</span> */}
+
+          </div> 
           <div className="relative flex">
             <input
               className="chat-input"
@@ -125,3 +161,4 @@ const ChatModal = (props) => {
 };
 
 export default ChatModal;
+
