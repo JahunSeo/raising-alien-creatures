@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 
+import aquarium from "../../../shared";
 import api from "../../../apis";
 import * as socket from "../../../apis/socket";
 
@@ -13,13 +13,14 @@ export default function ChallengeRoom(props) {
   let params = useParams();
   const challengeId = params.challengeId;
   const roomId = `challenge-${challengeId}`;
-  const { rooms } = props;
-  if (!rooms.current) rooms.current = {};
-  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
+  const room = aquarium.setCurrentRoom(roomId);
 
   // user 정보 확인
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const userId = user.login && user.id;
+  const { user, isSocketOn } = useSelector(({ user }) => ({
+    user: user.user,
+    isSocketOn: user.isSocketOn,
+  }));
+  // const userId = user.login && user.id;
 
   // 본 챌린지에 참가중인지 확인
   let participating = false;
@@ -40,8 +41,20 @@ export default function ChallengeRoom(props) {
           const aliens = res.data.aliens;
           const challenge = res.data.challenge;
           const roomTitle = `${challenge.challenge_name}`;
-          rooms.current[roomId].initMonsters(aliens);
-          rooms.current[roomId].start();
+          aliens.forEach((alien) => {
+            alien.practiceDays = [
+              alien.sun,
+              alien.mon,
+              alien.tue,
+              alien.wed,
+              alien.thu,
+              alien.fri,
+              alien.sat,
+            ];
+            alien.showBubble = true;
+          });
+          room.initMonsters(aliens);
+          room.start();
           // update redux room info
           dispatch(actions.setRoom({ roomId, aliens, roomTitle, challenge }));
         } else {
@@ -60,25 +73,20 @@ export default function ChallengeRoom(props) {
       console.error("fetchData fail", err);
     }
     return () => {
-      rooms.current[roomId].close();
+      room.close();
     };
-  }, [rooms, roomId, challengeId, dispatch]);
+  }, [room, roomId, challengeId, dispatch]);
 
+  // TODO: 더 효율적으로 수정
   useEffect(() => {
-    // user가 참여중인 방인지 확인
-    if (participating && rooms.current[roomId]) {
-      // console.log("handle socket here!", participating);initMonsters
-      socket.initAndJoin({ roomId, userId: userId });
-      socket.usersOnRoom(rooms.current[roomId].usersOnRoomHandler);
-      socket.messageReceive((msg) => dispatch(actions.setMessage(msg)));
-      // socket.subscribe(rooms.current[roomId].syncFieldState);
-    } else if (rooms.current[roomId]) {
-      rooms.current[roomId].eraseUsersOnRoom();
+    if (isSocketOn && participating && room) {
+      socket.receiveMessage((msg) => dispatch(actions.setMessage([msg])));
+      //     socket.usersOnRoom(room.usersOnRoomHandler);
     }
     return () => {
-      socket.disconnect(roomId);
+      socket.blockMessage();
     };
-  }, [userId, rooms, roomId, challengeId, participating, dispatch]);
+  }, [isSocketOn, challengeId, participating, room, roomId, dispatch]);
 
   return <div></div>;
 }

@@ -1,23 +1,20 @@
 #puffish {
   transform-style: preserve-3d;
   /* height: 50px; */
-  transform-origin: 50% 50% -400px;
+  transform-origin: 50% 50% -300px;
   transition: 1s;
 }
 #puffish div {
-  width: calc(80vw / 4);
-  height: calc(200px / 3);
+  width: calc(60vw / 4);
+  height: calc(60vw / 4);
   /* height: 100px; */
   max-width: 500px;
   position: absolute;
-  left: 30%;
+  left: 35%;
   top: 0%;
-  /* bottom: 30%; */
-  /* background-position: 5px 30px; */
-  transform-origin: 50% 50% -400px;
+  transform-origin: 50% 50% -300px;
   outline: 1px solid transparent;
-  background-size: 35vw;
-  /* background-position: 50px, 10em; */
+  background-size: 60vw;
   animation: animate3 800ms steps(4) infinite;
 }
 
@@ -26,16 +23,20 @@
     background-position: 0px;
   }
   to {
-    background-position: -80vw;
-    /* background-position: px; */
+    background-position: 60vw;
+    /* background-position: -60vw; */
   }
 }
-*/ #puffish div:nth-child(1) {
+
+#puffish div:nth-child(1) {
   transform: rotateY(0deg);
 }
 #puffish div:nth-child(2) {
-  transform: rotateY(-120deg);
+  transform: rotateY(-90deg);
 }
 #puffish div:nth-child(3) {
-  transform: rotateY(-240deg);
+  transform: rotateY(-180deg);
+}
+#puffish div:nth-child(4) {
+  transform: rotateY(-270deg);
 }

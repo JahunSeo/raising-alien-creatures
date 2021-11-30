@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Room from "../../../shared/room/RoomClient";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis";
+import aquarium from "../../../shared";
 
 export default function UserRoom(props) {
   const dispatch = useDispatch();
@@ -11,22 +11,32 @@ export default function UserRoom(props) {
   let params = useParams();
   const userId = params.userId;
   const roomId = `user-${userId}`;
-  const { rooms } = props;
-  if (!rooms.current) rooms.current = {};
-  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
+  const room = aquarium.setCurrentRoom(roomId);
 
   useEffect(() => {
     try {
       const fetchData = async () => {
         const res = await api.get(`/user/${userId}`);
-        console.log("fetch main data", res.data);
+        // console.log("fetch main data", res.data);
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.aliens;
           const user = res.data.user;
           const roomTitle = `${user.nickname}의 어항`;
-          rooms.current[roomId].initMonsters(aliens);
-          rooms.current[roomId].start();
+          aliens.forEach((alien) => {
+            alien.practiceDays = [
+              alien.sun,
+              alien.mon,
+              alien.tue,
+              alien.wed,
+              alien.thu,
+              alien.fri,
+              alien.sat,
+            ];
+            alien.showBubble = true;
+          });
+          room.initMonsters(aliens);
+          room.start();
           // update redux room info
           dispatch(actions.setRoom({ roomId, aliens, roomTitle }));
         } else {
@@ -37,10 +47,10 @@ export default function UserRoom(props) {
       console.error("fetchData fail", err);
     }
     return () => {
-      rooms.current[roomId].close();
+      room.close();
     };
     // }, []);
-  }, [rooms, roomId, userId, dispatch]);
+  }, [room, roomId, userId, dispatch]);
 
   return <div></div>;
 }

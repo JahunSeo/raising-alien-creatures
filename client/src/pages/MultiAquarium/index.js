@@ -8,41 +8,48 @@ import MultiField from "./MultiField";
 import styles from "./index.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../Redux/actions/index.js";
+import aquarium from "../../shared";
 
 export default function MultiAquarium(props) {
-  const { rooms } = props;
   // redux에서 현재 roomId 받아오기
   const dispatch = useDispatch();
-  const { roomId, selectedAlien } = useSelector(({ room }) => ({
+  const { selectedAlien } = useSelector(({ room }) => ({
     roomId: room.roomId,
     selectedAlien: room.selectedAlien,
   }));
-  const handleSelectAlien = (alien) => {
-    const room = rooms.current && rooms.current[roomId];
+
+  const handleSelectAlien = (monId) => {
+    const room = aquarium.getCurrentRoom();
     if (!room) return;
-    dispatch(actions.selectAlien(alien.monId));
+
+    monId = Number(monId);
+    dispatch(actions.selectAlien(monId));
+    const alien = room.getMonster(monId);
     room.camera.setChasingTarget(alien, () => {
       dispatch(actions.selectAlien(null));
     });
   };
 
-  // console.log("[MultiAquarium]", roomId, aliens);
+  // console.log("[MultiAquarium]", aliens);
   // console.log("selectedAlien", selectedAlien);
+
   return (
     <div className={styles.body}>
       <Outlet />
       <section className={styles.SecAlienCtrl}>
-        <AlienCtrl room={rooms.current && rooms.current[roomId]} />
+        <AlienCtrl />
       </section>
       <section className={styles.SecListCtrl}>
-        <ListCtrl room={rooms.current && rooms.current[roomId]} />
+        <ListCtrl
+          selectedAlien={selectedAlien}
+          handleSelectAlien={handleSelectAlien}
+        />
       </section>
       <section className={styles.SecFieldCtrl}>
-        <FieldCtrl room={rooms.current && rooms.current[roomId]} />
+        <FieldCtrl />
       </section>
       <section className={styles.SecField}>
         <MultiField
-          room={rooms.current && rooms.current[roomId]}
           selectedAlien={selectedAlien}
           handleSelectAlien={handleSelectAlien}
         />

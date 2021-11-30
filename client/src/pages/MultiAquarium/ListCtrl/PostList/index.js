@@ -5,9 +5,15 @@ import * as actions from "../../../../Redux/actions/index.js";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
 import { S3URL } from "../../../../shared/lib/Constants";
-import HamburgerBtnImage from "../../../../image/toggledown.png";
+import classNames from "classnames/bind";
+const cx = classNames.bind();
 
-const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
+const PostItem = React.memo(function PostItem({
+  alien,
+  type,
+  selectedAlien,
+  handleSelectAlien,
+}) {
   const dispatch = useDispatch();
   const { userId } = useSelector((state) => ({
     userId: state.user.user.id,
@@ -16,11 +22,24 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   const onClickGraduate = async () => {
     let req = { alien_id: alien.id };
     let res = await api.post("/alien/graduation", req);
-    if (res.data.result === "success") dispatch(actions.graduate(alien.id));
+    if (res.data.result === "success")
+      dispatch(
+        actions.setPopupModal(
+          "GRADUATE_ALIEN",
+          `${alien.alien_name} 졸업했습니다`,
+          "SUCC",
+          () => {
+            dispatch(actions.graduate(alien.id));
+          }
+        )
+      );
   };
   return (
     <>
-      <div className="PostItemBlock">
+      <div
+        className="PostItemBlock"
+        onClick={() => handleSelectAlien(alien.id)}
+      >
         <h2>챌린지 : "{alien.challenge_name}"</h2>
         <div className="Content">
           <div
@@ -30,27 +49,9 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
                 S3URL + alien.image_url.split("-")[0]
               }")`,
             }}
-            onClick={() => {
-              if (selectedAlien === alien.id) {
-                dispatch(actions.selectAlien(null));
-              } else {
-                dispatch(actions.selectAlien(alien.id));
-              }
-            }}
           />
-          {/* <img
-            alt="물고기"
-            src={S3URL + alien.image_url.split("-")[0]}
-            onClick={() => {
-              if (selectedAlien === alien.id) {
-                dispatch(actions.selectAlien(null));
-              } else {
-                dispatch(actions.selectAlien(alien.id));
-              }
-            }}
-          /> */}
           <div className="SubInfo">
-            <p>참가자 : {alien.user_nickname}</p>
+            {type === "challenge" && <p>참가자 : {alien.user_nickname}</p>}
             <p>별명 : {alien.alien_name}</p>
             <p>출생일 : {alien.created_date.split("T")[0]}</p>
             <p>인증 횟수 : {alien.accumulated_count}번</p>
@@ -95,8 +96,7 @@ const PostItem = React.memo(function PostItem({ alien, type, selectedAlien }) {
   );
 });
 
-const PostList = React.memo(function PostList({ type }) {
-  console.log();
+function PostList({ type, handleSelectAlien }) {
   const { aliens_list, selectedAlien } = useSelector(({ room }) => ({
     aliens_list: room.aliens,
     selectedAlien: room.selectedAlien,
@@ -106,8 +106,8 @@ const PostList = React.memo(function PostList({ type }) {
   }));
 
   const [category, setCategory] = useState(false);
-  const [drop, setDrop] = useState(false);
   const [sort, setSort] = useState("a");
+  const [isMenuOn, setIsMenuOn] = useState(false);
 
   // functions for sort
   const recentCreate = useCallback((a, b) => {
@@ -126,23 +126,32 @@ const PostList = React.memo(function PostList({ type }) {
   const leastCommit = (a, b) => {
     return a.accumulated_count - b.accumulated_count;
   };
+
+  const sortClick = (e) => {
+    setSort(e.target.value);
+    setIsMenuOn(false);
+  };
+
   return (
     <div className="PostListBlock">
-      <button className="dropdown" onClick={() => setDrop((drop) => !drop)}>
-        <img
-          style={{ width: "1.7em", height: "1.7em" }}
-          alt="toggledown.png"
-          src={HamburgerBtnImage}
-        />
-      </button>
-      {drop ? (
+      <ToggleBtn isMenuOn={isMenuOn} setIsMenuOn={setIsMenuOn} />
+      {isMenuOn ? (
         <div className="dropContent">
-          <option onClick={() => setSort("a")}> 추가된 날짜 (최신 순) </option>
-          <option onClick={() => setSort("b")}> 추가된 날짜 (오래된 순)</option>
-          <option onClick={() => setSort("c")}> 커밋 횟수(가장 많은 순)</option>
-          <option onClick={() => setSort("d")}>
+          <option value="a" onClick={sortClick}>
             {" "}
-            커밋 횟수(가장 낮은 순){" "}
+            추가된 날짜 (최신 순)
+          </option>
+          <option value="b" onClick={sortClick}>
+            {" "}
+            추가된 날짜 (오래된 순)
+          </option>
+          <option value="c" onClick={sortClick}>
+            {" "}
+            커밋 횟수(가장 많은 순)
+          </option>
+          <option value="d" onClick={sortClick}>
+            {" "}
+            커밋 횟수(가장 낮은 순)
           </option>
         </div>
       ) : null}
@@ -176,11 +185,48 @@ const PostList = React.memo(function PostList({ type }) {
               type={type}
               userId={userId}
               selectedAlien={selectedAlien}
+              handleSelectAlien={handleSelectAlien}
             />
           ) : null
         )}
     </div>
   );
-});
+}
 
 export default PostList;
+
+function ToggleBtn(props) {
+  const { isMenuOn, setIsMenuOn } = props;
+  return (
+    <nav className="toggleBtn">
+      <button
+        className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
+        onClick={() => setIsMenuOn(!isMenuOn)}
+      >
+        <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "" : "-translate-y-1.5"
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "" : ""
+            )}
+          ></span>
+          <span
+            aria-hidden="true"
+            className={cx(
+              "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+              isMenuOn ? "" : "translate-y-1.5"
+            )}
+          ></span>
+        </div>
+      </button>
+    </nav>
+  );
+}

@@ -48,6 +48,11 @@ export const logout = () => ({
   type: types.LOGOUT,
 });
 
+export const toggleSocket = (toggle) => ({
+  type: types.TOGGLE_SOCKET,
+  payload: toggle,
+});
+
 export const setRoom = ({ roomId, aliens, roomTitle, challenge = {} }) => ({
   type: types.CURRENT_ROOM,
   payload: { roomId, aliens, roomTitle, challenge },
@@ -65,6 +70,11 @@ export const graduate = (alienId) => ({
 
 export const requestAuth = (alienId) => ({
   type: types.REQUEST_AUTH,
+  payload: alienId,
+});
+
+export const approveAuth = (alienId) => ({
+  type: types.APPROVE_AUTH,
   payload: alienId,
 });
 

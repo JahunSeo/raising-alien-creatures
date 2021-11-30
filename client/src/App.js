@@ -1,24 +1,26 @@
-import React, { useRef } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import SocketContainer from "./pages/SocketContainer";
 import Header from "./pages/Header";
 import Approval from "./pages/Approval";
 import NewChallenge from "./pages/NewChallenge";
 import NewAlien from "./pages/NewAlien";
 
 import MultiAquarium from "./pages/MultiAquarium";
-
 import PlazaRoom from "./pages/MultiAquarium/Room/PlazaRoom";
 import UserRoom from "./pages/MultiAquarium/Room/UserRoom";
 import ChallengeRoom from "./pages/MultiAquarium/Room/ChallengeRoom";
 
-import PopUp from "./pages/PopUp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./custom-toastify.css";
 
+import PopUp from "./pages/PopUp";
 import styles from "./App.module.css";
 
 function App() {
-  const rooms = useRef();
   return (
     <BrowserRouter>
       <Routes>
@@ -26,15 +28,12 @@ function App() {
           <Route path="approval" element={<Approval />} />
           <Route path="challenge/new" element={<NewChallenge />} />
           <Route path="challenge/:challengeId/join" element={<NewAlien />} />
-          <Route path="/" element={<MultiAquarium rooms={rooms} />}>
-            <Route path="" element={<PlazaRoom rooms={rooms} />} />
-            <Route
-              path="user/:userId/room"
-              element={<UserRoom rooms={rooms} />}
-            />
+          <Route path="/" element={<MultiAquarium />}>
+            <Route path="" element={<PlazaRoom />} />
+            <Route path="user/:userId/room" element={<UserRoom />} />
             <Route
               path="challenge/:challengeId/room"
-              element={<ChallengeRoom rooms={rooms} />}
+              element={<ChallengeRoom />}
             />
           </Route>
         </Route>
@@ -59,6 +58,7 @@ function Layout() {
       <nav className={styles.nav}>
         <Header roomId={roomId} />
       </nav>
+      {user !== null && <SocketContainer />}
       <div className={styles.content}>{user !== null && <Outlet />}</div>
       {popupModal ? (
         <div className={styles.popup}>
@@ -70,6 +70,21 @@ function Layout() {
           />
         </div>
       ) : null}
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        className="ToastContainer"
+        toastClassName="Toast"
+        bodyClassName="Toast__body"
+        progressClassName="Toast__progress"
+      />
     </div>
   );
 }

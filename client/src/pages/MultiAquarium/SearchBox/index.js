@@ -8,12 +8,13 @@ import * as actions from "../../../Redux/actions";
 
 import searchIcon from "../../../image/search-icon.png";
 import backIcon from "../../../image/goback-icon.png";
+import mooke from "../../../image/무케.jpg";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-export default function SearchBox(props) {
+export default function SearchBox() {
   const [longer, setLonger] = useState(false);
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -78,6 +79,10 @@ export default function SearchBox(props) {
     }
   }, []);
 
+  let currentChallenges = user.challenges
+    ? user.challenges.map((c) => c.id)
+    : [];
+
   return (
     <div className={cx("SearchBox", { longer })}>
       {longer && (
@@ -134,6 +139,7 @@ export default function SearchBox(props) {
             <ChallengeItem
               key={challenge.id}
               challenge={challenge}
+              participating={currentChallenges.includes(challenge.id)}
             ></ChallengeItem>
           ))}
         </div>
@@ -142,29 +148,35 @@ export default function SearchBox(props) {
   );
 }
 
-const ChallengeItem = ({ challenge }) => {
+const ChallengeItem = (props) => {
+  const { challenge, participating } = props;
   return (
     <div className={cx("challengeItem")}>
-      <div className={styles.challengeName}>{challenge.challenge_name}</div>
+      <div className={styles.challengeName}>
+        {challenge.challenge_name} {participating && "(참가중)"}
+      </div>
       <img
         className={styles.challengeImg}
         alt="yammy"
-        src={challenge.img_url}
+        src={challenge.img_url ? challenge.img_url : mooke}
+        // src={mooke}
       />
       <div className={styles.participant}>
-        참여인원: {challenge.participant_number}/{challenge.maximum_number}명
+        참여인원: {challenge.participant_number}/{challenge.maximum_number}명{" "}
+        <br />주 인증횟수: {challenge.times_per_week}번
       </div>
-      <div className={styles.participant}>
-        주 인증횟수: {challenge.times_per_week}번
+      <div>
+        생성일: {challenge.created_date.split("T")[0]} <br />
+        생성원: {challenge.user_nickname}
       </div>
-      <div className={styles.createDate}>
-        생성일: {challenge.created_date.split("T")[0]}
+      <div className={styles.Details}>
+        <div>{challenge.description}</div>
       </div>
-      <div className={styles.createUser}>생성원: {challenge.created_by}</div>
-      <div className={styles.Details}>{challenge.description}</div>
-      <Link to={`/challenge/${challenge.id}/room`}>
-        <button className={styles.challengeButton}>챌린지 방 가기</button>
-      </Link>
+      <div className={styles.challengeButton}>
+        <Link to={`/challenge/${challenge.id}/room`}>
+          <button className={styles.challengeButton}>챌린지 방 가기</button>
+        </Link>
+      </div>
     </div>
   );
 };

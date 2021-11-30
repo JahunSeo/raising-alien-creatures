@@ -32,10 +32,19 @@ class RoomClient {
         image_url: mon.image_url,
         wanderRange: 300 + 30 * monsters.length,
       });
+      monster.overwrite({
+        showBubble: mon.showBubble || false,
+        practiceStatus: mon.practice_status || 0,
+        practiceDays: mon.practiceDays || [],
+      });
       monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
       // console.log(monster.monId, monster.isUserOnRoom);
       this.fieldState.monsters[mon.id] = monster;
     });
+  };
+
+  getMonster = (monId) => {
+    return this.fieldState.monsters[monId];
   };
 
   syncFieldState = (socketState) => {

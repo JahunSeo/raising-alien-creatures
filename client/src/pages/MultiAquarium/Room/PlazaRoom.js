@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Room from "../../../shared/room/RoomClient";
 import { useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 
+import aquarium from "../../../shared";
 import api from "../../../apis";
 
 import SearchBox from "../SearchBox";
@@ -12,9 +12,7 @@ export default function PlazaRoom(props) {
 
   // 챌린지 정보 가져오기
   const roomId = "plaza";
-  const { rooms } = props;
-  if (!rooms.current) rooms.current = {};
-  if (!rooms.current[roomId]) rooms.current[roomId] = new Room(roomId);
+  const room = aquarium.setCurrentRoom(roomId);
 
   useEffect(() => {
     try {
@@ -22,20 +20,15 @@ export default function PlazaRoom(props) {
         const res = await api.get("/main");
         console.log("fetch main data", res.data);
         if (res.data.result === "success") {
-          // rooms 상태 정보
+          // Canvas에 반영
           console.log("plazaroom:", roomId);
           const aliens = res.data.aliens;
-          rooms.current[roomId].initMonsters(aliens);
-          rooms.current[roomId].start();
+          room.initMonsters(aliens);
+          room.start();
 
-          // TODO: redux
-          dispatch(
-            actions.setRoom({
-              roomId: roomId,
-              aliens: aliens,
-              roomTitle: "외계생물 기르기",
-            })
-          );
+          // redux에 저장
+          const roomTitle = `외계생물 기르기`;
+          dispatch(actions.setRoom({ roomId, aliens, roomTitle }));
         } else {
         }
       };
@@ -45,10 +38,10 @@ export default function PlazaRoom(props) {
     }
     return () => {
       dispatch(actions.setRoom({ roomId: null, aliens: [] }));
-      rooms.current[roomId].close();
+      room.close();
     };
     //   }, []);
-  }, [rooms, roomId, dispatch]);
+  }, [room, roomId, dispatch]);
 
   return <SearchBox />;
 }

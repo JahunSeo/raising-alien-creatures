@@ -47,6 +47,13 @@ export default function NewAlien(props) {
       aNumber = 0;
     }
   }
+  if (alienCategory.type === "seal") {
+    aNumber += 10;
+  } else if (alienCategory.type === "puffish") {
+    aNumber += 20;
+  }
+
+  console.log(1232323, aNumber);
   useEffect(() => {
     // cntOfWeek
     try {
@@ -104,7 +111,7 @@ export default function NewAlien(props) {
     } else if (e === "seal") {
       setAlienCategory({ type: "seal", angle: 90, divider: 4 });
     } else if (e === "puffish") {
-      setAlienCategory({ type: "puffish", angle: 120, divider: 3 });
+      setAlienCategory({ type: "puffish", angle: 90, divider: 4 });
     } else return;
   };
 
@@ -190,7 +197,7 @@ export default function NewAlien(props) {
                 }
                 onClick={() => handleTap("fish")}
               >
-                물고기
+                뿡어
               </button>
             </li>
             <li className="mr-1 inline-block">
