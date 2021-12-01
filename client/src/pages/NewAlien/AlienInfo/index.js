@@ -16,7 +16,7 @@ export default function AlienInfo({
 
   return (
     <>
-      <div className="py-12 flex-shrink-0"></div>
+      <div className="md:py-12 py-8 flex-shrink-0"></div>
       <div className="px-3">
         <label
           className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2"
@@ -25,7 +25,7 @@ export default function AlienInfo({
           생명체 이름
         </label>
         <input
-          className="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
+          className="appearance-none block w-full text-gray-700 rounded py-3 px-4 md:mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
           id="grid-first-name"
           type="text"
           placeholder="생명체 이름을 지어주세요."
@@ -34,7 +34,7 @@ export default function AlienInfo({
           }}
         ></input>
       </div>
-      <div className="container md:text-left text-center px-3 py-3 font-bold text-lg text-gray-700 tracking-wide">
+      <div className="container md:text-left text-center px-3 md:py-3 py-2 font-bold text-lg text-gray-700 tracking-wide">
         <div>
           챌린지 인증 요일를 선택해 주세요(총{" "}
           <span style={{ color: "red" }}>{authCount}</span>회 선택!){" "}
