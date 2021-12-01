@@ -197,7 +197,7 @@ const AuthRequest = ({ authRequest }) => {
           <div className="flex gap-2">
             <div className="col-span-1">
               <svg
-                className="lg:h-12 lg:w-12 h-8 w-8"
+                className="lg:h-12 lg:w-12 h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -225,7 +225,7 @@ const AuthRequest = ({ authRequest }) => {
           <div className="flex gap-2">
             <div className="col-span-1">
               <svg
-                className="lg:h-12 lg:w-12 h-8 w-8"
+                className="lg:h-12 lg:w-12 h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -250,7 +250,7 @@ const AuthRequest = ({ authRequest }) => {
   console.log("approvalClicked", approvalClicked);
 
   return (
-    <div className="flex min-w-min min-h-0 p-12 justify-center items-center bg-gray-100">
+    <div className="flex min-w-min min-h-0 md:p-12 p-6 justify-center items-center bg-gray-100">
       <div className="flex flex-col w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg  cursor-pointer">
         {/* react-lazy-load-image-component */}
         <div className="flex flex-col justify-center items-center">
@@ -262,20 +262,20 @@ const AuthRequest = ({ authRequest }) => {
             effect="blur"
           />
         </div>
-        <div className="flex flex-col justify-center items-center mb-2 space-x-4">
+        <div className="flex flex-col justify-center items-center mb-2">
           <div className="mb-2 space-x-4">
-            <div className="mt-6 mb-4 px-8 text-center md:text-2xl text-lg font-bold text-black">
+            <div className="mt-6 mb-4 md:px-8 px-4 text-center md:text-2xl text-lg font-bold text-black">
               "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
               인증 요청
             </div>
-            <div className="flex flex-col justify-center items-center px-8 text-center md:text-xl text-lg font-semibold text-gray-600 mt-2 mb-2">
+            <div className="flex flex-col justify-center items-center md:px-8 text-center md:text-xl text-lg font-semibold text-gray-600 mt-2 mb-2">
               {authYear}년 {authMonth}월 {authDate}일 {authHour}시 {authMinute}
               분에 인증
             </div>
           </div>
         </div>
         <div>
-          <div className="flex-col min-w-min w-full justify-center items-center space-x-4 px-6 py-2">
+          <div className="flex-col min-w-min w-full justify-center items-center px-6 py-2">
             <div className="flex-col m-auto bg-gray-300 rounded-lg px-2 py-2">
               <h1 className="flex justify-center items-center py-2 mb-1 md:text-xl text:lg font-semibold text-black">
                 "{authRequest.comments}"
@@ -283,17 +283,17 @@ const AuthRequest = ({ authRequest }) => {
             </div>
           </div>
         </div>
-        <div className="flex min-w-min items-center justify-between px-6 py-6 gap-4">
+        <div className="flex min-w-min items-center justify-between px-6 md:py-6 py-2 md:gap-4 gap-2">
           <ApprovalButton />
           <button
             type="button"
-            className="flex flex-nowrap text-center justify-center items-center min-w-min min-h-0 max-w-sm w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
+            className="flex text-center justify-center items-center min-w-min min-h-0 max-w-sm w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
             onClick={handleNavigate}
           >
             <div className="flex gap-2">
               <div className="col-span-1">
                 <svg
-                  className="lg:h-12 lg:w-12 h-8 w-8"
+                  className="lg:h-12 lg:w-12 h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
