@@ -8,7 +8,8 @@
 .btn {
   width: 44px;
   height: 44px;
-  background-color: #d8d8d8;
+  background-color: #ece9e9;
+  /* background-color: white; */
   border: 2px solid black;
   border-radius: 5px;
 
@@ -24,3 +25,4 @@
   border-bottom: 2px solid black;
   margin-bottom: 2px;
 }
+
