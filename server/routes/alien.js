@@ -16,13 +16,13 @@ module.exports = function (pool) {
         '4': "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
         '5': "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
         },
-        '1':{
+        '2':{
           '0': "Alien_base/seal_0.png-Alien_base/seal_0_reverse.png-3-3-747-664",
           '1': "Alien_base/seal_1.png-Alien_base/seal_1_reverse.png-3-3-747-664",
           '2': "Alien_base/seal_2.png-Alien_base/seal_2_reverse.png-3-3-747-664",
           '3': "Alien_base/seal_3.png-Alien_base/seal_3_reverse.png-3-3-747-664",
         },
-        '2':{
+        '3':{
           '0': "Alien_base/puffish_0.png-Alien_base/puffish_0_reverse.png-4-4-727-691",
           '1': "Alien_base/puffish_1.png-Alien_base/puffish_1_reverse.png-4-4-727-691",
           '2': "Alien_base/puffish_2.png-Alien_base/puffish_2_reverse.png-4-4-727-691",
