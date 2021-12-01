@@ -47,13 +47,14 @@ export default function NewAlien(props) {
       aNumber = 0;
     }
   }
-  if (alienCategory.type === "seal") {
+  if (alienCategory.type === "fish") {
     aNumber += 10;
-  } else if (alienCategory.type === "puffish") {
+  } else if (alienCategory.type === "seal") {
     aNumber += 20;
+  } else if (alienCategory.type === "puffish") {
+    aNumber += 30;
   }
 
-  console.log(1232323, aNumber);
   useEffect(() => {
     // cntOfWeek
     try {
