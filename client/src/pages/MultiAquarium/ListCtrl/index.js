@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import { CHAL_INFO_TYPE } from "../../../Redux/reducers/modalOnOff";
 
+import {HiOutlineClipboardList} from 'react-icons/hi'
+import {BsChatDots} from 'react-icons/bs'
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -32,21 +34,21 @@ export default function ListCtrl(props) {
   if (!!mainMatch) {
     return <div></div>;
   }
-
+  
   return (
     <div className={styles.body}>
       <div
         className={cx("btn", "btn--list")}
         onClick={() => switchModal(CHAL_INFO_TYPE.ALIEN)}
       >
-        A
+      <HiOutlineClipboardList size={28}/>
       </div>
       {!!challengeMatch && (
         <div
-          className={cx("btn", "btn--chat")}
-          onClick={() => switchModal(CHAL_INFO_TYPE.CHAT)}
+        className={cx("btn", "btn--chat")}
+        onClick={() => switchModal(CHAL_INFO_TYPE.CHAT)}
         >
-          C
+          <BsChatDots size={23}/>
         </div>
       )}
       <SideBarModal

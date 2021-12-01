@@ -1,5 +1,4 @@
 import "./puffish.css";
-import puffish from "../../../../image/puffish.png";
 
 const Puffish = ({ S3URL, alienCategory }) => {
   return (
