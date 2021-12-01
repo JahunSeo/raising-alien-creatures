@@ -38,10 +38,8 @@ const SignUpModal = () => {
       setSignUpClicked(false);
       dispatch(actions.showSignUpModal(!showSignUpModal));
     } else {
-      if (res.data.result === "fail") {
-        setSignUpMessage("이미 존재하는 이메일 주소입니다.");
-        setSignUpClicked(false);
-      }
+      setSignUpMessage("이미 존재하는 이메일 주소입니다.");
+      setSignUpClicked(false);
     }
   };
 
@@ -108,10 +106,9 @@ const SignUpModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSignUpMessage(null);
+    if (signUpClicked) return;
     if (!validateSignUp(userEmail, userNickname, userPassword, userConfirm))
       return;
-    if (signUpClicked) return;
     setSignUpMessage(null);
     setSignUpClicked(true);
     postSignUp();
