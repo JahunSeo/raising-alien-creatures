@@ -8,7 +8,7 @@ module.exports = function (pool) {
     if (req.user) {
       const alien_name = '"' + req.body.alien_name + '"';
       const image_url_obj = {
-        '0':{
+        '1':{
         '0': "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
         '1': "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
         '2': "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
