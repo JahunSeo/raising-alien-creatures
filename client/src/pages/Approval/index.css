@@ -1,3 +1,39 @@
 .LazyLoadImage {
   @apply mt-6 ml-auto mr-auto;
 }
+
+.toggleBtn {
+  /* display: inline; */
+  position: relative;
+  display: flex;
+  height: 45px;
+  weight: 45px;
+}
+
+.dropContent {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  max-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.dropContent option {
+  font-size: 15px;
+  font-weight: lighter;
+  padding: 5px;
+  color: black;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.dropContent option:hover {
+  background-color: rgb(115, 208, 245);
+}
+
+.dropContent option:focus {
+  background-color: rgb(115, 208, 245);
+}

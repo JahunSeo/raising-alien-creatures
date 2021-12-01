@@ -16,7 +16,7 @@ export default function AlienInfo({
 
   return (
     <>
-      <div className="py-12 flrx-shrink-0"></div>
+      <div className="md:py-12 py-8 flex-shrink-0"></div>
       <div className="px-3">
         <label
           className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2"
@@ -25,24 +25,24 @@ export default function AlienInfo({
           생명체 이름
         </label>
         <input
-          className="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
+          className="appearance-none block w-full text-gray-700 rounded py-3 px-4 md:mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
           id="grid-first-name"
           type="text"
-          placeholder="정글러"
+          placeholder="생명체 이름을 지어주세요."
           onChange={(e) => {
             setAlienName(e.target.value);
           }}
         ></input>
       </div>
-      <div className="container px-3 py-3 font-bold text-lg text-gray-700 tracking-wide">
+      <div className="container md:text-left text-center px-3 md:py-3 py-2 font-bold text-lg text-gray-700 tracking-wide">
         <div>
           챌린지 인증 요일를 선택해 주세요(총{" "}
           <span style={{ color: "red" }}>{authCount}</span>회 선택!){" "}
         </div>
-        <div className=" rounded mt-3">
-          <div className="w-full ">
-            <div className="flex ">
-              <div className="m-auto flex flex-row gap-3">
+        <div className="rounded mt-3">
+          <div className="w-full">
+            <div className="flex">
+              <div className="m-auto flex flex-row md:gap-3 gap-1.5">
                 <button
                   id="sun"
                   onClick={(e) => handleClick(e.target.checked, "sun")}

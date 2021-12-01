@@ -15,17 +15,17 @@ const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const fs = require("fs");
 // const flash = require("connect-flash");
-const schedule = require("./routes/scheduler");
+// const schedule = require("./routes/scheduler");
 
 const pool = mysql.createPool({
   connectionLimit: 10,
-  timezone: 'Z',
+  timezone: "Z",
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   multipleStatements: true,
-  charset: 'utf8mb4',
+  charset: "utf8mb4",
 });
 
 app.use(compression());

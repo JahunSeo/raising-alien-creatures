@@ -16,17 +16,23 @@ export default function ChallengeRoom(props) {
   const room = aquarium.setCurrentRoom(roomId);
 
   // user 정보 확인
-  const { user, isSocketOn } = useSelector(({ user }) => ({
+  const { user, isSocketOn, aliens } = useSelector(({ user, room }) => ({
     user: user.user,
     isSocketOn: user.isSocketOn,
+    aliens: room.aliens,
   }));
   // const userId = user.login && user.id;
 
   // 본 챌린지에 참가중인지 확인
   let participating = false;
+  let myAlienId = null;
   if (user.login && user.challenges) {
     participating =
       user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+    if (participating) {
+      let alien = aliens.find((a) => a.user_info_id === Number(user.id));
+      myAlienId = !!alien && alien.id;
+    }
   }
 
   // console.log("[ChallengeRoom] is participating?", participating);
@@ -77,7 +83,7 @@ export default function ChallengeRoom(props) {
     };
   }, [room, roomId, challengeId, dispatch]);
 
-  // TODO: 더 효율적으로 수정
+  // 참여중인 챌린지인 경우 처리
   useEffect(() => {
     if (isSocketOn && participating && room) {
       socket.receiveMessage((msg) => dispatch(actions.setMessage([msg])));
@@ -87,6 +93,16 @@ export default function ChallengeRoom(props) {
       socket.blockMessage();
     };
   }, [isSocketOn, challengeId, participating, room, roomId, dispatch]);
+
+  useEffect(() => {
+    if (participating && room && myAlienId) {
+      dispatch(actions.selectAlien(myAlienId));
+      const alien = room.getMonster(myAlienId);
+      room.camera.setChasingTarget(alien, () => {
+        dispatch(actions.selectAlien(null));
+      });
+    }
+  }, [myAlienId, participating, room, dispatch]);
 
   return <div></div>;
 }
