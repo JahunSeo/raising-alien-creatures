@@ -210,7 +210,7 @@ const AuthRequest = ({ authRequest }) => {
                 />
               </svg>
             </div>
-            <div className="m-auto md:min-w-max col-span-2">인증 수락</div>
+            <div className="m-auto md:min-w-max">인증 수락</div>
           </div>
         </button>
       );
@@ -220,7 +220,7 @@ const AuthRequest = ({ authRequest }) => {
           type="button"
           className="bg-gradient-to-r from-indigo-600 via-pink-600 to-red-600 hover:from-indigo-500 hover:via-pink-500 hover:to-yellow-500 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
         >
-          <div className="gap-2">
+          <div className="flex gap-2">
             <div className="col-span-1">
               <svg
                 className="lg:h-12 lg:w-12 h-8 w-8"
@@ -236,7 +236,7 @@ const AuthRequest = ({ authRequest }) => {
                 />
               </svg>
             </div>
-            <div className="m-auto md:min-w-max col-span-2 pt-2">인증 완료</div>
+            <div className="m-auto md:min-w-max">인증 완료</div>
           </div>
         </button>
       );
@@ -273,7 +273,7 @@ const AuthRequest = ({ authRequest }) => {
         <div>
           <div className="flex-col min-w-min w-full justify-center items-center space-x-4 px-6 py-2">
             <div className="flex-col m-auto bg-gray-300 rounded-lg px-2 py-2">
-              <h1 className="flex justify-center items-center py-2 mb-3 md:text-xl text:lg font-semibold text-black">
+              <h1 className="flex justify-center items-center py-2 mb-1 md:text-xl text:lg font-semibold text-black">
                 "{authRequest.comments}"
               </h1>
             </div>
@@ -302,9 +302,7 @@ const AuthRequest = ({ authRequest }) => {
                   />
                 </svg>
               </div>
-              <div className="m-auto md:min-w-max col-span-2">
-                챌린지룸 이동
-              </div>
+              <div className="m-auto md:min-w-max">챌린지룸 이동</div>
             </div>
           </button>
         </div>
