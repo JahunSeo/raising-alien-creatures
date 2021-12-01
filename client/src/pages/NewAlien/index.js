@@ -16,6 +16,11 @@ export default function NewAlien(props) {
   // 생명체 정보
   const [alienName, setAlienName] = useState("");
   const [alienNumber, setAlienNumber] = useState(0);
+  const [alienCategory, setAlienCategory] = useState({
+    type: "fish",
+    angle: 60,
+    divider: 6,
+  });
   // 인증 요일
   const [checkDay, setCheckDay] = useState([]);
 
@@ -29,20 +34,26 @@ export default function NewAlien(props) {
   // 기본 생명체 번호 계산
   let aNumber = alienNumber;
   if (aNumber >= 0) {
-    aNumber = aNumber % 8;
+    aNumber = aNumber % alienCategory.divider;
     while (aNumber < 0) {
-      aNumber += 8;
+      aNumber += alienCategory.divider;
     }
   } else {
-    aNumber %= 8;
+    aNumber %= alienCategory.divider;
     while (aNumber < 0) {
-      aNumber += 8;
+      aNumber += alienCategory.divider;
     }
     if (aNumber === -0) {
       aNumber = 0;
     }
   }
+  if (alienCategory.type === "seal") {
+    aNumber += 10;
+  } else if (alienCategory.type === "puffish") {
+    aNumber += 20;
+  }
 
+  console.log(1232323, aNumber);
   useEffect(() => {
     // cntOfWeek
     try {
@@ -92,6 +103,18 @@ export default function NewAlien(props) {
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
     postCreateAlien();
   };
+  // 캐릭서 선택탭
+  const handleTap = (e) => {
+    setAlienNumber(0);
+    if (e === "fish") {
+      setAlienCategory({ type: "fish", angle: 60, divider: 6 });
+    } else if (e === "seal") {
+      setAlienCategory({ type: "seal", angle: 90, divider: 4 });
+    } else if (e === "puffish") {
+      setAlienCategory({ type: "puffish", angle: 90, divider: 4 });
+    } else return;
+  };
+
   // Alien 정보 api 보내기
   const postCreateAlien = async () => {
     let createAlienData = {
@@ -166,23 +189,52 @@ export default function NewAlien(props) {
         <div className=" container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
           <ul className="relative px-1 py-1 inline-flex min-w-max">
             <li className=" mr-1 inline-block ">
-              <p className="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold">
-                캐릭터 선택
-              </p>
+              <button
+                className={
+                  alienCategory.type === "fish"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700 font-semibold"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700 font-semibold hover:text-red-600"
+                }
+                onClick={() => handleTap("fish")}
+              >
+                뿡어
+              </button>
             </li>
-            {/* <li className="mr-1 inline-block">
-              <a className="bg-white inline-block py-2 px-4 text-blue-500  font-semibold">
-                꾸미기
-              </a>
-            </li> */}
+            <li className="mr-1 inline-block">
+              <button
+                className={
+                  alienCategory.type === "seal"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                }
+                onClick={() => handleTap("seal")}
+              >
+                물개
+              </button>
+            </li>
+            <li className="mr-1 inline-block">
+              <button
+                className={
+                  alienCategory.type === "puffish"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                }
+                onClick={() => handleTap("puffish")}
+              >
+                복어
+              </button>
+            </li>
           </ul>
-          <div className="border p-5 md:p-10 w-full min-w-max">
+
+          <div className="rounded border-2 border-gray-400 md:p-5 w-full min-w-max">
             <AlienSlide
               alienNumber={alienNumber}
               setAlienNumber={setAlienNumber}
+              alienCategory={alienCategory}
             />
           </div>
         </div>
+
         <div className="pb-3 px-3 text-red-500 font-semibold text-center">
           {creAlienMessage}
         </div>

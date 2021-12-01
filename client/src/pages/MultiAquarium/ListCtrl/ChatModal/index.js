@@ -51,7 +51,7 @@ const ChatModal = (props) => {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      // console.log("sendMsg", messageData);
+      console.log("sendMsg", messageData);
       saveChat(messageData);
       socket.sendMessage(messageData);
       dispatch(actions.setMessage([messageData]));

@@ -13,13 +13,16 @@ const SignInModal = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [signInMessage, setSignInMessage] = useState(null);
+  const [signInClicked, setSignInClicked] = useState(false);
 
   const postSignIn = async () => {
     let signInData = { email: userEmail, pwd: userPassword };
     // 1단계: 로그인 요청
     let res = await api.post("/user/login", signInData);
+    console.log("res", res);
     if (res.data.result !== "success") {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
+      setSignInClicked(false);
       return;
     }
     let user = res.data;
@@ -30,6 +33,7 @@ const SignInModal = () => {
     res = await api.get("/user/challenges/ids");
     if (res.data.result === "success") {
       user.challenges = res.data.challenges;
+      setSignInClicked(false);
     }
     dispatch(actions.checkUser(user));
     dispatch(actions.showSignInModal(!showSignInModal));
@@ -59,13 +63,16 @@ const SignInModal = () => {
     setUserEmail("");
     setUserPassword("");
     setSignInMessage(null);
+    setSignInClicked(false);
     dispatch(actions.showSignInModal(!showSignInModal));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (signInClicked) return;
     if (!validateSignIn(userEmail, userPassword)) return;
     setSignInMessage(null);
+    setSignInClicked(true);
     postSignIn();
   };
 

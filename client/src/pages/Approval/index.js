@@ -8,9 +8,13 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import NoAuthRequest from "./NoAuthRequest.js";
 import "./index.css";
 import "./blur.css";
+import classNames from "classnames/bind";
+
+const cx = classNames.bind();
 
 export default function Approval(props) {
   const [authRequests, setAuthRequests] = useState([]);
+
   useEffect(() => {
     const loadAuthRequests = async () => {
       const res = await api.get("/user/approval/list");
@@ -47,7 +51,7 @@ export default function Approval(props) {
   }
 }
 
-const AuthRequest = ({ authRequest, scrollPosition }) => {
+const AuthRequest = ({ authRequest }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,6 +63,7 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
   const authMinute = authRequest.request_date.slice(14, 16);
 
   const [approvalStatus, SetApprovalStatus] = useState(false);
+  const [orderRequests, setOrderRequests] = useState(false);
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
@@ -178,8 +183,53 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
     }
   };
 
+  function ToggleBtn(props) {
+    const { orderRequests, setOrderRequests } = props;
+
+    return (
+      <nav className="ToggleBtn">
+        <button
+          className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
+          onClick={() => setOrderRequests(!orderRequests)}
+        >
+          <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <span
+              aria-hidden="true"
+              className={cx(
+                "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+                orderRequests ? "" : "-translate-y-1.5"
+              )}
+            ></span>
+            <span
+              aria-hidden="true"
+              className={cx(
+                "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+                orderRequests ? "" : ""
+              )}
+            ></span>
+            <span
+              aria-hidden="true"
+              className={cx(
+                "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
+                orderRequests ? "" : "translate-y-1.5"
+              )}
+            ></span>
+          </div>
+        </button>
+      </nav>
+    );
+  }
+
+  console.log("orderRequests", orderRequests);
+
   return (
     <div className="flex min-w-min min-h-0 p-12 justify-center items-center bg-gray-100">
+      <div className="flex flex-col justify-center items-center">
+        <ToggleBtn
+          orderRequests={orderRequests}
+          setOrderRequests={setOrderRequests}
+        />
+      </div>
       <div className="w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-125 cursor-pointer">
         {/* react-lazy-load-image-component */}
         <div className="flex flex-col justify-center items-center">
@@ -187,7 +237,7 @@ const AuthRequest = ({ authRequest, scrollPosition }) => {
             className="LazyLoadImage"
             src={authRequest.image_url}
             alt="authImage"
-            scrollPosition={scrollPosition}
+            // scrollPosition={scrollPosition}
             threshold="10"
             effect="blur"
           />

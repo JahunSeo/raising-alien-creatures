@@ -7,9 +7,10 @@ import * as actions from "../../../Redux/actions/index.js";
 import aquarium from "../../../shared";
 
 export default function AuthRequestModal(props) {
+  const dispatch = useDispatch();
   const [authImage, setAuthImage] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
-  const dispatch = useDispatch();
+  const [authRequestClicked, setAuthRequestClicked] = useState(false);
 
   const showAuthRequest = useSelector(
     (state) => state.modalOnOff.showAuthRequest
@@ -22,6 +23,8 @@ export default function AuthRequestModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (authRequestClicked) return;
+
     /* 예외 처리 Handling 1. */
     let day = {
       1: "mon",
@@ -47,11 +50,13 @@ export default function AuthRequestModal(props) {
     if (alien.practice_status > 0) {
       /* 해당 날짜에 이미 요청된 Alien 인 경우 -> front에서 Error 문구 처리 부탁드립니다. */
       console.log("이미 인증요청 완료된 건 입니다.");
+      // alert("이미 인증 요청이 완료되었습니다.")
       return;
     }
 
     let res = await api.get("/main/s3Url");
     const { url } = res.data;
+    console.log("res", res);
     // post the image direclty to the s3 bucket
     if (authImage) {
       await fetch(url, {
@@ -71,8 +76,14 @@ export default function AuthRequestModal(props) {
       image_url: imageUrl,
     };
 
+    setAuthRequestClicked(true);
     res = await api.post("/challenge/auth", resp);
+    console.log("res", res);
+
     if (res.data.result === "success") {
+      setAuthImage(null);
+      setAuthRequestClicked(false);
+      dispatch(actions.requestAuth(alien.id));
       // socket
       let info = {
         userId: alien.user_info_id,
@@ -88,13 +99,16 @@ export default function AuthRequestModal(props) {
         .overwrite({ practiceStatus: 1 });
       // redux
       dispatch(actions.requestAuth(alien.id));
+      dispatch(actions.showAuthRequest(false));
     } else {
       // TODO: 실패 처리
+      setAuthRequestClicked(false);
     }
   };
 
   const handleCancel = () => {
     dispatch(actions.showAuthRequest(false));
+    setAuthRequestClicked(false);
   };
 
   if (!showAuthRequest) {
@@ -103,8 +117,10 @@ export default function AuthRequestModal(props) {
 
   if (!alien) {
     // TODO: handle error
-    return <div></div>;
+    return <div />;
   }
+
+  // console.log("authRequestClicked", authRequestClicked);
 
   return (
     <div>

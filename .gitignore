@@ -28,5 +28,4 @@ yarn-error.log*
 # session
 sessions
 
-# artillery
-artillerytest
+

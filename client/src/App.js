@@ -47,7 +47,6 @@ function Layout() {
   const { roomId } = useSelector(({ room }) => ({
     roomId: room.roomId,
   }));
-  // const popupModal = false;
   const popup = useSelector((state) => state.modalOnOff);
   const popupModal = popup.popupModal;
   const popupMessage = popup.popupMessage;
