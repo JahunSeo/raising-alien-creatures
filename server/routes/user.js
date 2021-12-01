@@ -161,7 +161,7 @@ module.exports = function (passport, pool) {
     const user_id = req.user.id;
     pool.getConnection(function (err, connection) {
       connection.query(
-        'SELECT practice_record.id AS practice_record_id, alien_id, practice_record.challenge_id, practice_record.user_info_id AS request_user_id, challenge.challenge_name AS challenge_name, request_user, request_date, response_user_id, response_user, response_date, record_status, image_url, comments, challenge.tag AS category from practice_record inner join user_info_has_challenge on user_info_has_challenge.challenge_id = practice_record.challenge_id INNER JOIN challenge ON user_info_has_challenge.challenge_id = challenge.id where user_info_has_challenge.user_info_id = ? AND practice_record.user_info_id != ? AND DATE_FORMAT(practice_record.request_date, "%Y-%m-%d") = CURDATE() ORDER BY practice_record.request_date DESC',
+        'SELECT practice_record.id AS practice_record_id, alien_id, practice_record.challenge_id, practice_record.user_info_id AS request_user_id, challenge.challenge_name AS challenge_name, request_user, request_date, response_user_id, response_user, response_date, record_status, image_url, comments, challenge.tag AS category from practice_record inner join user_info_has_challenge on user_info_has_challenge.challenge_id = practice_record.challenge_id INNER JOIN challenge ON user_info_has_challenge.challenge_id = challenge.id where user_info_has_challenge.user_info_id = ? AND practice_record.user_info_id != ? AND record_status =0 AND DATE_FORMAT(practice_record.request_date, "%Y-%m-%d") = CURDATE() ORDER BY practice_record.request_date DESC',
         [user_id, user_id],
         function (err, result) {
           if (err) {
