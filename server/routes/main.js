@@ -20,7 +20,7 @@ module.exports = function (pool) {
       let sql = `SELECT ${columns} FROM (SELECT ${alien_table_columns} FROM alien) T \
                 JOIN user_info ON T.user_info_id = user_info.id \
                 JOIN challenge ON T.challenge_id = challenge.id\
-                WHERE RankNo = 1 AND alien_status = 0;`;
+                WHERE RankNo = 1 AND alien_status = 0 LIMIT 50;`;
       
       connection.query(sql, function (err, results) {
         if (err) throw err;
