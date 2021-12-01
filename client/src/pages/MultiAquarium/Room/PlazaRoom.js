@@ -27,7 +27,7 @@ export default function PlazaRoom(props) {
           room.start();
 
           // redux에 저장
-          const roomTitle = `외계생물 기르기`;
+          const roomTitle = `Chal-It`;
           dispatch(actions.setRoom({ roomId, aliens, roomTitle }));
         } else {
         }
