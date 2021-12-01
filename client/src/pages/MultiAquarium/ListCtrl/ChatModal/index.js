@@ -51,7 +51,7 @@ const ChatModal = (props) => {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      console.log("sendMsg", messageData);
+      // console.log("sendMsg", messageData);
       saveChat(messageData);
       socket.sendMessage(messageData);
       dispatch(actions.setMessage([messageData]));
@@ -85,7 +85,7 @@ const ChatModal = (props) => {
 
   return (
     <div className={toggle ? "ChallengeContainer" : "hidden"}>
-      <div className="boxborder  px-1 mx-auto py-1 my-auto h-full">
+      <div className="boxborder px-1 mx-auto py-1 my-1 h-full">
         <div className="chat-header">
           <p className="font-sans text-white bg-indigo-400 bg-opacity-25 rounded-xl">
             TALK !

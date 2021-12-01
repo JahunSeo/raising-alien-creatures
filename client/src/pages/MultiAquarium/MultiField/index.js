@@ -21,6 +21,16 @@ export default class Field extends Component {
       `rgba(3,33,74,1)`,
       `rgba(1,11,25,1)`,
     ],
+    test1: [
+      // `rgba(249,249,180,1)`,
+      // `rgba(248,255,133,1)`,
+      // `rgba(109,255,238,1)`,
+      // `rgba(0,255,225,1)`,
+      `rgba(198,226,255,1)`,
+      `rgba(176,224,230,1)`,
+      `rgba(192,214,228,1)`,
+      `rgba(104,151,187,1)`,
+    ],
   };
 
   draw = (ctx, frameCnt, mouseObj) => {
@@ -28,7 +38,7 @@ export default class Field extends Component {
     let cvsWidth = ctx.canvas.width;
     let cvsHeight = ctx.canvas.height;
     ctx.save();
-    ctx.clearRect(0, 0, cvsWidth, cvsHeight);
+    ctx.clearRect(0, 0  , cvsWidth, cvsHeight);
 
     const room = aquarium.getCurrentRoom();
     if (room && room.fieldState) {
@@ -36,8 +46,13 @@ export default class Field extends Component {
       // console.log(111, room.usersOnRoom);
       // draw background
       let lingrad = ctx.createLinearGradient(0, 0, 0, cvsHeight);
-      let colorset = this.BG_COLORSET["space"];
+      // let colorset = this.BG_COLORSET["space"];
+      let colorset = this.BG_COLORSET["test1"];
       let pcts = room.camera.getGradientPct();
+      lingrad.addColorStop(0, colorset[0]);
+      lingrad.addColorStop(pcts[0], colorset[1]);
+      lingrad.addColorStop(pcts[1], colorset[2]);
+      lingrad.addColorStop(1, colorset[3]);
       lingrad.addColorStop(0, colorset[0]);
       lingrad.addColorStop(pcts[0], colorset[1]);
       lingrad.addColorStop(pcts[1], colorset[2]);
