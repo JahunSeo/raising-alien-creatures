@@ -210,7 +210,9 @@ const AuthRequest = ({ authRequest }) => {
                 />
               </svg>
             </div>
-            <div className="m-auto md:min-w-max">인증 수락</div>
+            <div className="m-auto md:min-w-max md:text-xl text-sm truncate">
+              인증 수락
+            </div>
           </div>
         </button>
       );
@@ -236,7 +238,9 @@ const AuthRequest = ({ authRequest }) => {
                 />
               </svg>
             </div>
-            <div className="m-auto md:min-w-max">인증 완료</div>
+            <div className="m-auto md:min-w-max md:text-xl text-sm truncate">
+              인증 완료
+            </div>
           </div>
         </button>
       );
@@ -283,7 +287,7 @@ const AuthRequest = ({ authRequest }) => {
           <ApprovalButton />
           <button
             type="button"
-            className="flex justify-center items-center min-w-min min-h-0 max-w-sm w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
+            className="flex flex-nowrap text-center justify-center items-center min-w-min min-h-0 max-w-sm w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 focus:outline-none text-white text-2xl uppercase font-bold shadow-md rounded-lg mx-auto p-5"
             onClick={handleNavigate}
           >
             <div className="flex gap-2">
@@ -302,7 +306,9 @@ const AuthRequest = ({ authRequest }) => {
                   />
                 </svg>
               </div>
-              <div className="m-auto md:min-w-max">챌린지룸 이동</div>
+              <div className="m-auto md:min-w-max md:text-xl text-sm truncate">
+                챌린지룸 이동
+              </div>
             </div>
           </button>
         </div>
