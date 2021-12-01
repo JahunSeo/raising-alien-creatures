@@ -14,6 +14,7 @@ const cx = classNames.bind();
 
 export default function Approval(props) {
   const [authRequests, setAuthRequests] = useState([]);
+  // const [orderRequests, setOrderRequests] = useState(true);
 
   useEffect(() => {
     const loadAuthRequests = async () => {
@@ -29,17 +30,72 @@ export default function Approval(props) {
     loadAuthRequests();
   }, []);
 
-  // console.log("authRequests", authRequests);
+  // function ToggleBtn(props) {
+  //   const { orderRequests, setOrderRequests } = props;
+
+  //   return (
+  //     <nav className="toggleBtn">
+  //       <button
+  //         className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
+  //         onClick={() => setOrderRequests(!orderRequests)}
+  //       >
+  //         <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+  //           <span
+  //             aria-hidden="true"
+  //             className={cx(
+  //               "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
+  //               orderRequests ? "" : "-translate-y-1.5"
+  //             )}
+  //           ></span>
+  //           <span
+  //             aria-hidden="true"
+  //             className={cx(
+  //               "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
+  //               orderRequests ? "" : ""
+  //             )}
+  //           ></span>
+  //           <span
+  //             aria-hidden="true"
+  //             className={cx(
+  //               "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
+  //               orderRequests ? "" : "translate-y-1.5"
+  //             )}
+  //           ></span>
+  //         </div>
+  //       </button>
+  //     </nav>
+  //   );
+  // }
+
+  // console.log("orderRequests", orderRequests);
 
   if (authRequests.length) {
     return (
       <div className="authRequests" style={{ paddingTop: "75px" }}>
-        {authRequests.map((authRequest) => (
-          <AuthRequest
-            key={authRequest.practice_record_id}
-            authRequest={authRequest}
+        <div className="flex-col m-auto justify-center bg-white rounded-xl shadow dark:bg-gray-800 z-10">
+          {/* <ToggleBtn
+            orderRequests={orderRequests}
+            setOrderRequests={setOrderRequests}
           />
-        ))}
+          {orderRequests ? (
+            <div className="dropContent">
+              <option value="전체"> #전체</option>
+              <option value="운동"> #운동</option>
+              <option value="건강"> #건강</option>
+              <option value="공부"> #공부</option>
+              <option value="독서"> #독서</option>
+              <option value="취미"> #취미</option>
+            </div>
+          ) : null} */}
+        </div>
+        <div>
+          {authRequests.map((authRequest) => (
+            <AuthRequest
+              key={authRequest.practice_record_id}
+              authRequest={authRequest}
+            />
+          ))}
+        </div>
       </div>
     );
   } else {
@@ -62,8 +118,8 @@ const AuthRequest = ({ authRequest }) => {
   const authHour = authRequest.request_date.slice(11, 13);
   const authMinute = authRequest.request_date.slice(14, 16);
 
-  const [approvalStatus, SetApprovalStatus] = useState(false);
-  const [orderRequests, setOrderRequests] = useState(false);
+  const [approvalStatus, setApprovalStatus] = useState(false);
+  const [approvalClicked, setApprovalClicked] = useState(false);
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
@@ -74,6 +130,7 @@ const AuthRequest = ({ authRequest }) => {
     console.log("req", req);
 
     if (req.data.msg === "인증 수락 가능한 날짜가 만료되었습니다.") {
+      setApprovalClicked(false);
       dispatch(
         actions.setPopupModal(
           "AUTH_DATE_OUT",
@@ -85,6 +142,7 @@ const AuthRequest = ({ authRequest }) => {
       return;
     }
     if (req.data.msg === "이미 인증이 완료된 건 입니다.") {
+      setApprovalClicked(false);
       dispatch(
         actions.setPopupModal(
           "AUTH_EXIST",
@@ -96,7 +154,7 @@ const AuthRequest = ({ authRequest }) => {
       return;
     }
     if (req.data.result === "success") {
-      // alert(`${authRequest.request_user_nickname} 님의 인증을 수락하였습니다.`);
+      setApprovalClicked(false);
       dispatch(
         actions.setPopupModal(
           "AUTH_APPROVAL",
@@ -105,7 +163,7 @@ const AuthRequest = ({ authRequest }) => {
           () => {}
         )
       );
-      SetApprovalStatus(true);
+      setApprovalStatus(true);
       // socket에 전달
       let info = {
         senderId: user.id,
@@ -119,6 +177,8 @@ const AuthRequest = ({ authRequest }) => {
   };
 
   const handleSubmit = () => {
+    if (approvalClicked) return;
+    setApprovalClicked(true);
     postApproval();
   };
 
@@ -183,68 +243,24 @@ const AuthRequest = ({ authRequest }) => {
     }
   };
 
-  function ToggleBtn(props) {
-    const { orderRequests, setOrderRequests } = props;
-
-    return (
-      <nav className="ToggleBtn">
-        <button
-          className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
-          onClick={() => setOrderRequests(!orderRequests)}
-        >
-          <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <span
-              aria-hidden="true"
-              className={cx(
-                "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
-                orderRequests ? "" : "-translate-y-1.5"
-              )}
-            ></span>
-            <span
-              aria-hidden="true"
-              className={cx(
-                "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
-                orderRequests ? "" : ""
-              )}
-            ></span>
-            <span
-              aria-hidden="true"
-              className={cx(
-                "block absolute h-0.5 w-5 bg-white transform transition duration-500 ease-in-out",
-                orderRequests ? "" : "translate-y-1.5"
-              )}
-            ></span>
-          </div>
-        </button>
-      </nav>
-    );
-  }
-
-  console.log("orderRequests", orderRequests);
+  console.log("approvalClicked", approvalClicked);
 
   return (
     <div className="flex min-w-min min-h-0 p-12 justify-center items-center bg-gray-100">
-      <div className="flex flex-col justify-center items-center">
-        <ToggleBtn
-          orderRequests={orderRequests}
-          setOrderRequests={setOrderRequests}
-        />
-      </div>
-      <div className="w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-125 cursor-pointer">
+      <div className="flex flex-col w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg  cursor-pointer">
         {/* react-lazy-load-image-component */}
         <div className="flex flex-col justify-center items-center">
           <LazyLoadImage
             className="LazyLoadImage"
             src={authRequest.image_url}
             alt="authImage"
-            // scrollPosition={scrollPosition}
             threshold="10"
             effect="blur"
           />
         </div>
         <div className="flex flex-col justify-center items-center mb-2 space-x-4">
           <div className="mb-2 space-x-4">
-            <div className="mt-6 mb-4 text-2xl font-bold text-black">
+            <div className="mt-6 mb-4 px-8 text-center text-2xl font-bold text-black">
               "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
               인증 요청
             </div>

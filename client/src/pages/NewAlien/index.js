@@ -30,6 +30,8 @@ export default function NewAlien(props) {
   const navigate = useNavigate();
   // 팝업
   const dispatch = useDispatch();
+  // 중복 생성 요청 방지
+  const [alienClicked, setAlienClicked] = useState(false);
 
   // 기본 생명체 번호 계산
   let aNumber = alienNumber;
@@ -100,10 +102,12 @@ export default function NewAlien(props) {
   const handleSubmit = (e) => {
     // e.preventDefault();
     // validation check
+    if (alienClicked) return;
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
+    setAlienClicked(true);
     postCreateAlien();
   };
-  // 캐릭서 선택탭
+  // 캐릭터 선택탭
   const handleTap = (e) => {
     setAlienNumber(0);
     if (e === "fish") {
@@ -132,7 +136,7 @@ export default function NewAlien(props) {
     };
 
     const response = await api.post("/alien/create", createAlienData);
-    // console.log("res", response);
+    console.log("res", response);
     if (response.data.result === "access_deny_full") {
       // 1) 종류 2) 메세지 문구 3) SUCC or FAIL에 따른 아이콘 변경 4) callback함수(사실 여기선 별 효과 없음)
       dispatch(
@@ -175,6 +179,7 @@ export default function NewAlien(props) {
     dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
   };
 
+  console.log("alienClicked", alienClicked);
   // console.log("checkDay", checkDay);
   return (
     <div className={styles.body}>

@@ -28,7 +28,7 @@ export default function AlienInfo({
           className="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-400 focus:bg-white"
           id="grid-first-name"
           type="text"
-          placeholder="김진영"
+          placeholder="생명체 이름을 지어주세요."
           onChange={(e) => {
             setAlienName(e.target.value);
           }}
