@@ -1,7 +1,7 @@
 .body {
   width: 100%;
   height: 100%;
-  background-color: rgba(5, 55, 123, 0.5);
+  background-color: rgba(5, 55, 123, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,16 +62,13 @@
   font-size: 16px;
   text-align: center;
   cursor: pointer;
+  
 }
 
 .btn--ing {
   font-weight: bold;
   color: #ffffff;
   border: 0;
-}
-
-.btn--start{
-  font-size:15px;
 }
 
 .btn--full {

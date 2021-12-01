@@ -8,7 +8,8 @@
   overflow:auto;
   border: 0.05rem solid #fff;
   font-family: inherit;
-  font-weight: bold;
+  font-weight: bold;            
+  background-color: rgba(11, 20, 34, 0.08);
 }
 
 .PostListBlock::-webkit-scrollbar {

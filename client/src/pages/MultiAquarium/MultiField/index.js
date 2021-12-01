@@ -21,18 +21,15 @@ export default class Field extends Component {
       `rgba(3,33,74,1)`,
       `rgba(1,11,25,1)`,
     ],
-    test1: [
-      // `rgba(249,249,180,1)`,
-      // `rgba(248,255,133,1)`,
-      // `rgba(109,255,238,1)`,
-      // `rgba(0,255,225,1)`,
-      `rgba(198,226,255,1)`,
-      `rgba(176,224,230,1)`,
-      `rgba(192,214,228,1)`,
-      `rgba(104,151,187,1)`,
+    myRoom: [
+      `rgba(161,226,255,1)`,
+      `rgba(23,202,241,1)`,
+      `rgba(9,142,180,1)`,
+      `rgba(3,107,129,1)`,
     ],
   };
 
+  // roomId: "user-261"
   draw = (ctx, frameCnt, mouseObj) => {
     // console.log(mouseObj);
     let cvsWidth = ctx.canvas.width;
@@ -46,8 +43,13 @@ export default class Field extends Component {
       // console.log(111, room.usersOnRoom);
       // draw background
       let lingrad = ctx.createLinearGradient(0, 0, 0, cvsHeight);
-      // let colorset = this.BG_COLORSET["space"];
-      let colorset = this.BG_COLORSET["test1"];
+      let colorset;
+      if (room.roomId.includes('user')){
+        colorset = this.BG_COLORSET["myRoom"];
+      }
+      else{
+        colorset = this.BG_COLORSET["space"];
+      }
       let pcts = room.camera.getGradientPct();
       lingrad.addColorStop(0, colorset[0]);
       lingrad.addColorStop(pcts[0], colorset[1]);
@@ -80,11 +82,20 @@ export default class Field extends Component {
         0,
         Math.PI * 2
       );
+
       var grd = ctx.createRadialGradient(100, 50, 0, 90, 60, 1000);
-      grd.addColorStop(0, "#f0c0ff");
-      grd.addColorStop(0.25, "#9048f0");
-      grd.addColorStop(0.5, "#6018c0");
-      grd.addColorStop(1, "black");
+      if (room.roomId.includes('user')){
+        grd.addColorStop(0, "#e3f6fa");
+        grd.addColorStop(0.25, "#86e3f7");
+        grd.addColorStop(0.5, "#1c9fba");
+        grd.addColorStop(1, "#0b6f84");
+      }
+      else{
+        grd.addColorStop(0, "#f0c0ff");
+        grd.addColorStop(0.25, "#9048f0");
+        grd.addColorStop(0.5, "#6018c0");
+        grd.addColorStop(1, "black");
+      }
       ctx.fillStyle = grd;
       ctx.fill();
 
