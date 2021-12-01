@@ -55,7 +55,6 @@ export default function NewAlien(props) {
     aNumber += 30;
   }
 
-  console.log(1232323, aNumber);
   useEffect(() => {
     // cntOfWeek
     try {

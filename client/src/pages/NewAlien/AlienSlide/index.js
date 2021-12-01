@@ -6,7 +6,6 @@ import Seal from "./alienTap/seal";
 import Puffish from "./alienTap/puffish";
 
 function AlienSlide({ alienNumber, setAlienNumber, alienCategory }) {
-  // console.log(2222222, alienCategory);
   function galleryspin(sign) {
     if (!sign) {
       setAlienNumber(alienNumber + 1);
@@ -17,7 +16,6 @@ function AlienSlide({ alienNumber, setAlienNumber, alienCategory }) {
 
   function spin(angle) {
     const spinner = document.querySelector(`#${alienCategory.type}`);
-    console.log(alienCategory);
     if (spinner) {
       spinner.setAttribute(
         "style",
