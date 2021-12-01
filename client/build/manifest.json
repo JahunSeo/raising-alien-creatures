@@ -1,0 +1,26 @@
+{
+  "short_name": "CHAL-IT",
+  "name": "CHAL-IT",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "48x48"
+    },
+    {
+      "src": "Chalit_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "Chalit_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#05367b",
+  "background_color": "#05367b"
+}
