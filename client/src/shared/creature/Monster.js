@@ -66,6 +66,11 @@ class Monster {
     }
   }
 
+  increaseAuthCnt() {
+    this.authCnt++;
+    this.size = 40 + this.authCnt * 2;
+  }
+
   sync(monPlain) {
     // temp
     this.destination = monPlain.destination;
@@ -139,25 +144,21 @@ class Monster {
         const isPracticeDay = this.practiceDays[todayValue];
 
         // 물개를 위한 특단의 조치
-        if(this.image_url[0].includes('seal')){
+        if (this.image_url[0].includes("seal")) {
           if (this.practiceStatus === 1) {
-            if (direction > 0){
-              ctx.drawImage(this.bubbleW, -size/2, -size/4, size, size);
-            }
-            else{
-              ctx.drawImage(this.bubbleW, -size/2, -size/1.5, size, size);
+            if (direction > 0) {
+              ctx.drawImage(this.bubbleW, -size / 2, -size / 4, size, size);
+            } else {
+              ctx.drawImage(this.bubbleW, -size / 2, -size / 1.5, size, size);
             }
           } else if (isPracticeDay && this.practiceStatus === 0) {
-            if (direction > 0){
-              ctx.drawImage(this.bubbleR, -size/2, -size/4, size, size);
-            }
-            else{
-              ctx.drawImage(this.bubbleR, -size/2, -size/1.5, size, size);
+            if (direction > 0) {
+              ctx.drawImage(this.bubbleR, -size / 2, -size / 4, size, size);
+            } else {
+              ctx.drawImage(this.bubbleR, -size / 2, -size / 1.5, size, size);
             }
           }
-        }
-      
-        else{
+        } else {
           if (this.practiceStatus === 1) {
             ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
           } else if (isPracticeDay && this.practiceStatus === 0) {
@@ -165,7 +166,7 @@ class Monster {
             ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
           }
         }
-      } 
+      }
 
       ctx.restore();
     }
