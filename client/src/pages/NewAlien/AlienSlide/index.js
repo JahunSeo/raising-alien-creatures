@@ -5,7 +5,8 @@ import Fish from "./alienTap/fish";
 import Seal from "./alienTap/seal";
 import Puffish from "./alienTap/puffish";
 
-function AlienSlide({ alienNumber, setAlienNumber, alienCategory }) {
+function AlienSlide({ alienNumber, setAlienNumber, alienCategory, imageInfo }) {
+  console.log(123231, imageInfo);
   function galleryspin(sign) {
     if (!sign) {
       setAlienNumber(alienNumber + 1);

@@ -21,9 +21,9 @@ export default function NewAlien() {
     angle: 60,
     divider: 6,
   });
+  const [imageInfo, setImageInfo] = useState(null);
   // 인증 요일
   const [checkDay, setCheckDay] = useState([]);
-
   // validation
   const [creAlienMessage, setCreAlienMessage] = useState(null);
   // 링크 이동
@@ -74,6 +74,7 @@ export default function NewAlien() {
           setAuthCount(res.data.times_per_week);
           // console.log("res!!!:", res);
           // console.log("res hihi", res.data.images[0].species);
+          setImageInfo(res.data.images);
         } else {
           // TODO: error handling 필요한가?
         }
@@ -114,11 +115,23 @@ export default function NewAlien() {
   const handleTap = (e) => {
     setAlienNumber(0);
     if (e === "fish") {
-      setAlienCategory({ type: "fish", angle: 60, divider: 6 });
+      setAlienCategory({
+        type: "fish",
+        angle: 360,
+        divider: imageInfo[0].count,
+      });
     } else if (e === "seal") {
-      setAlienCategory({ type: "seal", angle: 90, divider: 4 });
+      setAlienCategory({
+        type: "seal",
+        angle: 90,
+        divider: imageInfo[1].count,
+      });
     } else if (e === "puffish") {
-      setAlienCategory({ type: "puffish", angle: 90, divider: 4 });
+      setAlienCategory({
+        type: "puffish",
+        angle: 90,
+        divider: imageInfo[2].count,
+      });
     } else return;
   };
 
@@ -242,6 +255,7 @@ export default function NewAlien() {
               alienNumber={alienNumber}
               setAlienNumber={setAlienNumber}
               alienCategory={alienCategory}
+              imageInfo={imageInfo}
             />
           </div>
         </div>
