@@ -75,7 +75,14 @@ export default function Title(props) {
     );
   } else if (!!newchalMatch) {
     if (!user.login) return <Navigate to="/" />;
-    return <div className={styles.title}>{`New Challenge`}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleIcon}>
+          <GiSupersonicArrow />
+        </span>
+        <span className={styles.titleText}>{`New Challenge`}</span>
+      </div>
+    );
   } else if (!!alienMatch) {
     let { params } = alienMatch;
     let { challengeId } = params;
@@ -88,10 +95,21 @@ export default function Title(props) {
     if (!user.login || participating) {
       return <Navigate to={`/challenge/${challengeId}/room`} />;
     }
-    return <div className={styles.title}>{roomTitle}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleIcon}>
+          <GiSupersonicArrow />
+        </span>
+        <span className={styles.titleText}>{roomTitle}</span>
+      </div>
+    );
   } else if (!!approvalMatch) {
     if (!user.login) return <Navigate to="/" />;
-    return <div className={styles.title}>{`Approval`}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleText}>{`Approval`}</span>
+      </div>
+    );
   } else {
     return (
       <div className={styles.titleBox}>
