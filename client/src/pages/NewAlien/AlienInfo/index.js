@@ -36,7 +36,7 @@ export default function AlienInfo({
       </div>
       <div className="container md:text-left text-center px-3 md:py-3 py-2 font-bold text-lg text-gray-700 tracking-wide">
         <div>
-          챌린지 인증 요일를 선택해 주세요(총{" "}
+          챌린지 인증 요일을 선택해 주세요(총{" "}
           <span style={{ color: "red" }}>{authCount}</span>회 선택!){" "}
         </div>
         <div className="rounded mt-3">
@@ -49,7 +49,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("sun")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("sun") ? true : false}
                 >
@@ -61,7 +61,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("mon")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("mon") ? true : false}
                 >
@@ -73,7 +73,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("tue")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("tue") ? true : false}
                 >
@@ -85,7 +85,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("wed")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("wed") ? true : false}
                 >
@@ -97,7 +97,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("thu")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("thu") ? true : false}
                 >
@@ -109,7 +109,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("fri")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("fri") ? true : false}
                 >
@@ -121,7 +121,7 @@ export default function AlienInfo({
                   className={
                     checkDay.includes("sat")
                       ? "border-2 border-indigo-600 bg-indigo-600 rounded-lg px-3 py-2 text-indigo-200 cursor-pointer hover:bg-indigo-800 hover:text-indigo-400"
-                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer hover:bg-indigo-800 hover:text-indigo-200"
+                      : "border-2 border-indigo-600 rounded-lg px-3 py-2 text-indigo-400 cursor-pointer"
                   }
                   checked={checkDay.includes("sat") ? true : false}
                 >
