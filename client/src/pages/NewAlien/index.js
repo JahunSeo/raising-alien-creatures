@@ -11,7 +11,6 @@ import AlienInfo from "./AlienInfo";
 export default function NewAlien() {
   const { challengeId } = useParams();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  // console.log("New Challenge params", params);
   const [authCount, setAuthCount] = useState("");
   // 생명체 정보
   const [alienName, setAlienName] = useState("");
@@ -49,12 +48,15 @@ export default function NewAlien() {
       aNumber = 0;
     }
   }
-  if (alienCategory.type === "fish") {
-    aNumber += 10;
-  } else if (alienCategory.type === "seal") {
-    aNumber += 20;
-  } else if (alienCategory.type === "puffish") {
-    aNumber += 30;
+  // 첫번째 생물은 10~ 두번째 20~ 세번째 30~
+  if (imageInfo) {
+    if (alienCategory.type === imageInfo[0].species) {
+      aNumber += 10;
+    } else if (alienCategory.type === imageInfo[1].species) {
+      aNumber += 20;
+    } else if (alienCategory.type === imageInfo[2].species) {
+      aNumber += 30;
+    }
   }
 
   useEffect(() => {
@@ -72,8 +74,6 @@ export default function NewAlien() {
         let res = await api.get(`/alien/imageInfo/${challengeId}`);
         if (res.data.result === "success") {
           setAuthCount(res.data.times_per_week);
-          // console.log("res!!!:", res);
-          // console.log("res hihi", res.data.images[0].species);
           setImageInfo(res.data.images);
         } else {
           // TODO: error handling 필요한가?
@@ -84,7 +84,6 @@ export default function NewAlien() {
       console.error("fetchData fail", err);
     }
   }, [challengeId, user.login, user.challenges]);
-
   // validation
   function validateCreAlien(alienName, checkDay, authCount) {
     if (!alienName) {
@@ -114,22 +113,22 @@ export default function NewAlien() {
   // 캐릭터 선택탭
   const handleTap = (e) => {
     setAlienNumber(0);
-    if (e === "fish") {
+    if (e === imageInfo[0].species) {
       setAlienCategory({
-        type: "fish",
-        angle: 360,
+        type: imageInfo[0].species,
+        angle: parseInt(360 / imageInfo[0].count),
         divider: imageInfo[0].count,
       });
-    } else if (e === "seal") {
+    } else if (e === imageInfo[1].species) {
       setAlienCategory({
-        type: "seal",
-        angle: 90,
+        type: imageInfo[1].species,
+        angle: parseInt(360 / imageInfo[1].count),
         divider: imageInfo[1].count,
       });
-    } else if (e === "puffish") {
+    } else if (e === imageInfo[2].species) {
       setAlienCategory({
-        type: "puffish",
-        angle: 90,
+        type: imageInfo[2].species,
+        angle: parseInt(360 / imageInfo[2].count),
         divider: imageInfo[2].count,
       });
     } else return;
@@ -195,8 +194,6 @@ export default function NewAlien() {
     dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
   };
 
-  console.log("alienClicked", alienClicked);
-  // console.log("checkDay", checkDay);
   return (
     <div className={styles.body}>
       <div className="container w-2/5 min-w-max">

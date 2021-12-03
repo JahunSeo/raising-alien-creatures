@@ -6,7 +6,6 @@ import Seal from "./alienTap/seal";
 import Puffish from "./alienTap/puffish";
 
 function AlienSlide({ alienNumber, setAlienNumber, alienCategory, imageInfo }) {
-  console.log(123231, imageInfo);
   function galleryspin(sign) {
     if (!sign) {
       setAlienNumber(alienNumber + 1);
@@ -46,7 +45,13 @@ function AlienSlide({ alienNumber, setAlienNumber, alienCategory, imageInfo }) {
       <div className={styles.carousel} id="carousel">
         {
           {
-            fish: <Fish S3URL={S3URL} alienCategory={alienCategory} />,
+            fish: (
+              <Fish
+                S3URL={S3URL}
+                alienCategory={alienCategory}
+                imageInfo={imageInfo}
+              />
+            ),
             seal: <Seal S3URL={S3URL} alienCategory={alienCategory} />,
             puffish: <Puffish S3URL={S3URL} alienCategory={alienCategory} />,
           }[alienCategory.type]
