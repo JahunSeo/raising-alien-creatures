@@ -16,6 +16,22 @@
   animation: animate2 800ms steps(4) infinite;
 }
 
+@media only screen and (max-width: 450px) {
+  #seal div {
+    left: 35%;
+  }
+}
+@media only screen and (min-width: 450px) {
+  #seal div {
+    left: 25%;
+  }
+}
+@media only screen and (min-width: 800px) {
+  #seal div {
+    left: 25%;
+  }
+}
+
 @keyframes animate2 {
   from {
     background-position: 0;

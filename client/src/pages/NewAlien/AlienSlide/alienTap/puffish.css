@@ -15,21 +15,21 @@
   transform-origin: 50% 50% -300px;
   outline: 1px solid transparent;
   background-size: 60vw;
-  animation: animate3 80 0ms steps(4) infinite;
+  animation: animate3 800ms steps(4) infinite;
 }
 @media only screen and (max-width: 450px) {
   #puffish div {
-    left: 50%;
+    left: 40%;
   }
 }
 @media only screen and (min-width: 450px) {
   #puffish div {
-    left: 50%;
+    left: 35%;
   }
 }
 @media only screen and (min-width: 800px) {
   #puffish div {
-    left: 60%;
+    left: 35%;
   }
 }
 

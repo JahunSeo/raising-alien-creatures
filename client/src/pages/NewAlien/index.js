@@ -69,9 +69,11 @@ export default function NewAlien() {
             -1;
         }
         if (!user.login || participating) return;
-        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
+        let res = await api.get(`/alien/imageInfo/${challengeId}`);
         if (res.data.result === "success") {
           setAuthCount(res.data.times_per_week);
+          // console.log("res!!!:", res);
+          // console.log("res hihi", res.data.images[0].species);
         } else {
           // TODO: error handling 필요한가?
         }
