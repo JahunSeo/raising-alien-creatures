@@ -5,6 +5,7 @@ import Title from "./Title";
 
 import ToggleBtn from "./Buttons/ToggleBtn";
 import SearchBtn from "./Buttons/SearchBtn";
+import MyRoomBtn from "./Buttons/MyRoomBtn";
 import ApproveBtn from "./Buttons/ApproveBtn";
 
 import SignInModal from "./SignInModal";
@@ -90,15 +91,7 @@ export default function Header(props) {
         >
           <div className={cx("btnRow", "btnRow--basic")}>
             <SearchBtn />
-            {user.login ? (
-              <Link to={`/user/${user.id}/room`} className={cx("MenuBtn")}>
-                {"My"}
-              </Link>
-            ) : (
-              <p className={cx("MenuBtn")} onClick={() => switchSignInModal()}>
-                {"My"}
-              </p>
-            )}
+            <MyRoomBtn user={user} switchSignInModal={switchSignInModal} />
             <ApproveBtn user={user} switchSignInModal={switchSignInModal} />
           </div>
           <div className={cx("btnRow", "btnRow--user")}>
