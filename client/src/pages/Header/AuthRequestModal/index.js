@@ -24,6 +24,7 @@ export default function AuthRequestModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (authRequestClicked) return;
+    setAuthRequestClicked(true);
 
     /* 예외 처리 Handling 1. */
     let day = {
@@ -76,7 +77,7 @@ export default function AuthRequestModal(props) {
       image_url: imageUrl,
     };
 
-    setAuthRequestClicked(true);
+    // setAuthRequestClicked(true);
     res = await api.post("/challenge/auth", resp);
     console.log("res", res);
 
@@ -121,7 +122,7 @@ export default function AuthRequestModal(props) {
     return <div />;
   }
 
-  // console.log("authRequestClicked", authRequestClicked);
+  console.log("authRequestClicked", authRequestClicked);
 
   return (
     <div>
