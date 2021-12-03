@@ -8,7 +8,7 @@ import api from "../../apis";
 import AlienSlide from "./AlienSlide";
 import AlienInfo from "./AlienInfo";
 
-export default function NewAlien(props) {
+export default function NewAlien() {
   const { challengeId } = useParams();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   // console.log("New Challenge params", params);
@@ -191,30 +191,18 @@ export default function NewAlien(props) {
           checkDay={checkDay}
           setCheckDay={setCheckDay}
         />
-        <div style={{ padding: "20px 10px 20px" }}>
-          <ul
-            className="NotiList"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <li className="NotiItem">
-              선택하는 요일에 한해 인증할 수 있습니다.
-            </li>
-            <li>해당 요일에 인증하지 않으면 생명체는 사망합니다.</li>
-          </ul>
-        </div>
 
         <div className="container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
+          <div className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2 xl:text-2xl xl:pb-5 2xl:text-3xl 2xl:pb-7">
+            생명체 선택
+          </div>
           <ul className="relative px-1 py-1 inline-flex min-w-max">
             <li className=" mr-1 inline-block ">
               <button
                 className={
                   alienCategory.type === "fish"
-                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700 font-semibold"
-                    : "bg-white inline-block py-2 px-4 text-indigo-700 font-semibold hover:text-red-600"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700 font-semibold xl:text-2xl 2xl:text-3xl"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700 font-semibold hover:text-red-600 xl:text-2xl 2xl:text-3xl"
                 }
                 onClick={() => handleTap("fish")}
               >
@@ -225,8 +213,8 @@ export default function NewAlien(props) {
               <button
                 className={
                   alienCategory.type === "seal"
-                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
-                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold xl:text-2xl 2xl:text-3xl"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600 xl:text-2xl 2xl:text-3xl"
                 }
                 onClick={() => handleTap("seal")}
               >
@@ -237,8 +225,8 @@ export default function NewAlien(props) {
               <button
                 className={
                   alienCategory.type === "puffish"
-                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
-                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold xl:text-2xl 2xl:text-3xl"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600 xl:text-2xl 2xl:text-3xl"
                 }
                 onClick={() => handleTap("puffish")}
               >
@@ -261,7 +249,7 @@ export default function NewAlien(props) {
         </div>
         <div className="flex justify-center pb-5">
           <button
-            className="border py-1 px-3 rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 text-font-semibold"
+            className="xl:text-xl 2xl:text-2xl text-lg border py-2 px-4 rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 text-font-semibold"
             onClick={handleSubmit}
           >
             생명체 생성

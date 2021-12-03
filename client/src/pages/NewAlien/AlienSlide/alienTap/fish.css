@@ -17,6 +17,22 @@
   animation: animate1 800ms steps(4) infinite;
 }
 
+@media only screen and (max-width: 450px) {
+  #fish div {
+    left: 40%;
+  }
+}
+@media only screen and (min-width: 450px) {
+  #fish div {
+    left: 35%;
+  }
+}
+@media only screen and (min-width: 800px) {
+  #fish div {
+    left: 30%;
+  }
+}
+
 @keyframes animate1 {
   from {
     background-position: 0;
