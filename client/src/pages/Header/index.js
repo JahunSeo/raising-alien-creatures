@@ -84,24 +84,24 @@ export default function Header(props) {
           )}
         >
           <div className={cx("btnRow", "btnRow--basic")}>
-            <Link to={"/"} className={cx("btn")}>
+            <Link to={"/"} className={cx("MenuBtn")}>
               {"검색"}
             </Link>
             {user.login ? (
-              <Link to={`/user/${user.id}/room`} className={cx("btn")}>
+              <Link to={`/user/${user.id}/room`} className={cx("MenuBtn")}>
                 {"My"}
               </Link>
             ) : (
-              <p className={cx("btn")} onClick={() => switchSignInModal()}>
+              <p className={cx("MenuBtn")} onClick={() => switchSignInModal()}>
                 {"My"}
               </p>
             )}
             {user.login ? (
-              <Link to={`/approval`} className={cx("btn")}>
+              <Link to={`/approval`} className={cx("MenuBtn")}>
                 {"승인"}
               </Link>
             ) : (
-              <p className={cx("btn")} onClick={() => switchSignInModal()}>
+              <p className={cx("MenuBtn")} onClick={() => switchSignInModal()}>
                 {"승인"}
               </p>
             )}

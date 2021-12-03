@@ -36,6 +36,10 @@ export default function Title(props) {
     let { params } = challengeMatch;
     let { challengeId } = params;
 
+    if (!challenge) {
+      return <div></div>;
+    }
+
     // 챌린지 풀방인지 확인
 
     // 본 챌린지에 참가중인지 확인
@@ -44,6 +48,7 @@ export default function Title(props) {
       participating =
         user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
     }
+
     return (
       <React.Fragment>
         <div className={styles.titleBox}>
@@ -53,19 +58,21 @@ export default function Title(props) {
           <span className={styles.titleText}>{roomTitle}</span>
         </div>
         {user.login && participating && (
-          <div className={cx("btn", "btn--ing")}>참가중</div>
+          <div className={cx("JoinBtn", "JoinBtn--ing")}>참가중</div>
         )}
         {user.login &&
           !participating &&
           challenge.participant_number < challenge.maximum_number && (
             <Link to={`/challenge/${challengeId}/join`}>
-              <button className={cx("btn", "btn--start")}>시작하기</button>
+              <button className={cx("JoinBtn", "JoinBtn--start")}>
+                시작하기
+              </button>
             </Link>
           )}
         {user.login &&
           !participating &&
           !(challenge.participant_number < challenge.maximum_number) && (
-            <div className={cx("btn--full")}>
+            <div className={cx("JoinBtn", "JoinBtn--full")}>
               <div>
                 풀방 {challenge.participant_number}/{challenge.maximum_number}
               </div>

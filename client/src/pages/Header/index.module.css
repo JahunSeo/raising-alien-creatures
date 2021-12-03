@@ -68,33 +68,33 @@
   max-width: 250px;
 }
 
-.btn {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+.JoinBtn {
   color: #ffffff;
+  padding: 5px 10px;
+  /* border: 1px solid #ffffff; */
+  border-radius: 5px;
+  text-align: center;
+}
+
+.JoinBtn--ing {
+  font-weight: bold;
+  font-size: 18px;
+  border: 0;
+  cursor: default;
+}
+
+.JoinBtn--start {
+  background-color: tomato;
+  cursor: pointer;
+}
+
+.JoinBtn--full {
+  background-color: transparent;
   padding: 5px 10px;
   /* border: 1px solid #ffffff; */
   font-size: 16px;
   text-align: center;
-  cursor: pointer;
-}
-
-.btn--ing {
-  font-weight: bold;
-  color: #ffffff;
-  border: 0;
-}
-
-.btn--full {
-  color: #ffffff;
-  padding: 5px 10px;
-  border: 1px solid #ffffff;
-  font-size: 16px;
-  text-align: center;
+  cursor: not-allowed;
 }
 
 .username {
@@ -107,6 +107,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.MenuBtn {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
 }
 
 .UserBtn {
