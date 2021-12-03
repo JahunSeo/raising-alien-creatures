@@ -15,7 +15,7 @@
   padding: 5px 10px;
 
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   position: relative;
 }
 
@@ -43,16 +43,28 @@
   margin-left: 30px;
 }
 
-.title {
-  font-size: 22px;
+.titleBox {
+  font-size: 30px;
   font-weight: bold;
   color: #ffffff;
+
   margin-left: 20px;
   margin-right: 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.titleIcon {
+  width: 40px;
+}
+
+.titleText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 240px;
+  max-width: 250px;
 }
 
 .btn {
@@ -62,7 +74,6 @@
   font-size: 16px;
   text-align: center;
   cursor: pointer;
-  
 }
 
 .btn--ing {
