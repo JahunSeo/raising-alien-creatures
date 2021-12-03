@@ -8,9 +8,10 @@ export default function ApproveBtn(props) {
   const { user, switchSignInModal } = props;
   const approvalMatch = useMatch("/approval");
 
+  let selected = !!approvalMatch;
   let Icon;
-  if (!approvalMatch) Icon = RiMailCheckLine;
-  else Icon = RiMailCheckFill;
+  if (selected) Icon = RiMailCheckFill;
+  else Icon = RiMailCheckLine;
 
   if (!user.login) {
     return (
@@ -20,7 +21,10 @@ export default function ApproveBtn(props) {
     );
   } else {
     return (
-      <Link to={`/approval`} className={cx("MenuBtn")}>
+      <Link
+        to={`/approval`}
+        className={cx("MenuBtn", selected && "MenuBtn--selected")}
+      >
         <Icon />
       </Link>
     );

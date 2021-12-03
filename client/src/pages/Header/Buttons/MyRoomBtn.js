@@ -8,9 +8,9 @@ export default function MyRoomBtn(props) {
   const { user, switchSignInModal } = props;
   const userMatch = useMatch("/user/:userId/room");
 
+  let selected = userMatch && user.id === Number(userMatch.params.userId);
   let Icon;
-  if (userMatch && user.id === Number(userMatch.params.userId))
-    Icon = RiUser5Fill;
+  if (selected) Icon = RiUser5Fill;
   else Icon = RiUser5Line;
 
   if (!user.login) {
@@ -21,7 +21,10 @@ export default function MyRoomBtn(props) {
     );
   } else {
     return (
-      <Link to={`/user/${user.id}/room`} className={cx("MenuBtn")}>
+      <Link
+        to={`/user/${user.id}/room`}
+        className={cx("MenuBtn", !!selected && "MenuBtn--selected")}
+      >
         <Icon />
       </Link>
     );

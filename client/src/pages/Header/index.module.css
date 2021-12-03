@@ -99,7 +99,7 @@
 
 .username {
   width: 120px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #ffffff;
   margin-right: 5px;
@@ -118,6 +118,11 @@
 
   color: #ffffff;
   font-size: 30px;
+}
+
+.MenuBtn--selected {
+  /* color: rgb(220, 140, 230); */
+  /* color: rgba(79, 70, 229, 1); */
 }
 
 .UserBtn {
@@ -176,11 +181,11 @@
   }
 
   .block--on {
-    top: 45px;
+    top: 60px;
   }
 
   .block--off {
-    top: -300px;
+    top: -400px;
   }
 
   .btnRow {

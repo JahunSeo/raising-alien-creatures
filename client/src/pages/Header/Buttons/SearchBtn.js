@@ -9,14 +9,15 @@ const cx = classNames.bind(styles);
 export default function SearchBtn(props) {
   const mainMatch = useMatch("/");
 
+  let selected = !!mainMatch;
   let Icon;
-  if (!mainMatch) Icon = RiSearchEyeLine;
-  else Icon = RiSearchEyeFill;
+  if (selected) Icon = RiSearchEyeFill;
+  else Icon = RiSearchEyeLine;
   //   if (!mainMatch) Icon = RiSearch2Line;
   //   else Icon = RiSearch2Fill;
 
   return (
-    <Link to={"/"} className={cx("MenuBtn")}>
+    <Link to={"/"} className={cx("MenuBtn", selected && "MenuBtn--selected")}>
       <Icon />
     </Link>
   );
