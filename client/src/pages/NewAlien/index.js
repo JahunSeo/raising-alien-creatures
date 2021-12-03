@@ -191,8 +191,23 @@ export default function NewAlien(props) {
           checkDay={checkDay}
           setCheckDay={setCheckDay}
         />
+        <div style={{ padding: "20px 10px 20px" }}>
+          <ul
+            className="NotiList"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <li className="NotiItem">
+              선택하는 요일에 한해 인증할 수 있습니다.
+            </li>
+            <li>해당 요일에 인증하지 않으면 생명체는 사망합니다.</li>
+          </ul>
+        </div>
 
-        <div className=" container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
+        <div className="container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
           <ul className="relative px-1 py-1 inline-flex min-w-max">
             <li className=" mr-1 inline-block ">
               <button
