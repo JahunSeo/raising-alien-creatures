@@ -66,7 +66,7 @@ export default function Header(props) {
 
   // login 여부 확인 완료된 시점에 접근하도록 구분
   if (user === null) {
-    return <div></div>;
+    return <div>로딩중...</div>;
   }
 
   return (
@@ -85,24 +85,24 @@ export default function Header(props) {
         >
           <div className={cx("btnRow", "btnRow--basic")}>
             <Link to={"/"} className={cx("btn")}>
-              {"챌린지 검색"}
+              {"검색"}
             </Link>
             {user.login ? (
               <Link to={`/user/${user.id}/room`} className={cx("btn")}>
-                {"나의 어항"}
+                {"My"}
               </Link>
             ) : (
               <p className={cx("btn")} onClick={() => switchSignInModal()}>
-                {"나의 어항"}
+                {"My"}
               </p>
             )}
             {user.login ? (
               <Link to={`/approval`} className={cx("btn")}>
-                {"승인하기"}
+                {"승인"}
               </Link>
             ) : (
               <p className={cx("btn")} onClick={() => switchSignInModal()}>
-                {"승인하기"}
+                {"승인"}
               </p>
             )}
           </div>
