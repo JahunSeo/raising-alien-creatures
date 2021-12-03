@@ -121,6 +121,53 @@ module.exports = function (pool) {
       });
     });
   });
+
+  // 챌린지 total_auth_cnt 보내주기
+  router.get("/imageInfo/:challengeId", function (req, res) {
+    const challengeId = req.params.challengeId;
+    const sql1 = `SELECT times_per_week FROM challenge WHERE id=?;`
+    const sql2 = `SELECT species, image_url, per_count AS count FROM image_menu;`
+    // const sql2 = "SELECT species, image_url FROM aliens.image_menu;"
+    pool.getConnection(function (err, connection) {
+      if (err) throw err;
+      connection.query(
+        sql1,
+        [challengeId],
+        function (error1, results1) {
+          if (error1) {
+            console.error(error1);
+            res.status(500).json({
+              result: "fail",
+              msg: "cant query to select",
+            });
+            return;
+          }
+          connection.query(
+            sql2,
+            function(error2, results2) {
+              if (error2) {
+                console.error(error2);
+                res.status(500).json({
+                  result: "fail",
+                  msg: "cant query to select",
+                });
+                return;
+              }
+              res.status(200).json({
+                result: "success",
+                msg: "do insert",
+                times_per_week: results1[0].times_per_week,
+                images: results2,
+              });
+            }
+          )
+          connection.release();
+        }
+      );
+    });
+  });
+
+    
   router.use(function (req, res, next) {
     res.status(404).json({
       result: "fail",
