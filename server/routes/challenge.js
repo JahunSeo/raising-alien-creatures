@@ -134,34 +134,6 @@ module.exports = function (pool) {
     }
   });
 
-  // 챌린지 total_auth_cnt 보내주기
-  router.get("/totalAuthCnt/:challengeId", function (req, res) {
-    const challengeId = req.params.challengeId;
-    pool.getConnection(function (err, connection) {
-      if (err) throw err;
-      connection.query(
-        "SELECT times_per_week FROM challenge WHERE id=?;",
-        [challengeId],
-        function (error, results) {
-          if (error) {
-            console.error(error);
-            res.status(200).json({
-              result: "fail",
-              msg: "cant query to select",
-            });
-            return;
-          }
-          res.status(200).json({
-            result: "success",
-            msg: "do insert",
-            times_per_week: results[0].times_per_week,
-          });
-          connection.release();
-        }
-      );
-    });
-  });
-
   // 챌린지 인증 요청
   // Data Type : Front 쪽에서 data JSON Type으로 서버로 전달
   // var data = {user_info_id : 2, Alien_id : 2, Challenge_id : 2, requestUserNickname : 'john', imgURL : 'test_url' comment: 'comment'};
