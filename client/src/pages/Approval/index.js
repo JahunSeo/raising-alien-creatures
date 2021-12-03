@@ -105,26 +105,31 @@ export default function Approval(props) {
             </div>
           ) : null}
         </div>
-        <div>
-          {/* {authRequests.map((authRequest) => (
-            <AuthRequest
-              key={authRequest.practice_record_id}
-              authRequest={authRequest}
-              authCategory={authCategory}
-            />
-          ))} */}
-          {authRequests
-            .filter(
-              (authRequest) => authRequest.challenge_name === authCategory
-            )
-            .map((authRequest) => (
+        {authCategory === "" ? (
+          <div>
+            {authRequests.map((authRequest) => (
               <AuthRequest
                 key={authRequest.practice_record_id}
                 authRequest={authRequest}
                 authCategory={authCategory}
               />
             ))}
-        </div>
+          </div>
+        ) : (
+          <div>
+            {authRequests
+              .filter(
+                (authRequest) => authRequest.challenge_name === authCategory
+              )
+              .map((authRequest) => (
+                <AuthRequest
+                  key={authRequest.practice_record_id}
+                  authRequest={authRequest}
+                  authCategory={authCategory}
+                />
+              ))}
+          </div>
+        )}
       </div>
     );
   } else {
