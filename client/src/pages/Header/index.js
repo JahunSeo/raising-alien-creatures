@@ -51,21 +51,15 @@ export default function Header(props) {
 
   useEffect(() => {
     const getLoginStatus = async () => {
-      // 1단계: 로그인 상태 확인
-      let res = await api.get("/user/login/confirm");
-      let user = res.data;
-      if (!res.data.login) {
-        dispatch(actions.checkUser(user)); // {login: false}
-        return;
-      }
-      user.challenges = [];
-      // 2단계: 유저 관련 정보 확인 (참여중 챌린지 등)
-      res = await api.get("/user/challenges/ids");
+      //  유저 정보 확인 (참여중 챌린지 등)
+      let res = await api.get("/user/challenges/ids");
       if (res.data.result === "success") {
-        user.challenges = res.data.challenges;
+        let user = res.data.user;
+        user.login = true;
+        dispatch(actions.checkUser(user)); // {login: false}
+      } else {
+        dispatch(actions.checkUser({ login: false })); // {login: false}
       }
-      // 리덕스에 저장
-      dispatch(actions.checkUser(user));
     };
     getLoginStatus();
   }, [dispatch]);
