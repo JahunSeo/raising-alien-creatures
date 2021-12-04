@@ -3,6 +3,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "../../.env") });
 const mysql = require("mysql");
+const { ConfigurationServicePlaceholders } = require("aws-sdk/lib/config_service_placeholders");
 
 exports.notiSchedule = function (rdsClient) {
   schedule.scheduleJob(
@@ -87,7 +88,7 @@ exports.notiSchedule = function (rdsClient) {
 // TODO: rebuilding!!
 exports.deadSchedule = function (rdsClient) {
   schedule.scheduleJob(
-  // { hour: 15, minute: 00 },
+  // { hour: 15, minute: 10 },
   "0,10,20,30,40,50 * * * * *",
   async function () {
     const pool = mysql.createPool({
@@ -137,13 +138,26 @@ exports.deadSchedule = function (rdsClient) {
   keys = await rdsClient.KEYS("chal-*");
   if (keys) {
     keys.forEach( async (key) => {
-      const challengeId = key.split('-')[1];
+      let challengeId;
+      try {
+      challengeId = key.split('-')[1];
+      } catch (err) {
+        console.log(err);
+        return;
+      }
       infos = await rdsClient.HGETALL(key);
 
       for (alienId in infos) {
-        const deadAlienId = alienId;
+        let deadAlienId;
+        let userId;
+        try{
+        deadAlienId = alienId;
         const parsingString = infos[alienId].split(":")[1];
-        const userId = parsingString.split(",")[0];
+        userId = parsingString.split(",")[0];
+        } catch (err) {
+          console.log(err);
+          return;
+        }
 
         const sql2 = `DELETE FROM user_info_has_challenge WHERE user_info_id=${userId} AND challenge_id=${challengeId};`
         const sql3 = `UPDATE alien SET alien_status = 2 WHERE id=${deadAlienId}`
