@@ -7,6 +7,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
+const { createClient } = require("redis");
 
 /* log in middleware */
 const compression = require("compression");
@@ -17,6 +18,16 @@ const fs = require("fs");
 // const flash = require("connect-flash");
 // const schedule = require("./routes/scheduler");
 
+/* redis */
+const rdsClient = createClient({
+  host: "namu.tvusre.0001.apn2.cache.amazonaws.com",
+  port: 6379,
+  db: 0,
+});
+rdsClient.on("error", (err) => console.log("Redis Client Error", err));
+rdsClient.connect(); // await을 걸지 않아도 될까?
+
+/* mysql */
 const pool = mysql.createPool({
   connectionLimit: 10,
   timezone: "Z",
@@ -52,7 +63,7 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 
 const passport = require("./lib/passport")(app, pool);
 const userRouter = require("./routes/user.js")(passport, pool);
-const mainRouter = require("./routes/main.js")(pool);
+const mainRouter = require("./routes/main.js")(pool, rdsClient);
 const challengeRouter = require("./routes/challenge.js")(pool);
 const alienRouter = require("./routes/alien.js")(pool);
 const chatRouter = require("./routes/chat.js")(pool);
