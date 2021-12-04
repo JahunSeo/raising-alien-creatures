@@ -16,7 +16,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   height: 100%;
-  width: 100%;
+  width: 90%;
   border-radius: 10px;
   text-align: center;
   transition: all 1s;
@@ -44,7 +44,8 @@
   border-2 border-blue-400
   rounded
   text-black
-  text-lg
+  text-sm
+  md:text-lg
   text-center
   justify-center
   focus:outline-none
@@ -52,7 +53,7 @@
   resize-none;
 }
 
-.Attachments {
+.Attachments1 {
   @apply relative
   flex
   justify-center

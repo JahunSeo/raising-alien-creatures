@@ -40,17 +40,6 @@ module.exports = function (passport, pool) {
       );
     });
   });
-  router.get("/login/confirm", (req, res) => {
-    if (req.user) {
-      req.user.login = true;
-      console.log(req.user);
-      res.json(req.user);
-    } else {
-      const msg = { login: false };
-      console.log(msg);
-      res.json(msg);
-    }
-  });
   // TODO: refactor response
   router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
@@ -74,7 +63,7 @@ module.exports = function (passport, pool) {
   router.get("/challenges/ids", function (req, res) {
     // 1단계: 로그인한 유저인지 확인
     if (!req.user) {
-      res.status(401).json({
+      res.status(200).json({
         result: "fail",
         msg: "Unauthorized",
       });
@@ -86,10 +75,12 @@ module.exports = function (passport, pool) {
     pool.getConnection(function (err, connection) {
       connection.query(sql, function (err, results) {
         if (err) throw err;
+        let user = req.user;
+        user.challenges = results;
         res.status(200).json({
           result: "success",
           msg: "request user's challenge ids",
-          challenges: results,
+          user,
         });
         connection.release();
         return;

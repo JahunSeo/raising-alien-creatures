@@ -30,6 +30,8 @@ export default function NewAlien(props) {
   const navigate = useNavigate();
   // 팝업
   const dispatch = useDispatch();
+  // 중복 생성 요청 방지
+  const [alienClicked, setAlienClicked] = useState(false);
 
   // 기본 생명체 번호 계산
   let aNumber = alienNumber;
@@ -101,10 +103,12 @@ export default function NewAlien(props) {
   const handleSubmit = (e) => {
     // e.preventDefault();
     // validation check
+    if (alienClicked) return;
     if (!validateCreAlien(alienName, checkDay, authCount)) return;
+    setAlienClicked(true);
     postCreateAlien();
   };
-  // 캐릭서 선택탭
+  // 캐릭터 선택탭
   const handleTap = (e) => {
     setAlienNumber(0);
     if (e === "fish") {
@@ -133,7 +137,7 @@ export default function NewAlien(props) {
     };
 
     const response = await api.post("/alien/create", createAlienData);
-    // console.log("res", response);
+    console.log("res", response);
     if (response.data.result === "access_deny_full") {
       // 1) 종류 2) 메세지 문구 3) SUCC or FAIL에 따른 아이콘 변경 4) callback함수(사실 여기선 별 효과 없음)
       dispatch(
@@ -176,6 +180,7 @@ export default function NewAlien(props) {
     dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
   };
 
+  console.log("alienClicked", alienClicked);
   // console.log("checkDay", checkDay);
   return (
     <div className={styles.body}>
@@ -186,8 +191,23 @@ export default function NewAlien(props) {
           checkDay={checkDay}
           setCheckDay={setCheckDay}
         />
+        <div style={{ padding: "20px 10px 20px" }}>
+          <ul
+            className="NotiList"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <li className="NotiItem">
+              선택하는 요일에 한해 인증할 수 있습니다.
+            </li>
+            <li>해당 요일에 인증하지 않으면 생명체는 사망합니다.</li>
+          </ul>
+        </div>
 
-        <div className=" container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
+        <div className="container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
           <ul className="relative px-1 py-1 inline-flex min-w-max">
             <li className=" mr-1 inline-block ">
               <button

@@ -109,6 +109,7 @@ export default function AuthRequestModal(props) {
   const handleCancel = () => {
     dispatch(actions.showAuthRequest(false));
     setAuthRequestClicked(false);
+    setAuthImage(null);
   };
 
   if (!showAuthRequest) {
@@ -126,8 +127,8 @@ export default function AuthRequestModal(props) {
     <div>
       <div className={"Overlay"} />
       <div className={"AuthRequestModal"}>
-        <div className="flex flex-col fixed min-w-max px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10">
-          <div className="flex justify-center items-center self-end text-gray-400 hover:text-gray-500">
+        <div className="flex flex-col  px-8 py-8 justify-center bg-indigo-50 rounded-xl shadow dark:bg-gray-800 overflow-y-auto z-10">
+          <div className="flex justify-center items-center self-end text-gray-400 hover:text-gray-500 ">
             <svg
               className="fixed w-5 h-5"
               fill="none"
@@ -143,23 +144,23 @@ export default function AuthRequestModal(props) {
               ></path>
             </svg>
           </div>
-          <div className="w-full px-4 py-4 text-lg">
+          <div className=" px-1 py-4 text-lg ">
             <div className="pb-8">
               <h2 className="text-3xl font-bold">{alien.challenge_name}</h2>
             </div>
             <div className="pb-4">
               <label className="text-xl font-bold">인증 사진 첨부</label>
             </div>
-            <div className="Attachments">
-              <div className="flex flex-col fixed min-h-0 min-w-max items-center">
+            <div className="Attachments1">
+              <div className="flex flex-col fixed min-h-0  items-center">
                 <i className="fa fa-folder-open fa-3x text-blue-700" />
-                <span className="block text-gray-400 font-normal">
+                <span className="block text-gray-400 font-normal text-center  text-sm md:text-lg sm:text-xs">
                   클릭 또는 드래그하여 인증 사진을 올려주세요.
                 </span>
               </div>
               <input
                 type="file"
-                className="h-full w-full opacity-0"
+                className="h-full opacity-0 justify-center"
                 name=""
                 accept="image/*"
                 id="imageInput"
@@ -182,7 +183,7 @@ export default function AuthRequestModal(props) {
               ></textarea>
             </div>
             {authImage && authImage[0] ? (
-              <div className="max-w-md py-6">
+              <div className=" py-6">
                 <img
                   style={{
                     maxHeight: "200px",

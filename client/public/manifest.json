@@ -1,16 +1,21 @@
 {
-  "short_name": "외계생물 키우기",
-  "name": "외계생물 키우기",
+  "short_name": "CHAL-IT",
+  "name": "CHAL-IT",
   "icons": [
     {
-      "src": "babyshark.png",
-      "type": "image/png",
-      "sizes": "225x225"
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "48x48"
     },
     {
-      "src": "logo192.png",
+      "src": "Chalit_192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "Chalit_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",

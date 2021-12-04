@@ -82,7 +82,7 @@ export default function AlienCtrl(props) {
               <p className={cx("btn")}>참가자 어항</p>
             </Link>
           )}
-          {!!userMatch &&
+          {(!!userMatch || !!challengeMatch) &&
             user.login &&
             user.id === parseInt(alien.user_info_id) && (
               <PracticeBtn

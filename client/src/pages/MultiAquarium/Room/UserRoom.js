@@ -22,7 +22,7 @@ export default function UserRoom(props) {
           // rooms 상태 정보
           const aliens = res.data.aliens;
           const user = res.data.user;
-          const roomTitle = `${user.nickname}의 어항`;
+          const roomTitle = `${user.nickname}`;
           aliens.forEach((alien) => {
             alien.practiceDays = [
               alien.sun,

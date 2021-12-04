@@ -109,6 +109,11 @@ class Monster {
     }
   }
 
+  increaseAuthCnt() {
+    this.authCnt++;
+    this.size = 40 + this.authCnt * 2;
+  }
+
   sync(monPlain) {
     // temp
     this.destination = monPlain.destination;

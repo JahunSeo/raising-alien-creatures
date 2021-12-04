@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 // import api from "../../apis";
 import { Link, useMatch, Navigate } from "react-router-dom";
+import { RiUserFill } from "react-icons/ri";
+import { GiSupersonicArrow } from "react-icons/gi";
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
@@ -19,13 +21,24 @@ export default function Title(props) {
   const newchalMatch = useMatch("/challenge/new");
   const alienMatch = useMatch("/challenge/:challengeId/join");
   const approvalMatch = useMatch("/approval");
-  const mainMatch = useMatch("/");
+  // const mainMatch = useMatch("/");
 
   if (!!userMatch) {
-    return <div className={styles.title}>{roomTitle}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleIcon}>
+          <RiUserFill />
+        </span>
+        <span className={styles.titleText}>{roomTitle}</span>
+      </div>
+    );
   } else if (!!challengeMatch) {
     let { params } = challengeMatch;
     let { challengeId } = params;
+
+    if (!challenge) {
+      return <div></div>;
+    }
 
     // 챌린지 풀방인지 확인
 
@@ -35,23 +48,31 @@ export default function Title(props) {
       participating =
         user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
     }
+
     return (
       <React.Fragment>
-        <div className={styles.title}>{roomTitle}</div>
+        <div className={styles.titleBox}>
+          <span className={styles.titleIcon}>
+            <GiSupersonicArrow />
+          </span>
+          <span className={styles.titleText}>{roomTitle}</span>
+        </div>
         {user.login && participating && (
-          <div className={cx("btn", "btn--ing")}>참가중</div>
+          <div className={cx("JoinBtn", "JoinBtn--ing")}>참가중</div>
         )}
         {user.login &&
           !participating &&
           challenge.participant_number < challenge.maximum_number && (
             <Link to={`/challenge/${challengeId}/join`}>
-              <button className={cx("btn", "btn--start")}>시작하기</button>
+              <button className={cx("JoinBtn", "JoinBtn--start")}>
+                시작하기
+              </button>
             </Link>
           )}
         {user.login &&
           !participating &&
           !(challenge.participant_number < challenge.maximum_number) && (
-            <div className={cx("btn--full")}>
+            <div className={cx("JoinBtn", "JoinBtn--full")}>
               <div>
                 풀방 {challenge.participant_number}/{challenge.maximum_number}
               </div>
@@ -61,7 +82,14 @@ export default function Title(props) {
     );
   } else if (!!newchalMatch) {
     if (!user.login) return <Navigate to="/" />;
-    return <div className={styles.title}>{`New Challenge`}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleIcon}>
+          <GiSupersonicArrow />
+        </span>
+        <span className={styles.titleText}>{`New Challenge`}</span>
+      </div>
+    );
   } else if (!!alienMatch) {
     let { params } = alienMatch;
     let { challengeId } = params;
@@ -74,13 +102,29 @@ export default function Title(props) {
     if (!user.login || participating) {
       return <Navigate to={`/challenge/${challengeId}/room`} />;
     }
-    return <div className={styles.title}>{roomTitle}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleIcon}>
+          <GiSupersonicArrow />
+        </span>
+        <span className={styles.titleText}>{roomTitle}</span>
+      </div>
+    );
   } else if (!!approvalMatch) {
     if (!user.login) return <Navigate to="/" />;
-    return <div className={styles.title}>{`Approval`}</div>;
-  } else if (!!mainMatch) {
-    return <div className={styles.title}>{roomTitle}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleText}>{`Approval`}</span>
+      </div>
+    );
   } else {
-    return <div className={styles.title}>{roomTitle}</div>;
+    return (
+      <div className={styles.titleBox}>
+        <span className={styles.titleIcon}>
+          <GiSupersonicArrow />
+        </span>
+        <span className={styles.titleText}>{roomTitle}</span>
+      </div>
+    );
   }
 }
