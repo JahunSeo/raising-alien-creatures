@@ -31,8 +31,6 @@ export default function Approval(props) {
     loadAuthRequests();
   }, []);
 
-  console.log("authRequests", authRequests);
-
   function ToggleBtn(props) {
     const { filterRequests, setFilterRequests } = props;
 
@@ -70,7 +68,49 @@ export default function Approval(props) {
     );
   }
 
-  console.log("authCagetory", authCategory);
+  // const challengeMap = [];
+
+  // for (var i = 0; i < authRequests.length; i++) {
+  //   var auth = authRequests[i];
+  //   challengeMap[auth.challenge_name] =
+  //     challengeMap[auth.challenge_name] + 1 || 1;
+  // }
+
+  const challengeMap = new Map();
+
+  for (var i = 0; i < authRequests.length; i++) {
+    var auth = authRequests[i];
+    if (!challengeMap.has(auth.challenge_name)) {
+      challengeMap.set(auth.challenge_name, 1);
+    } else {
+      challengeMap.set(
+        auth.challenge_name,
+        challengeMap.get(auth.challenge_name) + 1
+      );
+    }
+  }
+
+  // useEffect(() => {
+  //   function addChallenge() {
+  //     return (
+  //       <option
+  //         value={challengeMap.entries().next().value[0]}
+  //         onClick={(e) => {
+  //           setAuthCategory(e.target.value);
+  //           setFilterRequests(false);
+  //         }}
+  //       >
+  //         {challengeMap.entries().next().value[0]} (
+  //         {challengeMap.entries().next().value[1]})
+  //       </option>
+  //     );
+  //   }
+  //   addChallenge();
+  // }, [challengeMap]);
+
+  console.log("authRequests", authRequests);
+  console.log("challengeMap", challengeMap);
+  console.log("challengeMap", challengeMap.entries().next().value);
 
   if (authRequests.length) {
     return (
@@ -89,7 +129,7 @@ export default function Approval(props) {
                   setFilterRequests(false);
                 }}
               >
-                전체 보기
+                전체 보기 ({authRequests.length})
               </option>
               {authRequests.map((authRequest) => (
                 <option
@@ -99,7 +139,31 @@ export default function Approval(props) {
                     setFilterRequests(false);
                   }}
                 >
-                  {authRequest.challenge_name}
+                  {authRequest.challenge_name} (
+                  {challengeMap[authRequest.challenge_name]})
+                </option>
+              ))}
+              {/* {challengeMap.map((challenge) => (
+                <option
+                  value={challenge}
+                  onClick={(e) => {
+                    setAuthCategory(e.target.value);
+                    setFilterRequests(false);
+                  }}
+                >
+                  {challenge} ({challengeMap[challenge]})
+                </option>
+              ))} */}
+              {challengeMap.map((challenge) => (
+                <option
+                  value={challengeMap.entries().next().value[0]}
+                  onClick={(e) => {
+                    setAuthCategory(e.target.value);
+                    setFilterRequests(false);
+                  }}
+                >
+                  {challengeMap.entries().next().value[0]} (
+                  {challengeMap.entries().next().value[1]})
                 </option>
               ))}
             </div>
