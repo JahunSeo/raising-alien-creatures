@@ -81,6 +81,9 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     if (isSocketOn && participating && room) {
       socket.receiveMessage((msg) => dispatch(actions.setMessage([msg])));
+      socket.receiveEmoji((info) =>{
+        room.getMonster(info.alienId).setEmojis(info.message);
+      })
       //     socket.usersOnRoom(room.usersOnRoomHandler);
     }
     return () => {

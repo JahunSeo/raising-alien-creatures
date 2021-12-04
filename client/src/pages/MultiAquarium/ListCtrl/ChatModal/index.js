@@ -5,24 +5,27 @@ import * as socket from "../../../../apis/socket";
 import api from "../../../../apis/index";
 import "./Chat.css";
 import { useDispatch, useSelector } from "react-redux";
+import aquarium from '../../../../shared';
 import * as actions from "../../../../Redux/actions/index.js";
 
 const ChatModal = (props) => {
-  const [currentMessage, setCurrentMessage] = useState("");
-  // const [messageList, setMessageList] = useState([]);
+
   const dispatch = useDispatch();
   const { challengeId } = useParams();
 
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
-  const { chalInfoModal } = useSelector(({ modalOnOff }) => ({
+  const { user, chalInfoModal, messages, aliens } = useSelector(({ user, modalOnOff, room }) => ({ 
+    user: user.user,
     chalInfoModal: modalOnOff.chalInfoModal,
-  }));
-  let { messages } = useSelector(({ room }) => ({
     messages: room.messages,
+    aliens: room.aliens,
   }));
+
+  const myAlien = aliens.find((a) => a.user_info_id === user.id);
 
   const { modalType } = props;
   const toggle = modalType && chalInfoModal === modalType;
+
+  const [currentMessage, setCurrentMessage] = useState("");
 
   const saveChat = async (messageData) => {
     messageData.challenge_id = challengeId;
@@ -33,23 +36,18 @@ const ChatModal = (props) => {
   };
 
   const sendMessage = async () => {
-    if (!user) return;
+    if (!user.login) return;
     if (currentMessage !== "") {
+      const curDate = new Date(Date.now());
       const messageData = {
         challengeId: Number(challengeId),
         user_nickname: user.nickname,
         message: currentMessage,
         time:
-          new Date(Date.now()).getMonth() +
-          1 +
-          "월" +
-          " " +
-          new Date(Date.now()).getDate() +
-          "일" +
-          " " +
-          new Date(Date.now()).getHours() +
-          ":" +
-          new Date(Date.now()).getMinutes(),
+          curDate.getMonth() + 1 + "월 " +
+          curDate.getDate() + "일 " +
+          curDate.getHours() + ":" +
+          curDate.getMinutes(),
       };
       // console.log("sendMsg", messageData);
       saveChat(messageData);
@@ -58,29 +56,31 @@ const ChatModal = (props) => {
       setCurrentMessage("");
     }
   };
+  
 
+  //emojis
   const sendEmojis = async(emoji)=>{
-    if (!user) return;
-      const messageData = {
-        challengeId: Number(challengeId),
-        user_nickname: user.nickname,
-        message: emoji,
-        time:
-          new Date(Date.now()).getMonth() +
-          1 +
-          "월" +
-          " " +
-          new Date(Date.now()).getDate() +
-          "일" +
-          " " +
-          new Date(Date.now()).getHours() +
-          ":" +
-          new Date(Date.now()).getMinutes(),
-      };
-      // console.log("sendMsg", messageData);
-      saveChat(messageData);
-      socket.sendMessage(messageData);
-      dispatch(actions.setMessage([messageData]));
+    if (!user.login) return;
+    const curDate = new Date(Date.now());
+    const messageData = {
+      challengeId: Number(challengeId),
+      alienId : myAlien.id,
+      user_nickname: user.nickname,
+      message: emoji,
+      time:
+        curDate.getMonth() + 1 + "월 " +
+        curDate.getDate() + "일 " +
+        curDate.getHours() + ":" +
+        curDate.getMinutes(),
+    };
+    saveChat(messageData);
+    // semdEmoji 안에 sendMessage 넣을 수 있나 보기
+    dispatch(actions.setMessage([messageData]));
+    socket.sendMessage(messageData);
+    socket.sendEmoji(messageData);
+
+    const alien = aquarium.getCurrentRoom().getMonster(myAlien.id);
+    if (alien) alien.setEmojis(emoji);
   }
 
   return (
@@ -132,8 +132,6 @@ const ChatModal = (props) => {
             <span onClick={()=>sendEmojis('😝')} >😝</span>
             <span onClick={()=>sendEmojis('❤️')} >❤️</span>
             <span onClick={()=>sendEmojis('😉')} >😉</span>
-            {/* <span onClick={()=>setCurrentMessage('😊')} >😊</span> */}
-
           </div> 
           <div className="relative flex">
             <input
