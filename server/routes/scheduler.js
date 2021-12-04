@@ -93,6 +93,7 @@ exports.notiSchedule = function (rdsClient) {
   );
 };
 
+// TODO: rebuilding!!
 exports.dead_schedule = schedule.scheduleJob(
   { hour: 15, minute: 00 },
   function () {
