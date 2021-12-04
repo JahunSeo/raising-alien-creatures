@@ -147,7 +147,7 @@ exports.deadSchedule = function (rdsClient) {
 
         const sql2 = `DELETE FROM user_info_has_challenge WHERE user_info_id=${userId} AND challenge_id=${challengeId};`
         const sql3 = `UPDATE alien SET alien_status = 2 WHERE id=${deadAlienId}`
-        sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId}`
+        const sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId}`
         pool.getConnection(function (err, connection) {
         if (err) throw err;
 
