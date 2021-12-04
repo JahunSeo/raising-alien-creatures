@@ -81,6 +81,11 @@ export function onGraduate(handler) {
   socket.on("graduate_challenge", handler);
 }
 
+export function onThanosDone(handler) {
+  if (!socket) return;
+  socket.on("thanos_done", handler);
+}
+
 // // // // // // // // // // // // // // // // // // // //
 // // // // // // // to update // // // // // // // // // //
 

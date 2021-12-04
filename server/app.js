@@ -7,7 +7,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
-
+const { createClient } = require("redis");
+const { notiSchedule } = require("./routes/scheduler"); // TODO
 /* log in middleware */
 const compression = require("compression");
 const helmet = require("helmet");
@@ -17,6 +18,24 @@ const fs = require("fs");
 // const flash = require("connect-flash");
 // const schedule = require("./routes/scheduler");
 
+/* redis */
+// const rdsClient = createClient();
+const rdsClient = createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  db: 0,
+});
+rdsClient.on("error", (err) => {
+  // console.log("Redis Client Error", err);
+  rdsClient.connected = false;
+});
+rdsClient.on("connect", async () => {
+  console.log("REDIS in API SERVER connected");
+  rdsClient.connected = true;
+});
+rdsClient.connect();
+
+/* mysql */
 const pool = mysql.createPool({
   connectionLimit: 10,
   timezone: "Z",
@@ -52,7 +71,7 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 
 const passport = require("./lib/passport")(app, pool);
 const userRouter = require("./routes/user.js")(passport, pool);
-const mainRouter = require("./routes/main.js")(pool);
+const mainRouter = require("./routes/main.js")(pool, rdsClient);
 const challengeRouter = require("./routes/challenge.js")(pool);
 const alienRouter = require("./routes/alien.js")(pool);
 const chatRouter = require("./routes/chat.js")(pool);
@@ -63,6 +82,10 @@ app.use("/api/challenge", challengeRouter);
 app.use("/api/alien", alienRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/test", testRouter);
+
+// init scheduler
+notiSchedule(rdsClient);
+// TODO
 
 const port = process.env.PORT || 5000;
 

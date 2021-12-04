@@ -2,9 +2,27 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { createClient } from "redis";
 
 import * as handler from "./handler.js";
 
+/* redis */
+const rdsClient = createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  db: 0,
+});
+rdsClient.on("error", (err) => {
+  // console.log("Redis Client Error", err);
+  rdsClient.connected = false;
+});
+rdsClient.on("connect", async () => {
+  console.log("REDIS in SOCKET SERVER connected");
+  rdsClient.connected = true;
+});
+rdsClient.connect();
+
+/* socket */
 const app = express();
 const httpServer = createServer(app);
 // https://socket.io/docs/v3/handling-cors/
@@ -24,6 +42,14 @@ io.on("connection", (socket) => {
   socket.on("auth_request", (data) => handler.authRequest(socket, data));
   socket.on("auth_approval", (data) => handler.authApproval(socket, data));
 });
+
+// 스케쥴러에 추가할 때 참고!
+// setInterval(() => {
+//   console.log("emit hello");
+//   io.emit("thanos_done", { hello: "0000" });
+//   io.in(1).emit("thanos_done", { hello: "1111" });
+//   io.in(9).emit("thanos_done", { hello: "9999" });
+// }, 10000);
 
 const port = process.env.SOCKET_PORT || 5001;
 
