@@ -5,20 +5,21 @@ import * as socket from "../../../../apis/socket";
 import api from "../../../../apis/index";
 import "./Chat.css";
 import { useDispatch, useSelector } from "react-redux";
-import aquarium from '../../../../shared';
+import aquarium from "../../../../shared";
 import * as actions from "../../../../Redux/actions/index.js";
 
 const ChatModal = (props) => {
-
   const dispatch = useDispatch();
   const { challengeId } = useParams();
 
-  const { user, chalInfoModal, messages, aliens } = useSelector(({ user, modalOnOff, room }) => ({ 
-    user: user.user,
-    chalInfoModal: modalOnOff.chalInfoModal,
-    messages: room.messages,
-    aliens: room.aliens,
-  }));
+  const { user, chalInfoModal, messages, aliens } = useSelector(
+    ({ user, modalOnOff, room }) => ({
+      user: user.user,
+      chalInfoModal: modalOnOff.chalInfoModal,
+      messages: room.messages,
+      aliens: room.aliens,
+    })
+  );
 
   const myAlien = aliens.find((a) => a.user_info_id === user.id);
 
@@ -44,9 +45,13 @@ const ChatModal = (props) => {
         user_nickname: user.nickname,
         message: currentMessage,
         time:
-          curDate.getMonth() + 1 + "월 " +
-          curDate.getDate() + "일 " +
-          curDate.getHours() + ":" +
+          curDate.getMonth() +
+          1 +
+          "월 " +
+          curDate.getDate() +
+          "일 " +
+          curDate.getHours() +
+          ":" +
           curDate.getMinutes(),
       };
       // console.log("sendMsg", messageData);
@@ -56,32 +61,35 @@ const ChatModal = (props) => {
       setCurrentMessage("");
     }
   };
-  
 
   //emojis
-  const sendEmojis = async(emoji)=>{
+  const sendEmojis = async (emoji) => {
     if (!user.login) return;
     const curDate = new Date(Date.now());
     const messageData = {
       challengeId: Number(challengeId),
-      alienId : myAlien.id,
+      alienId: myAlien.id,
       user_nickname: user.nickname,
       message: emoji,
       time:
-        curDate.getMonth() + 1 + "월 " +
-        curDate.getDate() + "일 " +
-        curDate.getHours() + ":" +
+        curDate.getMonth() +
+        1 +
+        "월 " +
+        curDate.getDate() +
+        "일 " +
+        curDate.getHours() +
+        ":" +
         curDate.getMinutes(),
+      type: "CHAT_EMOJI",
     };
     saveChat(messageData);
     // semdEmoji 안에 sendMessage 넣을 수 있나 보기
     dispatch(actions.setMessage([messageData]));
     socket.sendMessage(messageData);
-    socket.sendEmoji(messageData);
 
     const alien = aquarium.getCurrentRoom().getMonster(myAlien.id);
     if (alien) alien.setEmojis(emoji);
-  }
+  };
 
   return (
     <div className={toggle ? "ChallengeContainer" : "hidden"}>
@@ -99,13 +107,13 @@ const ChatModal = (props) => {
             messages.map((messageContent, index) => {
               return (
                 <div
-                className="message"
+                  className="message"
                   key={index}
                   id={
                     user.nickname === messageContent.user_nickname
                       ? "you"
                       : "other"
-                    } // css 파일에서 구분
+                  } // css 파일에서 구분
                 >
                   <div className="message-align">
                     <div className="message-content">
@@ -123,16 +131,16 @@ const ChatModal = (props) => {
         </ScrollToBottom>
 
         <div className="chat-footer">
-          <div className = 'emojis'>
-            <span onClick={()=>sendEmojis('😊')} >😊</span>
-            <span onClick={()=>sendEmojis('😎')} >😎</span>
-            <span onClick={()=>sendEmojis('🤣')} >🤣</span>
-            <span onClick={()=>sendEmojis('😍')} >😍</span>
-            <span onClick={()=>sendEmojis('👍')} >👍</span>
-            <span onClick={()=>sendEmojis('😝')} >😝</span>
-            <span onClick={()=>sendEmojis('❤️')} >❤️</span>
-            <span onClick={()=>sendEmojis('😉')} >😉</span>
-          </div> 
+          <div className="emojis">
+            <span onClick={() => sendEmojis("😊")}>😊</span>
+            <span onClick={() => sendEmojis("😎")}>😎</span>
+            <span onClick={() => sendEmojis("🤣")}>🤣</span>
+            <span onClick={() => sendEmojis("😍")}>😍</span>
+            <span onClick={() => sendEmojis("👍")}>👍</span>
+            <span onClick={() => sendEmojis("😝")}>😝</span>
+            <span onClick={() => sendEmojis("❤️")}>❤️</span>
+            <span onClick={() => sendEmojis("😉")}>😉</span>
+          </div>
           <div className="relative flex">
             <input
               className="chat-input"
@@ -159,4 +167,3 @@ const ChatModal = (props) => {
 };
 
 export default ChatModal;
-

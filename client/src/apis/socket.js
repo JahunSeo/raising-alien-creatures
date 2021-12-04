@@ -39,15 +39,6 @@ export function blockMessage() {
   socket.off("receive_message");
 }
 
-export function sendEmoji(message){
-  if (!socket) return;
-  socket.emit('send_emojis', message);
-}
-export function receiveEmoji(handler){
-  if (!socket) return;
-  socket.on('receive_emojis', handler);
-}
-
 export function emitAuthRequest(info) {
   if (!socket) return;
   console.log("[socket] emitAuthRequest");

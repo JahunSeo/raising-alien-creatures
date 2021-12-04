@@ -80,10 +80,12 @@ export default function ChallengeRoom(props) {
   // TODO: 더 효율적으로 수정
   useEffect(() => {
     if (isSocketOn && participating && room) {
-      socket.receiveMessage((msg) => dispatch(actions.setMessage([msg])));
-      socket.receiveEmoji((info) =>{
-        room.getMonster(info.alienId).setEmojis(info.message);
-      })
+      socket.receiveMessage((msg) => {
+        if (msg.type === "CHAT_EMOJI") {
+          room.getMonster(msg.alienId).setEmojis(msg.message);
+        }
+        dispatch(actions.setMessage([msg]));
+      });
       //     socket.usersOnRoom(room.usersOnRoomHandler);
     }
     return () => {
