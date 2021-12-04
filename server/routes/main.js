@@ -54,13 +54,13 @@ module.exports = function (pool, rdsClient) {
     });
   });
 
-  router.get("/s3Url_chalthumb", async (req, res) => {
-    const url = await s3.generateUploadURL_chalthumb();
+  router.post("/s3Url_chalthumb", async (req, res) => {
+    const url = await s3.generateUploadURL_chalthumb(req.body);
     res.send({ url });
   });
 
-  router.get("/s3Url_approval", async (req, res) => {
-    const url = await s3.generateUploadURL_approve();
+  router.post("/s3Url_approval", async (req, res) => {
+    const url = await s3.generateUploadURL_approve(req.body);
     res.send({ url });
   });
 
