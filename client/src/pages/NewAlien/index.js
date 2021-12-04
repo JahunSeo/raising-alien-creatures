@@ -75,6 +75,7 @@ export default function NewAlien() {
         if (res.data.result === "success") {
           setAuthCount(res.data.times_per_week);
           setImageInfo(res.data.images);
+          console.log(1233, res);
         } else {
           // TODO: error handling 필요한가?
         }
