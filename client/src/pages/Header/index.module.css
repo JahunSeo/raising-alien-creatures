@@ -68,38 +68,38 @@
   max-width: 250px;
 }
 
-.btn {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+.JoinBtn {
   color: #ffffff;
+  padding: 5px 10px;
+  /* border: 1px solid #ffffff; */
+  border-radius: 5px;
+  text-align: center;
+}
+
+.JoinBtn--ing {
+  font-weight: bold;
+  font-size: 18px;
+  border: 0;
+  cursor: default;
+}
+
+.JoinBtn--start {
+  background-color: tomato;
+  cursor: pointer;
+}
+
+.JoinBtn--full {
+  background-color: transparent;
   padding: 5px 10px;
   /* border: 1px solid #ffffff; */
   font-size: 16px;
   text-align: center;
-  cursor: pointer;
-}
-
-.btn--ing {
-  font-weight: bold;
-  color: #ffffff;
-  border: 0;
-}
-
-.btn--full {
-  color: #ffffff;
-  padding: 5px 10px;
-  border: 1px solid #ffffff;
-  font-size: 16px;
-  text-align: center;
+  cursor: not-allowed;
 }
 
 .username {
   width: 120px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #ffffff;
   margin-right: 5px;
@@ -107,6 +107,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.MenuBtn {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 30px;
+}
+
+.MenuBtn--selected {
+  /* color: rgb(220, 140, 230); */
+  /* color: rgba(79, 70, 229, 1); */
 }
 
 .UserBtn {
@@ -121,16 +137,29 @@
   display: none;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
   .bodyInner {
     /* border: 5px solid red; */
 
     width: 100%;
     max-width: 1000px;
-    padding: 5px 10px;
+    padding: 5px 5px;
 
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .titleBox {
+    font-size: 20px;
+
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .titleIcon {
+    width: 35px;
+  }
+  .titleText {
+    max-width: 150px;
   }
 
   .toggleBtn {
@@ -144,7 +173,6 @@
     /* width: 160px; */
     /* background-color: rgba(3, 33, 66, 0.35); */
     text-align: center;
-
     z-index: 20;
   }
 
@@ -153,7 +181,7 @@
     z-index: 10;
     /* top: 45px; */
     right: 10px;
-    padding: 20px 20px 30px;
+    padding: 15px 15px 10px;
     min-width: 160px;
 
     background-color: rgba(3, 33, 66, 0.85);
@@ -169,7 +197,7 @@
   }
 
   .block--off {
-    top: -300px;
+    top: -400px;
   }
 
   .btnRow {
@@ -179,7 +207,7 @@
 
   .btnRow--user {
     margin: 0;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     /* padding: 20px 0 10px; */
   }
 
