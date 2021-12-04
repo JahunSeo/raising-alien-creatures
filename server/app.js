@@ -72,7 +72,7 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 const passport = require("./lib/passport")(app, pool);
 const userRouter = require("./routes/user.js")(passport, pool);
 const mainRouter = require("./routes/main.js")(pool, rdsClient);
-const challengeRouter = require("./routes/challenge.js")(pool);
+const challengeRouter = require("./routes/challenge.js")(pool, rdsClient);
 const alienRouter = require("./routes/alien.js")(pool);
 const chatRouter = require("./routes/chat.js")(pool);
 const testRouter = require("./routes/test.js")(pool);
