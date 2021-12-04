@@ -70,8 +70,8 @@ module.exports = function (passport, pool) {
       }
     })(req, res, next);
   });
-  // TODO: 아래의 personalinfo api와 통합 가능 여부 체크
-  router.get("/challenges/ids", function (req, res) {
+
+  router.get("/confirm", function (req, res) {
     // 1단계: 로그인한 유저인지 확인
     if (!req.user) {
       res.status(200).json({
@@ -87,6 +87,7 @@ module.exports = function (passport, pool) {
       connection.query(sql, function (err, results) {
         if (err) throw err;
         let user = req.user;
+        user.login = true;
         user.challenges = results;
         res.status(200).json({
           result: "success",
