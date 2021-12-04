@@ -6,8 +6,8 @@ const mysql = require("mysql");
 
 exports.notiSchedule = function (rdsClient) {
   schedule.scheduleJob(
-    // { hour: 14, minute: 30 },
-    "0,10,20,30,40,50 * * * * *",
+    { hour: 14, minute: 30 },
+    // "0,10,20,30,40,50 * * * * *",
     function () {
       const pool = mysql.createPool({
         connectionLimit: 1,
