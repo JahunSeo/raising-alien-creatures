@@ -48,19 +48,30 @@ module.exports = function (passport, pool) {
       else {
         req.login(user, (err) => {
           if (err) throw err;
-          var result = {
-            result: "success",
-            email: req.user.email,
-            nickname: req.user.nickname,
-            id: req.user.id,
-          };
-          res.json(result);
+          // challenges 가져오기
+          let sql = `SELECT challenge_id as id FROM user_info_has_challenge \
+                    WHERE user_info_id=${req.user.id};`;
+          pool.getConnection(function (err, connection) {
+            connection.query(sql, function (err, results) {
+              if (err) throw err;
+              let user = req.user;
+              user.login = true;
+              user.challenges = results;
+              res.status(200).json({
+                result: "success",
+                msg: "request user's challenge ids",
+                user,
+              });
+              connection.release();
+              return;
+            });
+          });
         });
       }
     })(req, res, next);
   });
-  // TODO: 아래의 personalinfo api와 통합 가능 여부 체크
-  router.get("/challenges/ids", function (req, res) {
+
+  router.get("/confirm", function (req, res) {
     // 1단계: 로그인한 유저인지 확인
     if (!req.user) {
       res.status(200).json({
@@ -76,6 +87,7 @@ module.exports = function (passport, pool) {
       connection.query(sql, function (err, results) {
         if (err) throw err;
         let user = req.user;
+        user.login = true;
         user.challenges = results;
         res.status(200).json({
           result: "success",

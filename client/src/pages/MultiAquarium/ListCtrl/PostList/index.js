@@ -1,107 +1,15 @@
 import React, { useCallback, useState } from "react";
 import "./PostList.css";
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../../../Redux/actions/index.js";
-import { Link } from "react-router-dom";
-import api from "../../../../apis/index";
-import { S3URL } from "../../../../shared/lib/Constants";
+import { useSelector } from "react-redux";
+import PersonalItem from "./PersonalItem";
+import ChallengeItem from "./ChallengeItem";
+
 import classNames from "classnames/bind";
 const cx = classNames.bind();
 
-const PostItem = React.memo(function PostItem({
-  alien,
-  type,
-  selectedAlien,
-  handleSelectAlien,
-}) {
-  const dispatch = useDispatch();
-  const { userId } = useSelector((state) => ({
-    userId: state.user.user.id,
-  }));
-
-  const onClickGraduate = async () => {
-    let req = { alien_id: alien.id };
-    let res = await api.post("/alien/graduation", req);
-    if (res.data.result === "success")
-      dispatch(
-        actions.setPopupModal(
-          "GRADUATE_ALIEN",
-          `${alien.alien_name} 졸업했습니다`,
-          "SUCC",
-          () => {
-            dispatch(actions.graduate(alien.id));
-          }
-        )
-      );
-  };
-  return (
-    <>
-      <div
-        className="PostItemBlock"
-        onClick={() => handleSelectAlien(alien.id)}
-      >
-        <h2>챌린지 : "{alien.challenge_name}"</h2>
-        <div className="Content">
-          <div
-            className="images"
-            style={{
-              backgroundImage: `url("${
-                S3URL + alien.image_url.split("-")[0]
-              }")`,
-            }}
-          />
-          <div className="SubInfo">
-            {type === "challenge" && <p>참가자 : {alien.user_nickname}</p>}
-            <p>별명 : {alien.alien_name}</p>
-            <p>출생일 : {alien.created_date.split("T")[0]}</p>
-            <p>인증 횟수 : {alien.accumulated_count}번</p>
-          </div>
-        </div>
-        <div className="buttons">
-          {/* // TODO: 인증 가능 여부에 맞게 버튼 처리하기!  */}
-          {type === "personal" &&
-            alien.alien_status === 0 &&
-            alien.user_info_id === userId && (
-              <button
-                className="StyledButton"
-                onClick={() => {
-                  // TODO: 통합하기
-                  dispatch(actions.selectAlien(alien.id));
-                  dispatch(actions.showAuthRequest(true));
-                }}
-              >
-                인증하기
-              </button>
-            )}
-          {type !== "challenge" && alien.alien_status === 0 && (
-            <Link to={`/challenge/${alien.challenge_id}/room`}>
-              <button className="StyledButton">챌린지 어항</button>
-            </Link>
-          )}
-          {type === "challenge" && (
-            <Link to={`/user/${alien.user_info_id}/room`}>
-              <button className="StyledButton">참가자 어항</button>
-            </Link>
-          )}
-          {type === "personal" &&
-            alien.alien_status === 0 &&
-            alien.user_info_id === userId && (
-              <button className="StyledButton" onClick={onClickGraduate}>
-                졸업 신청
-              </button>
-            )}
-        </div>
-      </div>
-    </>
-  );
-});
-
 function PostList({ type, handleSelectAlien }) {
-  const { aliens_list, selectedAlien } = useSelector(({ room }) => ({
+  const { aliens_list, userId } = useSelector(({ room, user }) => ({
     aliens_list: room.aliens,
-    selectedAlien: room.selectedAlien,
-  }));
-  const { userId } = useSelector(({ user }) => ({
     userId: user.user,
   }));
 
@@ -138,37 +46,37 @@ function PostList({ type, handleSelectAlien }) {
       {isMenuOn ? (
         <div className="dropContent">
           <option value="a" onClick={sortClick}>
-            {" "}
             추가된 날짜 (최신 순)
           </option>
           <option value="b" onClick={sortClick}>
-            {" "}
             추가된 날짜 (오래된 순)
           </option>
           <option value="c" onClick={sortClick}>
-            {" "}
             커밋 횟수(가장 많은 순)
           </option>
           <option value="d" onClick={sortClick}>
-            {" "}
             커밋 횟수(가장 낮은 순)
           </option>
         </div>
       ) : null}
-      <ul>
-        <span
-          className={category === false ? "selected" : null}
-          onClick={() => setCategory((category) => !category)}
-        >
-          ∘ 진행중
-        </span>
-        <span
-          className={category === true ? "selected" : null}
-          onClick={() => setCategory((category) => !category)}
-        >
-          ∘ 졸업
-        </span>
-      </ul>
+      {type === "personal" && (
+        <ul>
+          <span
+            className={category === false ? "selected" : null}
+            onClick={() => setCategory((category) => !category)}
+          >
+            ∘ 진행중
+          </span>
+          <span
+            className={category === true ? "selected" : null}
+            onClick={() => setCategory((category) => !category)}
+          >
+            ∘ 졸업
+          </span>
+        </ul>
+      )}
+      {type === 'challenge' && aliens_list.length >0 && 
+        <h1 className='challengeName'>{aliens_list[0].challenge_name}</h1>}
 
       {aliens_list
         .sort((a, b) => {
@@ -178,21 +86,29 @@ function PostList({ type, handleSelectAlien }) {
           else return leastCommit(a, b);
         })
         .map((alien) =>
-          Boolean(alien.alien_status) === category ? (
-            <PostItem
-              key={alien.id}
-              alien={alien}
-              type={type}
-              userId={userId}
-              selectedAlien={selectedAlien}
-              handleSelectAlien={handleSelectAlien}
-            />
-          ) : null
+          type === "personal" ? (
+            Boolean(alien.alien_status) === category ? (
+              <PersonalItem
+                key={alien.id}
+                alien={alien}
+                userId={userId}
+                handleSelectAlien={handleSelectAlien}
+              />
+            ) : null
+          ) : (
+            type === "challenge" && (
+              <ChallengeItem
+                key={alien.id}
+                alien={alien}
+                userId={userId}
+                handleSelectAlien={handleSelectAlien}
+              />
+            )
+          )
         )}
     </div>
   );
 }
-
 export default PostList;
 
 function ToggleBtn(props) {

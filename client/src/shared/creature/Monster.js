@@ -15,8 +15,11 @@ class Monster {
     this.practiceStatus = 0;
     this.practiceDays = [];
 
-    // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981
-    //          0                      1                   2 3  4    5
+    this.showEmoji = false;
+    this.emojiFrame = 0;
+    //                                                             L       M       S
+    // Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981-640-316-320-158
+    //          0                      1                   2 3  4    5   6   7   8   9
     // TODO: 임시처리된 코드 개선
     let parsed = props.image_url && props.image_url.split("-");
     if (parsed && parsed[0].startsWith("Alien_base")) {
@@ -43,21 +46,61 @@ class Monster {
 
     // for sprite images
     if (this.image_url) {
-      this.spriteWidth = this.image_url[4] / this.image_url[2];
-      this.spriteHeight = this.image_url[5] / this.image_url[3];
+      this.fishLeft = new Image();
+      this.fishRight = new Image();
+
+      if (this.authCnt > 60) {
+        this.width = this.image_url[4];
+        this.height = this.image_url[5];
+        this.fishLeft.src = S3URL + this.image_url[0];
+        this.fishRight.src = S3URL + this.image_url[1];
+      } else if (this.authCnt <= 60 && this.authCnt > 10) {
+        this.width = this.image_url[6];
+        this.height = this.image_url[7];
+        this.fishLeft.src =
+          S3URL +
+          this.image_url[0].split("/")[0] +
+          "/M/" +
+          this.image_url[0].split("/")[1];
+        this.fishRight.src =
+          S3URL +
+          this.image_url[1].split("/")[0] +
+          "/M/" +
+          this.image_url[1].split("/")[1];
+      } else {
+        this.width = this.image_url[8];
+        this.height = this.image_url[9];
+        this.fishLeft.src =
+          S3URL +
+          this.image_url[0].split("/")[0] +
+          "/S/" +
+          this.image_url[0].split("/")[1];
+        this.fishRight.src =
+          S3URL +
+          this.image_url[1].split("/")[0] +
+          "/S/" +
+          this.image_url[1].split("/")[1];
+      }
+
+      this.spriteWidth = this.width / this.image_url[2];
+      this.spriteHeight = this.height / this.image_url[3];
       this.spriteAngle = 0;
       this.frameX = Math.floor(Math.random() * this.image_url[2]); // 0~3
       this.frameY = Math.floor(Math.random() * this.image_url[3]); // 0~2
-      this.fishLeft = new Image();
-      this.fishLeft.src = S3URL + this.image_url[0];
-      this.fishRight = new Image();
-      this.fishRight.src = S3URL + this.image_url[1];
 
       this.bubbleR = new Image();
       this.bubbleR.src = require("../../image/bubble-512px-red.png").default;
       this.bubbleW = new Image();
       this.bubbleW.src = require("../../image/bubble-512px.png").default;
+
+      this.emoji = new Image();
+      this.emoji.src = require("../../image/emoji_bubbles.png").default;
     }
+  }
+
+  setEmojis(emoji) {
+    this.showEmoji = emoji;
+    this.emojiFrame = 0;
   }
 
   overwrite(monPlain) {
@@ -98,7 +141,7 @@ class Monster {
     let y = room.camera.getCanvasSize(this.location.y);
     let size = room.camera.getCanvasSize(this.size);
 
-    // // draw circle
+    // draw circle
     // ctx.beginPath();
     // ctx.arc(x, y, size / 2, 0, Math.PI * 2);
     // ctx.fillStyle = this.color;
@@ -112,6 +155,7 @@ class Monster {
       this.calculateFrames(frameCnt);
       ctx.save();
       ctx.translate(x, y);
+
       let direction = this.location.x - this.destination.x;
       ctx.rotate(this.spriteAngle);
       if (direction > 0) {
@@ -139,12 +183,41 @@ class Monster {
           size
         );
       }
-      if (this.showBubble) {
+
+      if (!this.image_url[0].includes("seal")) {
+        if (this.showBubble) {
+          const todayValue = new Date().getDay();
+          const isPracticeDay = this.practiceDays[todayValue];
+          if (this.practiceStatus === 1) {
+            ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
+          } else if (isPracticeDay && this.practiceStatus === 0) {
+            // TODO: 오늘이 인증이 필요한 날인지 확인
+            ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
+          }
+        }
+        ctx.restore();
+        if (this.showEmoji) {
+          ctx.drawImage(
+            this.emoji,
+            x - 40 - size / 4,
+            y - 40 - size / 3,
+            60,
+            60
+          );
+          ctx.font = "25px sans-serif";
+          ctx.fillText(this.showEmoji, x - 33 - size / 4, y - 15 - size / 3);
+          this.emojiFrame++;
+          if (this.emojiFrame >= 200) {
+            this.showEmoji = false;
+          }
+        }
+      }
+
+      // 물개를 위한 특단의 조치
+      else if (this.image_url[0].includes("seal")) {
         const todayValue = new Date().getDay();
         const isPracticeDay = this.practiceDays[todayValue];
-
-        // 물개를 위한 특단의 조치
-        if (this.image_url[0].includes("seal")) {
+        if (this.showBubble) {
           if (this.practiceStatus === 1) {
             if (direction > 0) {
               ctx.drawImage(this.bubbleW, -size / 2, -size / 4, size, size);
@@ -158,17 +231,33 @@ class Monster {
               ctx.drawImage(this.bubbleR, -size / 2, -size / 1.5, size, size);
             }
           }
-        } else {
-          if (this.practiceStatus === 1) {
-            ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
-          } else if (isPracticeDay && this.practiceStatus === 0) {
-            // TODO: 오늘이 인증이 필요한 날인지 확인
-            ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
+        }
+        ctx.restore();
+        if (this.showEmoji && this.authCnt <= 60) {
+          ctx.drawImage(
+            this.emoji,
+            x - 40 - size / 4,
+            y - 40 - size / 3,
+            60,
+            60
+          );
+          ctx.font = "25px sans-serif";
+          ctx.fillText(this.showEmoji, x - 37 - size / 4, y - 15 - size / 3);
+          this.emojiFrame++;
+          if (this.emojiFrame >= 200) {
+            this.showEmoji = false;
+          }
+        }
+        if (this.showEmoji && this.authCnt > 60) {
+          ctx.drawImage(this.emoji, x - 40 - size / 4, y - size / 3, 60, 60);
+          ctx.font = "25px sans-serif";
+          ctx.fillText(this.showEmoji, x - 35 - size / 4, y - size / 3.8);
+          this.emojiFrame++;
+          if (this.emojiFrame >= 200) {
+            this.showEmoji = false;
           }
         }
       }
-
-      ctx.restore();
     }
   }
 
