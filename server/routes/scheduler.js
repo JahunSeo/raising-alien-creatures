@@ -6,8 +6,8 @@ const mysql = require("mysql");
 
 // 생명체 사망 api
 exports.noti_schedule = schedule.scheduleJob(
-  // { hour: 14, minute: 30 },
-  "10,20,30,40,50 * * * * *",
+  { hour: 14, minute: 30 },
+  // "10,20,30,40,50 * * * * *",
   function () {
     const pool = mysql.createPool({
       connectionLimit: 1,
@@ -54,7 +54,8 @@ exports.noti_schedule = schedule.scheduleJob(
           if (!challenge_alien.hasOwnProperty(_key)) {
             challenge_alien[_key] = {};
           }
-          challenge_alien[_key][element.id] = true;
+          let msg = `'${element.challenge_name}'챌린지에서 '${element.alien_name}' 생명체가 사망했습니다.`;
+          challenge_alien[_key][element.id] = msg;
         });
         console.log(challenge_alien);
 
