@@ -43,6 +43,11 @@ io.on("connection", (socket) => {
   socket.on("auth_approval", (data) => handler.authApproval(socket, data));
 });
 
+setInterval(() => {
+  console.log("emit hello");
+  io.sockets.emit("hello", { hello: "jungle" });
+}, 5000);
+
 const port = process.env.SOCKET_PORT || 5001;
 
 httpServer.listen(port, () => {
