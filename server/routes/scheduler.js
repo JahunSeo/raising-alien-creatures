@@ -53,7 +53,9 @@ exports.notiSchedule = function (rdsClient) {
             const roomId = `chal-${alien.challenge_id}`;
             const alienId = `${alien.id}`;
             let toast = {};
+            toast.challengeId = alien.challenge_id;
             toast.userId = alien.user_info_id;
+            toast.alienId = alien.id;
             toast.msg = `'${alien.challenge_name}'챌린지에서 '${alien.alien_name}' 생명체가 사망했습니다.`;
             toast = JSON.stringify(toast);
             // console.log(roomId, alienId, toast);
