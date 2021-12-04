@@ -49,23 +49,37 @@ class Monster {
       this.fishLeft = new Image();
       this.fishRight = new Image();
 
-      if (this.authCnt > 60){
+      if (this.authCnt > 60) {
         this.width = this.image_url[4];
         this.height = this.image_url[5];
         this.fishLeft.src = S3URL + this.image_url[0];
         this.fishRight.src = S3URL + this.image_url[1];
-      }
-      else if (this.authCnt <= 60 && this.authCnt > 10){
+      } else if (this.authCnt <= 60 && this.authCnt > 10) {
         this.width = this.image_url[6];
         this.height = this.image_url[7];
-        this.fishLeft.src = S3URL +  this.image_url[0].split('/')[0] +'/M/'+this.image_url[0].split('/')[1];
-        this.fishRight.src = S3URL + this.image_url[1].split('/')[0] +'/M/'+this.image_url[1].split('/')[1];
-      }
-      else {
+        this.fishLeft.src =
+          S3URL +
+          this.image_url[0].split("/")[0] +
+          "/M/" +
+          this.image_url[0].split("/")[1];
+        this.fishRight.src =
+          S3URL +
+          this.image_url[1].split("/")[0] +
+          "/M/" +
+          this.image_url[1].split("/")[1];
+      } else {
         this.width = this.image_url[8];
         this.height = this.image_url[9];
-        this.fishLeft.src = S3URL +  this.image_url[0].split('/')[0] +'/S/'+this.image_url[0].split('/')[1];
-        this.fishRight.src = S3URL +  this.image_url[1].split('/')[0] +'/S/'+this.image_url[1].split('/')[1];
+        this.fishLeft.src =
+          S3URL +
+          this.image_url[0].split("/")[0] +
+          "/S/" +
+          this.image_url[0].split("/")[1];
+        this.fishRight.src =
+          S3URL +
+          this.image_url[1].split("/")[0] +
+          "/S/" +
+          this.image_url[1].split("/")[1];
       }
 
       this.spriteWidth = this.width / this.image_url[2];
@@ -84,7 +98,7 @@ class Monster {
     }
   }
 
-  setEmojis(emoji){
+  setEmojis(emoji) {
     this.showEmoji = emoji;
     this.emojiFrame = 0;
   }
@@ -136,7 +150,7 @@ class Monster {
       this.calculateFrames(frameCnt);
       ctx.save();
       ctx.translate(x, y);
-      
+
       let direction = this.location.x - this.destination.x;
       ctx.rotate(this.spriteAngle);
       if (direction > 0) {
@@ -165,7 +179,7 @@ class Monster {
         );
       }
 
-      if(!this.image_url[0].includes('seal')){
+      if (!this.image_url[0].includes("seal")) {
         if (this.showBubble) {
           const todayValue = new Date().getDay();
           const isPracticeDay = this.practiceDays[todayValue];
@@ -176,61 +190,69 @@ class Monster {
             ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
           }
         }
-        ctx.restore()
-        if(this.showEmoji){
-          ctx.drawImage(this.emoji, x -40 -size/4, y -40 -size/3, 50, 50);
-          ctx.font = '25px sans-serif';
-          ctx.fillText(this.showEmoji, x -40 -size/4, y -40 -size/9)
+        ctx.restore();
+        if (this.showEmoji) {
+          ctx.drawImage(
+            this.emoji,
+            x - 40 - size / 4,
+            y - 40 - size / 3,
+            60,
+            60
+          );
+          ctx.font = "25px sans-serif";
+          ctx.fillText(this.showEmoji, x - 33 - size / 4, y - 15 - size / 3);
           this.emojiFrame++;
-          if(this.emojiFrame >= 200){
+          if (this.emojiFrame >= 200) {
             this.showEmoji = false;
           }
         }
       }
-      
+
       // 물개를 위한 특단의 조치
-      else if(this.image_url[0].includes('seal')){
+      else if (this.image_url[0].includes("seal")) {
         const todayValue = new Date().getDay();
-          const isPracticeDay = this.practiceDays[todayValue];
-          if (this.showBubble){
-            if (this.practiceStatus === 1) {
-              if (direction > 0){
-                ctx.drawImage(this.bubbleW, -size/2, -size/4, size, size);
-              }
-              else{
-                ctx.drawImage(this.bubbleW, -size/2, -size/1.5, size, size);
-              }
-            } else if (isPracticeDay && this.practiceStatus === 0) {
-              if (direction > 0){
-                ctx.drawImage(this.bubbleR, -size/2, -size/4, size, size);
-              }
-              else{
-                ctx.drawImage(this.bubbleR, -size/2, -size/1.5, size, size);
-              }
+        const isPracticeDay = this.practiceDays[todayValue];
+        if (this.showBubble) {
+          if (this.practiceStatus === 1) {
+            if (direction > 0) {
+              ctx.drawImage(this.bubbleW, -size / 2, -size / 4, size, size);
+            } else {
+              ctx.drawImage(this.bubbleW, -size / 2, -size / 1.5, size, size);
+            }
+          } else if (isPracticeDay && this.practiceStatus === 0) {
+            if (direction > 0) {
+              ctx.drawImage(this.bubbleR, -size / 2, -size / 4, size, size);
+            } else {
+              ctx.drawImage(this.bubbleR, -size / 2, -size / 1.5, size, size);
             }
           }
-          ctx.restore();
-          if(this.showEmoji && this.authCnt <= 60){
-            ctx.drawImage(this.emoji, x -40 -size/4, y - 40-size/3, 50, 50);
-            ctx.font = '25px sans-serif';
-            ctx.fillText(this.showEmoji, x -40 -size/4, y -40 -size/9)
-            this.emojiFrame++;
-            if(this.emojiFrame >= 200){
-                this.showEmoji = false;
-              }
-          }
-          if(this.showEmoji && this.authCnt > 60){
-            ctx.drawImage(this.emoji, x -40 -size/4, y -size/3, 50, 50);
-            ctx.font = '25px sans-serif';
-            ctx.fillText(this.showEmoji, x -40 -size/4, y -40 -size/9)
-            this.emojiFrame++;
-            if(this.emojiFrame >= 200){
-                this.showEmoji = false;
-              }
+        }
+        ctx.restore();
+        if (this.showEmoji && this.authCnt <= 60) {
+          ctx.drawImage(
+            this.emoji,
+            x - 40 - size / 4,
+            y - 40 - size / 3,
+            60,
+            60
+          );
+          ctx.font = "25px sans-serif";
+          ctx.fillText(this.showEmoji, x - 37 - size / 4, y - 15 - size / 3);
+          this.emojiFrame++;
+          if (this.emojiFrame >= 200) {
+            this.showEmoji = false;
           }
         }
-      
-
+        if (this.showEmoji && this.authCnt > 60) {
+          ctx.drawImage(this.emoji, x - 40 - size / 4, y - size / 3, 60, 60);
+          ctx.font = "25px sans-serif";
+          ctx.fillText(this.showEmoji, x - 35 - size / 4, y - size / 3.8);
+          this.emojiFrame++;
+          if (this.emojiFrame >= 200) {
+            this.showEmoji = false;
+          }
+        }
+      }
     }
   }
 
