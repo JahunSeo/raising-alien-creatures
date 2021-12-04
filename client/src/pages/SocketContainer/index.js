@@ -50,9 +50,10 @@ export default function SocketContainer(props) {
           if (noti.userId === user.id) {
             toast(noti.msg);
           }
-          // TODO: canvas에서 alien 제거
+          // canvas에서 alien 제거
           aquarium.getCurrentRoom().removeMonster(noti.alienId);
         });
+        // TODO: redux에서 aliens 한 번에 제거
       });
       dispatch(actions.toggleSocket(true));
     }
