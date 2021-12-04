@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { createClient } from "redis";
 
+import { alienDeathSchedule } from "./scheduler.js";
 import * as handler from "./handler.js";
 
 /* redis */
@@ -43,13 +44,8 @@ io.on("connection", (socket) => {
   socket.on("auth_approval", (data) => handler.authApproval(socket, data));
 });
 
-// 스케쥴러에 추가할 때 참고!
-// setInterval(() => {
-//   console.log("emit hello");
-//   io.emit("thanos_done", { hello: "0000" });
-//   io.in(1).emit("thanos_done", { hello: "1111" });
-//   io.in(9).emit("thanos_done", { hello: "9999" });
-// }, 10000);
+/* scheduler */
+alienDeathSchedule(io, rdsClient);
 
 const port = process.env.SOCKET_PORT || 5001;
 
