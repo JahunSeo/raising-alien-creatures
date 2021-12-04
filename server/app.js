@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
 const { createClient } = require("redis");
-
+const shcedule = require("./routes/scheduler")
 /* log in middleware */
 const compression = require("compression");
 const helmet = require("helmet");
