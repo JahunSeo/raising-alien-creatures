@@ -118,17 +118,20 @@ exports.deadSchedule = function (rdsClient) {
     else sql1 = makeSQL("fri");
 
     pool.getConnection(function (err, connection) {
-      if (err) throw err;
+      if (err) {
+        console.error("at the scheduler api to getConnection", error);
+        return;
+      }
 
       connection.query(sql1, function (error, results) {
         if (error) {
-          console.error("at the scheduler api", error);
+          console.error("at the scheduler api to query", error);
           return;
         }
         connection.release();
       });
     });
-    
+
 
   // redis에서 죽여야하는 생명체 과져와서 죽이는 것 처리
   keys = await rdsClient.KEYS("chal-*");
@@ -161,7 +164,6 @@ exports.deadSchedule = function (rdsClient) {
       await rdsClient.DEL(key);
     })
   }
-  
   }
 );
 }
