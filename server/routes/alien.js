@@ -8,25 +8,25 @@ module.exports = function (pool) {
     if (req.user) {
       const alien_name = '"' + req.body.alien_name + '"';
       const image_url_obj = {
-        '1':{
-        '0': "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981",
-        '1': "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981",
-        '2': "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981",
-        '3': "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981",
-        '4': "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981",
-        '5': "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981",
+        1: {
+          0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981-640-316-320-158",
+          1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981-640-316-320-158",
+          2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981-640-316-320-158",
+          3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981-640-316-320-158",
+          4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981-640-316-320-158",
+          5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981-640-316-320-158",
         },
-        '2':{
-          '0': "Alien_base/seal_0.png-Alien_base/seal_0_reverse.png-3-3-747-664",
-          '1': "Alien_base/seal_1.png-Alien_base/seal_1_reverse.png-3-3-747-664",
-          '2': "Alien_base/seal_2.png-Alien_base/seal_2_reverse.png-3-3-747-664",
-          '3': "Alien_base/seal_3.png-Alien_base/seal_3_reverse.png-3-3-747-664",
+        2: {
+          0: "Alien_base/seal_0.png-Alien_base/seal_0_reverse.png-3-3-1280-1137-747-664-320-284",
+          1: "Alien_base/seal_1.png-Alien_base/seal_1_reverse.png-3-3-1280-1137-747-664-320-284",
+          2: "Alien_base/seal_2.png-Alien_base/seal_2_reverse.png-3-3-1280-1137-747-664-320-284",
+          3: "Alien_base/seal_3.png-Alien_base/seal_3_reverse.png-3-3-1280-1137-747-664-320-284",
         },
-        '3':{
-          '0': "Alien_base/puffish_0.png-Alien_base/puffish_0_reverse.png-4-4-727-691",
-          '1': "Alien_base/puffish_1.png-Alien_base/puffish_1_reverse.png-4-4-727-691",
-          '2': "Alien_base/puffish_2.png-Alien_base/puffish_2_reverse.png-4-4-727-691",
-          '3': "Alien_base/puffish_3.png-Alien_base/puffish_3_reverse.png-4-4-727-691",
+        3: {
+          0: "Alien_base/puffish_0.png-Alien_base/puffish_0_reverse.png-4-4-1024-974-727-691-320-304",
+          1: "Alien_base/puffish_1.png-Alien_base/puffish_1_reverse.png-4-4-1024-974-727-691-320-304",
+          2: "Alien_base/puffish_2.png-Alien_base/puffish_2_reverse.png-4-4-1024-974-727-691-320-304",
+          3: "Alien_base/puffish_3.png-Alien_base/puffish_3_reverse.png-4-4-1024-974-727-691-320-304",
         },
       };
       const image_url_value = String(req.body.image_url);
@@ -125,49 +125,41 @@ module.exports = function (pool) {
   // 챌린지 total_auth_cnt 보내주기
   router.get("/imageInfo/:challengeId", function (req, res) {
     const challengeId = req.params.challengeId;
-    const sql1 = `SELECT times_per_week FROM challenge WHERE id=?;`
-    const sql2 = `SELECT species, image_url, per_count AS count FROM image_menu;`
+    const sql1 = `SELECT times_per_week FROM challenge WHERE id=?;`;
+    const sql2 = `SELECT species, image_url, per_count AS count FROM image_menu;`;
     // const sql2 = "SELECT species, image_url FROM aliens.image_menu;"
     pool.getConnection(function (err, connection) {
       if (err) throw err;
-      connection.query(
-        sql1,
-        [challengeId],
-        function (error1, results1) {
-          if (error1) {
-            console.error(error1);
+      connection.query(sql1, [challengeId], function (error1, results1) {
+        if (error1) {
+          console.error(error1);
+          res.status(500).json({
+            result: "fail",
+            msg: "cant query to select",
+          });
+          return;
+        }
+        connection.query(sql2, function (error2, results2) {
+          if (error2) {
+            console.error(error2);
             res.status(500).json({
               result: "fail",
               msg: "cant query to select",
             });
             return;
           }
-          connection.query(
-            sql2,
-            function(error2, results2) {
-              if (error2) {
-                console.error(error2);
-                res.status(500).json({
-                  result: "fail",
-                  msg: "cant query to select",
-                });
-                return;
-              }
-              res.status(200).json({
-                result: "success",
-                msg: "do insert",
-                times_per_week: results1[0].times_per_week,
-                images: results2,
-              });
-            }
-          )
-          connection.release();
-        }
-      );
+          res.status(200).json({
+            result: "success",
+            msg: "do insert",
+            times_per_week: results1[0].times_per_week,
+            images: results2,
+          });
+        });
+        connection.release();
+      });
     });
   });
 
-    
   router.use(function (req, res, next) {
     res.status(404).json({
       result: "fail",
