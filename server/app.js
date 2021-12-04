@@ -24,8 +24,14 @@ const rdsClient = createClient({
   port: 6379,
   db: 0,
 });
-rdsClient.on("error", (err) => console.log("Redis Client Error", err));
-rdsClient.connect(); // await을 걸지 않아도 될까?
+rdsClient.on("error", (err) => {
+  // console.log("Redis Client Error", err);
+  rdsClient.connected = false;
+});
+rdsClient.on("connect", () => {
+  rdsClient.connected = true;
+});
+rdsClient.connect();
 
 /* mysql */
 const pool = mysql.createPool({

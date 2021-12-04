@@ -4,15 +4,17 @@ const s3 = require("../lib/s3");
 module.exports = function (pool, rdsClient) {
   router.get("/", async (req, res) => {
     // redis에 저장된 정보가 있는지 확인
-    try {
-      let resData = await rdsClient.get(`api/main`);
-      if (!!resData) {
-        resData = JSON.parse(resData);
-        console.log("REDIS Hit: api/main");
-        return res.status(200).json(resData);
+    if (!!rdsClient.connected) {
+      try {
+        let resData = await rdsClient.get(`api/main`);
+        if (!!resData) {
+          resData = JSON.parse(resData);
+          console.log("REDIS Hit: api/main");
+          return res.status(200).json(resData);
+        }
+      } catch (err) {
+        console.error("REDIS ERROR", err);
       }
-    } catch (err) {
-      console.error("REDIS ERROR", err);
     }
 
     // const sql1 = `(SELECT Alien.id, status, challengeName, challengeContent, Alien.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien.createDate, alienName, image_url, accuredAuthCnt, color, end_date FROM Alien JOIN Challenge ON Alien.Challenge_id = Challenge.id) UNION (SELECT Alien_graduated.id, status, challengeName, challengeContent, Alien_graduated.Challenge_id, Challenge.createDate, createUserNickName, maxUserNumber, participantNumber, Alien_graduated.createDate, alienName, image_url, accuredAuthCnt, color, graduated_date FROM Alien_graduated JOIN Challenge ON Alien_graduated.Challenge_id = Challenge.id) ORDER BY accuredAuthCnt DESC LIMIT 50;`;
@@ -40,13 +42,11 @@ module.exports = function (pool, rdsClient) {
           msg: `request main page aliens`,
           aliens: results,
         };
-        try {
+        if (!!rdsClient.connected) {
           rdsClient.set(`api/main`, JSON.stringify(resData), {
             EX: 3600, // 저장하는 기간
             NX: true, // 존재하지 않을 경우에만
           });
-        } catch (err) {
-          console.error("REDIS ERROR", err);
         }
         res.status(200).json(resData);
         connection.release();
