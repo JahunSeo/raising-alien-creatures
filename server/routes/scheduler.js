@@ -22,7 +22,6 @@ exports.notiSchedule = function (rdsClient) {
         new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
       );
       let day = today.getDay();
-      console.log("DAY", day);
 
       let columns = `challenge_id, user_info_id, alien.id, challenge_name, alien_name`;
       const makeSQL = (columns, day) => {
@@ -39,37 +38,29 @@ exports.notiSchedule = function (rdsClient) {
       else if (day === 5) sql1 = makeSQL(columns, "fri");
       else sql1 = makeSQL(columns, "sat");
 
-      let challenge_alien = new Object();
       pool.getConnection(function (err, connection) {
         if (err) throw err;
         connection.query(sql1, async (error, results) => {
-          if (error) {
-            console.error("at the scheduler api", error);
+          if (error || !rdsClient.connected) {
+            console.error("THANOS READY FAIL", error);
             connection.release();
             return;
           }
-          // 1단계: 사망 생명체 명단 생성
-          results.forEach((element) => {
-            let _key = "chal-" + element.challenge_id;
-            if (!challenge_alien.hasOwnProperty(_key)) {
-              challenge_alien[_key] = {};
-            }
-            let obj = {};
-            obj.userId = element.user_info_id;
-            obj.msg = `'${element.challenge_name}'챌린지에서 '${element.alien_name}' 생명체가 사망했습니다.`;
-            challenge_alien[_key][element.id] = JSON.stringify(obj);
-          });
-          console.log(challenge_alien);
-          console.log("rdsClient", rdsClient.connected);
-          // 2단계: 사망 생명체들을 레디스(데스노트)에 기록
+
+          // 사망 생명체 명단을 데스노트에 추가
           const promises = [];
-          for (const roomId in challenge_alien) {
-            const aliens = challenge_alien[roomId];
-            for (const alienId in aliens) {
-              promises.push(rdsClient.HSET(roomId, alienId, aliens[alienId]));
-            }
-          }
+          results.forEach((alien) => {
+            const roomId = `chal-${alien.challenge_id}`;
+            const alienId = `${alien.id}`;
+            let toast = {};
+            toast.userId = alien.user_info_id;
+            toast.msg = `'${alien.challenge_name}'챌린지에서 '${alien.alien_name}' 생명체가 사망했습니다.`;
+            toast = JSON.stringify(toast);
+            // console.log(roomId, alienId, toast);
+            promises.push(rdsClient.HSET(roomId, alienId, toast));
+          });
           await Promise.all(promises);
+          console.log("THANOS READY SUCCESS", results.length);
 
           // let value = await rdsClient.HGETALL("chal-7");
           // console.log("death note", value);
