@@ -15,21 +15,43 @@ const cx = classNames.bind();
 export default function Approval(props) {
   const [authRequests, setAuthRequests] = useState([]);
   const [filterRequests, setFilterRequests] = useState(false);
-  const [authCategory, setAuthCategory] = useState("");
+  const [authCategory, setAuthCategory] = useState(0);
+
+  const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
     const loadAuthRequests = async () => {
       const res = await api.get("/user/approval/list");
-      if (!res.data.data.length) {
-        console.log("res", res);
-        console.log("현재 수락을 기다리는 인증 요청이 없습니다.");
+      if (res.data.result === "success") {
+        let auths = res.data.data;
+        // let challenges = {1: {"challenge_name": "아침챙겨먹기", count: 2}, 20: {"challenge_name": "dmdmf", count: 6}}
+        let challenges = {};
+        auths.forEach((auth) => {
+          let challengeId = auth.challenge_id;
+          if (!(challengeId in challenges)) {
+            challenges[challengeId] = {
+              id: challengeId,
+              name: auth.challenge_name,
+              count: 0,
+            };
+          }
+          challenges[challengeId].count += 1;
+        });
+        // console.log("challenges1", challenges);
+        challenges = Object.values(challenges);
+        // console.log("challenges2", challenges);
+        setChallenges(challenges);
+        // console.log("challenges3", challenges);
+        setAuthRequests(auths);
       } else {
-        setAuthRequests(res.data.data);
-        return;
+        // TODO: 실패 처리
       }
     };
     loadAuthRequests();
   }, []);
+
+  console.log("authRequests", authRequests);
+  console.log("challenges", challenges);
 
   function ToggleBtn(props) {
     const { filterRequests, setFilterRequests } = props;
@@ -68,50 +90,6 @@ export default function Approval(props) {
     );
   }
 
-  // const challengeMap = [];
-
-  // for (var i = 0; i < authRequests.length; i++) {
-  //   var auth = authRequests[i];
-  //   challengeMap[auth.challenge_name] =
-  //     challengeMap[auth.challenge_name] + 1 || 1;
-  // }
-
-  const challengeMap = new Map();
-
-  for (var i = 0; i < authRequests.length; i++) {
-    var auth = authRequests[i];
-    if (!challengeMap.has(auth.challenge_name)) {
-      challengeMap.set(auth.challenge_name, 1);
-    } else {
-      challengeMap.set(
-        auth.challenge_name,
-        challengeMap.get(auth.challenge_name) + 1
-      );
-    }
-  }
-
-  // useEffect(() => {
-  //   function addChallenge() {
-  //     return (
-  //       <option
-  //         value={challengeMap.entries().next().value[0]}
-  //         onClick={(e) => {
-  //           setAuthCategory(e.target.value);
-  //           setFilterRequests(false);
-  //         }}
-  //       >
-  //         {challengeMap.entries().next().value[0]} (
-  //         {challengeMap.entries().next().value[1]})
-  //       </option>
-  //     );
-  //   }
-  //   addChallenge();
-  // }, [challengeMap]);
-
-  console.log("authRequests", authRequests);
-  console.log("challengeMap", challengeMap);
-  console.log("challengeMap", challengeMap.entries().next().value);
-
   if (authRequests.length) {
     return (
       <div className="authRequests container" style={{ paddingTop: "75px" }}>
@@ -125,51 +103,28 @@ export default function Approval(props) {
               <option
                 value=""
                 onClick={(e) => {
-                  setAuthCategory(e.target.value);
+                  setAuthCategory(0);
                   setFilterRequests(false);
                 }}
               >
                 전체 보기 ({authRequests.length})
               </option>
-              {authRequests.map((authRequest) => (
+              {challenges.map((challenge) => (
                 <option
-                  value={authRequest.challenge_name}
+                  key={challenge.id}
+                  value={challenge.id}
                   onClick={(e) => {
-                    setAuthCategory(e.target.value);
+                    setAuthCategory(challenge.id);
                     setFilterRequests(false);
                   }}
                 >
-                  {authRequest.challenge_name} (
-                  {challengeMap[authRequest.challenge_name]})
-                </option>
-              ))}
-              {/* {challengeMap.map((challenge) => (
-                <option
-                  value={challenge}
-                  onClick={(e) => {
-                    setAuthCategory(e.target.value);
-                    setFilterRequests(false);
-                  }}
-                >
-                  {challenge} ({challengeMap[challenge]})
-                </option>
-              ))} */}
-              {challengeMap.map((challenge) => (
-                <option
-                  value={challengeMap.entries().next().value[0]}
-                  onClick={(e) => {
-                    setAuthCategory(e.target.value);
-                    setFilterRequests(false);
-                  }}
-                >
-                  {challengeMap.entries().next().value[0]} (
-                  {challengeMap.entries().next().value[1]})
+                  {challenge.name} ({challenge.count})
                 </option>
               ))}
             </div>
           ) : null}
         </div>
-        {authCategory === "" ? (
+        {authCategory === 0 ? (
           <div>
             {authRequests.map((authRequest) => (
               <AuthRequest
@@ -183,7 +138,7 @@ export default function Approval(props) {
           <div>
             {authRequests
               .filter(
-                (authRequest) => authRequest.challenge_name === authCategory
+                (authRequest) => authRequest.challenge_id === authCategory
               )
               .map((authRequest) => (
                 <AuthRequest
@@ -219,7 +174,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
   const [approvalStatus, setApprovalStatus] = useState(false);
   const [approvalClicked, setApprovalClicked] = useState(false);
 
-  console.log("authCategory", authCategory);
+  // console.log("authCategory", authCategory);
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
@@ -375,7 +330,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
         <div>
           <div className="flex-col min-w-min w-full justify-center items-center px-6 py-2">
             <div className="flex-col m-auto bg-gray-300 rounded-lg px-2 py-2">
-              <h1 className="flex justify-center items-center py-2 mb-1 md:text-xl text:lg font-semibold text-black">
+              <h1 className="flex justify-center items-center py-2 mb-1 md:text-xl text-center text:lg font-semibold text-black">
                 "{authRequest.comments}"
               </h1>
             </div>
