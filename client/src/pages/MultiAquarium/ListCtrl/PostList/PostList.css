@@ -1,6 +1,6 @@
 .PostListBlock {
   margin: 0.7rem;
-  width: 20rem;
+  width: 22rem;
   height: 100%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   padding: 0.1rem;
@@ -94,77 +94,12 @@ ul span {
       0 0 73px #5271ff, 0 0 80px #5271ff, 0 0 94px #5271ff, 0 0 140px #5271ff;
   }
 } */
-
-.PostItemBlock {
-  padding-top: 0.8rem;
-}
-
-.PostItemBlock h2 {
-  font-size: 1em;
-  color: white;
-  background-color: #5271ff;
-  border-radius: 4px;
-  opacity: 0.8;
-  padding: 0.1em;
-  margin: 0.4em;
-  margin-bottom: 1em;
-}
-
-.Content {
-  display: flex;
-  justify-content: space-around;
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-}
-
-.Content .images {
-  background-size: 45em;
-  width: 7em;
-  height: 7em;
-  /* background-position: 0px; */
-  background-position: 0px 126px;
-}
-.Content .images:hover {
-  transition: all 0.3s;
-  transform: scale(1.2);
-}
-
-.Content:first-child {
-  padding-top: 0;
-}
-.SubInfo {
-  padding-top: 0.5rem;
-  color: whitesmoke;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-.SubInfo p {
-  line-height: 25px;
-  font-weight: 550;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-around;
-}
-
-.StyledButton {
-  border: none;
-  margin: 1rem 0.1rem;
-  margin-bottom: 0.4rem;
-  font-size: 0.8rem;
-  font-weight: bold;
-  padding: 0.28rem;
-  color: white;
-  outline: none;
-  cursor: pointer;
-  opacity: 90%;
-  border: 0.15rem solid skyblue;
+.challengeName {
+  /* background: rgb(184, 47, 211); */
+  font-size: 27px;
+  color:white;
+  border:2px solid 18ffff;
   border-radius: 8px;
-  width: 6.6em;
-  height: 3em;
 }
 
 .toggleBtn {
@@ -172,3 +107,4 @@ ul span {
   position: relative;
   display:flex;
 }
+
