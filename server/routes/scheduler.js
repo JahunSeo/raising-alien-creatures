@@ -6,8 +6,8 @@ const mysql = require("mysql");
 
 exports.notiSchedule = function (rdsClient) {
   schedule.scheduleJob(
-    // { hour: 14, minute: 30 },
-    "0,10,20,30,40,50 * * * * *",
+    { hour: 14, minute: 30 },
+    // "0,10,20,30,40,50 * * * * *",
     function () {
       const pool = mysql.createPool({
         connectionLimit: 1,
@@ -22,7 +22,6 @@ exports.notiSchedule = function (rdsClient) {
         new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
       );
       let day = today.getDay();
-      console.log("DAY", day);
 
       let columns = `challenge_id, user_info_id, alien.id, challenge_name, alien_name`;
       const makeSQL = (columns, day) => {
@@ -42,25 +41,26 @@ exports.notiSchedule = function (rdsClient) {
       pool.getConnection(function (err, connection) {
         if (err) throw err;
         connection.query(sql1, async (error, results) => {
-          if (error) {
-            console.error("at the scheduler api", error);
+          if (error || !rdsClient.connected) {
+            console.error("THANOS READY FAIL", error);
             connection.release();
             return;
           }
-          // 1단계: 사망 생명체 명단 생성
+
+          // 사망 생명체 명단을 데스노트에 추가
           const promises = [];
-          results.forEach((element) => {
-            let roomId = "chal-" + element.challenge_id;
-            let alienId = element.id;
-            let obj = {};
-            obj.userId = element.user_info_id;
-            obj.msg = `'${element.challenge_name}'챌린지에서 '${element.alien_name}' 생명체가 사망했습니다.`;
-            let info = JSON.stringify(obj);
-            console.log(1212, roomId, alienId, info);
-            promises.push(rdsClient.HSET(roomId, alienId, info));
+          results.forEach((alien) => {
+            const roomId = `chal-${alien.challenge_id}`;
+            const alienId = `${alien.id}`;
+            let toast = {};
+            toast.userId = alien.user_info_id;
+            toast.msg = `'${alien.challenge_name}'챌린지에서 '${alien.alien_name}' 생명체가 사망했습니다.`;
+            toast = JSON.stringify(toast);
+            // console.log(roomId, alienId, toast);
+            promises.push(rdsClient.HSET(roomId, alienId, toast));
           });
-          console.log("rdsClient", rdsClient.connected);
           await Promise.all(promises);
+          console.log("THANOS READY SUCCESS", results.length);
 
           // let value = await rdsClient.HGETALL("chal-7");
           // console.log("death note", value);
