@@ -19,16 +19,18 @@ const fs = require("fs");
 // const schedule = require("./routes/scheduler");
 
 /* redis */
+// const rdsClient = createClient();
 const rdsClient = createClient({
-  host: "namu.tvusre.0001.apn2.cache.amazonaws.com",
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
   db: 0,
 });
 rdsClient.on("error", (err) => {
   // console.log("Redis Client Error", err);
   rdsClient.connected = false;
 });
-rdsClient.on("connect", () => {
+rdsClient.on("connect", async () => {
+  console.log("REDIS in API SERVER connected");
   rdsClient.connected = true;
 });
 rdsClient.connect();
