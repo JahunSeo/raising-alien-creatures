@@ -44,9 +44,15 @@ export default function SocketContainer(props) {
         // 생명체 상태 변경: redux
         dispatch(actions.approveAuth(info.alienId));
       });
-      // test
-      socket.onThanosDone((data) => {
-        toast("thanos done" + data.hello);
+      // 12시 타노스 결과
+      socket.onThanosDone((info) => {
+        info.forEach((noti) => {
+          if (noti.userId === user.id) {
+            toast(noti.msg);
+          }
+          console.log(noti);
+          // TODO: canvas에서 alien 제거
+        });
       });
       dispatch(actions.toggleSocket(true));
     }
