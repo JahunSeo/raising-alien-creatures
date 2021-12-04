@@ -19,14 +19,14 @@ const s3 = new aws.S3({
   signatureVersion: "v4",
 });
 
-async function generateUploadURL() {
+async function generateUploadURL_approve() {
   const rawBytes = await randomBytes(16);
   const imageName = rawBytes.toString("hex");
   console.log(imageName);
 
   const params = {
     Bucket: bucketName,
-    Key: imageName,
+    Key: `origin/${imageName}`,
     Expires: 60,
   };
 
@@ -34,8 +34,23 @@ async function generateUploadURL() {
   return uploadURL;
 }
 
-exports.generateUploadURL = generateUploadURL;
+async function generateUploadURL_chalthumb() {
+  const rawBytes = await randomBytes(16);
+  const imageName = rawBytes.toString("hex");
+  console.log(imageName);
 
+  const params = {
+    Bucket: bucketName,
+    Key: `origin/${imageName}`,
+    Expires: 60,
+  };
+
+  const uploadURL = await s3.getSignedUrlPromise("putObject", params);
+  return uploadURL;
+}
+
+exports.generateUploadURL_approve = generateUploadURL_approve;
+exports.generateUploadURL_chalthumb = generateUploadURL_chalthumb;
 // import dotenv from "dotenv";
 // import aws from "aws-sdk";
 // import crypto from "crypto";

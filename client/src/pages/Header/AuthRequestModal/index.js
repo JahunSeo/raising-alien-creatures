@@ -67,7 +67,7 @@ export default function AuthRequestModal(props) {
       return;
     }
 
-    let res = await api.get("/main/s3Url");
+    let res = await api.get("/main/s3Url_approval");
     const { url } = res.data;
     console.log("res", res);
     // post the image directly to the s3 bucket
@@ -75,7 +75,7 @@ export default function AuthRequestModal(props) {
       await fetch(url, {
         method: "PUT",
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "image/png",
         },
         body: authImage[0],
       });
