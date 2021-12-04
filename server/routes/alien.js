@@ -91,12 +91,16 @@ module.exports = function (pool) {
   router.post("/graduation", function (req, res) {
     // 필요한 데이터: challenge_id, ailen_id
     // 해야할 일 1: alien 테이블 변경
-    const sql1 =
+    const sql2 =
       "UPDATE alien SET alien_status = 1, end_date = NOW() WHERE id = ?;";
-    // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1 ->트리거이용,
+    // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1,
+    const sql1 = 
+      "DELETE FROM user_info_has_challenge WHERE user_info_id=? AND challenge_id=?;"
+    const sql3 = 
+      "UPDATE challenge SET participant_number = participant_number - 1 WHERE id=?"
     pool.getConnection(function (err, connection) {
       if (err) throw err;
-      connection.query(sql1, [req.body.alien_id], function (error, results) {
+      connection.query(sql1+sql2+sql3, [req.user.id, req.body.challenge_id, req.body.alien_id, req.body.challenge_id], function (error, results) {
         if (error) {
           console.log("at the alien create api", error);
           res.status(200).json({

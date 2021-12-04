@@ -13,7 +13,7 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
   }));
 
   const onClickGraduate = async () => {
-    let req = { alien_id: alien.id };
+    let req = { alien_id: alien.id, challenge_id: alien.challenge_id};
     let res = await api.post("/alien/graduation", req);
     if (res.data.result === "success")
       dispatch(
