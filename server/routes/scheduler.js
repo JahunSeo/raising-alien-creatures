@@ -149,11 +149,14 @@ exports.deadSchedule = function (rdsClient) {
         const sql3 = `UPDATE alien SET alien_status = 2 WHERE id=${deadAlienId}`
         const sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId}`
         pool.getConnection(function (err, connection) {
-        if (err) throw err;
+        if (err) {
+          console.error("at the scheduler api to getConnection", error);
+          return;
+        }
 
         connection.query(sql2+sql3+sql4, function (error, results) {
           if (error) {
-            console.error("at the scheduler api", error);
+            console.error("at the scheduler api to query", error);
             return;
           }
           console.log(results);
