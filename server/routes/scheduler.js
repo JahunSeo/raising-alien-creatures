@@ -24,7 +24,7 @@ exports.notiSchedule = function (rdsClient) {
       let day = today.getDay();
       console.log("DAY", day);
 
-      let columns = `challenge_id, alien.id, challenge_name, alien_name`;
+      let columns = `challenge_id, user_info_id, alien.id, challenge_name, alien_name`;
       const makeSQL = (columns, day) => {
         return `SELECT ${columns} FROM alien LEFT JOIN challenge \
                 ON alien.challenge_id=challenge.id\
@@ -42,24 +42,49 @@ exports.notiSchedule = function (rdsClient) {
       let challenge_alien = new Object();
       pool.getConnection(function (err, connection) {
         if (err) throw err;
-
-        connection.query(sql1, function (error, results) {
+        connection.query(sql1, async (error, results) => {
           if (error) {
             console.error("at the scheduler api", error);
             connection.release();
             return;
           }
+          // 1단계: 사망 생명체 명단 생성
           results.forEach((element) => {
             let _key = "chal-" + element.challenge_id;
             if (!challenge_alien.hasOwnProperty(_key)) {
               challenge_alien[_key] = {};
             }
-            let msg = `'${element.challenge_name}'챌린지에서 '${element.alien_name}' 생명체가 사망했습니다.`;
-            challenge_alien[_key][element.id] = msg;
+            let obj = {};
+            obj.userId = element.user_info_id;
+            obj.msg = `'${element.challenge_name}'챌린지에서 '${element.alien_name}' 생명체가 사망했습니다.`;
+            challenge_alien[_key][element.id] = JSON.stringify(obj);
           });
-
           console.log(challenge_alien);
           console.log("rdsClient", rdsClient.connected);
+          // 2단계: 사망 생명체들을 레디스(데스노트)에 기록
+          const promises = [];
+          for (const roomId in challenge_alien) {
+            const aliens = challenge_alien[roomId];
+            for (const alienId in aliens) {
+              promises.push(rdsClient.HSET(roomId, alienId, aliens[alienId]));
+            }
+          }
+          await Promise.all(promises);
+
+          // let value = await rdsClient.HGETALL("chal-7");
+          // console.log("death note", value);
+          // value = await rdsClient.HGETALL("chal-262");
+          // console.log("death note", value);
+          // value = await rdsClient.HDEL("chal-7", "358");
+          // console.log("death note", value);
+          // value = await rdsClient.DEL("chal-262");
+          // console.log("death note", value);
+
+          // value = await rdsClient.HGETALL("chal-7");
+          // console.log("death note", value);
+          // //
+          // value = await rdsClient.KEYS("chal-*");
+          // console.log("keys", value);
 
           connection.release();
         });
@@ -67,9 +92,6 @@ exports.notiSchedule = function (rdsClient) {
     }
   );
 };
-
-// 생명체 사망 api
-// exports.noti_schedule =
 
 exports.dead_schedule = schedule.scheduleJob(
   { hour: 15, minute: 00 },
