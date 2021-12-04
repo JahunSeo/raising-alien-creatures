@@ -41,7 +41,14 @@ export default function AuthRequestModal(props) {
     );
     let today = day[date.getDay()];
     if (alien[today] === 0) {
-      console.log("인증 가능 요일이 아닙니다.");
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_DAY",
+          "인증 가능 요일이 아닙니다 !",
+          "FAIL",
+          () => {}
+        )
+      );
       return;
     } else {
     }
@@ -49,15 +56,21 @@ export default function AuthRequestModal(props) {
     /* 예외 처리 Handling 2. */
     if (alien.practice_status > 0) {
       /* 해당 날짜에 이미 요청된 Alien 인 경우 -> front에서 Error 문구 처리 부탁드립니다. */
-      console.log("이미 인증요청 완료된 건 입니다.");
-      // alert("이미 인증 요청이 완료되었습니다.")
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_REQ_EXIST",
+          "이미 인증요청이 완료된 건 입니다 !",
+          "FAIL",
+          () => {}
+        )
+      );
       return;
     }
 
     let res = await api.get("/main/s3Url");
     const { url } = res.data;
     console.log("res", res);
-    // post the image direclty to the s3 bucket
+    // post the image directly to the s3 bucket
     if (authImage) {
       await fetch(url, {
         method: "PUT",

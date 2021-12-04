@@ -1,0 +1,280 @@
+#fish {
+  transform-style: preserve-3d;
+  height: 500px;
+  transform-origin: 50% 50% -400px;
+  transition: 1s;
+}
+/* #seal div:nth-child(1) { */
+#fish div {
+  width: calc(80vw / 4);
+  height: calc(40vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 30%;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  background-size: 80vw;
+  animation: animate1 800ms steps(4) infinite;
+}
+
+@media only screen and (max-width: 450px) {
+  #fish div {
+    left: 40%;
+  }
+}
+@media only screen and (min-width: 450px) {
+  #fish div {
+    left: 35%;
+  }
+}
+@media only screen and (min-width: 800px) {
+  #fish div {
+    left: 30%;
+  }
+}
+
+@keyframes animate1 {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: -80vw;
+  }
+}
+
+/* 4마리 */
+#fish5:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#fish5:nth-child(2) {
+  transform: rotateY(-90deg);
+}
+#fish5:nth-child(3) {
+  transform: rotateY(-180deg);
+}
+#fish5:nth-child(4) {
+  transform: rotateY(-270deg);
+}
+/* 5마리 */
+#fish5:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#fish5:nth-child(2) {
+  transform: rotateY(-72deg);
+}
+#fish5:nth-child(3) {
+  transform: rotateY(-144deg);
+}
+#fish5:nth-child(4) {
+  transform: rotateY(-216deg);
+}
+#fish5:nth-child(5) {
+  transform: rotateY(-288deg);
+}
+/* 6마리 */
+#fish6:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#fish6:nth-child(2) {
+  transform: rotateY(-60deg);
+}
+#fish6:nth-child(3) {
+  transform: rotateY(-120deg);
+}
+#fish6:nth-child(4) {
+  transform: rotateY(-180deg);
+}
+#fish6:nth-child(5) {
+  transform: rotateY(-240deg);
+}
+#fish6:nth-child(6) {
+  transform: rotateY(-300deg);
+}
+
+/* seal */
+
+#seal {
+  transform-style: preserve-3d;
+  transform-origin: 50% 50% -400px;
+  transition: 1s;
+}
+#seal div {
+  width: calc(80vw / 3);
+  height: calc(60vw / 3);
+  max-width: 500px;
+  position: absolute;
+  left: 20%;
+  top: -7vw;
+  transform-origin: 50% 50% -400px;
+  outline: 1px solid transparent;
+  background-size: 80vw;
+  animation: animate2 800ms steps(4) infinite;
+}
+
+@media only screen and (max-width: 450px) {
+  #seal div {
+    left: 35%;
+  }
+}
+@media only screen and (min-width: 450px) {
+  #seal div {
+    left: 25%;
+  }
+}
+@media only screen and (min-width: 800px) {
+  #seal div {
+    left: 25%;
+  }
+}
+
+@keyframes animate2 {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: -106vw;
+  }
+}
+/* 4마리 */
+#seal4:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#seal4:nth-child(2) {
+  transform: rotateY(-90deg);
+}
+#seal4:nth-child(3) {
+  transform: rotateY(-180deg);
+}
+#seal4:nth-child(4) {
+  transform: rotateY(-270deg);
+}
+/* 5마리 */
+#seal5:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#seal5:nth-child(2) {
+  transform: rotateY(-72deg);
+}
+#seal5:nth-child(3) {
+  transform: rotateY(-144deg);
+}
+#seal5:nth-child(4) {
+  transform: rotateY(-216deg);
+}
+#seal5:nth-child(5) {
+  transform: rotateY(-288deg);
+}
+/* 6마리 */
+#seal6:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#seal6:nth-child(2) {
+  transform: rotateY(-60deg);
+}
+#seal6:nth-child(3) {
+  transform: rotateY(-120deg);
+}
+#seal6:nth-child(4) {
+  transform: rotateY(-180deg);
+}
+#seal6:nth-child(5) {
+  transform: rotateY(-240deg);
+}
+#seal6:nth-child(6) {
+  transform: rotateY(-300deg);
+}
+
+/* puffish */
+
+#puffish {
+  transform-style: preserve-3d;
+  /* height: 50px; */
+  transform-origin: 50% 50% -300px;
+  transition: 1s;
+}
+#puffish div {
+  width: calc(64vw / 4);
+  height: calc(60vw / 4);
+  /* height: 100px; */
+  max-width: 500px;
+  position: absolute;
+  left: 35%;
+  top: 0%;
+  transform-origin: 50% 50% -300px;
+  outline: 1px solid transparent;
+  background-size: 65vw;
+  animation: animate3 800ms steps(4) infinite;
+}
+@media only screen and (max-width: 450px) {
+  #puffish div {
+    left: 40%;
+  }
+}
+@media only screen and (min-width: 450px) {
+  #puffish div {
+    left: 35%;
+  }
+}
+@media only screen and (min-width: 800px) {
+  #puffish div {
+    left: 35%;
+  }
+}
+
+@keyframes animate3 {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: 65vw;
+    /* background-position: -60vw; */
+  }
+}
+/* 4마리 */
+#puffish4:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#puffish4:nth-child(2) {
+  transform: rotateY(-90deg);
+}
+#puffish4:nth-child(3) {
+  transform: rotateY(-180deg);
+}
+#puffish4:nth-child(4) {
+  transform: rotateY(-270deg);
+}
+/* 5마리 */
+#puffish5:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#puffish5:nth-child(2) {
+  transform: rotateY(-72deg);
+}
+#puffish5:nth-child(3) {
+  transform: rotateY(-144deg);
+}
+#puffish5:nth-child(4) {
+  transform: rotateY(-216deg);
+}
+#puffish5:nth-child(5) {
+  transform: rotateY(-288deg);
+}
+/* 6마리 */
+#puffish6:nth-child(1) {
+  transform: rotateY(0deg);
+}
+#puffish6:nth-child(2) {
+  transform: rotateY(-60deg);
+}
+#puffish6:nth-child(3) {
+  transform: rotateY(-120deg);
+}
+#puffish6:nth-child(4) {
+  transform: rotateY(-180deg);
+}
+#puffish6:nth-child(5) {
+  transform: rotateY(-240deg);
+}
+#puffish6:nth-child(6) {
+  transform: rotateY(-300deg);
+}
