@@ -6,8 +6,8 @@ const mysql = require("mysql");
 
 exports.notiSchedule = function (rdsClient) {
   schedule.scheduleJob(
-    { hour: 14, minute: 30 },
-    // "0,10,20,30,40,50 * * * * *",
+    // { hour: 14, minute: 30 },
+    "0,10,20,30,40,50 * * * * *",
     function () {
       const pool = mysql.createPool({
         connectionLimit: 1,
@@ -39,7 +39,6 @@ exports.notiSchedule = function (rdsClient) {
       else if (day === 5) sql1 = makeSQL(columns, "fri");
       else sql1 = makeSQL(columns, "sat");
 
-      let challenge_alien = new Object();
       pool.getConnection(function (err, connection) {
         if (err) throw err;
         connection.query(sql1, async (error, results) => {
@@ -49,26 +48,18 @@ exports.notiSchedule = function (rdsClient) {
             return;
           }
           // 1단계: 사망 생명체 명단 생성
+          const promises = [];
           results.forEach((element) => {
-            let _key = "chal-" + element.challenge_id;
-            if (!challenge_alien.hasOwnProperty(_key)) {
-              challenge_alien[_key] = {};
-            }
+            let roomId = "chal-" + element.challenge_id;
+            let alienId = element.id;
             let obj = {};
             obj.userId = element.user_info_id;
             obj.msg = `'${element.challenge_name}'챌린지에서 '${element.alien_name}' 생명체가 사망했습니다.`;
-            challenge_alien[_key][element.id] = JSON.stringify(obj);
+            let info = JSON.stringify(obj);
+            console.log(1212, roomId, alienId, info);
+            promises.push(rdsClient.HSET(roomId, alienId, info));
           });
-          console.log(challenge_alien);
           console.log("rdsClient", rdsClient.connected);
-          // 2단계: 사망 생명체들을 레디스(데스노트)에 기록
-          const promises = [];
-          for (const roomId in challenge_alien) {
-            const aliens = challenge_alien[roomId];
-            for (const alienId in aliens) {
-              promises.push(rdsClient.HSET(roomId, alienId, aliens[alienId]));
-            }
-          }
           await Promise.all(promises);
 
           // let value = await rdsClient.HGETALL("chal-7");
