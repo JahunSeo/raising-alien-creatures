@@ -45,8 +45,10 @@ io.on("connection", (socket) => {
 
 setInterval(() => {
   console.log("emit hello");
-  io.sockets.emit("hello", { hello: "jungle" });
-}, 5000);
+  io.emit("thanos_done", { hello: "0000" });
+  io.in(1).emit("thanos_done", { hello: "1111" });
+  io.in(9).emit("thanos_done", { hello: "9999" });
+}, 10000);
 
 const port = process.env.SOCKET_PORT || 5001;
 
