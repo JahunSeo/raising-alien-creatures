@@ -2,7 +2,7 @@ import schedule from "node-schedule";
 
 export const alienDeathSchedule = (io, rdsClient) => {
   schedule.scheduleJob(
-    { hour: 15, minute: 00 },
+    { hour: 15, minute: 0 },
     // "0,10,20,30,40,50 * * * * *",
     async () => {
       // 1단계: redis에서 데스노트 가져오기
