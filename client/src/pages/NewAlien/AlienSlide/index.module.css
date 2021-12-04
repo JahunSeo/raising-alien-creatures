@@ -1,14 +1,14 @@
 .carousel {
   perspective: 1200px;
   /* background: linear-gradient(to top, navy, black); */
-  background: linear-gradient(to top, navy, blue);
+  background: linear-gradient(to top, #313d95, #4557e2, #7480dc, #aeb4e4);
   /* padding-top: 10%; */
   font-size: 0;
   padding-top: 60px;
   width: 50vw;
   min-width: 340px;
   overflow: hidden;
-  height: 330px;
+  height: 420px;
 }
 
 .carousel ~ span {

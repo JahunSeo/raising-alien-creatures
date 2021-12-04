@@ -21,8 +21,6 @@ import PopUp from "./pages/PopUp";
 import styles from "./App.module.css";
 
 function App() {
-  console.log(123);
-
   return (
     <BrowserRouter>
       <Routes>
