@@ -88,8 +88,8 @@ exports.notiSchedule = function (rdsClient) {
 // TODO: rebuilding!!
 exports.deadSchedule = function (rdsClient) {
   schedule.scheduleJob(
-  // { hour: 15, minute: 10 },
-  "0,10,20,30,40,50 * * * * *",
+  { hour: 15, minute: 10 },
+  // "0,10,20,30,40,50 * * * * *",
   async function () {
     const pool = mysql.createPool({
       connectionLimit: 1,
