@@ -191,7 +191,6 @@ class Monster {
           if (this.practiceStatus === 1) {
             ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
           } else if (isPracticeDay && this.practiceStatus === 0) {
-            // TODO: 오늘이 인증이 필요한 날인지 확인
             ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
           }
         }

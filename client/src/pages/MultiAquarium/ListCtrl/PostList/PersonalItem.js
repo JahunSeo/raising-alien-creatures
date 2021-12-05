@@ -13,7 +13,7 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
   }));
 
   const onClickGraduate = async () => {
-    let req = { alien_id: alien.id, challenge_id: alien.challenge_id};
+    let req = { alien_id: alien.id, challenge_id: alien.challenge_id };
     let res = await api.post("/alien/graduation", req);
     if (res.data.result === "success")
       dispatch(
@@ -28,8 +28,6 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
       );
   };
 
-  console.log(alien.image_url.split("-")[0].split("/")[0])
-
   return (
     <div
       className={styles.PostItemBlock}
@@ -40,8 +38,12 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
         <div
           className={styles.images}
           style={{
-            backgroundImage: `url("${S3URL + alien.image_url.split("-")[0].split("/")[0] +
-              '/M/' + alien.image_url.split("-")[0].split("/")[1]}")`,
+            backgroundImage: `url("${
+              S3URL +
+              alien.image_url.split("-")[0].split("/")[0] +
+              "/M/" +
+              alien.image_url.split("-")[0].split("/")[1]
+            }")`,
           }}
         />
         <div className={styles.SubInfo}>
@@ -52,8 +54,7 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
         </div>
       </div>
       <div className={styles.buttons}>
-        {alien.alien_status === 0 &&
-          alien.user_info_id === userId &&
+        {alien.alien_status === 0 && alien.user_info_id === userId && (
           <button
             className={styles.StyledButton}
             onClick={() => {
@@ -64,17 +65,16 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
           >
             인증하기
           </button>
-        }
+        )}
         <Link to={`/challenge/${alien.challenge_id}/room`}>
           <button className={styles.StyledButton}>챌린지 어항</button>
         </Link>
 
-        {alien.alien_status === 0 &&
-          alien.user_info_id === userId &&
+        {alien.alien_status === 0 && alien.user_info_id === userId && (
           <button className={styles.StyledButton} onClick={onClickGraduate}>
             졸업 신청
           </button>
-        }
+        )}
       </div>
     </div>
   );
