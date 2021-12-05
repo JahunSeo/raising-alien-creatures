@@ -38,6 +38,11 @@ class Camera {
     // 우선순위: chasing > mousedown(drag, click)
   }
 
+  getChasingTarget() {
+    if (!this.chasingTarget) return null;
+    return this.chasingTarget.monId;
+  }
+
   setChasingTarget(target, cb) {
     this.chasingTarget = target;
     this.cancelChasingCallback = cb;
