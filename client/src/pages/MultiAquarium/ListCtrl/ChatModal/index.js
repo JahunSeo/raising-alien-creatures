@@ -87,7 +87,6 @@ const ChatModal = (props) => {
       type: "CHAT_EMOJI",
     };
     saveChat(messageData);
-    // semdEmoji 안에 sendMessage 넣을 수 있나 보기
     dispatch(actions.setMessage([messageData]));
     socket.sendMessage(messageData);
 
