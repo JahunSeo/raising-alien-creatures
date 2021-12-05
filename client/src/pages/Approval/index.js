@@ -186,6 +186,9 @@ const AuthRequest = ({ authRequest }) => {
     navigate(`/challenge/${authRequest.challenge_id}/room`);
   };
 
+  const image_url_origin = authRequest.image_url;
+  const image_url_opt = image_url_origin.replace("origin", "M");
+
   const ApprovalButton = () => {
     if (!approvalStatus & !authRequest.record_status) {
       return (
@@ -256,7 +259,8 @@ const AuthRequest = ({ authRequest }) => {
         <div className="flex flex-col justify-center items-center">
           <LazyLoadImage
             className="LazyLoadImage"
-            src={authRequest.image_url}
+            src={image_url_opt}
+            onError={(e) => (e.target.src = image_url_origin)}
             alt="authImage"
             threshold="10"
             effect="blur"

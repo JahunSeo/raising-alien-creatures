@@ -66,8 +66,8 @@ export default function AuthRequestModal(props) {
       );
       return;
     }
-
-    let res = await api.get("/main/s3Url");
+    const filetype = authImage[0].type;
+    let res = await api.post("/main/s3Url_approval", { filetype: filetype });
     const { url } = res.data;
     console.log("res", res);
     // post the image directly to the s3 bucket

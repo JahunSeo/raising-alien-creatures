@@ -65,19 +65,22 @@ export default function NewChallenge(props) {
 
     setChallengeMessage(null);
     setChallengeClicked(true);
+
     // post the image direclty to the s3 bucket
     if (challengeImage) {
-      const res = await api.get("/main/s3Url");
+      const filetype = challengeImage[0].type;
+      const res = await api.post("/main/s3Url_chalthumb", {
+        filetype: filetype,
+      });
       const { url } = res.data;
       await fetch(url, {
         method: "PUT",
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": filetype,
         },
         body: challengeImage[0],
       });
       const imageUrl = url.split("?")[0];
-
       postChallenge(imageUrl);
     } else {
       postChallenge();
