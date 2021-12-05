@@ -3,7 +3,6 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "../../.env") });
 const mysql = require("mysql");
-const { ConfigurationServicePlaceholders } = require("aws-sdk/lib/config_service_placeholders");
 
 exports.notiSchedule = function (rdsClient) {
   schedule.scheduleJob(
@@ -90,8 +89,8 @@ exports.notiSchedule = function (rdsClient) {
 // TODO: rebuilding!!
 exports.deadSchedule = function (rdsClient) {
   schedule.scheduleJob(
-  { hour: 15, minute: 10 },
-  // "0,10,20,30,40,50 * * * * *",
+  // { hour: 15, minute: 00 },
+  "0,10,20,30,40,50 * * * * *",
   async function () {
     const pool = mysql.createPool({
       connectionLimit: 1,
@@ -135,54 +134,45 @@ exports.deadSchedule = function (rdsClient) {
       });
     });
 
+    // redis에서 죽여야하는 생명체 과져와서 죽이는 것 처리
+    let challengeIds = await rdsClient.KEYS("chal-*");
+    if (challengeIds) {
+      let promises = challengeIds.map((challengeId) => rdsClient.HGETALL(challengeId));
+      let results = await Promise.all(promises);
 
-  // redis에서 죽여야하는 생명체 과져와서 죽이는 것 처리
-  keys = await rdsClient.KEYS("chal-*");
-  if (keys) {
-    keys.forEach( async (key) => {
-      let challengeId;
-      try {
-      challengeId = key.split('-')[1];
-      } catch (err) {
-        console.log(err);
-        return;
-      }
-      infos = await rdsClient.HGETALL(key);
+      results.forEach((challenge) => {
+        for (const alienId in challenge) {
+          try {
+            let toast = JSON.parse(challenge[alienId]);
+            let challengeId = toast["challengeId"];
+            let userId = toast["userId"];
 
-      for (alienId in infos) {
-        let deadAlienId;
-        let userId;
-        try{
-        deadAlienId = alienId;
-        const parsingString = infos[alienId].split(":")[1];
-        userId = parsingString.split(",")[0];
-        } catch (err) {
-          console.log(err);
-          return;
-        }
+            let sql2 = `DELETE FROM user_info_has_challenge WHERE user_info_id=${userId} AND challenge_id=${challengeId};`
+            let sql3 = `UPDATE alien SET alien_status = 2, end_date = NOW() WHERE id=${alienId};`
+            let sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId};`
+            pool.getConnection(function (err, connection) {
+              if (err) {
+                console.error("at the scheduler api to getConnection", error);
+                return;
+              }
 
-        const sql2 = `DELETE FROM user_info_has_challenge WHERE user_info_id=${userId} AND challenge_id=${challengeId};`
-        const sql3 = `UPDATE alien SET alien_status = 2 WHERE id=${deadAlienId}`
-        const sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId}`
-        pool.getConnection(function (err, connection) {
-        if (err) {
-          console.error("at the scheduler api to getConnection", error);
-          return;
-        }
-
-        connection.query(sql2+sql3+sql4, function (error, results) {
-          if (error) {
-            console.error("at the scheduler api to query", error);
-            return;
+              connection.query(sql2+sql3+sql4, function (error, results) {
+                if (error) {
+                  console.error("at the scheduler api to query", error);
+                  return;
+                }
+                console.log(results);
+                connection.release();
+              });
+            });
+          } catch (err) {
+            console.error(err);
           }
-          console.log(results);
-          connection.release();
-        });
+        }
       });
-      }
-      await rdsClient.DEL(key);
-    })
-  }
-  }
-);
+    // socket실시간 noti를 위한 5분 후 삭제 처리
+    // setTimeout(async() => {challengeIds.map((challengeId) => rdsClient.DEL(challengeId))}, 300000);
+    }
+  })
 }
+    
