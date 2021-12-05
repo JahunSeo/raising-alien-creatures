@@ -136,7 +136,7 @@ exports.deadSchedule = function (rdsClient) {
 
     // redis에서 죽여야하는 생명체 과져와서 죽이는 것 처리
     let challengeIds = await rdsClient.KEYS("chal-*");
-    if (challengeIds) {
+    if (challengeIds.length > 0) {
       let promises = challengeIds.map((challengeId) => rdsClient.HGETALL(challengeId));
       let results = await Promise.all(promises);
 
@@ -170,17 +170,22 @@ exports.deadSchedule = function (rdsClient) {
           }
         }
       });
-      // socket실시간 noti를 위한 5분 후 삭제 처리
-      setTimeout(() => {challengeIds.map((challengeId) => {
-        rdsClient.DEL(challengeId);
-        console.log(challengeId, " is deleted");
-      })}, 3000);
+    }
+  })
+}
 
-      let challengeIds = await rdsClient.KEYS("chal-*");
-      if (!!challengeIds) {
-        console.log("All keys which are started 'chal-' in redis are deleted");
-      };
-
+// delete keys which start with 'chal-' in redis
+exports.deleteKeysSchedule = function (rdsClient) {
+  schedule.scheduleJob(
+  // { hour: 15, minute: 05 },
+  "0,10,20,30,40,50 * * * * *",
+  async function () {
+    let challengeIds = await rdsClient.KEYS("chal-*");
+    
+    if (challengeIds.length > 0) {
+      let promises = challengeIds.map((challengeId) => rdsClient.DEL(challengeId));
+      await Promise.all(promises);
+      console.log("All keys which start with 'chal-' in redis are deleted")
     }
   })
 }
