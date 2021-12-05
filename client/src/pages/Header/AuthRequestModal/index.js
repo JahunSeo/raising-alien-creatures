@@ -67,20 +67,33 @@ export default function AuthRequestModal(props) {
       );
       return;
     }
+
+    if (!authImage) {
+      setAuthRequestClicked(false);
+      dispatch(
+        actions.setPopupModal(
+          "AUTH_IMAGE_ABSENT",
+          "인증 사진을 첨부해주세요!",
+          "FAIL",
+          () => {}
+        )
+      );
+      return;
+    }
+
     const filetype = authImage[0].type;
     let res = await api.post("/main/s3Url_approval", { filetype: filetype });
     const { url } = res.data;
     console.log("res", res);
     // post the image directly to the s3 bucket
-    if (authImage) {
-      await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        body: authImage[0],
-      });
-    }
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: authImage[0],
+    });
+
     const imageUrl = url.split("?")[0];
     const resp = {
       user_info_id: alien.user_info_id,
@@ -90,7 +103,6 @@ export default function AuthRequestModal(props) {
       image_url: imageUrl,
     };
 
-    // setAuthRequestClicked(true);
     res = await api.post("/challenge/auth", resp);
     console.log("res", res);
 
