@@ -28,8 +28,8 @@ export function sendMessage(message) {
 }
 
 export function receiveMessage(handler) {
-  console.log("[socket] receiveMessage");
   if (!socket) return;
+  console.log("[socket] receiveMessage");
   socket.on("receive_message", handler);
 }
 

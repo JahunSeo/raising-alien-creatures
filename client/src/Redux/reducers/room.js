@@ -38,6 +38,11 @@ const room = handleActions(
       ),
     }),
 
+    [types.THANOS_ALIENS]: (state, { payload: killed }) => ({
+      ...state,
+      aliens: state.aliens.filter((alien) => killed.indexOf(alien.id) === -1),
+    }),
+
     [types.REQUEST_AUTH]: (state, { payload: alienId }) => ({
       ...state,
       aliens: state.aliens.map((alien) =>

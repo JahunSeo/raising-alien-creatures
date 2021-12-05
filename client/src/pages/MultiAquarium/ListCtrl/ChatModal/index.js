@@ -11,7 +11,6 @@ import * as actions from "../../../../Redux/actions/index.js";
 const ChatModal = (props) => {
   const dispatch = useDispatch();
   const { challengeId } = useParams();
-
   const { user, chalInfoModal, messages, aliens } = useSelector(
     ({ user, modalOnOff, room }) => ({
       user: user.user,
@@ -20,6 +19,11 @@ const ChatModal = (props) => {
       aliens: room.aliens,
     })
   );
+    
+  let participating = false;
+  if (user.login && user.challenges) {
+    participating = user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+  }
 
   const myAlien = aliens.find((a) => a.user_info_id === user.id);
 
@@ -37,7 +41,7 @@ const ChatModal = (props) => {
   };
 
   const sendMessage = async () => {
-    if (!user.login) return;
+    if (!participating) return;
     if (currentMessage !== "") {
       const curDate = new Date(Date.now());
       const messageData = {
@@ -64,7 +68,7 @@ const ChatModal = (props) => {
 
   //emojis
   const sendEmojis = async (emoji) => {
-    if (!user.login) return;
+    if (!participating) return;
     const curDate = new Date(Date.now());
     const messageData = {
       challengeId: Number(challengeId),
@@ -83,7 +87,6 @@ const ChatModal = (props) => {
       type: "CHAT_EMOJI",
     };
     saveChat(messageData);
-    // semdEmoji 안에 sendMessage 넣을 수 있나 보기
     dispatch(actions.setMessage([messageData]));
     socket.sendMessage(messageData);
 

@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const app = express();
 const mysql = require("mysql");
 const { createClient } = require("redis");
-const { notiSchedule } = require("./routes/scheduler"); // TODO
+const { notiSchedule, deadSchedule, deleteKeysSchedule } = require("./routes/scheduler"); // TODO
 /* log in middleware */
 const compression = require("compression");
 const helmet = require("helmet");
@@ -72,7 +72,7 @@ app.use(morgan("dev")); // middleware for logging HTTP request
 const passport = require("./lib/passport")(app, pool);
 const userRouter = require("./routes/user.js")(passport, pool);
 const mainRouter = require("./routes/main.js")(pool, rdsClient);
-const challengeRouter = require("./routes/challenge.js")(pool);
+const challengeRouter = require("./routes/challenge.js")(pool, rdsClient);
 const alienRouter = require("./routes/alien.js")(pool);
 const chatRouter = require("./routes/chat.js")(pool);
 const testRouter = require("./routes/test.js")(pool);
@@ -85,6 +85,8 @@ app.use("/api/test", testRouter);
 
 // init scheduler
 notiSchedule(rdsClient);
+deadSchedule(rdsClient);
+deleteKeysSchedule(rdsClient);
 // TODO
 
 const port = process.env.PORT || 5000;

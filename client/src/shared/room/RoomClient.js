@@ -47,6 +47,14 @@ class RoomClient {
     return this.fieldState.monsters[monId];
   };
 
+  removeMonster = (monId) => {
+    delete this.fieldState.monsters[monId];
+    // camera가 따라가던 monster가 monId 였으면 chasingTarget 초기화
+    if (this.camera.getChasingTarget() === monId) {
+      this.camera.cancelChasing();
+    }
+  };
+
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
     console.log("[socket] syncFieldState:", socketState);
