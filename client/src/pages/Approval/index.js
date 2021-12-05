@@ -14,88 +14,136 @@ const cx = classNames.bind();
 
 export default function Approval(props) {
   const [authRequests, setAuthRequests] = useState([]);
-  // const [orderRequests, setOrderRequests] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
+  const [authCategory, setAuthCategory] = useState(0);
+  const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
     const loadAuthRequests = async () => {
       const res = await api.get("/user/approval/list");
-      if (!res.data.data.length) {
-        console.log("res", res);
-        console.log("현재 수락을 기다리는 인증 요청이 없습니다.");
+      if (res.data.result === "success") {
+        let auths = res.data.data;
+        let challenges = {};
+        auths.forEach((auth) => {
+          let challengeId = auth.challenge_id;
+          if (!(challengeId in challenges)) {
+            challenges[challengeId] = {
+              id: challengeId,
+              name: auth.challenge_name,
+              count: 0,
+            };
+          }
+          challenges[challengeId].count += 1;
+        });
+        challenges = Object.values(challenges);
+        setChallenges(challenges);
+        setAuthRequests(auths);
       } else {
-        setAuthRequests(res.data.data);
-        return;
+        // TODO: 실패 처리
       }
     };
     loadAuthRequests();
   }, []);
 
-  // function ToggleBtn(props) {
-  //   const { orderRequests, setOrderRequests } = props;
+  // console.log("authRequests", authRequests);
+  // console.log("challenges", challenges);
 
-  //   return (
-  //     <nav className="toggleBtn">
-  //       <button
-  //         className="text-gray-500 w-10 h-10 relative focus:outline-none bg-transparent"
-  //         onClick={() => setOrderRequests(!orderRequests)}
-  //       >
-  //         <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-  //           <span
-  //             aria-hidden="true"
-  //             className={cx(
-  //               "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
-  //               orderRequests ? "" : "-translate-y-1.5"
-  //             )}
-  //           ></span>
-  //           <span
-  //             aria-hidden="true"
-  //             className={cx(
-  //               "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
-  //               orderRequests ? "" : ""
-  //             )}
-  //           ></span>
-  //           <span
-  //             aria-hidden="true"
-  //             className={cx(
-  //               "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
-  //               orderRequests ? "" : "translate-y-1.5"
-  //             )}
-  //           ></span>
-  //         </div>
-  //       </button>
-  //     </nav>
-  //   );
-  // }
+  function ToggleBtn(props) {
+    const { showFilters, setShowFilters } = props;
 
-  // console.log("orderRequests", orderRequests);
+    return (
+      <nav className="toggleBtn">
+        <button
+          className=" text-gray-500 w-10 h-10 focus:outline-none bg-transparent"
+          onClick={() => setShowFilters(!showFilters)}
+        >
+          <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <span
+              aria-hidden="true"
+              className={cx(
+                "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
+                showFilters ? "" : "-translate-y-1.5"
+              )}
+            ></span>
+            <span
+              aria-hidden="true"
+              className={cx(
+                "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
+                showFilters ? "" : ""
+              )}
+            ></span>
+            <span
+              aria-hidden="true"
+              className={cx(
+                "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
+                showFilters ? "" : "translate-y-1.5"
+              )}
+            ></span>
+          </div>
+        </button>
+      </nav>
+    );
+  }
 
   if (authRequests.length) {
     return (
-      <div className="authRequests" style={{ paddingTop: "75px" }}>
-        <div className="flex-col m-auto justify-center bg-white rounded-xl shadow dark:bg-gray-800 z-10">
-          {/* <ToggleBtn
-            orderRequests={orderRequests}
-            setOrderRequests={setOrderRequests}
+      <div className="authRequests container" style={{ paddingTop: "75px" }}>
+        <div className="fixed bg-white rounded-xl shadow dark:bg-gray-800 z-10">
+          <ToggleBtn
+            showFilters={showFilters}
+            setShowFilters={setShowFilters}
           />
-          {orderRequests ? (
+          {showFilters ? (
             <div className="dropContent">
-              <option value="전체"> #전체</option>
-              <option value="운동"> #운동</option>
-              <option value="건강"> #건강</option>
-              <option value="공부"> #공부</option>
-              <option value="독서"> #독서</option>
-              <option value="취미"> #취미</option>
+              <option
+                value=""
+                onClick={(e) => {
+                  setAuthCategory(0);
+                  setShowFilters(false);
+                }}
+              >
+                전체 보기 ({authRequests.length})
+              </option>
+              {challenges.map((challenge) => (
+                <option
+                  key={challenge.id}
+                  value={challenge.id}
+                  onClick={(e) => {
+                    setAuthCategory(challenge.id);
+                    setShowFilters(false);
+                  }}
+                >
+                  {challenge.name} ({challenge.count})
+                </option>
+              ))}
             </div>
-          ) : null} */}
+          ) : null}
         </div>
-        <div>
-          {authRequests.map((authRequest) => (
-            <AuthRequest
-              key={authRequest.practice_record_id}
-              authRequest={authRequest}
-            />
-          ))}
-        </div>
+        {authCategory === 0 ? (
+          <div>
+            {authRequests.map((authRequest) => (
+              <AuthRequest
+                key={authRequest.practice_record_id}
+                authRequest={authRequest}
+                authCategory={authCategory}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>
+            {authRequests
+              .filter(
+                (authRequest) => authRequest.challenge_id === authCategory
+              )
+              .map((authRequest) => (
+                <AuthRequest
+                  key={authRequest.practice_record_id}
+                  authRequest={authRequest}
+                  authCategory={authCategory}
+                />
+              ))}
+          </div>
+        )}
       </div>
     );
   } else {
@@ -107,7 +155,7 @@ export default function Approval(props) {
   }
 }
 
-const AuthRequest = ({ authRequest }) => {
+const AuthRequest = ({ authRequest, authCategory }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -186,9 +234,6 @@ const AuthRequest = ({ authRequest }) => {
     navigate(`/challenge/${authRequest.challenge_id}/room`);
   };
 
-  const image_url_origin = authRequest.image_url;
-  const image_url_opt = image_url_origin.replace("origin", "M");
-
   const ApprovalButton = () => {
     if (!approvalStatus & !authRequest.record_status) {
       return (
@@ -250,8 +295,6 @@ const AuthRequest = ({ authRequest }) => {
     }
   };
 
-  console.log("approvalClicked", approvalClicked);
-
   return (
     <div className="flex min-w-min min-h-0 md:p-12 p-6 justify-center items-center bg-gray-100">
       <div className="flex flex-col w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg  cursor-pointer">
@@ -259,8 +302,7 @@ const AuthRequest = ({ authRequest }) => {
         <div className="flex flex-col justify-center items-center">
           <LazyLoadImage
             className="LazyLoadImage"
-            src={image_url_opt}
-            onError={(e) => (e.target.src = image_url_origin)}
+            src={authRequest.image_url}
             alt="authImage"
             threshold="10"
             effect="blur"
@@ -281,7 +323,7 @@ const AuthRequest = ({ authRequest }) => {
         <div>
           <div className="flex-col min-w-min w-full justify-center items-center px-6 py-2">
             <div className="flex-col m-auto bg-gray-300 rounded-lg px-2 py-2">
-              <h1 className="flex justify-center items-center py-2 mb-1 md:text-xl text:lg font-semibold text-black">
+              <h1 className="flex justify-center items-center py-2 mb-1 md:text-xl text-center text:lg font-semibold text-black">
                 "{authRequest.comments}"
               </h1>
             </div>

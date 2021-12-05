@@ -1,10 +1,10 @@
 .LazyLoadImage {
-  @apply mt-6 ml-auto mr-auto;
+  @apply mt-6;
 }
 
 .toggleBtn {
   /* display: inline; */
-  position: relative;
+  position: fixed;
   display: flex;
   height: 45px;
   weight: 45px;
