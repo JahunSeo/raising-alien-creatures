@@ -1,14 +1,35 @@
 .carousel {
   perspective: 1200px;
-  /* background: linear-gradient(to top, navy, black); */
   background: linear-gradient(to top, #313d95, #4557e2, #7480dc, #aeb4e4);
-  /* padding-top: 10%; */
   font-size: 0;
   padding-top: 60px;
   width: 50vw;
   min-width: 340px;
   overflow: hidden;
   height: 420px;
+}
+
+@media only screen and (max-width: 850px) {
+  [class*="carousel"] {
+    height: 240px;
+    padding-top: 70px;
+  }
+}
+@media only screen and (min-width: 850px) {
+  [class*="carousel"] {
+    height: 240px;
+    padding-top: 70px;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  [class*="carousel"] {
+    height: 350px;
+  }
+}
+@media only screen and (min-width: 1250px) {
+  [class*="carousel"] {
+    height: 420px;
+  }
 }
 
 .carousel ~ span {

@@ -23,20 +23,11 @@ const SignInModal = () => {
     if (res.data.result !== "success") {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
       setSignInClicked(false);
-      return;
-    }
-    let user = res.data;
-    delete user.result;
-    user.login = true;
-    user.challenges = [];
-    // 2단계: 유저 관련 정보 확인 (참여중 챌린지 등)
-    res = await api.get("/user/challenges/ids");
-    if (res.data.result === "success") {
-      user.challenges = res.data.challenges;
+    } else {
+      dispatch(actions.checkUser(res.data.user));
+      dispatch(actions.showSignInModal(!showSignInModal));
       setSignInClicked(false);
     }
-    dispatch(actions.checkUser(user));
-    dispatch(actions.showSignInModal(!showSignInModal));
   };
 
   function validateSignIn(userEmail, userPassword) {

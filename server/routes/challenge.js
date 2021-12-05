@@ -168,6 +168,12 @@ module.exports = function (pool) {
             connection.release();
             return;
           }
+          // TODO:
+          // 1단계: 타노스의 시간인지 확인: 23:25 ~ 24:05
+          // 2단계: 타노스의 시간인 경우, 레디스 처리
+          // value = await rdsClient.HDEL("chal-7", "358");
+          // console.log("death note", value);
+
           res.json({
             result: "success",
             msg: "인증요청이 완료되었습니다.",

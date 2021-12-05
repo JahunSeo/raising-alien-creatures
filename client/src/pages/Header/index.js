@@ -52,7 +52,7 @@ export default function Header(props) {
   useEffect(() => {
     const getLoginStatus = async () => {
       //  유저 정보 확인 (참여중 챌린지 등)
-      let res = await api.get("/user/challenges/ids");
+      let res = await api.get("/user/confirm");
       if (res.data.result === "success") {
         let user = res.data.user;
         user.login = true;

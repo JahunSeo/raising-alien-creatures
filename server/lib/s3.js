@@ -19,23 +19,42 @@ const s3 = new aws.S3({
   signatureVersion: "v4",
 });
 
-async function generateUploadURL() {
+async function generateUploadURL_approve(filetype) {
   const rawBytes = await randomBytes(16);
   const imageName = rawBytes.toString("hex");
+  const type = filetype.filetype.split("/")[1];
+
   console.log(imageName);
 
   const params = {
     Bucket: bucketName,
-    Key: imageName,
+    Key: `origin/${imageName}.${type}`,
     Expires: 60,
+    ContentType: filetype.filetype,
   };
 
   const uploadURL = await s3.getSignedUrlPromise("putObject", params);
   return uploadURL;
 }
 
-exports.generateUploadURL = generateUploadURL;
+async function generateUploadURL_chalthumb(filetype) {
+  const rawBytes = await randomBytes(16);
+  const imageName = rawBytes.toString("hex");
+  const type = filetype.filetype.split("/")[1];
+  const params = {
+    Bucket: bucketName,
+    Key: `challengethumb/${imageName}.${type}`,
+    Expires: 60,
+    ContentType: filetype.filetype,
+  };
+  console.log(params);
 
+  const uploadURL = await s3.getSignedUrlPromise("putObject", params);
+  return uploadURL;
+}
+
+exports.generateUploadURL_approve = generateUploadURL_approve;
+exports.generateUploadURL_chalthumb = generateUploadURL_chalthumb;
 // import dotenv from "dotenv";
 // import aws from "aws-sdk";
 // import crypto from "crypto";

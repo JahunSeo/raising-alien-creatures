@@ -44,6 +44,10 @@ export default function SocketContainer(props) {
         // 생명체 상태 변경: redux
         dispatch(actions.approveAuth(info.alienId));
       });
+      // test
+      socket.onThanosDone((data) => {
+        toast("thanos done" + data.hello);
+      });
       dispatch(actions.toggleSocket(true));
     }
 

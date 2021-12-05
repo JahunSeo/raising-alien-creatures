@@ -8,10 +8,9 @@ import api from "../../apis";
 import AlienSlide from "./AlienSlide";
 import AlienInfo from "./AlienInfo";
 
-export default function NewAlien(props) {
+export default function NewAlien() {
   const { challengeId } = useParams();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
-  // console.log("New Challenge params", params);
   const [authCount, setAuthCount] = useState("");
   // 생명체 정보
   const [alienName, setAlienName] = useState("");
@@ -21,9 +20,9 @@ export default function NewAlien(props) {
     angle: 60,
     divider: 6,
   });
+  const [imageInfo, setImageInfo] = useState(null);
   // 인증 요일
   const [checkDay, setCheckDay] = useState([]);
-
   // validation
   const [creAlienMessage, setCreAlienMessage] = useState(null);
   // 링크 이동
@@ -49,12 +48,15 @@ export default function NewAlien(props) {
       aNumber = 0;
     }
   }
-  if (alienCategory.type === "fish") {
-    aNumber += 10;
-  } else if (alienCategory.type === "seal") {
-    aNumber += 20;
-  } else if (alienCategory.type === "puffish") {
-    aNumber += 30;
+  // 첫번째 생물은 10~ 두번째 20~ 세번째 30~
+  if (imageInfo) {
+    if (alienCategory.type === imageInfo[0].species) {
+      aNumber += 10;
+    } else if (alienCategory.type === imageInfo[1].species) {
+      aNumber += 20;
+    } else if (alienCategory.type === imageInfo[2].species) {
+      aNumber += 30;
+    }
   }
 
   useEffect(() => {
@@ -69,9 +71,11 @@ export default function NewAlien(props) {
             -1;
         }
         if (!user.login || participating) return;
-        let res = await api.get(`/challenge/totalAuthCnt/${challengeId}`);
+        let res = await api.get(`/alien/imageInfo/${challengeId}`);
         if (res.data.result === "success") {
           setAuthCount(res.data.times_per_week);
+          setImageInfo(res.data.images);
+          console.log(1233, res);
         } else {
           // TODO: error handling 필요한가?
         }
@@ -81,7 +85,6 @@ export default function NewAlien(props) {
       console.error("fetchData fail", err);
     }
   }, [challengeId, user.login, user.challenges]);
-
   // validation
   function validateCreAlien(alienName, checkDay, authCount) {
     if (!alienName) {
@@ -111,12 +114,24 @@ export default function NewAlien(props) {
   // 캐릭터 선택탭
   const handleTap = (e) => {
     setAlienNumber(0);
-    if (e === "fish") {
-      setAlienCategory({ type: "fish", angle: 60, divider: 6 });
-    } else if (e === "seal") {
-      setAlienCategory({ type: "seal", angle: 90, divider: 4 });
-    } else if (e === "puffish") {
-      setAlienCategory({ type: "puffish", angle: 90, divider: 4 });
+    if (e === imageInfo[0].species) {
+      setAlienCategory({
+        type: imageInfo[0].species,
+        angle: parseInt(360 / imageInfo[0].count),
+        divider: imageInfo[0].count,
+      });
+    } else if (e === imageInfo[1].species) {
+      setAlienCategory({
+        type: imageInfo[1].species,
+        angle: parseInt(360 / imageInfo[1].count),
+        divider: imageInfo[1].count,
+      });
+    } else if (e === imageInfo[2].species) {
+      setAlienCategory({
+        type: imageInfo[2].species,
+        angle: parseInt(360 / imageInfo[2].count),
+        divider: imageInfo[2].count,
+      });
     } else return;
   };
 
@@ -180,8 +195,6 @@ export default function NewAlien(props) {
     dispatch(actions.joinChallenge({ id: parseInt(challengeId) }));
   };
 
-  console.log("alienClicked", alienClicked);
-  // console.log("checkDay", checkDay);
   return (
     <div className={styles.body}>
       <div className="container w-2/5 min-w-max">
@@ -191,30 +204,18 @@ export default function NewAlien(props) {
           checkDay={checkDay}
           setCheckDay={setCheckDay}
         />
-        <div style={{ padding: "20px 10px 20px" }}>
-          <ul
-            className="NotiList"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <li className="NotiItem">
-              선택하는 요일에 한해 인증할 수 있습니다.
-            </li>
-            <li>해당 요일에 인증하지 않으면 생명체는 사망합니다.</li>
-          </ul>
-        </div>
 
         <div className="container top-60 border-gray-500 w-1/2 px-3 py-3 mb-3">
+          <div className=" overflow-visible block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2 xl:text-2xl xl:pb-5 2xl:text-3xl 2xl:pb-7">
+            생명체 선택
+          </div>
           <ul className="relative px-1 py-1 inline-flex min-w-max">
             <li className=" mr-1 inline-block ">
               <button
                 className={
                   alienCategory.type === "fish"
-                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700 font-semibold"
-                    : "bg-white inline-block py-2 px-4 text-indigo-700 font-semibold hover:text-red-600"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700 font-semibold xl:text-2xl 2xl:text-3xl"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700 font-semibold hover:text-red-600 xl:text-2xl 2xl:text-3xl"
                 }
                 onClick={() => handleTap("fish")}
               >
@@ -225,8 +226,8 @@ export default function NewAlien(props) {
               <button
                 className={
                   alienCategory.type === "seal"
-                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
-                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold xl:text-2xl 2xl:text-3xl"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600 xl:text-2xl 2xl:text-3xl"
                 }
                 onClick={() => handleTap("seal")}
               >
@@ -237,8 +238,8 @@ export default function NewAlien(props) {
               <button
                 className={
                   alienCategory.type === "puffish"
-                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold"
-                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600"
+                    ? "bg-white inline-block border-gray-400 border-l-2 border-t-2 border-r-2 rounded-t py-2 px-4 text-indigo-700  font-semibold xl:text-2xl 2xl:text-3xl"
+                    : "bg-white inline-block py-2 px-4 text-indigo-700  font-semibold hover:text-red-600 xl:text-2xl 2xl:text-3xl"
                 }
                 onClick={() => handleTap("puffish")}
               >
@@ -252,6 +253,7 @@ export default function NewAlien(props) {
               alienNumber={alienNumber}
               setAlienNumber={setAlienNumber}
               alienCategory={alienCategory}
+              imageInfo={imageInfo}
             />
           </div>
         </div>
@@ -261,7 +263,7 @@ export default function NewAlien(props) {
         </div>
         <div className="flex justify-center pb-5">
           <button
-            className="border py-1 px-3 rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 text-font-semibold"
+            className="xl:text-xl 2xl:text-2xl text-lg border py-2 px-4 rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 text-font-semibold"
             onClick={handleSubmit}
           >
             생명체 생성
