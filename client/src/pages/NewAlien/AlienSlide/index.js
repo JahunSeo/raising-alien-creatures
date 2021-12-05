@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import { S3URL } from "../../../shared/lib/Constants";
 import Fishes from "./alienTap/fishes";

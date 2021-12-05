@@ -1,5 +1,5 @@
 import React from "react";
-import "./PersonalItem.css";
+import styles from "./PersonalItem.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import { Link } from "react-router-dom";
@@ -28,56 +28,55 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
       );
   };
 
-  return (
-    <>
-      <div
-        className="PostItemBlock"
-        onClick={() => handleSelectAlien(alien.id)}
-      >
-        <h2>챌린지 : "{alien.challenge_name}"</h2>
-        <div className="Content">
-          <div
-            className="images"
-            style={{
-              backgroundImage: `url("${
-                S3URL + alien.image_url.split("-")[0]
-              }")`,
-            }}
-          />
-          <div className="SubInfo">
-            {/* <p>참가자 : {alien.user_nickname}</p> */}
-            <p>별명 : {alien.alien_name}</p>
-            <p>출생일 : {alien.created_date.split("T")[0]}</p>
-            <p>인증 횟수 : {alien.accumulated_count}번</p>
-          </div>
-        </div>
-        <div className="buttons">
-          {alien.alien_status === 0 && 
-            alien.user_info_id === userId && 
-            <button
-              className="StyledButton"
-              onClick={() => {
-                // TODO: 통합하기
-                dispatch(actions.selectAlien(alien.id));
-                dispatch(actions.showAuthRequest(true));
-              }}
-            >
-              인증하기
-            </button>
-          }
-          <Link to={`/challenge/${alien.challenge_id}/room`}>
-            <button className="StyledButton">챌린지 어항</button>
-          </Link>
+  console.log(alien.image_url.split("-")[0].split("/")[0])
 
-          {alien.alien_status === 0 && 
-            alien.user_info_id === userId && 
-            <button className="StyledButton" onClick={onClickGraduate}>
-              졸업 신청
-            </button>
-          }
+  return (
+    <div
+      className={styles.PostItemBlock}
+      onClick={() => handleSelectAlien(alien.id)}
+    >
+      <h2>챌린지 : "{alien.challenge_name}"</h2>
+      <div className={styles.Content}>
+        <div
+          className={styles.images}
+          style={{
+            backgroundImage: `url("${S3URL + alien.image_url.split("-")[0].split("/")[0] +
+              '/M/' + alien.image_url.split("-")[0].split("/")[1]}")`,
+          }}
+        />
+        <div className={styles.SubInfo}>
+          {/* <p>참가자 : {alien.user_nickname}</p> */}
+          <p>별명 : {alien.alien_name}</p>
+          <p>출생일 : {alien.created_date.split("T")[0]}</p>
+          <p>인증 횟수 : {alien.accumulated_count}번</p>
         </div>
       </div>
-    </>
+      <div className={styles.buttons}>
+        {alien.alien_status === 0 &&
+          alien.user_info_id === userId &&
+          <button
+            className={styles.StyledButton}
+            onClick={() => {
+              // TODO: 통합하기
+              dispatch(actions.selectAlien(alien.id));
+              dispatch(actions.showAuthRequest(true));
+            }}
+          >
+            인증하기
+          </button>
+        }
+        <Link to={`/challenge/${alien.challenge_id}/room`}>
+          <button className={styles.StyledButton}>챌린지 어항</button>
+        </Link>
+
+        {alien.alien_status === 0 &&
+          alien.user_info_id === userId &&
+          <button className={styles.StyledButton} onClick={onClickGraduate}>
+            졸업 신청
+          </button>
+        }
+      </div>
+    </div>
   );
 });
 

@@ -1,5 +1,10 @@
 .PostItemBlock {
+  padding-top: 0.4rem;
+}
+.myPostItemBlock {
   padding-top: 0.8rem;
+  border: 0.15rem solid rgb(113, 231, 108);
+  border-radius: 4px;
 }
 
 .PostItemBlock h2 {
@@ -9,22 +14,22 @@
   border-radius: 4px;
   padding: 0.1em;
   margin: 0.4em;
-  margin-bottom: 1em;
+  margin-bottom: 1.3em;
 }
 
 .Content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   text-align: left;
   position: relative;
   overflow: hidden;
 }
 
 .Content .images {
-  background-size: 45em;
+  background-size: 48em;
   width: 7em;
   height: 7em;
-  background-position: 0px 126px;
+  background-position: -2px 123px;
 }
 .Content .images:hover {
   transition: all 0.3s;
@@ -35,34 +40,44 @@
   padding-top: 0;
 }
 .SubInfo {
-  padding-top: 0.5rem;
+  /* padding-top: 0.5rem; */
   color: whitesmoke;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   justify-content: space-around;
 }
 .SubInfo p {
   line-height: 25px;
   font-weight: 550;
+  display:flex;
+  flex-direction: row;
+
+  align-items: center;
 }
 
-.buttons {
-  display: flex;
-  justify-content: space-evenly;
+.SubInfo p svg{
+  margin-right: 10px;
 }
 
 .StyledButton {
   border: none;
-  margin: 1rem 0.1rem;
-  margin-bottom: 0.4rem;
+  margin: 0.3rem 0.1rem;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 0.28rem;
+  padding: 0.2rem;
   color: white;
   outline: none;
   cursor: pointer;
-  border: 0.15rem solid skyblue;
+  border: 0.15rem solid rgb(138, 212, 241);
   border-radius: 8px;
   width: 6.6em;
   height: 3em;
+}
+
+.line{
+  background-color: #5271ff;
+  border-radius: 4px;
+  padding: 0.1em;
+  margin:0.4em;
+  margin-bottom: 0.8em;
 }
