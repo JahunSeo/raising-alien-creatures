@@ -68,6 +68,11 @@ export const graduate = (alienId) => ({
   payload: alienId,
 });
 
+export const thanosAliens = (killed) => ({
+  type: types.THANOS_ALIENS,
+  payload: killed,
+});
+
 export const requestAuth = (alienId) => ({
   type: types.REQUEST_AUTH,
   payload: alienId,
