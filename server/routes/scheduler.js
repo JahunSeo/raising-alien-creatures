@@ -89,90 +89,98 @@ exports.notiSchedule = function (rdsClient) {
 // TODO: rebuilding!!
 exports.deadSchedule = function (rdsClient) {
   schedule.scheduleJob(
-  { hour: 15, minute: 00 },
-  // "0,10,20,30,40,50 * * * * *",
+  // { hour: 15, minute: 00 },
+  "0,10,20,30,40,50 * * * * *",
   async function () {
-    const pool = mysql.createPool({
-      connectionLimit: 1,
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      multipleStatements: true,
-    });
+    // const pool = mysql.createPool({
+    //   connectionLimit: 1,
+    //   host: process.env.DB_HOST,
+    //   user: process.env.DB_USER,
+    //   password: process.env.DB_PASSWORD,
+    //   database: process.env.DB_NAME,
+    //   multipleStatements: true,
+    // });
 
-    // 인증요청, 완료한 생명체는 practice_status = 0로 변경
-    let today = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
-    let day = today.getDay();
-    const makeSQL = (day) => {
-      return `UPDATE alien SET practice_status = 0 WHERE (${day} = 1 AND alien_status = 0 AND practice_status != 0);`;
-    };
+    // // 인증요청, 완료한 생명체는 practice_status = 0로 변경
+    // let today = new Date(
+    //   new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    // );
+    // let day = today.getDay();
+    // const makeSQL = (day) => {
+    //   return `UPDATE alien SET practice_status = 0 WHERE (${day} = 1 AND alien_status = 0 AND practice_status != 0);`;
+    // };
     
-    let sql1;
-    if (day === 0) sql1 = makeSQL("sat");
-    else if (day === 1) sql1 = makeSQL("sun");
-    else if (day === 2) sql1 = makeSQL("mon");
-    else if (day === 3) sql1 = makeSQL("tue");
-    else if (day === 4) sql1 = makeSQL("wed");
-    else if (day === 5) sql1 = makeSQL("thu");
-    else sql1 = makeSQL("fri");
+    // let sql1;
+    // if (day === 0) sql1 = makeSQL("sat");
+    // else if (day === 1) sql1 = makeSQL("sun");
+    // else if (day === 2) sql1 = makeSQL("mon");
+    // else if (day === 3) sql1 = makeSQL("tue");
+    // else if (day === 4) sql1 = makeSQL("wed");
+    // else if (day === 5) sql1 = makeSQL("thu");
+    // else sql1 = makeSQL("fri");
 
-    pool.getConnection(function (err, connection) {
-      if (err) {
-        console.error("at the scheduler api to getConnection", error);
-        return;
-      }
+    // pool.getConnection(function (err, connection) {
+    //   if (err) {
+    //     console.error("at the scheduler api to getConnection", error);
+    //     return;
+    //   }
 
-      connection.query(sql1, function (error, results) {
-        if (error) {
-          console.error("at the scheduler api to query", error);
-          return;
-        }
-        connection.release();
-      });
-    });
+    //   connection.query(sql1, function (error, results) {
+    //     if (error) {
+    //       console.error("at the scheduler api to query", error);
+    //       return;
+    //     }
+    //     connection.release();
+    //   });
+    // });
 
-    // redis에서 죽여야하는 생명체 과져와서 죽이는 것 처리
-    let challengeIds = await rdsClient.KEYS("chal-*");
-    if (challengeIds) {
-      let promises = challengeIds.map((challengeId) => rdsClient.HGETALL(challengeId));
-      let results = await Promise.all(promises);
+    // // redis에서 죽여야하는 생명체 과져와서 죽이는 것 처리
+    // let challengeIds = await rdsClient.KEYS("chal-*");
+    // if (challengeIds) {
+    //   let promises = challengeIds.map((challengeId) => rdsClient.HGETALL(challengeId));
+    //   let results = await Promise.all(promises);
 
-      results.forEach((challenge) => {
-        for (const alienId in challenge) {
-          try {
-            let toast = JSON.parse(challenge[alienId]);
-            let challengeId = toast["challengeId"];
-            let userId = toast["userId"];
+    //   results.forEach((challenge) => {
+    //     for (const alienId in challenge) {
+    //       try {
+    //         let toast = JSON.parse(challenge[alienId]);
+    //         let challengeId = toast["challengeId"];
+    //         let userId = toast["userId"];
 
-            let sql2 = `DELETE FROM user_info_has_challenge WHERE user_info_id=${userId} AND challenge_id=${challengeId};`
-            let sql3 = `UPDATE alien SET alien_status = 2, end_date = NOW() WHERE id=${alienId};`
-            let sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId};`
-            pool.getConnection(function (err, connection) {
-              if (err) {
-                console.error("at the scheduler api to getConnection", error);
-                return;
-              }
+    //         let sql2 = `DELETE FROM user_info_has_challenge WHERE user_info_id=${userId} AND challenge_id=${challengeId};`
+    //         let sql3 = `UPDATE alien SET alien_status = 2, end_date = NOW() WHERE id=${alienId};`
+    //         let sql4 = `UPDATE challenge SET participant_number = participant_number - 1 WHERE id=${challengeId};`
+    //         pool.getConnection(function (err, connection) {
+    //           if (err) {
+    //             console.error("at the scheduler api to getConnection", error);
+    //             return;
+    //           }
 
-              connection.query(sql2+sql3+sql4, function (error, results) {
-                if (error) {
-                  console.error("at the scheduler api to query", error);
-                  return;
-                }
-                console.log(results);
-                connection.release();
-              });
-            });
-          } catch (err) {
-            console.error(err);
-          }
-        }
-      });
-    // socket실시간 noti를 위한 5분 후 삭제 처리
-    setTimeout(async() => {challengeIds.map((challengeId) => rdsClient.DEL(challengeId))}, 300000);
-    }
+    //           connection.query(sql2+sql3+sql4, function (error, results) {
+    //             if (error) {
+    //               console.error("at the scheduler api to query", error);
+    //               return;
+    //             }
+    //             console.log(results);
+    //             connection.release();
+    //           });
+    //         });
+    //       } catch (err) {
+    //         console.error(err);
+    //       }
+    //     }
+    //   });
+      // socket실시간 noti를 위한 5분 후 삭제 처리
+      setTimeout(() => {challengeIds.map((challengeId) => {
+        rdsClient.DEL(challengeId);
+        console.log(challengeId, " is deleted");
+      })}, 3000);
+
+      let challengeIds = await rdsClient.KEYS("chal-*");
+      if (!!challengeIds) {
+        console.log("All keys which are started 'chal-' in redis are deleted");
+      };
+
+    // }
   })
 }
-    
