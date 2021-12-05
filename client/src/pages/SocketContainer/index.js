@@ -47,13 +47,15 @@ export default function SocketContainer(props) {
       // 12시 타노스 결과
       socket.onThanosDone((info) => {
         info.forEach((noti) => {
-          if (noti.userId === user.id) {
-            toast(noti.msg);
-          }
+          // 본인의 생명체가 있으면 noti
+          if (noti.userId === user.id) toast(noti.msg);
           // canvas에서 alien 제거
           aquarium.getCurrentRoom().removeMonster(noti.alienId);
         });
-        // TODO: redux에서 aliens 한 번에 제거
+        // canvas에서 모든 살아님은 생명체의 practice_status를 0으로 변경
+        aquarium.getCurrentRoom().afterThanos();
+
+        // redux에서 aliens 한 번에 제거
         let killed = info.map((noti) => noti.alienId);
         dispatch(actions.thanosAliens(killed));
       });

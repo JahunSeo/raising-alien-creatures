@@ -55,6 +55,12 @@ class RoomClient {
     }
   };
 
+  afterThanos = () => {
+    for (let monId in this.fieldState.monsters) {
+      this.fieldState.monsters[monId].overwrite({ practiceStatus: 0 });
+    }
+  };
+
   syncFieldState = (socketState) => {
     const monsterLength = Object.keys(socketState.monsters).length;
     console.log("[socket] syncFieldState:", socketState);
