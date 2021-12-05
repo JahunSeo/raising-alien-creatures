@@ -177,11 +177,11 @@ exports.deadSchedule = function (rdsClient) {
 // delete keys which start with 'chal-' in redis
 exports.deleteKeysSchedule = function (rdsClient) {
   schedule.scheduleJob(
-  // { hour: 15, minute: 05 },
-  "0,10,20,30,40,50 * * * * *",
+  { hour: 15, minute: 05 },
+  // "0,10,20,30,40,50 * * * * *",
   async function () {
     let challengeIds = await rdsClient.KEYS("chal-*");
-    
+
     if (challengeIds.length > 0) {
       let promises = challengeIds.map((challengeId) => rdsClient.DEL(challengeId));
       await Promise.all(promises);
