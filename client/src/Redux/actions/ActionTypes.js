@@ -14,6 +14,7 @@ export const TOGGLE_SOCKET = "TOGGLE_SOCKET";
 export const CURRENT_ROOM = "CURRENT_ROOM";
 export const SELECT_ALIEN = "SELECT_ALIEN";
 export const GRADUATE_ALIEN = "GRADUATE_ALIEN";
+export const THANOS_ALIENS = "THANOS_ALIENS";
 export const REQUEST_AUTH = "REQUEST_AUTH";
 export const APPROVE_AUTH = "APPROVE_AUTH";
 

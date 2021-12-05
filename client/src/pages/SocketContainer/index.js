@@ -54,6 +54,8 @@ export default function SocketContainer(props) {
           aquarium.getCurrentRoom().removeMonster(noti.alienId);
         });
         // TODO: redux에서 aliens 한 번에 제거
+        let killed = info.map((noti) => noti.alienId);
+        dispatch(actions.thanosAliens(killed));
       });
       dispatch(actions.toggleSocket(true));
     }
