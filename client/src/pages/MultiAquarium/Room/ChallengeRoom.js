@@ -87,10 +87,13 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     if (isSocketOn && participating && room) {
       socket.receiveMessage((msg) => {
-        if (msg.type === "CHAT_EMOJI") {
-          room.getMonster(msg.alienId).setEmojis(msg.message);
+        if(msg.challengeId=== challengeId){
+          if (msg.type === "CHAT_EMOJI") {
+            const alien = room.getMonster(msg.alienId)
+            if (alien) alien.setEmojis(msg.message);
+          }
+          dispatch(actions.setMessage([msg]));
         }
-        dispatch(actions.setMessage([msg]));
       });
       //     socket.usersOnRoom(room.usersOnRoomHandler);
     }
