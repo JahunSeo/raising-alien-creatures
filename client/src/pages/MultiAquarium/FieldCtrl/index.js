@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./index.module.css";
 import aquarium from "../../../shared";
-import {AiOutlinePlus} from 'react-icons/ai'
-import {AiOutlineMinus} from 'react-icons/ai'
+import { BiZoomIn, BiZoomOut } from "react-icons/bi";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
@@ -15,13 +14,13 @@ export default function FieldCtrl(props) {
           className={cx("btn", "btn--zoomin")}
           onClick={() => room.camera.zoomIn()}
         >
-          <AiOutlinePlus/>
+          <BiZoomIn size={23} />
         </div>
         <div
           className={cx("btn", "btn--zoomout")}
           onClick={() => room.camera.zoomOut()}
-          >
-          <AiOutlineMinus/>
+        >
+          <BiZoomOut size={23} />
         </div>
       </div>
     </div>

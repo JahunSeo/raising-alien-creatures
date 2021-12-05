@@ -21,11 +21,10 @@
 }
 
 .Content .images {
-  background-size: 45em;
+  background-size: 48em;
   width: 7em;
   height: 7em;
-  /* background-position: 0px; */
-  background-position: 0px 126px;
+  background-position: -2px 123px;
 }
 .Content .images:hover {
   transition: all 0.3s;
@@ -35,6 +34,7 @@
 .Content:first-child {
   padding-top: 0;
 }
+
 .SubInfo {
   padding-top: 0.5rem;
   color: whitesmoke;
@@ -42,6 +42,7 @@
   flex-direction: column;
   justify-content: space-around;
 }
+
 .SubInfo p {
   line-height: 25px;
   font-weight: 550;
@@ -49,7 +50,7 @@
 
 .buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .StyledButton {
@@ -62,7 +63,7 @@
   color: white;
   outline: none;
   cursor: pointer;
-  border: 0.15rem solid rgb(138, 212, 241);
+  border: 0.15rem solid skyblue;
   border-radius: 8px;
   width: 6.6em;
   height: 3em;
