@@ -38,13 +38,15 @@ export default function Approval(props) {
         challenges = Object.values(challenges);
         setChallenges(challenges);
         setAuthRequests(auths);
+      } else {
+        // TODO: 실패 처리
       }
-      loadAuthRequests();
     };
+    loadAuthRequests();
   }, []);
 
-  console.log("authRequests", authRequests);
-  console.log("challenges", challenges);
+  // console.log("authRequests", authRequests);
+  // console.log("challenges", challenges);
 
   function ToggleBtn(props) {
     const { showFilters, setShowFilters } = props;
@@ -157,7 +159,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  // let request_date = authRequest.request_date.toLocaleStringS;
   const authYear = authRequest.request_date.slice(0, 4);
   const authMonth = authRequest.request_date.slice(5, 7);
   const authDate = authRequest.request_date.slice(8, 10);
@@ -166,8 +168,6 @@ const AuthRequest = ({ authRequest, authCategory }) => {
 
   const [approvalStatus, setApprovalStatus] = useState(false);
   const [approvalClicked, setApprovalClicked] = useState(false);
-
-  console.log("authCategory", authCategory);
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
@@ -233,9 +233,6 @@ const AuthRequest = ({ authRequest, authCategory }) => {
   const handleNavigate = () => {
     navigate(`/challenge/${authRequest.challenge_id}/room`);
   };
-
-  const image_url_origin = authRequest.image_url;
-  const image_url_opt = image_url_origin.replace("origin", "M");
 
   const ApprovalButton = () => {
     if (!approvalStatus & !authRequest.record_status) {
@@ -305,8 +302,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
         <div className="flex flex-col justify-center items-center">
           <LazyLoadImage
             className="LazyLoadImage"
-            src={image_url_opt}
-            onError={(e) => (e.target.src = image_url_origin)}
+            src={authRequest.image_url}
             alt="authImage"
             threshold="10"
             effect="blur"
