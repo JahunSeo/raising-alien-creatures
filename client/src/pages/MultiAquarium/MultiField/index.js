@@ -30,9 +30,29 @@ export default class Field extends Component {
     ],
   };
 
+  // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+  mobileCheck = () => {
+    const toMatch = [
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i,
+    ];
+
+    return toMatch.some((toMatchItem) => {
+      return navigator.userAgent.match(toMatchItem);
+    });
+  };
+
   componentDidMount() {
+    let isMobile = this.mobileCheck();
+    let starCnt = isMobile ? 50 : 250;
+
     this.stars = [];
-    for (let i = 0; i < 250; i++) {
+    for (let i = 0; i < starCnt; i++) {
       this.stars.push(new Star());
     }
   }
