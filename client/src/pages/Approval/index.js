@@ -14,9 +14,8 @@ const cx = classNames.bind();
 
 export default function Approval(props) {
   const [authRequests, setAuthRequests] = useState([]);
-  const [filterRequests, setFilterRequests] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const [authCategory, setAuthCategory] = useState(0);
-
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
@@ -24,7 +23,6 @@ export default function Approval(props) {
       const res = await api.get("/user/approval/list");
       if (res.data.result === "success") {
         let auths = res.data.data;
-        // let challenges = {1: {"challenge_name": "아침챙겨먹기", count: 2}, 20: {"challenge_name": "dmdmf", count: 6}}
         let challenges = {};
         auths.forEach((auth) => {
           let challengeId = auth.challenge_id;
@@ -37,51 +35,46 @@ export default function Approval(props) {
           }
           challenges[challengeId].count += 1;
         });
-        // console.log("challenges1", challenges);
         challenges = Object.values(challenges);
-        // console.log("challenges2", challenges);
         setChallenges(challenges);
-        // console.log("challenges3", challenges);
         setAuthRequests(auths);
-      } else {
-        // TODO: 실패 처리
       }
+      loadAuthRequests();
     };
-    loadAuthRequests();
   }, []);
 
   console.log("authRequests", authRequests);
   console.log("challenges", challenges);
 
   function ToggleBtn(props) {
-    const { filterRequests, setFilterRequests } = props;
+    const { showFilters, setShowFilters } = props;
 
     return (
       <nav className="toggleBtn">
         <button
           className=" text-gray-500 w-10 h-10 focus:outline-none bg-transparent"
-          onClick={() => setFilterRequests(!filterRequests)}
+          onClick={() => setShowFilters(!showFilters)}
         >
           <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <span
               aria-hidden="true"
               className={cx(
                 "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
-                filterRequests ? "" : "-translate-y-1.5"
+                showFilters ? "" : "-translate-y-1.5"
               )}
             ></span>
             <span
               aria-hidden="true"
               className={cx(
                 "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
-                filterRequests ? "" : ""
+                showFilters ? "" : ""
               )}
             ></span>
             <span
               aria-hidden="true"
               className={cx(
                 "block absolute h-0.5 w-5 bg-gray-500 transform transition duration-500 ease-in-out",
-                filterRequests ? "" : "translate-y-1.5"
+                showFilters ? "" : "translate-y-1.5"
               )}
             ></span>
           </div>
@@ -95,16 +88,16 @@ export default function Approval(props) {
       <div className="authRequests container" style={{ paddingTop: "75px" }}>
         <div className="fixed bg-white rounded-xl shadow dark:bg-gray-800 z-10">
           <ToggleBtn
-            filterRequests={filterRequests}
-            setFilterRequests={setFilterRequests}
+            showFilters={showFilters}
+            setShowFilters={setShowFilters}
           />
-          {filterRequests ? (
+          {showFilters ? (
             <div className="dropContent">
               <option
                 value=""
                 onClick={(e) => {
                   setAuthCategory(0);
-                  setFilterRequests(false);
+                  setShowFilters(false);
                 }}
               >
                 전체 보기 ({authRequests.length})
@@ -115,7 +108,7 @@ export default function Approval(props) {
                   value={challenge.id}
                   onClick={(e) => {
                     setAuthCategory(challenge.id);
-                    setFilterRequests(false);
+                    setShowFilters(false);
                   }}
                 >
                   {challenge.name} ({challenge.count})
@@ -164,7 +157,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // let request_date = authRequest.request_date.toLocaleStringS;
+
   const authYear = authRequest.request_date.slice(0, 4);
   const authMonth = authRequest.request_date.slice(5, 7);
   const authDate = authRequest.request_date.slice(8, 10);
@@ -174,7 +167,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
   const [approvalStatus, setApprovalStatus] = useState(false);
   const [approvalClicked, setApprovalClicked] = useState(false);
 
-  // console.log("authCategory", authCategory);
+  console.log("authCategory", authCategory);
 
   const postApproval = async () => {
     const req = await api.post("/challenge/approval", {
