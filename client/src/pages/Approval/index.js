@@ -39,7 +39,7 @@ export default function Approval(props) {
         setChallenges(challenges);
         setAuthRequests(auths);
       } else {
-        // TODO: 실패 처리
+        // TODO: 에러 처리
       }
     };
     loadAuthRequests();
@@ -99,6 +99,10 @@ export default function Approval(props) {
                 value=""
                 onClick={(e) => {
                   setAuthCategory(0);
+                  window.scrollTo({
+                    top: 100,
+                    behavior: "smooth",
+                  });
                   setShowFilters(false);
                 }}
               >
@@ -110,6 +114,10 @@ export default function Approval(props) {
                   value={challenge.id}
                   onClick={(e) => {
                     setAuthCategory(challenge.id);
+                    window.scrollTo({
+                      top: 100,
+                      behavior: "smooth",
+                    });
                     setShowFilters(false);
                   }}
                 >
