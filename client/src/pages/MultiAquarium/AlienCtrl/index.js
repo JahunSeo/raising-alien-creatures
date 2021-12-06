@@ -163,13 +163,11 @@ export default function AlienCtrl(props) {
       return (
         <div className={cx("body", "body--selected")}>
           <div className={cx("row")}>
-            <h3
-              className={styles.challengeName}
-            >{`${alien.challenge_name}`}</h3>
+            <h3 className={styles.challengeName}>{`${alien.user_nickname}`}</h3>
           </div>
           <div className={cx("row")}>
             <p className={styles.userName}>
-              {`${alien.user_nickname}`}
+              {`${alien.alien_name}`}
               <span className={styles.authCnt}>
                 {` (${alien.accumulated_count}회 인증)`}
               </span>
@@ -226,7 +224,7 @@ export default function AlienCtrl(props) {
           </div>
           <div className={cx("row")}>
             <p className={styles.userName}>
-              {`${alien.user_nickname}`}
+              {`${alien.alien_name}`}
               <span className={styles.authCnt}>
                 {` (${alien.accumulated_count}회 인증)`}
               </span>
