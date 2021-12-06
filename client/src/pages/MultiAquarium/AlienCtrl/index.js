@@ -283,15 +283,12 @@ export default function AlienCtrl(props) {
             </p>
             <div className={cx("notiRow")}>
               <p className={cx("notiText", "notiText--highlight")}>
-                빨간 물방울 속 생명체는
-                <br />
-                오늘 인증하지 않으면 죽어요
+                (빨간 물방울) 오늘 인증하지 않으면 죽어요
               </p>
             </div>
             <div className={cx("notiRow")}>
               <p className={cx("notiText")}>
-                투명 물방울 속 생명체는 <br />
-                오늘 확인을 받아야 성장해요
+                (투명 물방울) 오늘 확인을 받아야 성장해요
               </p>
             </div>
           </div>
