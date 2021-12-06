@@ -277,14 +277,19 @@ export default function AlienCtrl(props) {
             <p>
               챌린지를 인증하고
               <br />
-              다른 참가자들에게 확인을 요청하세요!
+              다른 참가자에게 확인을 요청하세요!
             </p>
-            <div className={cx("btnRow", "btnRow--highlight")}>
-              <p
-                className={cx("animate-pulse", "subtext", "subtext--highlight")}
-              >
-                빨간 물방울 속 생명체는 <br />
-                오늘 인증하지 않으면 죽습니다 ㅜㅜ
+            <div className={cx("notiRow")}>
+              <p className={cx("notiText", "notiText--highlight")}>
+                빨간 물방울 속 생명체는
+                <br />
+                오늘 인증하지 않으면 죽어요
+              </p>
+            </div>
+            <div className={cx("notiRow")}>
+              <p className={cx("notiText")}>
+                투명 물방울 속 생명체는 <br />
+                오늘 확인을 받아야 성장해요
               </p>
             </div>
           </div>
