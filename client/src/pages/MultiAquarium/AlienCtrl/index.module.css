@@ -6,7 +6,8 @@
   align-items: center;
   justify-content: center;
 
-  padding: 10px 20px;
+  font-size: 20px;
+  padding: 15px 30px;
   border-radius: 5px;
   background-color: rgba(3, 33, 66, 0.35);
   box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
@@ -39,6 +40,10 @@
   margin-top: 15px;
 }
 
+.btnRow--main {
+  margin-top: 5px;
+}
+
 .btn {
   /* border: 1px solid #ffffff; */
   @apply bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white py-2 px-4 rounded transition ease-in duration-200 text-center text-base shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2;
@@ -63,6 +68,12 @@
 .challengeName {
   font-size: 22px;
   /* border-bottom: 2px solid #ffffff; */
+  display: flex;
+  align-items: center;
+}
+
+.challengeName svg {
+  margin-right: 5px;
 }
 
 .userName {
@@ -88,4 +99,11 @@
 .day--today {
   background-color: #ffffff;
   color: rgba(3, 33, 66, 1);
+}
+
+@media only screen and (max-width: 900px) {
+  .body {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
 }

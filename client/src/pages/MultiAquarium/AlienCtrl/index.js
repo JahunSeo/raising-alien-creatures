@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
-
+import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 
@@ -30,9 +30,45 @@ export default function AlienCtrl(props) {
 
   const challengeMatch = useMatch("/challenge/:challengeId/room");
   const userMatch = useMatch("/user/:userId/room");
-  // const mainMatch = useMatch("/");
+  const mainMatch = useMatch("/");
 
   const dispatch = useDispatch();
+
+  if (!!mainMatch) {
+    // todo 조건 강화!
+    if (!alien) {
+      return (
+        <div className={cx("body", "body--main")}>
+          <p className="animate-pulse">
+            챌린지에 참가해 나만의 생명체를 키워보세요!
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className={cx("body", "body--selected")}>
+          <div className={cx("row")}>
+            <h3 className={styles.challengeName}>
+              <GiSupersonicArrow />
+              {`${alien.challenge_name}`}
+            </h3>
+          </div>
+          <div className={cx("row")}>
+            <p className={styles.userName}>
+              {`"${alien.user_nickname}"의 ${alien.alien_name}`}
+            </p>
+          </div>
+          <div className={cx("btnRow", "btnRow--main")}>
+            {
+              <Link to={`/challenge/${alien.challenge_id}/room`}>
+                <p className={cx("btn")}>챌린지 참가</p>
+              </Link>
+            }
+          </div>
+        </div>
+      );
+    }
+  }
 
   // todo 조건 강화!
   if (!alien) {
