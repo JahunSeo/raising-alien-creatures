@@ -190,29 +190,10 @@ export default function AlienCtrl(props) {
   }
 
   if (!!userMatch) {
-    if (aliens.length <= 0) {
-      return (
-        <div className={cx("body")}>
-          <p>챌린지에 참가해 생명체를 생성해주세요!</p>
-          <div className={cx("btnRow", "btnRow--short-top")}>
-            <Link to="/" className={cx("btn")}>
-              챌린지 검색하기
-            </Link>
-          </div>
-        </div>
-      );
-    } else if (!alien) {
-      return (
-        <div className={cx("body")}>
-          <p>오늘도 반갑습니다!</p>
-          <p className={cx("subtext")}>
-            챌린지를 인증한 뒤
-            <br />
-            다른 참가자들에게 확인을 요청하세요
-          </p>
-        </div>
-      );
-    } else {
+    let { userId } = userMatch.params;
+    let isMyRoom = user.login && user.id === parseInt(userId);
+
+    if (!!alien) {
       const todayValue = new Date().getDay();
       const isPracticeDay = !!alien[DAY_TEXT[todayValue].en];
 
@@ -256,6 +237,43 @@ export default function AlienCtrl(props) {
               />
             )}
           </div>
+        </div>
+      );
+    } else if (!!isMyRoom) {
+      if (aliens.length <= 0) {
+        return (
+          <div className={cx("body")}>
+            <p>챌린지에 참가해 생명체를 생성해주세요!</p>
+            <div className={cx("btnRow", "btnRow--short-top")}>
+              <Link to="/" className={cx("btn")}>
+                챌린지 검색하기
+              </Link>
+            </div>
+          </div>
+        );
+      } else if (!alien) {
+        return (
+          <div className={cx("body")}>
+            <p>
+              챌린지를 인증하고
+              <br />
+              다른 참가자들에게 확인을 요청하세요!
+            </p>
+            <div className={cx("btnRow", "btnRow--highlight")}>
+              <p
+                className={cx("animate-pulse", "subtext", "subtext--highlight")}
+              >
+                빨간 물방울 속 생명체는 <br />
+                오늘 인증하지 않으면 죽습니다 ㅜㅜ
+              </p>
+            </div>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <div className={cx("body")}>
+          <p>다른 참가자의 어항도 마음껏 구경해보세요!</p>
         </div>
       );
     }
