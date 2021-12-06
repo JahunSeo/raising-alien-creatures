@@ -7,7 +7,7 @@
   justify-content: center;
 
   font-size: 22px;
-  padding: 15px 30px;
+  padding: 20px 30px;
   border-radius: 5px;
   background-color: rgba(3, 33, 66, 0.35);
   box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
@@ -65,8 +65,12 @@
   width: 100%;
   background: rgba(255, 255, 255, 1);
   border-radius: 5px;
-  margin: 5px 0;
+  margin: 10px 0 0;
   padding: 5px 15px;
+}
+
+.notiRow--short {
+  width: fit-content;
 }
 
 .notiText {

@@ -201,6 +201,9 @@ export default function AlienCtrl(props) {
               </Link>
             )}
           </div>
+          {user.login && user.id === parseInt(alien.user_info_id) && (
+            <AlienNoti alien={alien} isPracticeDay={isPracticeDay} />
+          )}
         </div>
       );
     }
@@ -229,6 +232,7 @@ export default function AlienCtrl(props) {
               </span>
             </p>
           </div>
+
           <ul className={styles.daylist}>
             {[0, 1, 2, 3, 4, 5, 6].map((day) => {
               let dayType = "default";
@@ -254,6 +258,7 @@ export default function AlienCtrl(props) {
               />
             )}
           </div>
+          <AlienNoti alien={alien} isPracticeDay={isPracticeDay} />
         </div>
       );
     } else if (!!isMyRoom) {
@@ -327,6 +332,29 @@ function PracticeBtn(props) {
       </p>
     );
   }
+}
+
+function AlienNoti(props) {
+  const { alien, isPracticeDay } = props;
+
+  if (alien.alien_status !== 0 || !isPracticeDay) {
+    return <React.Fragment />;
+  } else if (alien.practice_status === 1) {
+    return (
+      <div className={cx("notiRow", "notiRow--short")}>
+        <p className={cx("notiText")}>오늘 확인 받아야 성장해요</p>
+      </div>
+    );
+  } else if (alien.practice_status === 0) {
+    return (
+      <div className={cx("notiRow", "notiRow--short")}>
+        <p className={cx("notiText", "notiText--highlight")}>
+          오늘 인증 안 하면 죽어요
+        </p>
+      </div>
+    );
+  }
+  return <React.Fragment />;
 }
 
 // function ToggleBtn(props) {
