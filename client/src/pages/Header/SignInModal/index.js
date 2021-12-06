@@ -19,7 +19,7 @@ const SignInModal = () => {
     let signInData = { email: userEmail, pwd: userPassword };
     // 1단계: 로그인 요청
     let res = await api.post("/user/login", signInData);
-    console.log("res", res);
+    // console.log("res", res);
     if (res.data.result !== "success") {
       setSignInMessage("이메일과 패스워드가 일치하지 않습니다.");
       setSignInClicked(false);

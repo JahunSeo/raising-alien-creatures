@@ -20,7 +20,7 @@ const SignUpModal = () => {
   const postSignUp = async () => {
     let signUpData = { userEmail, userNickname, userPassword, userConfirm };
     const res = await api.post("/user/register", signUpData);
-    console.log("res", res);
+    // console.log("signup", res.data);
     if (res.data.result === "success") {
       dispatch(
         actions.setPopupModal(
@@ -36,6 +36,7 @@ const SignUpModal = () => {
       setUserConfirm("");
       setSignUpMessage(null);
       setSignUpClicked(false);
+      dispatch(actions.checkUser(res.data.user));
       dispatch(actions.showSignUpModal(!showSignUpModal));
     } else {
       setSignUpMessage("이미 존재하는 이메일 주소입니다.");
