@@ -54,7 +54,7 @@ export default function Approval(props) {
     return (
       <nav className="toggleBtn">
         <button
-          className=" text-gray-500 w-10 h-10 focus:outline-none bg-transparent"
+          className="w-10 h-10 focus:outline-none bg-transparent text-gray-500"
           onClick={() => setShowFilters(!showFilters)}
         >
           <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -308,13 +308,14 @@ const AuthRequest = ({ authRequest, authCategory }) => {
       <div className="flex flex-col w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg  cursor-pointer">
         {/* react-lazy-load-image-component */}
         <div className="flex flex-col justify-center items-center">
-          <LazyLoadImage
+          {/* <LazyLoadImage
             className="LazyLoadImage"
             src={authRequest.image_url}
             alt="authImage"
             threshold="10"
             effect="blur"
-          />
+          /> */}
+          <img src={authRequest.image_url} alt="authImage" />
         </div>
         <div className="flex flex-col justify-center items-center mb-2">
           <div className="mb-2 space-x-4">

@@ -154,8 +154,6 @@ export default function NewChallenge(props) {
     }
   };
 
-  // console.log("challengeClicked", challengeClicked);
-
   return (
     <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
       <div className="min-w-max h-2/3 md:min-h-2/3 w-1/2 rounded-xl bg-gray-100 shadow-2xl overflow-y-auto p-4  md:p-8">
