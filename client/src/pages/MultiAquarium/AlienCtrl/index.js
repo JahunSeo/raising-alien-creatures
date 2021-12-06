@@ -20,11 +20,14 @@ const DAY_TEXT = {
 };
 
 export default function AlienCtrl(props) {
-  const { user, aliens, selectedAlien } = useSelector(({ user, room }) => ({
-    user: user.user,
-    aliens: room.aliens,
-    selectedAlien: room.selectedAlien,
-  }));
+  const { user, aliens, selectedAlien, challenge } = useSelector(
+    ({ user, room }) => ({
+      user: user.user,
+      aliens: room.aliens,
+      selectedAlien: room.selectedAlien,
+      challenge: room.challenge,
+    })
+  );
 
   let alien = aliens.find((a) => a.id === selectedAlien);
 
@@ -58,10 +61,10 @@ export default function AlienCtrl(props) {
               {`"${alien.user_nickname}"의 ${alien.alien_name}`}
             </p>
           </div>
-          <div className={cx("btnRow", "btnRow--main")}>
+          <div className={cx("btnRow", "btnRow--short-top")}>
             {
               <Link to={`/challenge/${alien.challenge_id}/room`}>
-                <p className={cx("btn")}>챌린지 참가</p>
+                <p className={cx("btn")}>챌린지 구경하기</p>
               </Link>
             }
           </div>
@@ -70,8 +73,21 @@ export default function AlienCtrl(props) {
     }
   }
 
+  console.log(challenge);
+
   // todo 조건 강화!
-  if (!alien) {
+  if (aliens.length <= 0) {
+    return (
+      <div className={cx("body")}>
+        <p>챌린지에 참가해 생명체를 생성해주세요!</p>
+        <div className={cx("btnRow", "btnRow--short-top")}>
+          <Link to="/" className={cx("btn")}>
+            챌린지 검색하기
+          </Link>
+        </div>
+      </div>
+    );
+  } else if (!alien) {
     return (
       <div className={cx("body")}>
         <p>생명체를 선택해주세요.</p>
