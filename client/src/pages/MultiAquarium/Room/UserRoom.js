@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import api from "../../../apis";
 import aquarium from "../../../shared";
@@ -13,6 +13,11 @@ export default function UserRoom(props) {
   const roomId = `user-${userId}`;
   const room = aquarium.setCurrentRoom(roomId);
 
+  // user 정보 확인
+  const { user } = useSelector(({ user }) => ({
+    user: user.user,
+  }));
+
   useEffect(() => {
     try {
       const fetchData = async () => {
@@ -21,8 +26,9 @@ export default function UserRoom(props) {
         if (res.data.result === "success") {
           // rooms 상태 정보
           const aliens = res.data.aliens;
-          const user = res.data.user;
-          const roomTitle = `${user.nickname}`;
+          const pageUser = res.data.user;
+          const roomTitle =
+            user.id === pageUser.id ? `나의 어항` : `${pageUser.nickname}`;
           aliens.forEach((alien) => {
             alien.practiceDays = [
               alien.sun,
