@@ -37,13 +37,13 @@ module.exports = function (passport, pool) {
           res.json({
             result: "success",
             msg: "user registered",
-            user: {
-              id: results.insertId,
-              email,
-              login: true,
-              nickname,
-              challenges: [],
-            },
+            // user: {
+            //   id: results.insertId,
+            //   email,
+            //   login: true,
+            //   nickname,
+            //   challenges: [],
+            // },
           });
           connection.release();
         }

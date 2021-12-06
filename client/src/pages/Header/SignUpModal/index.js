@@ -36,7 +36,7 @@ const SignUpModal = () => {
       setUserConfirm("");
       setSignUpMessage(null);
       setSignUpClicked(false);
-      dispatch(actions.checkUser(res.data.user));
+      // dispatch(actions.checkUser(res.data.user));
       dispatch(actions.showSignUpModal(!showSignUpModal));
     } else {
       setSignUpMessage("이미 존재하는 이메일 주소입니다.");
