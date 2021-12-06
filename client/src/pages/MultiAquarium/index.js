@@ -37,7 +37,10 @@ export default function MultiAquarium(props) {
     <div className={styles.body}>
       <Outlet />
       <section className={styles.SecAlienCtrl}>
-        <AlienCtrl />
+        <AlienCtrl
+          selectedAlien={selectedAlien}
+          handleSelectAlien={handleSelectAlien}
+        />
       </section>
       <section className={styles.SecListCtrl}>
         <ListCtrl

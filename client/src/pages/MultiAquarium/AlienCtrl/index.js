@@ -3,7 +3,7 @@ import { Link, useMatch } from "react-router-dom";
 import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
-
+import aquarium from "../../../shared";
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
 
@@ -75,10 +75,16 @@ export default function AlienCtrl(props) {
 
   if (!!challengeMatch) {
     const { challengeId } = challengeMatch.params;
-    let participating;
+    // 본 챌린지에 참가중인지 확인
+    let participating = false;
+    let myAlienId = null;
     if (user.login && user.challenges) {
       participating =
         user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+      if (participating) {
+        let alien = aliens.find((a) => a.user_info_id === Number(user.id));
+        myAlienId = !!alien && alien.id;
+      }
     }
     // console.log(challengeId, challenge);
 
@@ -95,16 +101,27 @@ export default function AlienCtrl(props) {
           </div>
         );
       } else if (!!participating) {
+        const room = aquarium.getCurrentRoom();
+        const handleSelect = () => {
+          if (room && myAlienId) {
+            dispatch(actions.selectAlien(myAlienId));
+            const alien = room.getMonster(myAlienId);
+            room.camera.setChasingTarget(alien, () => {
+              dispatch(actions.selectAlien(null));
+            });
+          }
+        };
+
         return (
           <div className={cx("body")}>
-            <p>챌린지에 참가중입니다!</p>
-            <p className={cx("subtext")}>
-              챌린지를 인증한 뒤
+            <p>참가중인 챌린지입니다</p>
+            <p className={cx("subtext", "subtext--highlight")}>
+              사진으로 인증하고
               <br />
-              다른 참가자들에게 확인을 요청하세요
+              다른 참가자에게 확인을 요청하세요!
             </p>
             <div className={cx("btnRow")}>
-              <p className={cx("btn")} onClick={() => {}}>
+              <p className={cx("btn")} onClick={handleSelect}>
                 나의 생명체 보기
               </p>
             </div>
