@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../../Redux/actions/index.js";
 import { Link } from "react-router-dom";
 import api from "../../../../apis/index";
+import { FaFish, FaBirthdayCake, FaGraduationCap } from 'react-icons/fa'
+import { GiSupersonicArrow } from "react-icons/gi";
+import { BiLike } from 'react-icons/bi'
 import { S3URL } from "../../../../shared/lib/Constants";
 
 const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
@@ -38,19 +41,17 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
         <div
           className={styles.images}
           style={{
-            backgroundImage: `url("${
-              S3URL +
+            backgroundImage: `url("${S3URL +
               alien.image_url.split("-")[0].split("/")[0] +
               "/M/" +
               alien.image_url.split("-")[0].split("/")[1]
-            }")`,
+              }")`,
           }}
         />
         <div className={styles.SubInfo}>
-          {/* <p>참가자 : {alien.user_nickname}</p> */}
-          <p>별명 : {alien.alien_name}</p>
-          <p>출생일 : {alien.created_date.split("T")[0]}</p>
-          <p>인증 횟수 : {alien.accumulated_count}번</p>
+          <p><FaFish size={20} />{alien.alien_name}</p>
+          <p><FaBirthdayCake size={20} />{alien.created_date.split("T")[0]}</p>
+          <p><BiLike size={20} />{alien.accumulated_count}번</p>
         </div>
       </div>
       <div className={styles.buttons}>
@@ -63,15 +64,19 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
               dispatch(actions.showAuthRequest(true));
             }}
           >
+            <BiLike />
             인증하기
           </button>
         )}
-        <Link to={`/challenge/${alien.challenge_id}/room`}>
-          <button className={styles.StyledButton}>챌린지 어항</button>
-        </Link>
+        {alien.alien_status === 0 &&
+          <Link to={`/challenge/${alien.challenge_id}/room`}>
+            <button className={styles.StyledButton}> <GiSupersonicArrow /> 챌린지 어항</button>
+          </Link>
+        }
 
         {alien.alien_status === 0 && alien.user_info_id === userId && (
           <button className={styles.StyledButton} onClick={onClickGraduate}>
+            <FaGraduationCap />
             졸업 신청
           </button>
         )}

@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from "react";
 import "./PostList.css";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PersonalItem from "./PersonalItem";
+import OtherPersonalItem from "./OtherPersonalItem";
 import ChallengeItem from "./ChallengeItem";
 
 import classNames from "classnames/bind";
@@ -12,6 +14,8 @@ function PostList({ type, handleSelectAlien }) {
     aliens_list: room.aliens,
     userId: user.user,
   }));
+
+  let params = useParams();
 
   const [category, setCategory] = useState(false);
   const [sort, setSort] = useState("a");
@@ -75,7 +79,7 @@ function PostList({ type, handleSelectAlien }) {
           </span>
         </ul>
       )}
-      {type === 'challenge' && aliens_list.length >0 && 
+      {type === 'challenge' && aliens_list.length > 0 &&
         <h1 className='challengeName'>{aliens_list[0].challenge_name}</h1>}
 
       {aliens_list
@@ -88,12 +92,21 @@ function PostList({ type, handleSelectAlien }) {
         .map((alien) =>
           type === "personal" ? (
             Boolean(alien.alien_status) === category ? (
-              <PersonalItem
-                key={alien.id}
-                alien={alien}
-                userId={userId}
-                handleSelectAlien={handleSelectAlien}
-              />
+              parseInt(params.userId) === userId.id ? (
+                <PersonalItem
+                  key={alien.id}
+                  alien={alien}
+                  userId={userId}
+                  handleSelectAlien={handleSelectAlien}
+                />
+              ) : (
+                <OtherPersonalItem
+                  key={alien.id}
+                  alien={alien}
+                  userId={userId}
+                  handleSelectAlien={handleSelectAlien}
+                />
+              )
             ) : null
           ) : (
             type === "challenge" && (
