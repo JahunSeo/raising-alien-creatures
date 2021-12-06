@@ -7,8 +7,7 @@ export const CHAL_INFO_TYPE = {
 };
 
 const initialState = {
-  // showModal2: false, // TODO: refactoring
-  chalInfoModal: null,
+  chalInfoModal: CHAL_INFO_TYPE.ALIEN,
   // popup
   popupModal: null,
   popupMessage: "",
@@ -23,15 +22,14 @@ const initialState = {
 export default function modalOnOff(state = initialState, action) {
   switch (action.type) {
     case types.CURRENT_ROOM:
+      let modal = state.chalInfoModal;
+      if (state.chalInfoModal === CHAL_INFO_TYPE.CHAT)
+        modal = null;
       return {
         ...state,
-        chalInfoModal: null,
+        chalInfoModal: modal,
       };
-    // case types.SHOW_MODAL2:
-    //   return {
-    //     ...state,
-    //     showModal2: action.showModal2,
-    //   };
+
     case types.SET_CHAL_INFO_MODAL:
       return {
         ...state,

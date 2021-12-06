@@ -1,11 +1,6 @@
 // 액션 생성 함수들
 import * as types from "./ActionTypes";
 
-// export const showModal2 = (onoff) => ({
-//   type: types.SHOW_MODAL2,
-//   showModal2: onoff,
-// });
-
 export const setChalInfoModal = (chalInfoModal) => ({
   type: types.SET_CHAL_INFO_MODAL,
   chalInfoModal,

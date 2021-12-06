@@ -1,6 +1,7 @@
 import { Link, useMatch } from "react-router-dom";
-import { RiSearchEyeLine, RiSearchEyeFill } from "react-icons/ri";
-// import { RiSearch2Line, RiSearch2Fill } from "react-icons/ri";
+// import { RiSearchEyeLine, RiSearchEyeFill } from "react-icons/ri";
+import { HiOutlineHome, HiHome } from 'react-icons/hi'
+
 
 import styles from "../index.module.css";
 import classNames from "classnames/bind";
@@ -11,8 +12,8 @@ export default function SearchBtn(props) {
 
   let selected = !!mainMatch;
   let Icon;
-  if (selected) Icon = RiSearchEyeFill;
-  else Icon = RiSearchEyeLine;
+  if (selected) Icon = HiHome;
+  else Icon = HiOutlineHome;
   //   if (!mainMatch) Icon = RiSearch2Line;
   //   else Icon = RiSearch2Fill;
 

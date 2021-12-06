@@ -1,10 +1,13 @@
 .PostItemBlock {
-  padding-top: 0.4rem;
+  padding-bottom: 0.8rem;
 }
 .myPostItemBlock {
-  padding-top: 0.8rem;
-  border: 0.15rem solid rgb(113, 231, 108);
-  border-radius: 4px;
+  padding-top: 0.4rem;
+  padding-bottom: 0.8rem;
+  margin-top: 0.4rem;
+  background-color: rgba(60, 165, 235, 0.3);
+  border: 0.15rem solid rgb(60, 165, 235);
+  border-radius: 6px;
 }
 
 .PostItemBlock h2 {
@@ -30,28 +33,25 @@
   width: 7em;
   height: 7em;
   background-position: -2px 123px;
+  margin-right:35px;
 }
 .Content .images:hover {
   transition: all 0.3s;
   transform: scale(1.2);
 }
 
-.Content:first-child {
-  padding-top: 0;
-}
 .SubInfo {
-  /* padding-top: 0.5rem; */
   color: whitesmoke;
-  /* display: flex; */
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
+  width:150px;
 }
 .SubInfo p {
   line-height: 25px;
   font-weight: 550;
   display:flex;
   flex-direction: row;
-
   align-items: center;
 }
 
@@ -61,23 +61,33 @@
 
 .StyledButton {
   border: none;
-  margin: 0.3rem 0.1rem;
+  margin: 1rem 0.1rem;
+  margin-bottom: 0.4rem;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 0.2rem;
+  padding: 0.28rem;
   color: white;
   outline: none;
   cursor: pointer;
-  border: 0.15rem solid rgb(138, 212, 241);
+  border: 0.15rem solid skyblue;
   border-radius: 8px;
-  width: 6.6em;
+  /* width: 6.6em; */
   height: 3em;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.StyledButton svg{
+  margin-right: 5px;
 }
 
 .line{
+  text-align: center;
+  width:300px;
   background-color: #5271ff;
   border-radius: 4px;
-  padding: 0.1em;
-  margin:0.4em;
+  padding-bottom: 0.1em;
   margin-bottom: 0.8em;
+  margin-left: 25px;
 }

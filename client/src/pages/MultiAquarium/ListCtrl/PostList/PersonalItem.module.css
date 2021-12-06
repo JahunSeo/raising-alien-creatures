@@ -25,27 +25,30 @@
   width: 7em;
   height: 7em;
   background-position: -2px 123px;
+  margin-right: 25px;
 }
 .Content .images:hover {
   transition: all 0.3s;
   transform: scale(1.2);
 }
 
-.Content:first-child {
-  padding-top: 0;
-}
-
 .SubInfo {
-  padding-top: 0.5rem;
   color: whitesmoke;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  width:150px;
 }
-
 .SubInfo p {
   line-height: 25px;
   font-weight: 550;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.SubInfo p svg{
+  margin-right: 10px;
 }
 
 .buttons {
@@ -65,6 +68,13 @@
   cursor: pointer;
   border: 0.15rem solid skyblue;
   border-radius: 8px;
-  width: 6.6em;
+  /* width: 6.6em; */
   height: 3em;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.StyledButton svg{
+  margin-right: 5px;
 }
