@@ -139,24 +139,24 @@ export default function AlienInfo({
             <ul className="border-2 rounded-lg  py-3 px-5 justify-startflex flex-col items-start text-base xl:text-lg 2xl:text-2xl">
               <li className="flex flex-row items-center">
                 <AiOutlineCheck />
-                <li className="pl-2 flex flex-row">
+                <div className="pl-2 flex flex-row">
                   선택 요일에만{" "}
-                  <a className="text-red-500 flex flex-row items-center px-1">
+                  <p className="text-red-500 flex flex-row items-center px-1">
                     인증
                     <RiMailCheckLine />
-                  </a>
+                  </p>
                   할 수 있습니다.
-                </li>
+                </div>
               </li>
               <li className="flex flex-row items-center">
                 <AiOutlineCheck />
-                <li className="pl-2 flex flex-row">
+                <div className="pl-2 flex flex-row">
                   당일 미인증시 생명체는{" "}
-                  <a className="text-red-500 flex flex-row items-center px-1">
+                  <p className="text-red-500 flex flex-row items-center px-1">
                     사망 <GiDeathSkull />
-                  </a>{" "}
+                  </p>{" "}
                   합니다.
-                </li>
+                </div>
               </li>
             </ul>
           </ul>
