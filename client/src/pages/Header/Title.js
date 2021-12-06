@@ -1,12 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-// import api from "../../apis";
 import { Link, useMatch, Navigate } from "react-router-dom";
-import { RiUserFill } from "react-icons/ri";
 import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
-import { AiOutlineHome } from "react-icons/ai";
-import { HiOutlineHome } from "react-icons/hi";
-import { BiDoorOpen } from "react-icons/bi";
+import { HiOutlineHome } from 'react-icons/hi'
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -30,10 +26,7 @@ export default function Title(props) {
   if (!!userMatch) {
     return (
       <div className={styles.titleBox}>
-        <span className={styles.titleIcon} style={{ alignSelf: "flex-end" }}>
-          {/* <RiUserFill /> */}
-          {/* <BiDoorOpen size ={36}/> */}
-          {/* 쓸거면 align-items: flex-end로 */}
+        <span className={styles.titleIcon} style={{ alignSelf: 'flex-end' }}>
           <GiAquarium size={36} />
         </span>
         <span className={styles.titleText}>{roomTitle}</span>
@@ -128,9 +121,7 @@ export default function Title(props) {
     return (
       <div className={styles.titleBox}>
         <span className={styles.titleIcon}>
-          {/* <GiSupersonicArrow /> */}
           <HiOutlineHome size={35} />
-          {/* <AiOutlineHome size={35}/> */}
         </span>
         <span className={styles.titleText}>{roomTitle}</span>
       </div>
