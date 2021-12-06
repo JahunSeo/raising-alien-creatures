@@ -105,7 +105,7 @@ const SignInModal = () => {
                   </svg>
                 </span>
                 <input
-                  type="text"
+                  type="email"
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="이메일을 입력해주세요."
                   value={userEmail}
