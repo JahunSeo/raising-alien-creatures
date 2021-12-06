@@ -42,9 +42,7 @@ export default function AlienCtrl(props) {
     if (!alien) {
       return (
         <div className={cx("body", "body--main")}>
-          <p className="animate-pulse">
-            챌린지에 참가해 나만의 생명체를 키워보세요!
-          </p>
+          <p>챌린지에 참가해 나만의 생명체를 키워보세요!</p>
         </div>
       );
     } else {
@@ -260,8 +258,13 @@ export default function AlienCtrl(props) {
       if (aliens.length <= 0) {
         return (
           <div className={cx("body")}>
-            <p>챌린지에 참가해 생명체를 생성해주세요!</p>
+            <p>참여중인 챌린지가 없습니다</p>
             <div className={cx("btnRow", "btnRow--short-top")}>
+              <p className={cx("subtext")}>
+                챌린지에 참가해 생명체를 생성해주세요!
+              </p>
+            </div>
+            <div className={cx("btnRow")}>
               <Link to="/" className={cx("btn")}>
                 챌린지 검색하기
               </Link>
@@ -315,7 +318,7 @@ function PracticeBtn(props) {
   } else {
     // 인증하기
     return (
-      <p className={cx("btn")} onClick={handleClick}>
+      <p className={cx("btn", "btn--pink")} onClick={handleClick}>
         인증하기
       </p>
     );

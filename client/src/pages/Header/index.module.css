@@ -84,8 +84,10 @@
 }
 
 .JoinBtn--start {
-  background-color: tomato;
+  @apply bg-pink-600 hover:bg-pink-700 focus:ring-pink-500 focus:ring-offset-pink-200 text-white py-2 px-4 rounded transition ease-in duration-200 text-center text-base shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2;
   cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .JoinBtn--full {
