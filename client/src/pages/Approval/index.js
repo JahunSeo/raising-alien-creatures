@@ -6,6 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import NoAuthRequest from "./NoAuthRequest.js";
+import { GiSupersonicArrow } from "react-icons/gi";
+import { BiLike } from 'react-icons/bi'
+import { AiFillLike } from 'react-icons/ai'
+
 import "./index.css";
 import "./blur.css";
 import classNames from "classnames/bind";
@@ -192,7 +196,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_DATE_OUT",
           "기간이 만료된 인증 요청입니다 !",
           "FAIL",
-          () => {}
+          () => { }
         )
       );
       return;
@@ -204,7 +208,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_EXIST",
           "이미 수락이 완료된 인증 요청입니다 !",
           "FAIL",
-          () => {}
+          () => { }
         )
       );
       return;
@@ -216,7 +220,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_APPROVAL",
           `${authRequest.request_user} 님의 인증을 수락하였습니다 !`,
           "SUCC",
-          () => {}
+          () => { }
         )
       );
       setApprovalStatus(true);
@@ -242,6 +246,9 @@ const AuthRequest = ({ authRequest, authCategory }) => {
     navigate(`/challenge/${authRequest.challenge_id}/room`);
   };
 
+  const image_url_origin = authRequest.image_url;
+  const image_url_opt = image_url_origin.replace("origin", "M");
+
   const ApprovalButton = () => {
     if (!approvalStatus & !authRequest.record_status) {
       return (
@@ -252,19 +259,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
         >
           <div className="flex gap-2">
             <div className="col-span-1">
-              <svg
-                className="lg:h-12 lg:w-12 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
-                />
-              </svg>
+              <BiLike />
             </div>
             <div className="m-auto md:min-w-max md:text-xl text-sm truncate">
               인증 수락
@@ -280,19 +275,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
         >
           <div className="flex gap-2">
             <div className="col-span-1">
-              <svg
-                className="lg:h-12 lg:w-12 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
-                />
-              </svg>
+              <AiFillLike />
             </div>
             <div className="m-auto md:min-w-max md:text-xl text-sm truncate">
               인증 완료
@@ -310,7 +293,8 @@ const AuthRequest = ({ authRequest, authCategory }) => {
         <div className="flex flex-col justify-center items-center">
           {/* <LazyLoadImage
             className="LazyLoadImage"
-            src={authRequest.image_url}
+            src={image_url_opt}
+            onError={(e) => (e.target.src = image_url_origin)}
             alt="authImage"
             threshold="10"
             effect="blur"
@@ -347,19 +331,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           >
             <div className="flex gap-2">
               <div className="col-span-1">
-                <svg
-                  className="lg:h-12 lg:w-12 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
-                  />
-                </svg>
+                <GiSupersonicArrow />
               </div>
               <div className="m-auto md:min-w-max md:text-xl text-sm truncate">
                 챌린지룸 이동

@@ -30,7 +30,6 @@
 .dropContent {
   display: flex;
   flex-direction: column;
-  /* position: relative; */
   position: absolute;
   max-width: 200px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -95,15 +94,14 @@ ul span {
   }
 } */
 .challengeName {
-  /* background: rgb(184, 47, 211); */
   font-size: 27px;
   color:white;
   border:2px solid 18ffff;
   border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .toggleBtn {
-  /* display: inline; */
   position: relative;
   display:flex;
 }

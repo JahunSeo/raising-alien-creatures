@@ -20,7 +20,7 @@ const SignUpModal = () => {
   const postSignUp = async () => {
     let signUpData = { userEmail, userNickname, userPassword, userConfirm };
     const res = await api.post("/user/register", signUpData);
-    console.log("res", res);
+    // console.log("signup", res.data);
     if (res.data.result === "success") {
       dispatch(
         actions.setPopupModal(
@@ -36,6 +36,7 @@ const SignUpModal = () => {
       setUserConfirm("");
       setSignUpMessage(null);
       setSignUpClicked(false);
+      // dispatch(actions.checkUser(res.data.user));
       dispatch(actions.showSignUpModal(!showSignUpModal));
     } else {
       setSignUpMessage("이미 존재하는 이메일 주소입니다.");
@@ -156,6 +157,7 @@ const SignUpModal = () => {
                   className="flex-1 w-full py-2 px-4 rounded-r-lg appearance-none border border-gray-300 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="이메일을 입력해주세요"
                   value={userEmail}
+                  autoComplete="nope"
                   onChange={(e) => {
                     setUserEmail(e.target.value);
                   }}
@@ -184,6 +186,7 @@ const SignUpModal = () => {
                   type="text"
                   className="rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="닉네임을 입력해주세요."
+                  autoComplete="nope"
                   value={userNickname}
                   onChange={(e) => {
                     setUserNickname(e.target.value);
@@ -207,6 +210,7 @@ const SignUpModal = () => {
                   type="password"
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="********"
+                  autoComplete="new-password"
                   value={userPassword}
                   onChange={(e) => {
                     setUserPassword(e.target.value);
@@ -230,6 +234,7 @@ const SignUpModal = () => {
                   type="password"
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="********"
+                  autoComplete="new-password"
                   value={userConfirm}
                   onChange={(e) => {
                     setUserConfirm(e.target.value);

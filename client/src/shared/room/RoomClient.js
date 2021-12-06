@@ -36,6 +36,7 @@ class RoomClient {
         showBubble: mon.showBubble || false,
         practiceStatus: mon.practice_status || 0,
         practiceDays: mon.practiceDays || [],
+        alienStatus: mon.alien_status || 0,
       });
       monster.isUserOnRoom = this.usersOnRoom.includes(monster.userId);
       // console.log(monster.monId, monster.isUserOnRoom);

@@ -14,6 +14,7 @@ class Monster {
     this.showBubble = false;
     this.practiceStatus = 0;
     this.practiceDays = [];
+    this.alienStatus = 0;
 
     this.showEmoji = false;
     this.emojiFrame = 0;
@@ -185,7 +186,7 @@ class Monster {
       }
 
       if (!this.image_url[0].includes("seal")) {
-        if (this.showBubble) {
+        if (this.showBubble && this.alienStatus === 0) {
           const todayValue = new Date().getDay();
           const isPracticeDay = this.practiceDays[todayValue];
           if (this.practiceStatus === 1) {

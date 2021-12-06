@@ -22,7 +22,9 @@
 
 .SecAlienCtrl {
   position: absolute;
-  max-width: 300px;
+  /* max-width: 300px; */
+  width: fit-content;
+  min-width: 300px;
   right: 0px;
   left: 0;
   top: 90px;

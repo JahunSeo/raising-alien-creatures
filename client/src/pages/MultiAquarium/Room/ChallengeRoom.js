@@ -87,11 +87,10 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     if (isSocketOn && participating && room) {
       socket.receiveMessage((msg) => {
-        if(msg.challengeId === challengeId){
+        if (msg.challengeId === challengeId) {
           if (msg.type === "CHAT_EMOJI") {
-            const alien = room.getMonster(msg.alienId)
-            if (alien) 
-              alien.setEmojis(msg.message);
+            const alien = room.getMonster(msg.alienId);
+            if (alien) alien.setEmojis(msg.message);
           }
           dispatch(actions.setMessage([msg]));
         }
@@ -103,15 +102,15 @@ export default function ChallengeRoom(props) {
     };
   }, [isSocketOn, challengeId, participating, room, roomId, dispatch]);
 
-  useEffect(() => {
-    if (participating && room && myAlienId) {
-      dispatch(actions.selectAlien(myAlienId));
-      const alien = room.getMonster(myAlienId);
-      room.camera.setChasingTarget(alien, () => {
-        dispatch(actions.selectAlien(null));
-      });
-    }
-  }, [myAlienId, participating, room, dispatch]);
+  // useEffect(() => {
+  //   if (participating && room && myAlienId) {
+  //     dispatch(actions.selectAlien(myAlienId));
+  //     const alien = room.getMonster(myAlienId);
+  //     room.camera.setChasingTarget(alien, () => {
+  //       dispatch(actions.selectAlien(null));
+  //     });
+  //   }
+  // }, [myAlienId, participating, room, dispatch]);
 
   return <div></div>;
 }

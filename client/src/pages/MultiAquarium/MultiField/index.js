@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Canvas from "./Canvas";
+import Star from "../../../shared/bg/Star";
 
 import aquarium from "../../../shared";
 
@@ -29,13 +30,40 @@ export default class Field extends Component {
     ],
   };
 
+  // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+  mobileCheck = () => {
+    const toMatch = [
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i,
+    ];
+
+    return toMatch.some((toMatchItem) => {
+      return navigator.userAgent.match(toMatchItem);
+    });
+  };
+
+  componentDidMount() {
+    let isMobile = this.mobileCheck();
+    let starCnt = isMobile ? 50 : 250;
+
+    this.stars = [];
+    for (let i = 0; i < starCnt; i++) {
+      this.stars.push(new Star());
+    }
+  }
+
   // roomId: "user-261"
   draw = (ctx, frameCnt, mouseObj) => {
     // console.log(mouseObj);
     let cvsWidth = ctx.canvas.width;
     let cvsHeight = ctx.canvas.height;
     ctx.save();
-    ctx.clearRect(0, 0  , cvsWidth, cvsHeight);
+    ctx.clearRect(0, 0, cvsWidth, cvsHeight);
 
     const room = aquarium.getCurrentRoom();
     if (room && room.fieldState) {
@@ -44,10 +72,9 @@ export default class Field extends Component {
       // draw background
       let lingrad = ctx.createLinearGradient(0, 0, 0, cvsHeight);
       let colorset;
-      if (room.roomId.includes('user')){
+      if (room.roomId.includes("user")) {
         colorset = this.BG_COLORSET["myRoom"];
-      }
-      else{
+      } else {
         colorset = this.BG_COLORSET["space"];
       }
       let pcts = room.camera.getGradientPct();
@@ -61,6 +88,11 @@ export default class Field extends Component {
       lingrad.addColorStop(1, colorset[3]);
       ctx.fillStyle = lingrad;
       ctx.fillRect(0, 0, cvsWidth, cvsHeight);
+
+      // stars
+      if (this.stars) {
+        this.stars.forEach((star) => star.run(ctx));
+      }
 
       // translate location
       const { center } = room.camera;
@@ -84,13 +116,12 @@ export default class Field extends Component {
       );
 
       var grd = ctx.createRadialGradient(100, 50, 0, 90, 60, 1000);
-      if (room.roomId.includes('user')){
+      if (room.roomId.includes("user")) {
         grd.addColorStop(0, "#e3f6fa");
         grd.addColorStop(0.25, "#86e3f7");
         grd.addColorStop(0.5, "#1c9fba");
         grd.addColorStop(1, "#0b6f84");
-      }
-      else{
+      } else {
         grd.addColorStop(0, "#f0c0ff");
         grd.addColorStop(0.25, "#9048f0");
         grd.addColorStop(0.5, "#6018c0");
