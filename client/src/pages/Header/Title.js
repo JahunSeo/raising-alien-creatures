@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { Link, useMatch, Navigate } from "react-router-dom";
 import { RiUserFill } from "react-icons/ri";
 import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
-import { AiOutlineHome } from 'react-icons/ai'
-import { HiOutlineHome } from 'react-icons/hi'
-import { BiDoorOpen } from 'react-icons/bi'
+import { AiOutlineHome } from "react-icons/ai";
+import { HiOutlineHome } from "react-icons/hi";
+import { BiDoorOpen } from "react-icons/bi";
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -30,7 +30,7 @@ export default function Title(props) {
   if (!!userMatch) {
     return (
       <div className={styles.titleBox}>
-        <span className={styles.titleIcon} style={{ alignSelf: 'flex-end' }}>
+        <span className={styles.titleIcon} style={{ alignSelf: "flex-end" }}>
           {/* <RiUserFill /> */}
           {/* <BiDoorOpen size ={36}/> */}
           {/* 쓸거면 align-items: flex-end로 */}
@@ -72,7 +72,7 @@ export default function Title(props) {
           challenge.participant_number < challenge.maximum_number && (
             <Link to={`/challenge/${challengeId}/join`}>
               <button className={cx("JoinBtn", "JoinBtn--start")}>
-                시작하기
+                참가하기
               </button>
             </Link>
           )}

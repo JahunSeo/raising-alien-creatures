@@ -74,13 +74,71 @@ export default function AlienCtrl(props) {
   }
 
   if (!!challengeMatch) {
-    console.log(challenge);
+    const { challengeId } = challengeMatch.params;
+    let participating;
+    if (user.login && user.challenges) {
+      participating =
+        user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
+    }
+    // console.log(challengeId, challenge);
+
     if (!alien) {
-      return (
-        <div className={cx("body")}>
-          <p>생명체를 선택해주세요.</p>
-        </div>
-      );
+      if (!user.login) {
+        return (
+          <div className={cx("body")}>
+            <p>챌린지에 참가하면 생명체가 생성됩니다!</p>
+            <div className={cx("btnRow", "btnRow--short-top")}>
+              <p className={cx("subtext", "subtext--highlight")}>
+                먼저 로그인을 해주세요
+              </p>
+            </div>
+          </div>
+        );
+      } else if (!!participating) {
+        return (
+          <div className={cx("body")}>
+            <p>챌린지에 참가중입니다!</p>
+            <p className={cx("subtext")}>
+              챌린지를 인증한 뒤
+              <br />
+              다른 참가자들에게 확인을 요청하세요
+            </p>
+            <div className={cx("btnRow")}>
+              <p className={cx("btn")} onClick={() => {}}>
+                나의 생명체 보기
+              </p>
+            </div>
+          </div>
+        );
+      } else if (challenge.participant_number < challenge.maximum_number) {
+        return (
+          <div className={cx("body")}>
+            <p>챌린지에 참가하면 생명체가 생성됩니다!</p>
+            <div className={cx("btnRow", "btnRow--short-top")}>
+              <p className={cx("subtext", "subtext--highlight")}>
+                참가하기 버튼을 눌러주세요
+              </p>
+            </div>
+            {/* <div className={cx("btnRow")}>
+              <Link to={`/challenge/${challengeId}/join`} className={cx("btn")}>
+                참가하기
+              </Link>
+            </div> */}
+          </div>
+        );
+      } else {
+        return (
+          <div className={cx("body")}>
+            <p>이미 풀방입니다 ㅜㅜ</p>
+            <p className={cx("subtext")}>다른 챌린지를 검색해보세요!</p>
+            <div className={cx("btnRow", "btnRow--short-top")}>
+              <Link to="/" className={cx("btn")}>
+                챌린지 검색하기
+              </Link>
+            </div>
+          </div>
+        );
+      }
     } else {
       const todayValue = new Date().getDay();
       const isPracticeDay = !!alien[DAY_TEXT[todayValue].en];
@@ -114,15 +172,16 @@ export default function AlienCtrl(props) {
             })}
           </ul>
           <div className={styles.btnRow}>
-            <Link to={`/user/${alien.user_info_id}/room`}>
-              <p className={cx("btn")}>참가자 어항</p>
-            </Link>
-            {user.login && user.id === parseInt(alien.user_info_id) && (
+            {user.login && user.id === parseInt(alien.user_info_id) ? (
               <PracticeBtn
                 alien={alien}
                 isPracticeDay={isPracticeDay}
                 handleClick={() => dispatch(actions.showAuthRequest(true))}
               />
+            ) : (
+              <Link to={`/user/${alien.user_info_id}/room`}>
+                <p className={cx("btn")}>참가자 어항</p>
+              </Link>
             )}
           </div>
         </div>
@@ -145,7 +204,12 @@ export default function AlienCtrl(props) {
     } else if (!alien) {
       return (
         <div className={cx("body")}>
-          <p>생명체를 선택해주세요.</p>
+          <p>오늘도 반갑습니다!</p>
+          <p className={cx("subtext")}>
+            챌린지를 인증한 뒤
+            <br />
+            다른 참가자들에게 확인을 요청하세요
+          </p>
         </div>
       );
     } else {
