@@ -312,12 +312,17 @@ function PracticeBtn(props) {
   if (alien.alien_status === 1) {
     // 졸업
     return <p className={cx("btn", "btn--graduated", "btn--disabled")}>졸업</p>;
-  } else if (alien.practice_status === 1) {
-    // 승인 대기
+  } else if (!isPracticeDay) {
+    // not today
     return (
-      <p className={cx("btn", "btn--ready", "btn--disabled")}>승인 대기</p>
+      <p className={cx("btn", "btn--complete", "btn--disabled")}>쉬는 날</p>
     );
-  } else if (alien.practice_status === 2 || !isPracticeDay) {
+  } else if (alien.practice_status === 1) {
+    // 확인 대기
+    return (
+      <p className={cx("btn", "btn--ready", "btn--disabled")}>확인 대기</p>
+    );
+  } else if (alien.practice_status === 2) {
     // 인증 완료
     return (
       <p className={cx("btn", "btn--complete", "btn--disabled")}>인증 완료</p>
