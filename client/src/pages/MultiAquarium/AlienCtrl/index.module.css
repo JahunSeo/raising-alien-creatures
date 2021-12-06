@@ -11,6 +11,8 @@
   border-radius: 5px;
   background-color: rgba(3, 33, 66, 0.35);
   box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
+
+  position: relative;
 }
 
 .body--selected {
@@ -143,6 +145,17 @@
 .day--today {
   background-color: #ffffff;
   color: rgba(3, 33, 66, 1);
+}
+
+.ToggleBtn {
+  position: absolute;
+  right: -40px;
+  width: 40px;
+
+  box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
+  cursor: pointer;
+  color: #000000;
+  z-index: 10;
 }
 
 @media only screen and (max-width: 900px) {

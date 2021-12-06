@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
-import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
+import { GiSupersonicArrow } from "react-icons/gi";
+import { MdCancelPresentation } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import aquarium from "../../../shared";
@@ -36,6 +37,7 @@ export default function AlienCtrl(props) {
   const mainMatch = useMatch("/");
 
   const dispatch = useDispatch();
+  // const [toggle, setToggle] = useState(true);
 
   if (!!mainMatch) {
     // todo 조건 강화!
@@ -275,7 +277,7 @@ export default function AlienCtrl(props) {
         return (
           <div className={cx("body")}>
             <p>
-              챌린지를 인증하고
+              사진으로 챌린지를 인증하고
               <br />
               다른 참가자에게 확인을 요청하세요!
             </p>
@@ -329,3 +331,12 @@ function PracticeBtn(props) {
     );
   }
 }
+
+// function ToggleBtn(props) {
+//   const { toggle, setToggle } = props;
+//   return (
+//     <div className={cx("ToggleBtn")} onClick={() => setToggle(!toggle)}>
+//       <MdCancelPresentation size={"100%"} />
+//     </div>
+//   );
+// }
