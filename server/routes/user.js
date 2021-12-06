@@ -34,7 +34,17 @@ module.exports = function (passport, pool) {
             "server has registered new user`s information successfully.",
             results
           );
-          res.json({ result: "success", msg: "user registered" });
+          res.json({
+            result: "success",
+            msg: "user registered",
+            // user: {
+            //   id: results.insertId,
+            //   email,
+            //   login: true,
+            //   nickname,
+            //   challenges: [],
+            // },
+          });
           connection.release();
         }
       );

@@ -65,7 +65,7 @@ export default function Title(props) {
           challenge.participant_number < challenge.maximum_number && (
             <Link to={`/challenge/${challengeId}/join`}>
               <button className={cx("JoinBtn", "JoinBtn--start")}>
-                시작하기
+                참가하기
               </button>
             </Link>
           )}
