@@ -121,7 +121,8 @@ export default function Title(props) {
     return (
       <div className={styles.titleBox}>
         <span className={styles.titleIcon}>
-          <HiOutlineHome size={35} />
+          {/* <HiOutlineHome size={35} /> */}
+          <img src={require("../../image/Chalit_192.png").default} alt='main-logo' />
         </span>
         <span className={styles.titleText}>{roomTitle}</span>
       </div>

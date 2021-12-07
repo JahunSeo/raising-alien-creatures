@@ -6,12 +6,16 @@ import { FaFish } from 'react-icons/fa'
 import { FiUser } from 'react-icons/fi'
 import { BiLike } from 'react-icons/bi'
 import { GiSupersonicArrow } from "react-icons/gi";
-import { S3URL } from "../../../../shared/lib/Constants";
+import { DAY_TEXT } from "../../../../shared/lib/Constants";
+import ProfileImage from './ProfileImage'
 
-const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
+const OthersItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
     const { userId } = useSelector((state) => ({
         userId: state.user.user.id,
     }));
+
+    const todayValue = new Date().getDay();
+    const isPracticeDay = !!alien[DAY_TEXT[todayValue].en]
 
     return (
         <div
@@ -24,12 +28,10 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
             <h2>챌린지 : "{alien.challenge_name}"</h2>
 
             <div className={styles.Content}>
-                <div
-                    className={styles.images}
-                    style={{
-                        backgroundImage: `url("${S3URL + alien.image_url.split("-")[0].split("/")[0] +
-                            '/M/' + alien.image_url.split("-")[0].split("/")[1]}")`,
-                    }}
+                <ProfileImage
+                    image_url={alien.image_url}
+                    practice_status={alien.practice_status}
+                    isPracticeDay={isPracticeDay}
                 />
                 <div className={styles.SubInfo}>
                     <p> <FiUser size={20} />   {alien.user_nickname}</p>
@@ -45,4 +47,4 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
     );
 });
 
-export default PostItem;
+export default OthersItem;

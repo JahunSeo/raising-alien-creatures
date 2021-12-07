@@ -20,13 +20,21 @@
   overflow: hidden;
 }
 
-.Content .images {
+.todo_images {
+  background-size: 120%,48em;
+  width: 7em;
+  height: 7em;
+  background-position: 0px 123px;
+  margin-right: 25px; 
+}
+.orig_images {
   background-size: 48em;
   width: 7em;
   height: 7em;
-  background-position: -2px 123px;
-  margin-right: 25px;
+  background-position: 0px 123px;
+  margin-right: 25px; 
 }
+
 .Content .images:hover {
   transition: all 0.3s;
   transform: scale(1.2);
@@ -77,4 +85,21 @@
 
 .StyledButton svg{
   margin-right: 5px;
+}
+
+
+.btn--pink {
+  @apply bg-pink-600 hover:bg-pink-700 focus:ring-pink-500 focus:ring-offset-pink-200 text-white rounded transition ease-in duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn--disabled {
+  @apply opacity-70 cursor-not-allowed;
+}
+
+.btn--complete {
+  @apply bg-gray-500;
+}
+
+.btn--graduated {
+  @apply bg-gray-500 hover:bg-gray-500 focus:bg-gray-500;
 }

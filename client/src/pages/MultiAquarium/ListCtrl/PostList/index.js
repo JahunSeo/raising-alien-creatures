@@ -2,8 +2,8 @@ import React, { useCallback, useState } from "react";
 import "./PostList.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PersonalItem from "./PersonalItem";
-import OtherPersonalItem from "./OtherPersonalItem";
+import MyItem from "./MyItem";
+import OthersItem from "./OthersItem";
 import ChallengeItem from "./ChallengeItem";
 
 import classNames from "classnames/bind";
@@ -93,14 +93,14 @@ function PostList({ type, handleSelectAlien }) {
           type === "personal" ? (
             Boolean(alien.alien_status) === category ? (
               parseInt(params.userId) === userId.id ? (
-                <PersonalItem
+                <MyItem
                   key={alien.id}
                   alien={alien}
                   userId={userId}
                   handleSelectAlien={handleSelectAlien}
                 />
               ) : (
-                <OtherPersonalItem
+                <OthersItem
                   key={alien.id}
                   alien={alien}
                   userId={userId}
