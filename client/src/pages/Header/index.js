@@ -66,7 +66,7 @@ export default function Header(props) {
 
   // login 여부 확인 완료된 시점에 접근하도록 구분
   if (user === null) {
-    return <div>로딩중...</div>;
+    return <div></div>;
   }
 
   return (

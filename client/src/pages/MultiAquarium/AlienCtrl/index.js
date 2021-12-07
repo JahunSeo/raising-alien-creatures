@@ -36,6 +36,7 @@ export default function AlienCtrl(props) {
   const mainMatch = useMatch("/");
 
   const dispatch = useDispatch();
+  // const [toggle, setToggle] = useState(true);
 
   if (!!mainMatch) {
     // todo 조건 강화!
@@ -161,13 +162,11 @@ export default function AlienCtrl(props) {
       return (
         <div className={cx("body", "body--selected")}>
           <div className={cx("row")}>
-            <h3
-              className={styles.challengeName}
-            >{`${alien.challenge_name}`}</h3>
+            <h3 className={styles.challengeName}>{`${alien.user_nickname}`}</h3>
           </div>
           <div className={cx("row")}>
             <p className={styles.userName}>
-              {`${alien.user_nickname}`}
+              {`${alien.alien_name}`}
               <span className={styles.authCnt}>
                 {` (${alien.accumulated_count}회 인증)`}
               </span>
@@ -199,6 +198,9 @@ export default function AlienCtrl(props) {
               </Link>
             )}
           </div>
+          {user.login && user.id === parseInt(alien.user_info_id) && (
+            <AlienNoti alien={alien} isPracticeDay={isPracticeDay} />
+          )}
         </div>
       );
     }
@@ -221,12 +223,13 @@ export default function AlienCtrl(props) {
           </div>
           <div className={cx("row")}>
             <p className={styles.userName}>
-              {`${alien.user_nickname}`}
+              {`${alien.alien_name}`}
               <span className={styles.authCnt}>
                 {` (${alien.accumulated_count}회 인증)`}
               </span>
             </p>
           </div>
+
           <ul className={styles.daylist}>
             {[0, 1, 2, 3, 4, 5, 6].map((day) => {
               let dayType = "default";
@@ -252,6 +255,7 @@ export default function AlienCtrl(props) {
               />
             )}
           </div>
+          <AlienNoti alien={alien} isPracticeDay={isPracticeDay} />
         </div>
       );
     } else if (!!isMyRoom) {
@@ -275,16 +279,18 @@ export default function AlienCtrl(props) {
         return (
           <div className={cx("body")}>
             <p>
-              챌린지를 인증하고
+              사진으로 챌린지를 인증하고
               <br />
-              다른 참가자들에게 확인을 요청하세요!
+              다른 참가자에게 확인을 요청하세요!
             </p>
-            <div className={cx("btnRow", "btnRow--highlight")}>
-              <p
-                className={cx("animate-pulse", "subtext", "subtext--highlight")}
-              >
-                빨간 물방울 속 생명체는 <br />
-                오늘 인증하지 않으면 죽습니다 ㅜㅜ
+            <div className={cx("notiRow")}>
+              <p className={cx("notiText", "notiText--highlight")}>
+                (빨간 물방울) 오늘 인증하지 않으면 죽어요
+              </p>
+            </div>
+            <div className={cx("notiRow")}>
+              <p className={cx("notiText")}>
+                (투명 물방울) 오늘 확인을 받아야 성장해요
               </p>
             </div>
           </div>
@@ -305,12 +311,17 @@ function PracticeBtn(props) {
   if (alien.alien_status === 1) {
     // 졸업
     return <p className={cx("btn", "btn--graduated", "btn--disabled")}>졸업</p>;
-  } else if (alien.practice_status === 1) {
-    // 승인 대기
+  } else if (!isPracticeDay) {
+    // not today
     return (
-      <p className={cx("btn", "btn--ready", "btn--disabled")}>승인 대기</p>
+      <p className={cx("btn", "btn--complete", "btn--disabled")}>쉬는 날</p>
     );
-  } else if (alien.practice_status === 2 || !isPracticeDay) {
+  } else if (alien.practice_status === 1) {
+    // 확인 대기
+    return (
+      <p className={cx("btn", "btn--ready", "btn--disabled")}>확인 대기</p>
+    );
+  } else if (alien.practice_status === 2) {
     // 인증 완료
     return (
       <p className={cx("btn", "btn--complete", "btn--disabled")}>인증 완료</p>
@@ -324,3 +335,35 @@ function PracticeBtn(props) {
     );
   }
 }
+
+function AlienNoti(props) {
+  const { alien, isPracticeDay } = props;
+
+  if (alien.alien_status !== 0 || !isPracticeDay) {
+    return <React.Fragment />;
+  } else if (alien.practice_status === 1) {
+    return (
+      <div className={cx("notiRow", "notiRow--short")}>
+        <p className={cx("notiText")}>오늘 확인 받아야 성장해요</p>
+      </div>
+    );
+  } else if (alien.practice_status === 0) {
+    return (
+      <div className={cx("notiRow", "notiRow--short")}>
+        <p className={cx("notiText", "notiText--highlight")}>
+          오늘 인증 안 하면 죽어요
+        </p>
+      </div>
+    );
+  }
+  return <React.Fragment />;
+}
+
+// function ToggleBtn(props) {
+//   const { toggle, setToggle } = props;
+//   return (
+//     <div className={cx("ToggleBtn")} onClick={() => setToggle(!toggle)}>
+//       <MdCancelPresentation size={"100%"} />
+//     </div>
+//   );
+// }

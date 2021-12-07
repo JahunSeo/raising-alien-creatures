@@ -16,23 +16,27 @@ export default function ChallengeRoom(props) {
   const room = aquarium.setCurrentRoom(roomId);
 
   // user 정보 확인
-  const { user, isSocketOn, aliens } = useSelector(({ user, room }) => ({
+  const {
+    user,
+    isSocketOn,
+    // aliens
+  } = useSelector(({ user, room }) => ({
     user: user.user,
     isSocketOn: user.isSocketOn,
-    aliens: room.aliens,
+    // aliens: room.aliens,
   }));
   // const userId = user.login && user.id;
 
   // 본 챌린지에 참가중인지 확인
   let participating = false;
-  let myAlienId = null;
+  // let myAlienId = null;
   if (user.login && user.challenges) {
     participating =
       user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
-    if (participating) {
-      let alien = aliens.find((a) => a.user_info_id === Number(user.id));
-      myAlienId = !!alien && alien.id;
-    }
+    // if (participating) {
+    //   let alien = aliens.find((a) => a.user_info_id === Number(user.id));
+    //   myAlienId = !!alien && alien.id;
+    // }
   }
 
   // console.log("[ChallengeRoom] is participating?", participating);
