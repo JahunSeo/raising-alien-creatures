@@ -77,7 +77,7 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
         {alien.alien_status === 0 && alien.user_info_id === userId && (
           <button className={styles.StyledButton} onClick={onClickGraduate}>
             <FaGraduationCap />
-            졸업 신청
+            졸업하기
           </button>
         )}
       </div>

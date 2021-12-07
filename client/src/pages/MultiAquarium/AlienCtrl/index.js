@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
-import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
+import { GiSupersonicArrow } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 import aquarium from "../../../shared";

@@ -6,7 +6,8 @@ import api from "../../../apis";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../Redux/actions";
 
-import searchIcon from "../../../image/search-icon.png";
+import { HiOutlineSearch } from 'react-icons/hi'
+import { GiSupersonicArrow } from "react-icons/gi";
 import backIcon from "../../../image/goback-icon.png";
 import mooke from "../../../image/무케.jpg";
 
@@ -116,12 +117,7 @@ export default function SearchBox() {
               autoComplete="off"
             />
             <label htmlFor="input">어떤 챌린지를 찾으세요?</label>
-            <img
-              className={styles.searchBtn}
-              onClick={onSubmit}
-              alt="searchBtn"
-              src={searchIcon}
-            ></img>
+            <HiOutlineSearch />
             {message && <p className={styles.errMsg}>{message}</p>}
           </div>
         </form>
@@ -159,7 +155,7 @@ const ChallengeItem = (props) => {
         className={styles.challengeImg}
         alt="yammy"
         src={challenge.img_url ? challenge.img_url : mooke}
-        // src={mooke}
+      // src={mooke}
       />
       <div className={styles.participant}>
         참여인원: {challenge.participant_number}/{challenge.maximum_number}명{" "}
@@ -174,7 +170,7 @@ const ChallengeItem = (props) => {
       </div>
       <div className={styles.challengeButton}>
         <Link to={`/challenge/${challenge.id}/room`}>
-          <button className={styles.challengeButton}>챌린지 방 가기</button>
+          <button className={styles.challengeButton}> <GiSupersonicArrow style={{ marginRight: '5px' }} />챌린지 어항 가기</button>
         </Link>
       </div>
     </div>
