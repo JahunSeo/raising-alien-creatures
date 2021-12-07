@@ -56,10 +56,10 @@ function PostList({ type, handleSelectAlien }) {
             추가된 날짜 (오래된 순)
           </option>
           <option value="c" onClick={sortClick}>
-            커밋 횟수(가장 많은 순)
+            인증 횟수(가장 많은 순)
           </option>
           <option value="d" onClick={sortClick}>
-            커밋 횟수(가장 낮은 순)
+            인증 횟수(가장 낮은 순)
           </option>
         </div>
       ) : null}
