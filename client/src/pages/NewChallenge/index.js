@@ -237,7 +237,9 @@ export default function NewChallenge(props) {
           </div>
 
           <div className="flex flex-col min-h-0 min-w-max p-3">
-            <label className="text-lg font-bold mb-2">챌린지 이미지</label>
+            <label className="text-lg font-bold mb-2">
+              챌린지 이미지 (선택)
+            </label>
             <div className="Attachments">
               <div className="flex flex-col absolute min-h-0 min-w-max items-center">
                 <span className="block text-gray-400 font-normal">
@@ -251,6 +253,24 @@ export default function NewChallenge(props) {
                 onChange={handleImage}
               />
             </div>
+          </div>
+          <div>
+            <div></div>
+            {challengeImage && challengeImage[0] ? (
+              <div className=" py-6">
+                <img
+                  style={{
+                    maxHeight: "200px",
+                    maxWidth: "100%",
+                    margin: "auto",
+                  }}
+                  src={URL.createObjectURL(challengeImage[0])}
+                  alt="auth"
+                />
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
 
           <div className="flex-col min-w-max justify-center items-center px-3">

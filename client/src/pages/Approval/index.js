@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import NoAuthRequest from "./NoAuthRequest.js";
 import { GiSupersonicArrow } from "react-icons/gi";
-import { BiLike } from 'react-icons/bi'
-import { AiFillLike } from 'react-icons/ai'
+import { BiLike } from "react-icons/bi";
+import { AiFillLike } from "react-icons/ai";
 
 import "./index.css";
 import "./blur.css";
@@ -196,7 +196,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_DATE_OUT",
           "기간이 만료된 인증 요청입니다 !",
           "FAIL",
-          () => { }
+          () => {}
         )
       );
       return;
@@ -208,7 +208,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_EXIST",
           "이미 수락이 완료된 인증 요청입니다 !",
           "FAIL",
-          () => { }
+          () => {}
         )
       );
       return;
@@ -220,7 +220,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_APPROVAL",
           `${authRequest.request_user} 님의 인증을 수락하였습니다 !`,
           "SUCC",
-          () => { }
+          () => {}
         )
       );
       setApprovalStatus(true);
@@ -291,15 +291,15 @@ const AuthRequest = ({ authRequest, authCategory }) => {
       <div className="flex flex-col w-1/4 min-w-min bg-white rounded-lg py-2 shadow-lg  cursor-pointer">
         {/* react-lazy-load-image-component */}
         <div className="flex flex-col justify-center items-center">
-          {/* <LazyLoadImage
+          <LazyLoadImage
             className="LazyLoadImage"
             src={image_url_opt}
             onError={(e) => (e.target.src = image_url_origin)}
             alt="authImage"
             threshold="10"
             effect="blur"
-          /> */}
-          <img src={authRequest.image_url} alt="authImage" />
+          />
+          {/* <img src={authRequest.image_url} alt="authImage" /> */}
         </div>
         <div className="flex flex-col justify-center items-center mb-2">
           <div className="mb-2 space-x-4">
