@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useMatch, Navigate } from "react-router-dom";
 import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
-import { HiOutlineHome } from 'react-icons/hi'
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
