@@ -9,12 +9,12 @@ module.exports = function (pool) {
       const alien_name = '"' + req.body.alien_name + '"';
       const image_url_obj = {
         1: {
-          0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981-640-316-320-158",
-          1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981-640-316-320-158",
-          2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981-640-316-320-158",
-          3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981-640-316-320-158",
-          4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981-640-316-320-158",
-          5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981-640-316-320-158",
+          0: "Alien_base/fish_0.png-Alien_base/fish_0_reverse.png-4-3-1992-981-1024-504-640-316",
+          1: "Alien_base/fish_1.png-Alien_base/fish_1_reverse.png-4-3-1992-981-1024-504-640-316",
+          2: "Alien_base/fish_2.png-Alien_base/fish_2_reverse.png-4-3-1992-981-1024-504-640-316",
+          3: "Alien_base/fish_3.png-Alien_base/fish_3_reverse.png-4-3-1992-981-1024-504-640-316",
+          4: "Alien_base/fish_4.png-Alien_base/fish_4_reverse.png-4-3-1992-981-1024-504-640-316",
+          5: "Alien_base/fish_5.png-Alien_base/fish_5_reverse.png-4-3-1992-981-1024-504-640-316",
         },
         2: {
           0: "Alien_base/seal_0.png-Alien_base/seal_0_reverse.png-3-3-1280-1137-747-664-320-284",
@@ -92,37 +92,46 @@ module.exports = function (pool) {
     // 필요한 데이터: challenge_id, ailen_id
     // 해야할 일 1: alien 테이블 변경
     // 해야할 일 2: user_info_has_challenge row 삭제, participant - 1,
-    const sql1 = 
-      "DELETE FROM user_info_has_challenge WHERE user_info_id=? AND challenge_id=?;"
+    const sql1 =
+      "DELETE FROM user_info_has_challenge WHERE user_info_id=? AND challenge_id=?;";
     const sql2 =
       "UPDATE alien SET alien_status = 1, end_date = NOW() WHERE id = ?;";
-    const sql3 = 
-      "UPDATE challenge SET participant_number = participant_number - 1 WHERE id=?"
+    const sql3 =
+      "UPDATE challenge SET participant_number = participant_number - 1 WHERE id=?";
     pool.getConnection(function (err, connection) {
       if (err) throw err;
-      connection.query(sql1+sql2+sql3, [req.user.id, req.body.challenge_id, req.body.alien_id, req.body.challenge_id], function (error, results) {
-        if (error) {
-          console.log("at the alien create api", error);
-          res.status(500).json({
-            result: "fail",
-            msg: "cant query at the graduation",
-          });
-          return;
-        }
-        if (results.affectedRows === 0) {
+      connection.query(
+        sql1 + sql2 + sql3,
+        [
+          req.user.id,
+          req.body.challenge_id,
+          req.body.alien_id,
+          req.body.challenge_id,
+        ],
+        function (error, results) {
+          if (error) {
+            console.log("at the alien create api", error);
+            res.status(500).json({
+              result: "fail",
+              msg: "cant query at the graduation",
+            });
+            return;
+          }
+          if (results.affectedRows === 0) {
+            res.status(200).json({
+              result: "fail",
+              msg: "already graduation",
+            });
+            connection.release();
+            return;
+          }
           res.status(200).json({
-            result: "fail",
-            msg: "already graduation",
+            result: "success",
+            msg: "do graduation",
           });
           connection.release();
-          return;
         }
-        res.status(200).json({
-          result: "success",
-          msg: "do graduation",
-        });
-        connection.release();
-      });
+      );
     });
   });
 

@@ -56,7 +56,7 @@ export default function UserRoom(props) {
       room.close();
     };
     // }, []);
-  }, [room, roomId, userId, dispatch]);
+  }, [user, room, roomId, userId, dispatch]);
 
   return <div></div>;
 }

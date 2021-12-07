@@ -8,9 +8,9 @@ class Camera {
     this.cvsWidth = undefined;
     this.cvsHeight = undefined;
 
-    this.levelDefault = 10;
+    this.levelDefault = 6;
     this.levelStep = 1;
-    this.levelMax = 20;
+    this.levelMax = 12;
     this.levelMin = 1;
     this.levelRange = this.levelMax - this.levelMin;
     this.level = 7; //this.levelDefault;
