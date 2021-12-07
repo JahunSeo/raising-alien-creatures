@@ -56,11 +56,11 @@ export default function AlienCtrl(props) {
               {`${alien.challenge_name}`}
             </h3>
           </div>
-          <div className={cx("row")}>
+          {/* <div className={cx("row")}>
             <p className={styles.userName}>
               {`"${alien.user_nickname}"의 ${alien.alien_name}`}
             </p>
-          </div>
+          </div> */}
           <div className={cx("btnRow", "btnRow--short-top")}>
             {
               <Link to={`/challenge/${alien.challenge_id}/room`}>
