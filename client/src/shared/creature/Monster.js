@@ -236,7 +236,7 @@ class Monster {
         if (this.showEmoji && this.authCnt <= 60) {
           ctx.drawImage(
             this.emoji,
-            x - 40 - size / 4,
+            x - 40 - size / 3,
             y - 40 - size / 3,
             60,
             60
