@@ -46,8 +46,17 @@ export default function PopUp({
             </button>
           </div>
         </div>
-        <div className="px-10 py-14 text-gray-600 text-lg flex justify-center">
+        <div className="px-10 pt-10 text-gray-600 text-lg flex flex-col items-center">
           {popupMessage}
+        </div>
+        <div className="pb-3 flex flex-row justify-center w-13">
+          <button
+            type="submit"
+            className="inline-flex mt-8 py-2 px-6 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={handleSubmit}
+          >
+            확인
+          </button>
         </div>
       </div>
     </>
