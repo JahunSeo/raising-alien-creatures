@@ -5,9 +5,8 @@ import BubbleR from '../../../../image/bubble-512px-red.png'
 
 
 function ProfileImage(props) {
-    console.log(props)
-    const { image_url, practice_status, isPracticeDay } = props;
-    if (isPracticeDay && practice_status === 0) {
+    const { image_url, alien_status, practice_status, isPracticeDay } = props;
+    if (isPracticeDay && alien_status === 0 && practice_status === 0) {
         return (
             <div
                 className={styles.todo_images}
@@ -21,7 +20,7 @@ function ProfileImage(props) {
             />
         )
     }
-    else if (isPracticeDay && practice_status === 1) {
+    else if (isPracticeDay && alien_status === 0 && practice_status === 1) {
         return (
             <div
                 className={styles.todo_images}

@@ -2,9 +2,8 @@
   position: absolute;
   margin: auto;
   bottom: 70px;
-  /* width: 550px; */
   min-width: 240px;
-  max-width: 550px;
+  max-width: 600px;
   height: 200px;
   background-color: rgba(3, 33, 66, 0.65);
   box-shadow: 0 0 80px rgba(25, 25, 167, 0.085);
@@ -21,7 +20,7 @@
 
 .SearchBox.longer {
   background-color: rgba(4, 30, 66, 0.95);
-  height: calc(100% - 130px);
+  height: calc(100% - 150px);
   width: 100%;
   max-width: 625px;
 }
@@ -42,8 +41,8 @@
   color: #ffffff;
   padding: 10px 15px;
   top: 5px;
-  right: 15px;
-  font-size: 18px;
+  right: 10px;
+  font-size: 21px;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -83,7 +82,6 @@
   flex-direction: column;
   align-items: center;
 }
-
 
 .double {
   position: relative;
@@ -152,18 +150,37 @@
 
 .tags {
   display: flex;
-  margin-top: 10px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 18px;
 }
 .tag {
+  width:85px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-size: 18px;
-  margin-right: 10px;
+  margin-right: 12px;
   cursor: pointer;
+  border:0.1px solid #ffffff;
+  padding:5px;
+  border-radius: 10px;
 }
+.tag img{
+  width:35px;
+  height:25px;
+  object-fit:contain;
+}
+.tag:last-child{
+  margin-right: 0px;
+}
+
 .tag:hover {
   color: #18ffff;
+  border:0.1px solid #18ffff;
 }
 .findChallenge {
-  height: calc(100% - 200px);
+  height: calc(100% - 240px);
   overflow-y: auto;
   margin: 0 15px 0 25px;
   border-radius: 5px;

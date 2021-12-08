@@ -58,9 +58,9 @@ export const selectAlien = (selectedAlien) => ({
   payload: selectedAlien,
 });
 
-export const graduate = (alienId) => ({
+export const graduate = ({ alienId, challengeId }) => ({
   type: types.GRADUATE_ALIEN,
-  payload: alienId,
+  payload: { alienId, challengeId },
 });
 
 export const thanosAliens = (killed) => ({

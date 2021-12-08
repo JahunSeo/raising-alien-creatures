@@ -29,6 +29,14 @@ const user = handleActions(
       },
     }),
 
+    [types.GRADUATE_ALIEN]: (state, { payload: challengeId }) => ({
+      ...state,
+      user: {
+        ...state.user,
+        challenges: [state.user.challenges.filter(challenge => parseInt(challenge.id) !== challengeId)],
+      },
+    }),
+
     [types.TOGGLE_SOCKET]: (state, { payload: toggle }) => ({
       ...state,
       isSocketOn: toggle,
