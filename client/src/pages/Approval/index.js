@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import NoAuthRequest from "./NoAuthRequest.js";
 import { GiSupersonicArrow } from "react-icons/gi";
-import { BiLike } from 'react-icons/bi'
-import { AiFillLike } from 'react-icons/ai'
+import { BiLike } from "react-icons/bi";
+import { AiFillLike } from "react-icons/ai";
 
 import "./index.css";
 import "./blur.css";
@@ -58,7 +58,7 @@ export default function Approval(props) {
     return (
       <nav className="toggleBtn">
         <button
-          className=" text-gray-500 w-10 h-10 focus:outline-none bg-transparent"
+          className="w-10 h-10 focus:outline-none bg-transparent text-gray-500"
           onClick={() => setShowFilters(!showFilters)}
         >
           <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -196,7 +196,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_DATE_OUT",
           "기간이 만료된 인증 요청입니다 !",
           "FAIL",
-          () => { }
+          () => {}
         )
       );
       return;
@@ -208,7 +208,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_EXIST",
           "이미 수락이 완료된 인증 요청입니다 !",
           "FAIL",
-          () => { }
+          () => {}
         )
       );
       return;
@@ -220,7 +220,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           "AUTH_APPROVAL",
           `${authRequest.request_user} 님의 인증을 수락하였습니다 !`,
           "SUCC",
-          () => { }
+          () => {}
         )
       );
       setApprovalStatus(true);
@@ -294,7 +294,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           <LazyLoadImage
             className="LazyLoadImage"
             src={image_url_opt}
-            onError={(e) => (e.target.src = image_url_origin)}
+            onError={(e) => (e.target.src = image_url_opt)}
             alt="authImage"
             threshold="10"
             effect="blur"
@@ -302,8 +302,13 @@ const AuthRequest = ({ authRequest, authCategory }) => {
         </div>
         <div className="flex flex-col justify-center items-center mb-2">
           <div className="mb-2 space-x-4">
-            <div className="mt-6 mb-4 md:px-8 px-4 text-center md:text-2xl text-lg font-bold text-black">
-              "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
+            <div className="mt-6 mb-4 md:px-8 px-4 text-center md:text-2xl text-lg text-black">
+              <h1 className="inline font-bold">"{authRequest.request_user}"</h1>{" "}
+              님의
+              <br />
+              <h1 className="inline font-bold">
+                [{authRequest.challenge_name}]
+              </h1>{" "}
               인증 요청
             </div>
             <div className="flex flex-col justify-center items-center md:px-8 text-center md:text-xl text-lg font-semibold text-gray-600 mt-2 mb-2">
