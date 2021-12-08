@@ -207,7 +207,7 @@ class Monster {
           ctx.font = "25px sans-serif";
           ctx.fillText(this.showEmoji, x - 33 - size / 4, y - 15 - size / 3);
           this.emojiFrame++;
-          if (this.emojiFrame >= 500) {
+          if (this.emojiFrame >= 200) {
             this.showEmoji = false;
           }
         }
@@ -244,7 +244,7 @@ class Monster {
           ctx.font = "25px sans-serif";
           ctx.fillText(this.showEmoji, x - 37 - size / 4, y - 15 - size / 3);
           this.emojiFrame++;
-          if (this.emojiFrame >= 500) {
+          if (this.emojiFrame >= 200) {
             this.showEmoji = false;
           }
         }
