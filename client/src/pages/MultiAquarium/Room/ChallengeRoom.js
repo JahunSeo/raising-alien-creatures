@@ -91,7 +91,6 @@ export default function ChallengeRoom(props) {
   useEffect(() => {
     if (isSocketOn && participating && room) {
       socket.receiveMessage((msg) => {
-        console.log(isSocketOn, participating, msg, room)
         if (msg.challengeId === parseInt(challengeId)) {
           if (msg.type === "CHAT_EMOJI") {
             const alien = room.getMonster(msg.alienId);
