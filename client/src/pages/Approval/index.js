@@ -294,17 +294,21 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           <LazyLoadImage
             className="LazyLoadImage"
             src={image_url_opt}
-            onError={(e) => (e.target.src = image_url_origin)}
+            onError={(e) => (e.target.src = image_url_opt)}
             alt="authImage"
             threshold="10"
             effect="blur"
           />
-          {/* <img src={authRequest.image_url} alt="authImage" /> */}
         </div>
         <div className="flex flex-col justify-center items-center mb-2">
           <div className="mb-2 space-x-4">
-            <div className="mt-6 mb-4 md:px-8 px-4 text-center md:text-2xl text-lg font-bold text-black">
-              "{authRequest.request_user}" 님의 [{authRequest.challenge_name}]
+            <div className="mt-6 mb-4 md:px-8 px-4 text-center md:text-2xl text-lg text-black">
+              <h1 className="inline font-bold">"{authRequest.request_user}"</h1>{" "}
+              님의
+              <br />
+              <h1 className="inline font-bold">
+                [{authRequest.challenge_name}]
+              </h1>{" "}
               인증 요청
             </div>
             <div className="flex flex-col justify-center items-center md:px-8 text-center md:text-xl text-lg font-semibold text-gray-600 mt-2 mb-2">

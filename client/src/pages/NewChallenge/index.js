@@ -192,7 +192,7 @@ export default function NewChallenge(props) {
           </div>
 
           <div className="flex flex-col p-3">
-            <label className="mb-1 font-bold ">챌린지 설명</label>
+            <label className="mb-1 font-bold">챌린지 설명</label>
             <textarea
               className="border rounded-xl py-2 "
               rows="2"

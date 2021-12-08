@@ -210,7 +210,7 @@ export default function AuthRequestModal(props) {
               ></textarea>
             </div>
             {authImage && authImage[0] ? (
-              <div className=" py-6">
+              <div className="py-6">
                 <img
                   style={{
                     maxHeight: "200px",
