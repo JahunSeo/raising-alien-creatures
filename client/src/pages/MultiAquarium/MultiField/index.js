@@ -49,7 +49,7 @@ export default class Field extends Component {
 
   componentDidMount() {
     let isMobile = this.mobileCheck();
-    let starCnt = isMobile ? 50 : 250;
+    let starCnt = isMobile ? 50 : 150;
 
     this.stars = [];
     for (let i = 0; i < starCnt; i++) {
@@ -129,7 +129,6 @@ export default class Field extends Component {
         // const trophy = new Image();
         // trophy.src = require('../../../image/num1.png').default;
         // ctx.drawImage(trophy, -room.camera.getCanvasPlanetSize(100) / 2, -room.camera.getCanvasPlanetSize(100 - 20), room.camera.getCanvasPlanetSize(100), room.camera.getCanvasPlanetSize(100));
-
       }
       ctx.fillStyle = grd;
       ctx.fill();
