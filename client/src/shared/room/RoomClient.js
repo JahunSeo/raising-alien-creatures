@@ -4,12 +4,14 @@ import { FRAME_PER_SEC } from "../lib/Constants";
 
 class RoomClient {
   constructor(roomId) {
-    // console.log("Room init", roomId);
+    console.log("Room init", roomId);
     this.roomId = roomId;
     this.camera = new Camera();
     this.initFieldState();
     this.interval = undefined;
     this.usersOnRoom = [];
+    this.trophy = new Image();
+    this.trophy.src = require('../../image/trophy.png').default;
   }
 
   initFieldState() {

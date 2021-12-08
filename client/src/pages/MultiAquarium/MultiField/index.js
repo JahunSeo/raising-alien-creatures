@@ -121,15 +121,21 @@ export default class Field extends Component {
         grd.addColorStop(0.25, "#86e3f7");
         grd.addColorStop(0.5, "#1c9fba");
         grd.addColorStop(1, "#0b6f84");
-      } else {
+      }
+      else if (room.roomId.includes("challenge")) {
+        grd.addColorStop(0, "#f0c0ff");
+        grd.addColorStop(0.25, "#9048f0");
+        grd.addColorStop(0.5, "#6018c0");
+        grd.addColorStop(1, "black");
+      }
+      else {
         grd.addColorStop(0, "#f0c0ff");
         grd.addColorStop(0.25, "#9048f0");
         grd.addColorStop(0.5, "#6018c0");
         grd.addColorStop(1, "black");
         // const trophy = new Image();
-        // trophy.src = require('../../../image/num1.png').default;
-        // ctx.drawImage(trophy, -room.camera.getCanvasPlanetSize(100) / 2, -room.camera.getCanvasPlanetSize(100 - 20), room.camera.getCanvasPlanetSize(100), room.camera.getCanvasPlanetSize(100));
-
+        // trophy.src = require('../../../image/trophy.png').default;
+        ctx.drawImage(room.trophy, -room.camera.getCanvasPlanetSize(200) / 2, -room.camera.getCanvasPlanetSize(185), room.camera.getCanvasPlanetSize(200), room.camera.getCanvasPlanetSize(200));
       }
       ctx.fillStyle = grd;
       ctx.fill();
