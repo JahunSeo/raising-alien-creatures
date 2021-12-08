@@ -49,9 +49,6 @@ export default function Approval(props) {
     loadAuthRequests();
   }, []);
 
-  // console.log("authRequests", authRequests);
-  // console.log("challenges", challenges);
-
   function ToggleBtn(props) {
     const { showFilters, setShowFilters } = props;
 

@@ -183,7 +183,7 @@ export default function AuthRequestModal(props) {
               <div className="flex flex-col fixed min-h-0 items-center">
                 <i className="fa fa-folder-open fa-3x text-blue-700" />
                 <span className=" text-gray-400 font-normal text-center text-xs sm:text-sm md:text-md lg:text-lg">
-                  클릭 또는 드래그하여 인증 사진을 올려주세요.
+                  클릭하여 인증 사진을 올려주세요.
                 </span>
               </div>
               <input
