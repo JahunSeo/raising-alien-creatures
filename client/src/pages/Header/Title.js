@@ -25,7 +25,7 @@ export default function Title(props) {
   if (!!userMatch) {
     return (
       <div className={styles.titleBox}>
-        <span className={styles.titleIcon} style={{ alignSelf: 'flex-end' }}>
+        <span className={styles.titleIcon}>
           <GiAquarium size={36} />
         </span>
         <span className={styles.titleText}>{roomTitle}</span>
@@ -119,9 +119,8 @@ export default function Title(props) {
   } else {
     return (
       <div className={styles.titleBox}>
-        <span className={styles.titleIcon}>
-          {/* <HiOutlineHome size={35} /> */}
-          <img src={require("../../image/Chalit_192.png").default} alt='main-logo' />
+        <span className={styles.titleIcon} style={{ marginRight: '7px' }}>
+          <img src={require("../../image/Chalit_logo.png").default} alt='main-logo' />
         </span>
         <span className={styles.titleText}>{roomTitle}</span>
       </div>

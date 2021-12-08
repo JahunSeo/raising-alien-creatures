@@ -30,6 +30,7 @@ const OthersItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
             <div className={styles.Content}>
                 <ProfileImage
                     image_url={alien.image_url}
+                    alien_status={alien.alien_status}
                     practice_status={alien.practice_status}
                     isPracticeDay={isPracticeDay}
                 />

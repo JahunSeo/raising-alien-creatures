@@ -34,7 +34,7 @@ const room = handleActions(
     [types.GRADUATE_ALIEN]: (state, { payload: alienId }) => ({
       ...state,
       aliens: state.aliens.map((alien) =>
-        alien.id === alienId ? { ...alien, alien_status: 1 } : alien
+        alien.id === alienId ? { ...alien, alien_status: 1, practice_status: 0 } : alien
       ),
     }),
 
@@ -57,10 +57,10 @@ const room = handleActions(
       aliens: state.aliens.map((alien) =>
         alien.id === alienId
           ? {
-              ...alien,
-              practice_status: 2,
-              accumulated_count: alien.accumulated_count + 1,
-            }
+            ...alien,
+            practice_status: 2,
+            accumulated_count: alien.accumulated_count + 1,
+          }
           : alien
       ),
     }),

@@ -10,7 +10,8 @@ import classNames from "classnames/bind";
 const cx = classNames.bind();
 
 function PostList({ type, handleSelectAlien }) {
-  const { aliens_list, userId } = useSelector(({ room, user }) => ({
+  const { roomTitle, aliens_list, userId } = useSelector(({ room, user }) => ({
+    roomTitle: room.roomTitle,
     aliens_list: room.aliens,
     userId: user.user,
   }));
@@ -64,23 +65,29 @@ function PostList({ type, handleSelectAlien }) {
         </div>
       ) : null}
       {type === "personal" && (
-        <ul>
-          <span
-            className={category === false ? "selected" : null}
-            onClick={() => setCategory((category) => !category)}
-          >
-            ∘ 진행중
-          </span>
-          <span
-            className={category === true ? "selected" : null}
-            onClick={() => setCategory((category) => !category)}
-          >
-            ∘ 졸업
-          </span>
-        </ul>
+        <>
+          <ul>
+            <span
+              className={category === false ? "selected" : null}
+              onClick={() => setCategory((category) => !category)}
+            >
+              ∘ 진행중
+            </span>
+            <span
+              className={category === true ? "selected" : null}
+              onClick={() => setCategory((category) => !category)}
+            >
+              ∘ 졸업
+            </span>
+          </ul>
+          {parseInt(params.userId) === userId.id
+            ? <h1 className='challengeName'>내가 키우는 생명체들</h1>
+            : <h1 className='challengeName'>"{roomTitle}"님이 <br />키우는 생명체들</h1>
+          }
+        </>
       )}
       {type === 'challenge' && aliens_list.length > 0 &&
-        <h1 className='challengeName'>{aliens_list[0].challenge_name}</h1>}
+        <h1 className='challengeName'>"{aliens_list[0].challenge_name}"의 <br />참가자들</h1>}
 
       {aliens_list
         .sort((a, b) => {

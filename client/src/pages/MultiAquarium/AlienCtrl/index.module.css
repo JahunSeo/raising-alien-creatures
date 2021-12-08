@@ -27,11 +27,16 @@
 }
 
 .row {
-  /* width: 100%; */
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 5px;
+  /* width: 100%;
+  justify-content: center; */
+}
+
+.row svg{
+  margin-right: 5px;
 }
 
 .btnRow {
@@ -64,6 +69,7 @@
 
   width: 100%;
   background: rgba(255, 255, 255, 1);
+  /* background: rgb(53, 52, 52); */
   /* border-radius: 5px; */
   margin: 10px 0 0;
   padding: 5px 15px;
@@ -81,6 +87,12 @@
   font-weight: bold;
 }
 
+.notiText img{
+  width : 50px;
+  height : 50px;
+  background-color: rgba(3, 33, 66, 0.85);
+  /* background-color: rgb(138, 135, 135); */
+}
 .notiText--highlight {
   color: rgba(236, 72, 153, 1);
 }

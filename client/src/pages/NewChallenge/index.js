@@ -185,7 +185,6 @@ export default function NewChallenge(props) {
               <option>운동</option>
               <option>공부</option>
               <option>독서</option>
-              <option>자기개발</option>
               <option>취미</option>
               <option>기타</option>
             </select>

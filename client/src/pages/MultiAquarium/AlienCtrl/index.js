@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
 import { GiSupersonicArrow } from "react-icons/gi";
+import { FaFish } from 'react-icons/fa'
+import { FiUser } from 'react-icons/fi'
 import { useDispatch, useSelector } from "react-redux";
 import { DAY_TEXT } from "../../../shared/lib/Constants";
 import * as actions from "../../../Redux/actions";
@@ -27,14 +29,14 @@ export default function AlienCtrl(props) {
   const mainMatch = useMatch("/");
 
   const dispatch = useDispatch();
-  // const [toggle, setToggle] = useState(true);
 
   if (!!mainMatch) {
     // todo 조건 강화!
     if (!alien) {
       return (
         <div className={cx("body", "body--main")}>
-          <p>챌린지에 참가해 나만의 생명체를 키워보세요!</p>
+          {/* <p>챌린지에 참가해 나만의 생명체를 키워보세요!</p> */}
+          <p>생명체를 클릭해 챌린지별 <br /> 1등을 확인해보세요 !</p>
         </div>
       );
     } else {
@@ -43,14 +45,24 @@ export default function AlienCtrl(props) {
           <div className={cx("row")}>
             <h3 className={styles.challengeName}>
               <GiSupersonicArrow />
-              {`${alien.challenge_name}`}
+              {`"${alien.challenge_name}"의 챔피언`}
             </h3>
           </div>
-          {/* <div className={cx("row")}>
+          <div className={cx("row")}>
+            <FaFish />
             <p className={styles.userName}>
-              {`"${alien.user_nickname}"의 ${alien.alien_name}`}
+              {alien.alien_name}
+              {` -  ${alien.accumulated_count}회 인증`}
             </p>
-          </div> */}
+          </div>
+          <div className={cx("row")}>
+            {`( `}
+            <FiUser />
+            <p className={styles.userName}>
+              {`${alien.user_nickname}`}
+            </p>
+            {` )`}
+          </div>
           <div className={cx("btnRow", "btnRow--short-top")}>
             {
               <Link to={`/challenge/${alien.challenge_id}/room`}>
@@ -153,9 +165,11 @@ export default function AlienCtrl(props) {
       return (
         <div className={cx("body", "body--selected")}>
           <div className={cx("row")}>
+            <FiUser size={22} />
             <h3 className={styles.challengeName}>{`${alien.user_nickname}`}</h3>
           </div>
           <div className={cx("row")}>
+            <FaFish size={22} />
             <p className={styles.userName}>
               {`${alien.alien_name}`}
               <span className={styles.authCnt}>
@@ -185,7 +199,7 @@ export default function AlienCtrl(props) {
               />
             ) : (
               <Link to={`/user/${alien.user_info_id}/room`}>
-                <p className={cx("btn")}>참가자 어항</p>
+                <p className={cx("btn")}>참가자 어항 구경하기</p>
               </Link>
             )}
           </div>
@@ -210,9 +224,10 @@ export default function AlienCtrl(props) {
           <div className={cx("row")}>
             <h3
               className={styles.challengeName}
-            >{`${alien.challenge_name}`}</h3>
+            ><GiSupersonicArrow size={22} />{`${alien.challenge_name}`}</h3>
           </div>
           <div className={cx("row")}>
+            <FaFish size={22} />
             <p className={styles.userName}>
               {`${alien.alien_name}`}
               <span className={styles.authCnt}>
@@ -220,7 +235,6 @@ export default function AlienCtrl(props) {
               </span>
             </p>
           </div>
-
           <ul className={styles.daylist}>
             {[0, 1, 2, 3, 4, 5, 6].map((day) => {
               let dayType = "default";
@@ -281,7 +295,7 @@ export default function AlienCtrl(props) {
             </div>
             <div className={cx("notiRow")}>
               <p className={cx("notiText")}>
-                (투명 물방울) 오늘 확인을 받아야 성장해요
+                (흰 물방울) 오늘 확인을 받아야 성장해요
               </p>
             </div>
           </div>
