@@ -49,7 +49,7 @@ export default class Field extends Component {
 
   componentDidMount() {
     let isMobile = this.mobileCheck();
-    let starCnt = isMobile ? 50 : 250;
+    let starCnt = isMobile ? 50 : 150;
 
     this.stars = [];
     for (let i = 0; i < starCnt; i++) {
@@ -133,8 +133,6 @@ export default class Field extends Component {
         grd.addColorStop(0.25, "#9048f0");
         grd.addColorStop(0.5, "#6018c0");
         grd.addColorStop(1, "black");
-        // const trophy = new Image();
-        // trophy.src = require('../../../image/trophy.png').default;
         ctx.drawImage(room.trophy, -room.camera.getCanvasPlanetSize(200) / 2, -room.camera.getCanvasPlanetSize(185), room.camera.getCanvasPlanetSize(200), room.camera.getCanvasPlanetSize(200));
       }
       ctx.fillStyle = grd;
