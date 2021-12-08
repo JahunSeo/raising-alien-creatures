@@ -207,7 +207,7 @@ class Monster {
           ctx.font = "25px sans-serif";
           ctx.fillText(this.showEmoji, x - 33 - size / 4, y - 15 - size / 3);
           this.emojiFrame++;
-          if (this.emojiFrame >= 200) {
+          if (this.emojiFrame >= 500) {
             this.showEmoji = false;
           }
         }
@@ -236,7 +236,7 @@ class Monster {
         if (this.showEmoji && this.authCnt <= 60) {
           ctx.drawImage(
             this.emoji,
-            x - 40 - size / 4,
+            x - 40 - size / 3,
             y - 40 - size / 3,
             60,
             60
@@ -244,7 +244,7 @@ class Monster {
           ctx.font = "25px sans-serif";
           ctx.fillText(this.showEmoji, x - 37 - size / 4, y - 15 - size / 3);
           this.emojiFrame++;
-          if (this.emojiFrame >= 200) {
+          if (this.emojiFrame >= 500) {
             this.showEmoji = false;
           }
         }

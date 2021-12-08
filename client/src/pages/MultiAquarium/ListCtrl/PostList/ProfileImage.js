@@ -5,36 +5,35 @@ import BubbleR from '../../../../image/bubble-512px-red.png'
 
 
 function ProfileImage(props) {
+    console.log(props)
     const { image_url, practice_status, isPracticeDay } = props;
-    if (isPracticeDay) {
-        if (practice_status === 0) {
-            return (
-                <div
-                    className={styles.todo_images}
-                    style={{
-                        backgroundImage: (
-                            `url(${BubbleR}),
-                            url(${S3URL + image_url.split("-")[0].split("/")[0] +
-                            '/M/' + image_url.split("-")[0].split("/")[1]})`
-                        ),
-                    }}
-                />
-            )
-        }
-        else if (practice_status === 1) {
-            return (
-                <div
-                    className={styles.todo_images}
-                    style={{
-                        backgroundImage: (
-                            `url(${BubbleW}),
-                            url(${S3URL + image_url.split("-")[0].split("/")[0] +
-                            '/M/' + image_url.split("-")[0].split("/")[1]})`
-                        ),
-                    }}
-                />
-            )
-        }
+    if (isPracticeDay && practice_status === 0) {
+        return (
+            <div
+                className={styles.todo_images}
+                style={{
+                    backgroundImage: (
+                        `url(${BubbleR}),
+                        url(${S3URL + image_url.split("-")[0].split("/")[0] +
+                        '/M/' + image_url.split("-")[0].split("/")[1]})`
+                    ),
+                }}
+            />
+        )
+    }
+    else if (isPracticeDay && practice_status === 1) {
+        return (
+            <div
+                className={styles.todo_images}
+                style={{
+                    backgroundImage: (
+                        `url(${BubbleW}),
+                        url(${S3URL + image_url.split("-")[0].split("/")[0] +
+                        '/M/' + image_url.split("-")[0].split("/")[1]})`
+                    ),
+                }}
+            />
+        )
     }
     else {
         return (
