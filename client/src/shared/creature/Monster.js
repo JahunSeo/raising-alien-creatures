@@ -217,7 +217,7 @@ class Monster {
       else if (this.image_url[0].includes("seal")) {
         const todayValue = new Date().getDay();
         const isPracticeDay = this.practiceDays[todayValue];
-        if (this.showBubble) {
+        if (this.showBubble && this.alienStatus === 0) {
           if (this.practiceStatus === 1) {
             if (direction > 0) {
               ctx.drawImage(this.bubbleW, -size / 2, -size / 4, size, size);

@@ -20,7 +20,26 @@ export default function SearchBox() {
   const [challengeList, setChallengeList] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [message, setMessage] = useState("");
-  const tags = ["전체", "건강", "운동", "공부", "독서", "취미"];
+  const tags = [
+    {
+      key: "전체", icon: require("../../../image/all.png").default,
+    },
+    {
+      key: "건강", icon: require("../../../image/wellbeing.png").default,
+    },
+    {
+      key: "운동", icon: require("../../../image/fitness.png").default,
+    },
+    {
+      key: "공부", icon: require("../../../image/study.png").default,
+    },
+    {
+      key: "독서", icon: require("../../../image/read.png").default,
+    },
+    {
+      key: "취미", icon: require("../../../image/hobby.png").default,
+    }
+  ];
 
   const dispatch = useDispatch();
 
@@ -123,8 +142,8 @@ export default function SearchBox() {
         </form>
         <div className={styles.tags}>
           {tags.map((tag) => (
-            <div key={tag} className={styles.tag} onClick={() => clickTag(tag)}>
-              #{tag}
+            <div key={tag.key} className={styles.tag} onClick={() => clickTag(tag.key)}>
+              <img alt='icons' src={tag.icon} />{tag.key}
             </div>
           ))}
         </div>

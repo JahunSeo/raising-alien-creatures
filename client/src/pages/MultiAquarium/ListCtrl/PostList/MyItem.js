@@ -31,7 +31,7 @@ const MyItem = React.memo(function MyItem({ alien, handleSelectAlien }) {
           `${alien.alien_name} 졸업했습니다`,
           "SUCC",
           () => {
-            dispatch(actions.graduate(alien.id));
+            dispatch(actions.graduate(alien.id, alien.challenge_id));
           }
         )
       );
@@ -46,6 +46,7 @@ const MyItem = React.memo(function MyItem({ alien, handleSelectAlien }) {
       <div className={styles.Content}>
         <ProfileImage
           image_url={alien.image_url}
+          alien_status={alien.alien_status}
           practice_status={alien.practice_status}
           isPracticeDay={isPracticeDay}
         />
