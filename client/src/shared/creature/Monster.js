@@ -190,9 +190,9 @@ class Monster {
           const todayValue = new Date().getDay();
           const isPracticeDay = this.practiceDays[todayValue];
           if (this.practiceStatus === 1) {
-            ctx.drawImage(this.bubbleW, -size / 2, -size / 2, size, size);
+            ctx.drawImage(this.bubbleW, -size / 1.6, -size / 1.6, size * 1.2, size * 1.2);
           } else if (isPracticeDay && this.practiceStatus === 0) {
-            ctx.drawImage(this.bubbleR, -size / 2, -size / 2, size, size);
+            ctx.drawImage(this.bubbleR, -size / 1.6, -size / 1.6, size * 1.2, size * 1.2);
           }
         }
         ctx.restore();
@@ -236,7 +236,7 @@ class Monster {
         if (this.showEmoji && this.authCnt <= 60) {
           ctx.drawImage(
             this.emoji,
-            x - 40 - size / 4,
+            x - 40 - size / 3,
             y - 40 - size / 3,
             60,
             60

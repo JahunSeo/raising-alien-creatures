@@ -1,5 +1,6 @@
 import { Link, useMatch } from "react-router-dom";
-import { RiUser5Line, RiUser5Fill } from "react-icons/ri";
+import { HiOutlineHome, HiHome } from 'react-icons/hi'
+// import { RiUser5Line, RiUser5Fill } from "react-icons/ri";
 
 import styles from "../index.module.css";
 import classNames from "classnames/bind";
@@ -11,8 +12,8 @@ export default function MyRoomBtn(props) {
 
   let selected = userMatch && user.id === Number(userMatch.params.userId);
   let Icon;
-  if (selected) Icon = RiUser5Fill;
-  else Icon = RiUser5Line;
+  if (selected) Icon = HiHome;
+  else Icon = HiOutlineHome;
 
   if (!user.login) {
     return (

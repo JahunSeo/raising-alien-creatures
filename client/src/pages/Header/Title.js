@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useMatch, Navigate } from "react-router-dom";
 import { GiSupersonicArrow, GiAquarium } from "react-icons/gi";
-import { HiOutlineHome } from 'react-icons/hi'
 
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
@@ -121,7 +120,8 @@ export default function Title(props) {
     return (
       <div className={styles.titleBox}>
         <span className={styles.titleIcon}>
-          <HiOutlineHome size={35} />
+          {/* <HiOutlineHome size={35} /> */}
+          <img src={require("../../image/Chalit_192.png").default} alt='main-logo' />
         </span>
         <span className={styles.titleText}>{roomTitle}</span>
       </div>
