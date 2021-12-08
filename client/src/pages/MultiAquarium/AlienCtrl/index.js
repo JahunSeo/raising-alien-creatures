@@ -1,24 +1,14 @@
 import React from "react";
 import { Link, useMatch } from "react-router-dom";
 import { GiSupersonicArrow } from "react-icons/gi";
-import { MdCancelPresentation } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { DAY_TEXT } from "../../../shared/lib/Constants";
 import * as actions from "../../../Redux/actions";
 import aquarium from "../../../shared";
 import styles from "./index.module.css";
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
-
-const DAY_TEXT = {
-  0: { en: "sun", kr: "일" },
-  1: { en: "mon", kr: "월" },
-  2: { en: "tue", kr: "화" },
-  3: { en: "wed", kr: "수" },
-  4: { en: "thu", kr: "목" },
-  5: { en: "fri", kr: "금" },
-  6: { en: "sat", kr: "토" },
-};
 
 export default function AlienCtrl(props) {
   const { user, aliens, selectedAlien, challenge } = useSelector(

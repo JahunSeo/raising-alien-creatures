@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./SignInModal.css";
 import api from "../../../apis/index.js";
 import * as actions from "../../../Redux/actions";
+import { useNavigate } from 'react-router-dom';
 
 const SignInModal = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const SignInModal = () => {
   const [userPassword, setUserPassword] = useState("");
   const [signInMessage, setSignInMessage] = useState(null);
   const [signInClicked, setSignInClicked] = useState(false);
+
+  const navigate = useNavigate();
 
   const postSignIn = async () => {
     let signInData = { email: userEmail, pwd: userPassword };
@@ -27,6 +30,7 @@ const SignInModal = () => {
       dispatch(actions.checkUser(res.data.user));
       dispatch(actions.showSignInModal(!showSignInModal));
       setSignInClicked(false);
+      navigate(`/user/${res.data.user.id}/room`)
     }
   };
 

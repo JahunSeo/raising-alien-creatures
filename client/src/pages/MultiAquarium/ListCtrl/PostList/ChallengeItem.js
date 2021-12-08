@@ -2,18 +2,20 @@ import React from "react";
 import styles from "./ChallengeItem.module.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { FaFish } from 'react-icons/fa'
 import { FiUser } from 'react-icons/fi'
 import { BiLike } from 'react-icons/bi'
 import { RiUser5Fill } from "react-icons/ri";
+import ProfileImage from './ProfileImage'
+import { DAY_TEXT } from "../../../../shared/lib/Constants";
 
-import { S3URL } from "../../../../shared/lib/Constants";
-
-const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
+const ChallengeItem = React.memo(function ChallengeItem({ alien, handleSelectAlien }) {
   const { userId } = useSelector((state) => ({
     userId: state.user.user.id,
   }));
+
+  const todayValue = new Date().getDay();
+  const isPracticeDay = !!alien[DAY_TEXT[todayValue].en]
 
   return (
     <div
@@ -26,16 +28,10 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
     >
       <div className={userId === alien.user_info_id ? null : styles.line} />
       <div className={styles.Content}>
-        <div
-          className={styles.images}
-          style={{
-            backgroundImage: `url("${
-              S3URL +
-              alien.image_url.split("-")[0].split("/")[0] +
-              "/M/" +
-              alien.image_url.split("-")[0].split("/")[1]
-            }")`,
-          }}
+        <ProfileImage
+          image_url={alien.image_url}
+          practice_status={alien.practice_status}
+          isPracticeDay={isPracticeDay}
         />
         <div className={styles.SubInfo}>
           <p> <FiUser size={20} />   {alien.user_nickname}</p>
@@ -50,4 +46,4 @@ const PostItem = React.memo(function PostItem({ alien, handleSelectAlien }) {
   );
 });
 
-export default PostItem;
+export default ChallengeItem;

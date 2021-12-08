@@ -84,17 +84,6 @@
   align-items: center;
 }
 
-.searchBtn {
-  position: absolute;
-  width: 33px;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-}
-.searchBtn:hover {
-  transition: all 200ms;
-  transform: scale(1.2);
-}
 
 .double {
   position: relative;
@@ -122,6 +111,18 @@
 .double input:focus {
   border: 2px solid #18ffff;
   border-radius: 3px;
+}
+
+.double svg {
+  position: absolute;
+  width: 33px;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+.double svg:hover {
+  transition: all 200ms;
+  transform: scale(1.2);
 }
 
 .double label {
@@ -244,6 +245,8 @@
   color: rgb(255, 254, 254);
   cursor: pointer;
   background: #4f46e5;
+  display:flex;
+  align-items: center;
 }
 
 @media only screen and (max-width: 900px) {
