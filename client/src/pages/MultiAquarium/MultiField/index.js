@@ -126,6 +126,10 @@ export default class Field extends Component {
         grd.addColorStop(0.25, "#9048f0");
         grd.addColorStop(0.5, "#6018c0");
         grd.addColorStop(1, "black");
+        // const trophy = new Image();
+        // trophy.src = require('../../../image/num1.png').default;
+        // ctx.drawImage(trophy, -room.camera.getCanvasPlanetSize(100) / 2, -room.camera.getCanvasPlanetSize(100 - 20), room.camera.getCanvasPlanetSize(100), room.camera.getCanvasPlanetSize(100));
+
       }
       ctx.fillStyle = grd;
       ctx.fill();
