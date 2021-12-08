@@ -24,7 +24,6 @@ export function disconnect(roomId) {
 
 export function sendMessage(message) {
   if (!socket) return;
-  console.log('send message')
   socket.emit("send_message", message);
 }
 
