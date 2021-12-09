@@ -11,6 +11,8 @@ class Monster {
     this.color = props.color;
     this.size = 40 + this.authCnt * 2;
 
+    this.isChased = false;
+
     this.showBubble = false;
     this.practiceStatus = 0;
     this.practiceDays = [];
@@ -99,6 +101,10 @@ class Monster {
     }
   }
 
+  setIsChased(toggle) {
+    this.isChased = toggle;
+  }
+
   setEmojis(emoji) {
     this.showEmoji = emoji;
     this.emojiFrame = 0;
@@ -142,7 +148,7 @@ class Monster {
     let y = room.camera.getCanvasSize(this.location.y);
     let size = room.camera.getCanvasSize(this.size);
 
-    // draw circle
+    // // draw circle
     // ctx.beginPath();
     // ctx.arc(x, y, size / 2, 0, Math.PI * 2);
     // ctx.fillStyle = this.color;
@@ -190,9 +196,21 @@ class Monster {
           const todayValue = new Date().getDay();
           const isPracticeDay = this.practiceDays[todayValue];
           if (this.practiceStatus === 1) {
-            ctx.drawImage(this.bubbleW, -size / 1.6, -size / 1.6, size * 1.2, size * 1.2);
+            ctx.drawImage(
+              this.bubbleW,
+              -size / 1.6,
+              -size / 1.6,
+              size * 1.2,
+              size * 1.2
+            );
           } else if (isPracticeDay && this.practiceStatus === 0) {
-            ctx.drawImage(this.bubbleR, -size / 1.6, -size / 1.6, size * 1.2, size * 1.2);
+            ctx.drawImage(
+              this.bubbleR,
+              -size / 1.6,
+              -size / 1.6,
+              size * 1.2,
+              size * 1.2
+            );
           }
         }
         ctx.restore();
@@ -258,6 +276,24 @@ class Monster {
           }
         }
       }
+    }
+
+    // draw marker
+    if (this.isChased) {
+      let y1 = y - size / 2 - 20 - ((frameCnt / 3) % 20);
+      let y2 = y1 + 25;
+      let dx = 10;
+      ctx.beginPath();
+      ctx.moveTo(x - dx, y1);
+      ctx.lineTo(x + dx, y1);
+      ctx.lineTo(x, y2);
+      let lingrad = ctx.createLinearGradient(0, y1, 0, y2);
+      lingrad.addColorStop(0, "#5271ff");
+      lingrad.addColorStop(0.5, "rgba(219, 39, 119, 1)");
+      lingrad.addColorStop(1, "#ffffff");
+      ctx.fillStyle = lingrad;
+      ctx.fill();
+      // console.log(this.monId, this.isChased);
     }
   }
 
