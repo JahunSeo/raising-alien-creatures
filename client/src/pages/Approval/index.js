@@ -291,7 +291,7 @@ const AuthRequest = ({ authRequest, authCategory }) => {
           <LazyLoadImage
             className="LazyLoadImage"
             src={image_url_opt}
-            onError={(e) => (e.target.src = image_url_opt)}
+            onError={(e) => (e.target.src = image_url_origin)}
             alt="authImage"
             threshold="10"
             effect="blur"
