@@ -28,7 +28,7 @@ export default function AlienInfo({
           생명체 이름
         </label>
         <input
-          className="appearance-none block w-full text-gray-700 rounded py-3 px-4 md:mb-3 leading-tight focus:ring-blue-400 focus:bg-white "
+          className="appearance-none block w-full text-2xl text-gray-700 rounded py-3 px-4 md:mb-3 leading-tight focus:ring-blue-400 focus:bg-white "
           id="grid-first-name"
           type="text"
           placeholder="생명체 이름을 지어주세요."

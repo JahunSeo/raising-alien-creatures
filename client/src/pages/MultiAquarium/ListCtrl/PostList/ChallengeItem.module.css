@@ -10,22 +10,13 @@
   border-radius: 6px;
 }
 
-.PostItemBlock h2 {
-  font-size: 1em;
-  color: white;
-  background-color: #5271ff;
-  border-radius: 4px;
-  padding: 0.1em;
-  margin: 0.4em;
-  margin-bottom: 1.3em;
-}
-
 .Content {
   display: flex;
   justify-content: space-evenly;
   text-align: left;
   position: relative;
   overflow: hidden;
+  font-size:1.1em;
 }
 
 .Content .images {
