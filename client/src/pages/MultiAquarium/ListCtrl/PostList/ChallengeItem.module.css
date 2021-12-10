@@ -9,7 +9,15 @@
   border: 0.15rem solid rgb(60, 165, 235);
   border-radius: 6px;
 }
-
+.PostItemBlock h2 {
+  font-size: 1.1em;
+  color: white;
+  background-color: #5271ff;
+  border-radius: 4px;
+  padding: 0.1em;
+  margin: 0.4em;
+  margin-bottom: 1em;
+}
 .Content {
   display: flex;
   justify-content: space-evenly;
