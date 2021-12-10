@@ -20,6 +20,8 @@ import "./custom-toastify.css";
 import PopUp from "./pages/PopUp";
 import styles from "./App.module.css";
 
+// 정글특전대! 사랑한다!!
+
 function App() {
   return (
     <BrowserRouter>
