@@ -3,7 +3,7 @@
 }
 
 .PostItemBlock h2 {
-  font-size: 1em;
+  font-size: 1.1em;
   color: white;
   background-color: #5271ff;
   border-radius: 4px;
@@ -18,20 +18,21 @@
   text-align: left;
   position: relative;
   overflow: hidden;
+  font-size:1.1em;
 }
 
 .todo_images {
-  background-size: 120%,48em;
+  background-size: 120%, 48em;
   width: 7em;
   height: 7em;
-  background-position: 0px 123px;
+  background-position: 0px 145px;
   margin-right: 25px; 
 }
 .orig_images {
   background-size: 48em;
   width: 7em;
   height: 7em;
-  background-position: 0px 123px;
+  background-position: 0px 145px;
   margin-right: 25px; 
 }
 

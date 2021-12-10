@@ -217,13 +217,13 @@ class Monster {
         if (this.showEmoji) {
           ctx.drawImage(
             this.emoji,
-            x - 40 - size / 4,
-            y - 40 - size / 3,
-            60,
-            60
+            x - 80 - size / 2,
+            y - 80 - size / 2,
+            100,
+            100
           );
-          ctx.font = "25px sans-serif";
-          ctx.fillText(this.showEmoji, x - 33 - size / 4, y - 15 - size / 3);
+          ctx.font = "40px sans-serif";
+          ctx.fillText(this.showEmoji, x - 80 - size / 2.5, y - 35 - size / 2);
           this.emojiFrame++;
           if (this.emojiFrame >= 200) {
             this.showEmoji = false;
@@ -254,22 +254,22 @@ class Monster {
         if (this.showEmoji && this.authCnt <= 60) {
           ctx.drawImage(
             this.emoji,
-            x - 40 - size / 3,
-            y - 40 - size / 3,
-            60,
-            60
+            x - 80 - size / 2,
+            y - 80 - size / 2,
+            100,
+            100
           );
-          ctx.font = "25px sans-serif";
-          ctx.fillText(this.showEmoji, x - 37 - size / 4, y - 15 - size / 3);
+          ctx.font = "40px sans-serif";
+          ctx.fillText(this.showEmoji, x - 75 - size / 4, y - 40 - size / 3);
           this.emojiFrame++;
           if (this.emojiFrame >= 200) {
             this.showEmoji = false;
           }
         }
         if (this.showEmoji && this.authCnt > 60) {
-          ctx.drawImage(this.emoji, x - 40 - size / 4, y - size / 3, 60, 60);
-          ctx.font = "25px sans-serif";
-          ctx.fillText(this.showEmoji, x - 35 - size / 4, y - size / 3.8);
+          ctx.drawImage(this.emoji, x - 40 - size / 4, y - size / 3, 100, 100);
+          ctx.font = "40px sans-serif";
+          ctx.fillText(this.showEmoji, x - 25 - size / 4, y - size / 4);
           this.emojiFrame++;
           if (this.emojiFrame >= 200) {
             this.showEmoji = false;

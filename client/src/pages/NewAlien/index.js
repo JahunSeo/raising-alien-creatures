@@ -230,7 +230,7 @@ export default function NewAlien() {
                 }
                 onClick={() => handleTap("seal")}
               >
-                물개
+                물깨
               </button>
             </li>
             <li className="mr-1 inline-block">
@@ -242,7 +242,7 @@ export default function NewAlien() {
                 }
                 onClick={() => handleTap("puffish")}
               >
-                복어
+                뽁어
               </button>
             </li>
           </ul>

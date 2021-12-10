@@ -160,7 +160,7 @@ class Camera {
       size *
       (this.planetRatioMin +
         this.planetRatioRange *
-          ((this.level - this.levelMin) / this.levelRange))
+        ((this.level - this.levelMin) / this.levelRange))
     );
   };
 
