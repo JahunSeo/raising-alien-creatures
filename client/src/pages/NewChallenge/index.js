@@ -154,8 +154,6 @@ export default function NewChallenge(props) {
     }
   };
 
-  // console.log("challengeClicked", challengeClicked);
-
   return (
     <div className="flex h-screen w-full justify-center items-center bg-gradient-to-r from-indigo-900 via-gray-700 to-purple-900 hover:from-purple-900 hover:via-gray-500 hover:to-indigo-900">
       <div className="min-w-max h-2/3 md:min-h-2/3 w-1/2 rounded-xl bg-gray-100 shadow-2xl overflow-y-auto p-4  md:p-8">
@@ -193,7 +191,7 @@ export default function NewChallenge(props) {
           </div>
 
           <div className="flex flex-col p-3">
-            <label className="mb-1 font-bold ">챌린지 설명</label>
+            <label className="mb-1 font-bold">챌린지 설명</label>
             <textarea
               className="border rounded-xl py-2 "
               rows="2"
@@ -238,7 +236,9 @@ export default function NewChallenge(props) {
           </div>
 
           <div className="flex flex-col min-h-0 min-w-max p-3">
-            <label className="text-lg font-bold mb-2">챌린지 이미지</label>
+            <label className="text-lg font-bold mb-2">
+              챌린지 이미지 (선택)
+            </label>
             <div className="Attachments">
               <div className="flex flex-col absolute min-h-0 min-w-max items-center">
                 <span className="block text-gray-400 font-normal">
@@ -252,6 +252,24 @@ export default function NewChallenge(props) {
                 onChange={handleImage}
               />
             </div>
+          </div>
+          <div>
+            <div></div>
+            {challengeImage && challengeImage[0] ? (
+              <div className=" py-6">
+                <img
+                  style={{
+                    maxHeight: "200px",
+                    maxWidth: "100%",
+                    margin: "auto",
+                  }}
+                  src={URL.createObjectURL(challengeImage[0])}
+                  alt="auth"
+                />
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
 
           <div className="flex-col min-w-max justify-center items-center px-3">

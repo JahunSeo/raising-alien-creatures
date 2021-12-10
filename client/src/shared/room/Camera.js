@@ -44,12 +44,17 @@ class Camera {
   }
 
   setChasingTarget(target, cb) {
+    // 기존에 target이 있었다면 처리
+    if (!!this.chasingTarget) this.chasingTarget.setIsChased(false);
+    // 새로운 target 처리
     this.chasingTarget = target;
+    this.chasingTarget.setIsChased(true);
     this.cancelChasingCallback = cb;
   }
 
   cancelChasing() {
     if (!this.chasingTarget) return;
+    this.chasingTarget.setIsChased(false);
     this.chasingTarget = null;
     this.cancelChasingCallback();
   }
