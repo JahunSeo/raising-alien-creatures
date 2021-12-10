@@ -11,6 +11,11 @@
   font-weight: bold;            
   background-color: rgba(11, 20, 34, 0.08);
 }
+@media only screen and (max-width: 400px) {
+  .PostListBlock {
+    width: 18rem;
+  }
+}
 
 .PostListBlock::-webkit-scrollbar {
   width: 10px;

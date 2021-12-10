@@ -19,7 +19,7 @@ const ChatModal = (props) => {
       aliens: room.aliens,
     })
   );
-    
+
   let participating = false;
   if (user.login && user.challenges) {
     participating = user.challenges.findIndex((c) => c.id === Number(challengeId)) !== -1;
