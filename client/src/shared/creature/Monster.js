@@ -260,7 +260,7 @@ class Monster {
             100
           );
           ctx.font = "40px sans-serif";
-          ctx.fillText(this.showEmoji, x - 75 - size / 4, y - 40 - size / 3);
+          ctx.fillText(this.showEmoji, x - 65 - size / 2, y - 40 - size / 2);
           this.emojiFrame++;
           if (this.emojiFrame >= 200) {
             this.showEmoji = false;
