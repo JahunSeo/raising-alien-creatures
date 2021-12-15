@@ -86,6 +86,11 @@ export function onThanosDone(handler) {
   socket.on("thanos_done", handler);
 }
 
+export function onThanosWarn(handler) {
+  if (!socket) return;
+  socket.on("thanos_warn", handler);
+}
+
 // // // // // // // // // // // // // // // // // // // //
 // // // // // // // to update // // // // // // // // // //
 

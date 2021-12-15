@@ -4,7 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { createClient } from "redis";
 
-import { alienDeathSchedule } from "./scheduler.js";
+import { alienWarnSchedule, alienDeathSchedule } from "./scheduler.js";
 import * as handler from "./handler.js";
 
 /* redis */
@@ -45,6 +45,7 @@ io.on("connection", (socket) => {
 });
 
 /* scheduler */
+alienWarnSchedule(io, rdsClient);
 alienDeathSchedule(io, rdsClient);
 
 const port = process.env.SOCKET_PORT || 5001;
