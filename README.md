@@ -1,8 +1,6 @@
 # CHAL-IT
 
-gdgd
-***
-gdgd
+
 
 # 소개
 <hr/>
