@@ -26,4 +26,6 @@
 
 ## 인증 승인 페이지
 
-## 생명체 생성
+## 생명체 생성 페이지 이미지 슬라이드
+![Uploading ezgif.com-gif-maker.gif…]()
+
