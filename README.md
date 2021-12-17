@@ -23,6 +23,9 @@
 ## 메인 페이지 (첫 화면)
 
 ## 물방울 색변화
+<img src="https://user-images.githubusercontent.com/88356035/146489342-a0e75e75-cac5-4bba-a30f-8bdd1b3142bd.gif">
+
+<img src="https://user-images.githubusercontent.com/88356035/146489349-9fd82f00-9b70-4485-993c-3c2ee02f4b0d.gif">
 
 ## 인증 승인 페이지
 
