@@ -27,9 +27,10 @@
 <img src="https://user-images.githubusercontent.com/79436533/146490067-8ae5c26f-5e68-4a7a-8fba-76001b10f6c0.gif">
 
 
-## 물방울 색변화
+## 실시간 인증 요청
 <img src="https://user-images.githubusercontent.com/88356035/146489342-a0e75e75-cac5-4bba-a30f-8bdd1b3142bd.gif">
 
+## 실시간 인증 수락
 <img src="https://user-images.githubusercontent.com/88356035/146489349-9fd82f00-9b70-4485-993c-3c2ee02f4b0d.gif">
 
 ## 인증 승인 페이지
