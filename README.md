@@ -27,3 +27,5 @@
 ## 인증 승인 페이지
 
 ## 생명체 생성 페이지 이미지 슬라이드
+
+<img src="![ezgif com-gif-maker](https://user-images.githubusercontent.com/88331311/146487746-9ed1874f-25c2-4f82-90f7-e0c4618f3306.gif)">
