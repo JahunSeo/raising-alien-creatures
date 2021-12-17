@@ -21,6 +21,11 @@
 # 서비스 기능
 
 ## 메인 페이지 (첫 화면)
+<img src="https://user-images.githubusercontent.com/79436533/146490024-f1d6a72e-3d8a-4ef3-a4ff-0ed320fcb94c.gif">
+
+## 나의 어항 페이지
+<img src="https://user-images.githubusercontent.com/79436533/146490067-8ae5c26f-5e68-4a7a-8fba-76001b10f6c0.gif">
+
 
 ## 물방울 색변화
 <img src="https://user-images.githubusercontent.com/88356035/146489342-a0e75e75-cac5-4bba-a30f-8bdd1b3142bd.gif">
