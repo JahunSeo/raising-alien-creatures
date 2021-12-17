@@ -28,5 +28,6 @@
 
 ## 생명체 생성 페이지 이미지 슬라이드
 
+dsd
 <img src="![ezgif com-gif-maker](https://user-images.githubusercontent.com/88331311/146487277-f0770839-667c-429f-b1b4-296a7c374595.gif)">
-
+dsds
