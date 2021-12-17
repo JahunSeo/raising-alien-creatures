@@ -33,7 +33,7 @@
 <img src="https://user-images.githubusercontent.com/88356035/146489349-9fd82f00-9b70-4485-993c-3c2ee02f4b0d.gif">
 
 ## 인증 승인 페이지
+<img src="https://user-images.githubusercontent.com/87798782/146490369-10c4ffc9-2b41-42ae-ad8a-d40581fdf68e.gif">
 
 ## 생명체 생성 페이지 (이미지 슬라이드)
-
 <img src="https://user-images.githubusercontent.com/88331311/146487746-9ed1874f-25c2-4f82-90f7-e0c4618f3306.gif">
