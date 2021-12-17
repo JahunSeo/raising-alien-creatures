@@ -26,6 +26,9 @@
 ## 나의 어항 페이지
 <img src="https://user-images.githubusercontent.com/79436533/146490376-cba0f50d-3e52-4cb8-a37d-096e70282af8.gif">
 
+## 생명체 생성 페이지 (이미지 슬라이드)
+<img src="https://user-images.githubusercontent.com/88331311/146487746-9ed1874f-25c2-4f82-90f7-e0c4618f3306.gif">
+
 ## 실시간 인증 요청
 <img src="https://user-images.githubusercontent.com/88356035/146489342-a0e75e75-cac5-4bba-a30f-8bdd1b3142bd.gif">
 
@@ -34,6 +37,3 @@
 
 ## 인증 승인 페이지
 <img src="https://user-images.githubusercontent.com/87798782/146490369-10c4ffc9-2b41-42ae-ad8a-d40581fdf68e.gif">
-
-## 생명체 생성 페이지 (이미지 슬라이드)
-<img src="https://user-images.githubusercontent.com/88331311/146487746-9ed1874f-25c2-4f82-90f7-e0c4618f3306.gif">
