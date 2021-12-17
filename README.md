@@ -36,4 +36,7 @@
 <img src="https://user-images.githubusercontent.com/88356035/146489349-9fd82f00-9b70-4485-993c-3c2ee02f4b0d.gif">
 
 ## 인증 승인 페이지
-<img src="https://user-images.githubusercontent.com/87798782/146490369-10c4ffc9-2b41-42ae-ad8a-d40581fdf68e.gif">
+<img src="https://user-images.githubusercontent.com/87798782/146544186-262e8809-92ae-4a4e-a183-9c6e14802e4d.gif">
+
+## 인증 챌린지 필터
+<img src="https://user-images.githubusercontent.com/87798782/146544289-dc4deb07-fd78-4bb0-9ed0-355d093d2e9b.gif">
