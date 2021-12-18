@@ -1,5 +1,8 @@
 # CHAL-IT
 
+생생한 프로젝트 진행과정은 notion에서 확인해보실 수 있습니다!
+https://jahunseo.notion.site/8b77299234b64bf2a9babb0621170ad2
+
 # 소개
 
 ![image](https://user-images.githubusercontent.com/88331311/146481532-054cafbb-6062-4b3a-93ae-bbf472865f22.png)
